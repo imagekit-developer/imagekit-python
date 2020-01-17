@@ -19,10 +19,10 @@ Table of contents -
  * Links
 
 
- ##Installation
+ ## Installation
  Go to your terminal and type the following command
 ```bash
-pip install imagekit-python
+pip install imagekitio
 ```
 
 ## Initialization
@@ -78,8 +78,7 @@ image_url = imagekit.url({
         "height": "300",
         "width": "400"
     }]
-}
-)
+})
 ```
 
 The results in a URL like
@@ -118,8 +117,7 @@ The ```.url()``` method accepts the following parameters
                     "rotation": 90
                 }],
         "transformation_position ": "query"
-}
-)
+    })
 ```
 Sample Result URL -
 ```
@@ -144,9 +142,8 @@ added to this transformation.
             "progressive": "true",
             "effect_sharpen": "-",
             "effect_contrast": "1"
-}]
-}
-)
+        }]
+    })
 ```
 
 ```
@@ -168,8 +165,7 @@ https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=f-jpg%2Cpr
         }],
         "signed": True,
         "expire_seconds": 300
-}
-)
+    })
 ```
 **Sample Result URL**
 ```
@@ -558,7 +554,7 @@ imagekit.phash_distance('a4a65595ac94518b', '7838873e791f8400')
 ```
 
 ### Sample Code Instruction
-To run sample code go to sample directory and run
+To run `sample` code go to sample directory and run
 ```python
 python sample.py
 ```
