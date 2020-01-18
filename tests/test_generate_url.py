@@ -7,7 +7,7 @@ from imagekitio.client import ImageKit
 class TestGenerateURL(unittest.TestCase):
     def setUp(self) -> None:
         self.client = ImageKit(
-            private_key=os.environ.get("private_key"),
+            private_key="fake111",
             public_key="fake122",
             url_endpoint="https://ik.imagekit.io/your_imagekit_id/",
         )
