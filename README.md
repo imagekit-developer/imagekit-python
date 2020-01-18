@@ -1,5 +1,9 @@
 # Python SDK for ImageKit
 
+[![Python CI](https://github.com/imagekit-developer/imagekit-python/workflows/Python%20CI/badge.svg)](https://github.com/imagekit-developer/imagekitio-python/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
+
 Python SDK for [ImageKit](https://imagekit.io/) that implements the new APIs and interface for performing different file
 operations.
 
@@ -90,16 +94,16 @@ https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cw-
 
 The ```.url()``` method accepts the following parameters
 
-| Option           | Description                    |
-| :----------------| :----------------------------- |
-| url_endpoint      | Optional. The base URL to be appended before the path of the image. If not specified, the URL Endpoint specified at the time of SDK initialization is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/ |
-| path             | Conditional. This is the path at which the image exists. For example, `/path/to/image.jpg`. Either the `path` or `src` parameter need to be specified for URL generation. |
-| src              | Conditional. This is the complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Either the `path` or `src` parameter need to be specified for URL generation. |
-| transformation   | Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name  and the value should be specified as a key-value pair in the object. Different steps of a [chained transformation](https://docs.imagekit.io/imagekit-docs/chained-transformations) can be specified as different objects of the array. The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it gets applied as it is in the URL. |
-| transformation_position | Optional. Default value is `path` that places the transformation string as a path parameter in the URL. Can also be specified as `query` which adds the transformation string as the query parameter `tr` in the URL. If you use `src` parameter to create the URL, then the transformation string is always added as a query parameter. |
-| query_parameters  | Optional. These are the other query parameters that you want to add to the final URL. These can be any query parameters and not necessarily related to ImageKit. Especially useful, if you want to add some versioning parameter to your URLs. |
-| signed           | Optional. Boolean. Default is `false`. If set to `true`, the SDK generates a signed image URL adding the image signature to the image URL. This can only be used if you are creating the URL with the `url_endpoint` and `path` parameters, and not with the `src` parameter. |
-| expire_seconds    | Optional. Integer. Meant to be used along with the `signed` parameter to specify the time in seconds from now when the URL should expire. If specified, the URL contains the expiry timestamp in the URL and the image signature is modified accordingly. |
+| Option                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| :---------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| url_endpoint            | Optional. The base URL to be appended before the path of the image. If not specified, the URL Endpoint specified at the time of SDK initialization is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                                                                                                               |
+| path                    | Conditional. This is the path at which the image exists. For example, `/path/to/image.jpg`. Either the `path` or `src` parameter need to be specified for URL generation.                                                                                                                                                                                                                                                                                                                                                                                                |
+| src                     | Conditional. This is the complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Either the `path` or `src` parameter need to be specified for URL generation.                                                                                                                                                                                                                                                                                                                           |
+| transformation          | Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name  and the value should be specified as a key-value pair in the object. Different steps of a [chained transformation](https://docs.imagekit.io/imagekit-docs/chained-transformations) can be specified as different objects of the array. The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it gets applied as it is in the URL. |
+| transformation_position | Optional. Default value is `path` that places the transformation string as a path parameter in the URL. Can also be specified as `query` which adds the transformation string as the query parameter `tr` in the URL. If you use `src` parameter to create the URL, then the transformation string is always added as a query parameter.                                                                                                                                                                                                                                 |
+| query_parameters        | Optional. These are the other query parameters that you want to add to the final URL. These can be any query parameters and not necessarily related to ImageKit. Especially useful, if you want to add some versioning parameter to your URLs.                                                                                                                                                                                                                                                                                                                           |
+| signed                  | Optional. Boolean. Default is `false`. If set to `true`, the SDK generates a signed image URL adding the image signature to the image URL. This can only be used if you are creating the URL with the `url_endpoint` and `path` parameters, and not with the `src` parameter.                                                                                                                                                                                                                                                                                            |
+| expire_seconds          | Optional. Integer. Meant to be used along with the `signed` parameter to specify the time in seconds from now when the URL should expire. If specified, the URL contains the expiry timestamp in the URL and the image signature is modified accordingly.                                                                                                                                                                                                                                                                                                                |
 
 
 ## Examples of generating URLs
@@ -180,49 +184,49 @@ If a transformation is supported in ImageKit, but a name for it cannot be found 
 transformation code from ImageKit docs as the name when using in the ```url``` function.
 
 | Supported Transformation Name | Translates to parameter |
-|-------------------------------|-------------------------|
-| height | h |
-| width | w |
-| aspect_ratio | ar |
-| quality | q |
-| crop | c |
-| crop_mode | cm |
-| x | x |
-| y | y |
-| focus | fo |
-| format | f |
-| radius | r |
-| background | bg |
-| border | bo |
-| rotation | rt |
-| blur | bl |
-| named | n |
-| overlay_image | oi |
-| overlay_x | ox |
-| overlay_y | oy |
-| overlay_focus | ofo |
-| overlay_height | oh |
-| overlay_width | ow |
-| overlay_text | ot |
-| overlay_text_font_size | ots |
-| overlay_text_font_family | otf |
-| overlay_text_color | otc |
-| overlay_alpha | oa |
-| overlay_text_typography | ott |
-| overlay_background | obg |
-| overlay_image_trim | oit |
-| progressive | pr |
-| lossless | lo |
-| trim | t |
-| metadata | md |
-| color_profile | cp |
-| default_image | di |
-| dpr | dpr |
-| effect_sharpen | e-sharpen |
-| effect_usm | e-usm |
-| effect_contrast | e-contrast |
-| effect_gray | e-grayscale |
-| original | orig |
+| ----------------------------- | ----------------------- |
+| height                        | h                       |
+| width                         | w                       |
+| aspect_ratio                  | ar                      |
+| quality                       | q                       |
+| crop                          | c                       |
+| crop_mode                     | cm                      |
+| x                             | x                       |
+| y                             | y                       |
+| focus                         | fo                      |
+| format                        | f                       |
+| radius                        | r                       |
+| background                    | bg                      |
+| border                        | bo                      |
+| rotation                      | rt                      |
+| blur                          | bl                      |
+| named                         | n                       |
+| overlay_image                 | oi                      |
+| overlay_x                     | ox                      |
+| overlay_y                     | oy                      |
+| overlay_focus                 | ofo                     |
+| overlay_height                | oh                      |
+| overlay_width                 | ow                      |
+| overlay_text                  | ot                      |
+| overlay_text_font_size        | ots                     |
+| overlay_text_font_family      | otf                     |
+| overlay_text_color            | otc                     |
+| overlay_alpha                 | oa                      |
+| overlay_text_typography       | ott                     |
+| overlay_background            | obg                     |
+| overlay_image_trim            | oit                     |
+| progressive                   | pr                      |
+| lossless                      | lo                      |
+| trim                          | t                       |
+| metadata                      | md                      |
+| color_profile                 | cp                      |
+| default_image                 | di                      |
+| dpr                           | dpr                     |
+| effect_sharpen                | e-sharpen               |
+| effect_usm                    | e-usm                   |
+| effect_contrast               | e-contrast              |
+| effect_gray                   | e-grayscale             |
+| original                      | orig                    |
 
 ## File Upload
 
