@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="Imagekit",
+    name="imagekitio",
     version="2.0.0",
     description="Python wrapper for the ImageKit API",
     long_description=long_description,
