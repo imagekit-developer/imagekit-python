@@ -2,6 +2,8 @@ import setuptools
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
+with open('requirements/requirements.txt') as f:
+    install_requires = f.read().splitlines()
 
 setuptools.setup(
     name="imagekitio",
@@ -9,7 +11,7 @@ setuptools.setup(
     description="Python wrapper for the ImageKit API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=['requests==2.20.1'],
+    install_requires=install_requires,
     url="https://github.com/imagekit-developer/imagekit-python",
     packages=setuptools.find_packages(),
     classifiers=[
