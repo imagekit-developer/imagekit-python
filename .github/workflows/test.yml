@@ -1,22 +1,21 @@
-name: Python package
+name: Python CI
 
 on: [push]
 
 jobs:
-  build:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python: [3.7, 3.8]
 
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python: [3.7, 3.8]
-
-    steps:
-      - uses: actions/checkout@v1
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python }}
-      - name: Install Tox and any other packages
-        run: pip install -r requirements/test.txt
-      - name: Run Tox
-        run: tox -e py 
+        steps:
+            - uses: actions/checkout@v1
+            - name: Setup Python
+              uses: actions/setup-python@v1
+              with:
+                  python-version: ${{ matrix.python }}
+            - name: Install Tox and any other packages
+              run: pip install -r requirements/test.txt
+            - name: Run Tox
+              run: tox -e py
