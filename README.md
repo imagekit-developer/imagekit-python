@@ -476,6 +476,14 @@ deleted.
 imagekit.delete_file(file_id)
 ```
 
+**6. Bulk File Delete by IDs**
+Delete a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-files-bulk). The method accepts list of file IDs of  files that has to be
+deleted.
+
+```python
+imagekit.bulk_delete(["file_id1", "file_id2"])
+```
+
 **6. Purge Cache**
 Programmatically issue a cache clear request as clear request as pet the [API documentation here](https://docs.imagekit.io/imagekit-docs/purge-cache-api).
 Accepts the full URL of the file for which the cache has to be cleared.
