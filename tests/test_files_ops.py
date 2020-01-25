@@ -135,16 +135,18 @@ class TestGetFileDetails(ClientTestCase):
 class TestDeleteFile(ClientTestCase):
     file_id = "fax_abx1223"
 
-    def test_file_delete_fails_on_unauthenticated_request(self) -> None:
-        """Test delete_file on unauthenticated request
+    bulk_delete_ids = ["fake_123", "fake_222"]
+
+    def test_bulk_delete_fails_on_unauthenticated_request(self) -> None:
+        """Test bulk_delete on unauthenticated request
         this function checks if raises error on unauthenticated request
-        to check if delete is only restricted to authenticated
-        user
+        to check if bulk_delete is only restricted to authenticated
+        requests
         """
         self.client.ik_request.request = MagicMock(
             return_value=get_mocked_failed_resp()
         )
-        resp = self.client.delete_file(self.file_id)
+        resp = self.client.bulk_delete(self.bulk_delete_ids)
 
         self.assertIsNotNone(resp["error"])
         self.assertIsNone(resp["response"])
@@ -170,6 +172,18 @@ class TestDeleteFile(ClientTestCase):
             return_value=get_mocked_success_resp({"error": None, "response": None})
         )
         resp = self.client.delete_file(self.file_id)
+
+        self.assertIsNone(resp["error"])
+        self.assertIsNone(resp["response"])
+
+    def test_file_delete_succeeds(self):
+        """Test bulk_delete  on authenticated request
+        this function tests if bulk_delte working properly
+        """
+        self.client.ik_request.request = MagicMock(
+            return_value=get_mocked_success_resp({"error": None, "response": None})
+        )
+        resp = self.client.bulk_delete(self.bulk_delete_ids)
 
         self.assertIsNone(resp["error"])
         self.assertIsNone(resp["response"])
