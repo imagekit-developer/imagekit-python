@@ -19,5 +19,5 @@ VALID_UPLOAD_OPTIONS = [
     "is_private_file",
     "custom_coordinates",
     "response_fields",
-    "metadata"
+    "metadata",
 ]

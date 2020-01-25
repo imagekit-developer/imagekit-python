@@ -26,7 +26,7 @@ class File(object):
             raise TypeError(ERRORS.MISSING_UPLOAD_FILE_PARAMETER.value)
         if not file_name:
             raise TypeError(ERRORS.MISSING_UPLOAD_FILENAME_PARAMETER.value)
-        url = URL.BASE_URL.value + URL.UPLOAD.value
+        url = URL.UPLOAD_URL.value
         headers = self.request.create_headers()
 
         files = {
@@ -139,6 +139,27 @@ class File(object):
         else:
             error = None
             response = None
+        response = {"error": error, "response": response}
+        return response
+
+    def batch_delete(self, file_ids: list = None):
+        """Delete bulk files
+        Delete files by batch ids
+        """
+        if not file_ids:
+            raise ValueError("Need to pass ids in list")
+        url = URL.BASE_URL.value + URL.BULK_FILE_DELETE.value
+        resp = self.request.request(
+            method="POST", url=url, headers=self.request.create_headers(), data={"fileIds": file_ids}
+        )
+
+        if resp.status_code > 204:
+            error = resp.text
+            response = None
+        else:
+            error = None
+            response = None
+
         response = {"error": error, "response": response}
         return response
 

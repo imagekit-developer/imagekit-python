@@ -12,6 +12,7 @@ class ImageKit(object):
     Main Class What user will use by creating
     instance
     """
+
     def __init__(
         self,
         public_key=None,
@@ -50,6 +51,11 @@ class ImageKit(object):
         """Delete file by file_id
         """
         return self.file.delete(file_id)
+
+    def bulk_delete(self, file_ids: list = None):
+        """Delete files in bulk by provided list of ids
+        """
+        return self.file.batch_delete(file_ids)
 
     def purge_cache(self, file_url: str = None) -> Dict[str, Any]:
         """Purge Cache from server by file url

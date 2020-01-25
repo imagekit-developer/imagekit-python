@@ -1,5 +1,4 @@
 import base64
-import os
 import sys
 
 sys.path.append("..")
@@ -92,8 +91,10 @@ if __name__ == "__main__":
 
     print("-------------------------------------")
     list_files = imagekit.list_files({"skip": 0, "limit": 2})
-    # file_id = list_files["response"][0]["url"]
-
+    bulk_ids = [
+        list_files["response"][0]["fileId"],
+        list_files["response"][1]["fileId"],
+    ]
     print("List files-", "\n", list_files)
 
 upload = imagekit.upload(
@@ -181,3 +182,8 @@ print("-------------------------------------")
 print(
     "Phash distance-", imagekit.phash_distance("f06830ca9f1e3e90", "f06830ca9f1e3e90"),
 )
+
+print("-------------------------------------")
+
+
+print("Bulk File delete-", imagekit.bulk_delete(bulk_ids))
