@@ -72,6 +72,9 @@ class ImageKit(object):
         """
         return self.file.get_metadata(str(file_id))
 
+    def get_remote_url_metadata(self, remote_file_url: str = ""):
+        return self.file.get_metadata_from_remote_url(remote_file_url)
+
     def url(self, options: Dict[str, Any]) -> str:
         """Get generated Url from options parameter
         """

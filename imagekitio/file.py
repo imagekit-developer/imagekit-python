@@ -150,7 +150,10 @@ class File(object):
             raise ValueError("Need to pass ids in list")
         url = URL.BASE_URL.value + URL.BULK_FILE_DELETE.value
         resp = self.request.request(
-            method="POST", url=url, headers=self.request.create_headers(), data={"fileIds": file_ids}
+            method="POST",
+            url=url,
+            headers=self.request.create_headers(),
+            data={"fileIds": file_ids},
         )
 
         if resp.status_code > 204:
@@ -168,7 +171,7 @@ class File(object):
         """
         if not file_url:
             raise TypeError(ERRORS.MISSING_FILE_URL.value)
-        url = URL.BASE_URL.value + "/purge"
+        url = URL.BASE_URL.value + URL.PURGE_CACHE.value
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
         body = {"url": file_url}
@@ -216,11 +219,29 @@ class File(object):
         resp = self.request.request("GET", url, headers=self.request.create_headers())
         formatted_resp = camel_dict_to_snake_dict(resp.json())
         if resp.status_code > 200:
-            error = formatted_resp
+            error = resp.json()
             response = None
         else:
             error = None
-            response = formatted_resp
+            response = resp.json()
+        response = {"error": error, "response": response}
+        return response
+
+    def get_metadata_from_remote_url(self, remote_file_url: str):
+        if not remote_file_url:
+            raise ValueError("You must provide remote url")
+        url = URL.REMOTE_METADATA_FULL_URL.value
+        param = {"url": remote_file_url}
+        resp = self.request.request(
+            "GET", url, headers=self.request.create_headers(), params=param
+        )
+
+        if resp.status_code > 204:
+            error = resp.json()
+            response = None
+        else:
+            error = None
+            response = resp.json()
         response = {"error": error, "response": response}
         return response
 

@@ -456,6 +456,14 @@ Accepts the file ID and fetches the metadata as per the [API documentation here]
 imagekit.get_metadata(file_id)
 ```
 
+
+**3. Get File Metadata from remote url**
+Accepts the remote file url and fetches the metadata as per the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api/get-image-metadata-from-remote-url)
+
+```python
+imagekit.get_remote_url_metadata(remote_file_url)
+```
+
 **4. Update File Details**
 Update parameters associated with the file as per the [API documentation here](https://docs.imagekit.io/imagekit-docs).
 The first argument to the `update_field_details` method is the file ID and the second argument is an object with the

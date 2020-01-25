@@ -90,10 +90,10 @@ if __name__ == "__main__":
     print("Signed url-", image_url, end="\n\n")
 
     print("-------------------------------------")
-    list_files = imagekit.list_files({"skip": 0, "limit": 2})
+    list_files = imagekit.list_files({"skip": 0, "limit": 5})
     bulk_ids = [
-        list_files["response"][0]["fileId"],
-        list_files["response"][1]["fileId"],
+        list_files["response"][3]["fileId"],
+        list_files["response"][4]["fileId"],
     ]
     print("List files-", "\n", list_files)
 
@@ -185,5 +185,9 @@ print(
 
 print("-------------------------------------")
 
-
 print("Bulk File delete-", imagekit.bulk_delete(bulk_ids))
+
+print("-----------------------------")
+
+remote_file_url = upload["response"]["url"]
+print("Get metadata-", imagekit.get_remote_url_metadata(remote_file_url))
