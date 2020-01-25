@@ -278,6 +278,33 @@ class TestGetMetaData(ClientTestCase):
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
 
+    def test_get_remote_url_metadata_file_url(self) -> None:
+        """Test get_remote_url_metadata_ raises error on invalid_body request
+        """
+        self.client.ik_request.request = MagicMock(
+            return_value=get_mocked_failed_resp()
+        )
+        self.assertRaises(ValueError, self.client.get_remote_url_metadata)
+
+    def test_get_remote_url_metadata_succeeds(self):
+        """Tests if get_remote_url_metadata working properly
+        """
+        self.client.ik_request.request = MagicMock(
+            return_value=get_mocked_success_resp()
+        )
+        resp = self.client.get_remote_url_metadata(
+            remote_file_url="http://imagekit.io/default.jpg"
+        )
+        self.assertIsNone(resp["error"])
+        self.assertIsNotNone("response")
+
+        self.client.ik_request.request = MagicMock(
+            return_value=get_mocked_success_resp()
+        )
+        resp = self.client.get_metadata(file_id=self.file_id)
+        self.assertIsNone(resp["error"])
+        self.assertIsNotNone(resp["response"])
+
 
 class TestUpdateFileDetails(ClientTestCase):
     """
