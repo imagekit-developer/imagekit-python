@@ -24,9 +24,9 @@ class TestGenerateURL(unittest.TestCase):
         self.assertIn(options["url_endpoint"], url)
         self.assertIn("300", url)
         self.assertIn("300", url)
-        self.assertEqual(
-            url,
+        self.assertIn(
             "https://ik.imagekit.io/your_imagekit_id/endpoint/tr:h-300,w-400/default-image.jpg",
+            url
         )
 
     def test_generate_url_with_src(self):
@@ -103,3 +103,14 @@ class TestGenerateURL(unittest.TestCase):
         }
 
         self.assertIsNot(self.client.url(options), "")
+
+    def test_url_contains_sdk_version(self):
+        options = {
+            "path": "/default-image.jpg",
+            "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
+            "transformation": [{"height": "300", "width": "400"}],
+            "signed": True,
+            "transformation_position": "query",
+        }
+
+        self.assertIn('sdk-version', self.client.url(options))
