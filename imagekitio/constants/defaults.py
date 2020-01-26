@@ -9,4 +9,4 @@ class Default(enum.Enum):
         QUERY_TRANSFORMATION_POSITION,
     ]
     DEFAULT_TIMESTAMP = "9999999999"
-    SDK_VERSION_PARAM = "python-1.0.0"
+    SDK_VERSION = "python-1.0.0"

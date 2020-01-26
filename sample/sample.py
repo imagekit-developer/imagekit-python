@@ -97,97 +97,99 @@ if __name__ == "__main__":
     ]
     print("List files-", "\n", list_files)
 
-upload = imagekit.upload(
-    file=open("sample.jpg", "rb"),
-    file_name="testing",
-    options={
-        "response_fields": ["is_private_file", "tags"],
-        "tags": ["abc", "def"],
-        "use_unique_file_name": False,
-    },
-)
-print("-------------------------------------")
+    upload = imagekit.upload(
+        file=open("sample.jpg", "rb"),
+        file_name="testing",
+        options={
+            "response_fields": ["is_private_file", "tags"],
+            "tags": ["abc", "def"],
+            "use_unique_file_name": False,
+        },
+    )
+    print("-------------------------------------")
 
-print("Upload with binary-", upload, end="\n\n")
-file_id = upload["response"]["fileId"]
+    print("Upload with binary-", upload, end="\n\n")
+    file_id = upload["response"]["fileId"]
 
-upload = imagekit.upload(
-    file=url,
-    file_name="testing",
-    options={
-        "response_fields": ["is_private_file"],
-        "is_private_file": True,
-        "tags": ["abc", "def"],
-    },
-)
+    upload = imagekit.upload(
+        file=url,
+        file_name="testing",
+        options={
+            "response_fields": ["is_private_file"],
+            "is_private_file": True,
+            "tags": ["abc", "def"],
+        },
+    )
 
-print("Upload with url-------------", upload)
+    print("Upload with url-------------", upload)
 
-with open("sample.jpg", mode="rb") as img:
-    imgstr = base64.b64encode(img.read())
+    with open("sample.jpg", mode="rb") as img:
+        imgstr = base64.b64encode(img.read())
 
-upload_base64 = imagekit.upload(
-    file=imgstr,
-    file_name="test64",
-    options={
-        "response_fields": ["is_private_file", "metadata", "tags"],
-        "is_private_file": True,
-        "tags": ["abc", "def"],
-    },
-)
-print("Upload  base64", upload_base64)
+    upload_base64 = imagekit.upload(
+        file=imgstr,
+        file_name="test64",
+        options={
+            "response_fields": ["is_private_file", "metadata", "tags"],
+            "is_private_file": True,
+            "tags": ["abc", "def"],
+        },
+    )
 
-url_uploaded_id = upload["response"]["fileId"]
-image_url = upload["response"]["url"]
-print("Upload with url -", upload, "\n\n")
+    print("Upload  base64", upload_base64)
 
-print("-------------------------------------")
+    url_uploaded_id = upload["response"]["fileId"]
+    image_url = upload["response"]["url"]
+    print("Upload with url -", upload, "\n\n")
 
-updated_detail = imagekit.update_file_details(
-    list_files["response"][0]["fileId"],
-    {"tags": ["image_tag"], "custom_coordinates": "10,10,100,100"},
-)
-print("Updated detail-", updated_detail, end="\n\n")
+    print("-------------------------------------")
 
-details = imagekit.get_file_details(url_uploaded_id)
-print("File detail with  binary upload-", details, end="\n\n")
+    updated_detail = imagekit.update_file_details(
+        list_files["response"][0]["fileId"],
+        {"tags": ["image_tag"], "custom_coordinates": "10,10,100,100"},
+    )
+    print("Updated detail-", updated_detail, end="\n\n")
 
-print("-------------------------------------")
+    details = imagekit.get_file_details(url_uploaded_id)
+    print("File detail with  binary upload-", details, end="\n\n")
 
-details = imagekit.get_file_details(upload["response"]["fileId"])
-print("File detail with url upload-", details, end="\n\n")
+    print("-------------------------------------")
 
-print("-------------------------------------")
-delete = imagekit.delete_file(list_files["response"][1]["fileId"],)
+    details = imagekit.get_file_details(upload["response"]["fileId"])
+    print("File detail with url upload-", details, end="\n\n")
 
-print("Delete File-", delete)
+    print("-------------------------------------")
+    delete = imagekit.delete_file(list_files["response"][1]["fileId"],)
 
-print("-------------------------------------")
-purge_cache = imagekit.purge_cache(file_url=image_url)
-print("Purge cache-", purge_cache)
+    print("Delete File-", delete)
 
-request_id = purge_cache["response"]["request_id"]
-purge_cache_status = imagekit.get_purge_cache_status(request_id)
+    print("-------------------------------------")
+    purge_cache = imagekit.purge_cache(file_url=image_url)
+    print("Purge cache-", purge_cache)
 
-print("-------------------------------------")
+    request_id = purge_cache["response"]["request_id"]
+    purge_cache_status = imagekit.get_purge_cache_status(request_id)
 
-print("Cache status-", purge_cache_status)
+    print("-------------------------------------")
 
-print("-------------------------------------")
+    print("Cache status-", purge_cache_status)
 
-auth_params = imagekit.get_authentication_parameters()
-print("Auth params-", auth_params)
+    print("-------------------------------------")
 
-print("-------------------------------------")
-print(
-    "Phash distance-", imagekit.phash_distance("f06830ca9f1e3e90", "f06830ca9f1e3e90"),
-)
+    auth_params = imagekit.get_authentication_parameters()
+    print("Auth params-", auth_params)
 
-print("-------------------------------------")
+    print("-------------------------------------")
+    print(
+        "Phash distance-",
+        imagekit.phash_distance("f06830ca9f1e3e90", "f06830ca9f1e3e90"),
+    )
 
-print("Bulk File delete-", imagekit.bulk_delete(bulk_ids))
+    print("-------------------------------------")
 
-print("-----------------------------")
+    print("Bulk File delete-", imagekit.bulk_delete(bulk_ids))
 
-remote_file_url = upload["response"]["url"]
-print("Get metadata-", imagekit.get_remote_url_metadata(remote_file_url))
+    print("-----------------------------")
+
+    remote_file_url = upload["response"]["url"]
+    print("Get metadata-", imagekit.get_remote_url_metadata(remote_file_url))
