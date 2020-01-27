@@ -5,11 +5,11 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="Imagekit",
-    version="2.0.1",
+    version="2.0.2",
     description="Python wrapper for the ImageKit API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=["requests==2.20.1"],
+    install_requires=['requests==2.20.1'],
     url="https://github.com/imagekit-developer/imagekit-python",
     packages=setuptools.find_packages(),
     classifiers=[
