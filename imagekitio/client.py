@@ -12,6 +12,7 @@ class ImageKit(object):
     Main Class What user will use by creating
     instance
     """
+
     def __init__(
         self,
         public_key=None,
@@ -51,6 +52,11 @@ class ImageKit(object):
         """
         return self.file.delete(file_id)
 
+    def bulk_delete(self, file_ids: list = None):
+        """Delete files in bulk by provided list of ids
+        """
+        return self.file.batch_delete(file_ids)
+
     def purge_cache(self, file_url: str = None) -> Dict[str, Any]:
         """Purge Cache from server by file url
         """
@@ -65,6 +71,9 @@ class ImageKit(object):
         """Get Meta Data of a file by file id
         """
         return self.file.get_metadata(str(file_id))
+
+    def get_remote_url_metadata(self, remote_file_url: str = ""):
+        return self.file.get_metadata_from_remote_url(remote_file_url)
 
     def url(self, options: Dict[str, Any]) -> str:
         """Get generated Url from options parameter
