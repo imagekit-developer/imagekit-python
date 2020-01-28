@@ -7,8 +7,8 @@ with open('requirements/requirements.txt') as f:
     install_requires = f.read().splitlines()
 
 setuptools.setup(
-    name="Imagekit",
-    version="2.1.0",
+    name="imagekitio",
+    version="2.0.0",
     description="Python wrapper for the ImageKit API",
     long_description=long_description,
     long_description_content_type="text/markdown",
