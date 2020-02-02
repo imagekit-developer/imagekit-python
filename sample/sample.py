@@ -36,7 +36,7 @@ if __name__ == "__main__":
     # 2 Using full image URL
     image_url = imagekit.url(
         {
-            "src": "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg",
+            "src": url_endpoint.rstrip("/") + "/default-image.jpg",
             "transformation": [{"height": "300", "width": "400"}],
         }
     )
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     ]
     print("List files-", "\n", list_files)
 
-    upload = imagekit.upload(
+    upload = imagekit.upload_file(
         file=open("sample.jpg", "rb"),
         file_name="testing",
         options={
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     print("Upload with binary-", upload, end="\n\n")
     file_id = upload["response"]["fileId"]
 
-    upload = imagekit.upload(
+    upload = imagekit.upload_file(
         file=url,
         file_name="testing",
         options={
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     with open("sample.jpg", mode="rb") as img:
         imgstr = base64.b64encode(img.read())
 
-    upload_base64 = imagekit.upload(
+    upload_base64 = imagekit.upload_file(
         file=imgstr,
         file_name="test64",
         options={
@@ -159,7 +159,7 @@ if __name__ == "__main__":
     print("File detail with url upload-", details, end="\n\n")
 
     print("-------------------------------------")
-    file_metadata = imagekit.get_metadata(list_files["response"][0]['fileId'])
+    file_metadata = imagekit.get_file_metadata(list_files["response"][0]['fileId'])
 
     print("-------------------------------------")
     delete = imagekit.delete_file(list_files["response"][1]["fileId"], )
@@ -167,11 +167,11 @@ if __name__ == "__main__":
     print("Delete File-", delete)
 
     print("-------------------------------------")
-    purge_cache = imagekit.purge_cache(file_url=image_url)
+    purge_cache = imagekit.purge_file_cache(file_url=image_url)
     print("Purge cache-", purge_cache)
 
     request_id = purge_cache["response"]["request_id"]
-    purge_cache_status = imagekit.get_purge_cache_status(request_id)
+    purge_cache_status = imagekit.get_purge_file_cache_status(request_id)
 
     print("-------------------------------------")
 
@@ -190,9 +190,9 @@ if __name__ == "__main__":
 
     print("-------------------------------------")
 
-    print("Bulk File delete-", imagekit.bulk_delete(bulk_ids))
+    print("Bulk File delete-", imagekit.bulk_file_delete(bulk_ids))
 
     print("-----------------------------")
 
     remote_file_url = upload["response"]["url"]
-    print("Get metadata-", imagekit.get_remote_url_metadata(remote_file_url))
+    print("Get metadata-", imagekit.get_remote_file_url_metadata(remote_file_url))
