@@ -244,7 +244,7 @@ specify tags for a file at the time of upload use the tags parameter as specifie
 Simple usage
 
 ```python
-imagekit.upload(
+imagekit.file_upload(
     file = "<url|base_64|binary>", # required
     file_name= "my_file_name.jpg"  # required
 )
@@ -453,7 +453,7 @@ imagekit.get_file_details(file_id)
 **3. Get File Metadata**
 Accepts the file ID and fetches the metadata as per the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api/get-image-metadata-for-uploaded-media-files)
 ```python
-imagekit.get_metadata(file_id)
+imagekit.get_file_metadata(file_id)
 ```
 
 
@@ -461,7 +461,7 @@ imagekit.get_metadata(file_id)
 Accepts the remote file url and fetches the metadata as per the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api/get-image-metadata-from-remote-url)
 
 ```python
-imagekit.get_remote_url_metadata(remote_file_url)
+imagekit.get_remote_file_url_metadata(remote_file_url)
 ```
 
 **4. Update File Details**
@@ -489,14 +489,14 @@ Delete a file as per the [API documentation here](https://docs.imagekit.io/api-r
 deleted.
 
 ```python
-imagekit.bulk_delete(["file_id1", "file_id2"])
+imagekit.bulk_file_delete(["file_id1", "file_id2"])
 ```
 
 **6. Purge Cache**
 Programmatically issue a cache clear request as clear request as pet the [API documentation here](https://docs.imagekit.io/api-reference/media-api/purge-cache).
 Accepts the full URL of the file for which the cache has to be cleared.
 ```python
-imagekit.purge_cache(full_url)
+imagekit.purge_file_cache(full_url)
 ```
 **7. Purge Cache Status**
 
@@ -504,7 +504,7 @@ Get the purge cache request status using the request ID returned when a purge ca
 [API documentation here](https://docs.imagekit.io/api-reference/media-api/purge-cache-status)
 
 ```python
-imagekit.get_purge_cache_status(cache_request_id)
+imagekit.get_purge_file_cache_status(cache_request_id)
 ```
 
 

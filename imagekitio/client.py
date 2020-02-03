@@ -32,6 +32,11 @@ class ImageKit(object):
         """
         return self.file.upload(file, file_name, options)
 
+    def upload_file(self, file=None, file_name=None, options=None) -> Dict[str, Any]:
+        """Provides upload functionality
+        """
+        return self.file.upload(file, file_name, options)
+
     def list_files(self, options: Dict) -> Dict:
         """Get list(filtered if given param) of images of client
         """
@@ -57,7 +62,17 @@ class ImageKit(object):
         """
         return self.file.batch_delete(file_ids)
 
+    def bulk_file_delete(self, file_ids: list = None):
+        """Delete files in bulk by provided list of ids
+        """
+        return self.file.batch_delete(file_ids)
+
     def purge_cache(self, file_url: str = None) -> Dict[str, Any]:
+        """Purge Cache from server by file url
+        """
+        return self.file.purge_cache(file_url)
+
+    def purge_file_cache(self, file_url: str = None) -> Dict[str, Any]:
         """Purge Cache from server by file url
         """
         return self.file.purge_cache(file_url)
@@ -67,12 +82,25 @@ class ImageKit(object):
         """
         return self.file.get_purge_cache_status(str(purge_cache_id))
 
+    def get_purge_file_cache_status(self, purge_cache_id: str = "") -> Dict[str, Any]:
+        """Get Purge Cache status by purge cache request_id
+        """
+        return self.file.get_purge_cache_status(str(purge_cache_id))
+
     def get_metadata(self, file_id: str = None) -> Dict[str, Any]:
         """Get Meta Data of a file by file id
         """
         return self.file.get_metadata(str(file_id))
 
+    def get_file_metadata(self, file_id: str = None) -> Dict[str, Any]:
+        """Get Meta Data of a file by file id
+        """
+        return self.file.get_metadata(str(file_id))
+
     def get_remote_url_metadata(self, remote_file_url: str = ""):
+        return self.file.get_metadata_from_remote_url(remote_file_url)
+
+    def get_remote_file_url_metadata(self, remote_file_url: str = ""):
         return self.file.get_metadata_from_remote_url(remote_file_url)
 
     def url(self, options: Dict[str, Any]) -> str:
