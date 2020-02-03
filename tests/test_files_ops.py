@@ -4,8 +4,6 @@ from unittest.mock import MagicMock
 from imagekitio.client import ImageKit
 from tests.dummy_data.file import (
     FAILED_DELETE_RESP,
-    FAILED_GENERIC_RESP,
-    SERVER_ERR_MSG,
     SUCCESS_DETAIL_MSG,
     SUCCESS_LIST_RESP_MESSAGE,
     SUCCESS_PURGE_CACHE_MSG,
