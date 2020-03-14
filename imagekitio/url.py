@@ -7,7 +7,7 @@ from urllib.parse import ParseResult, urlparse, urlunparse
 from imagekitio.constants.defaults import Default
 from imagekitio.constants.supported_transform import SUPPORTED_TRANS
 from imagekitio.utils.formatter import camel_dict_to_snake_dict, flatten_dict
-from imagekitio.constants.supported_transform import SUPPORTED_TRANS
+
 from .constants import ERRORS
 
 TRANSFORMATION_PARAMETER = "tr"
@@ -129,9 +129,13 @@ class Url(object):
             result_url_dict.get(f, "") for f in ParseResult._fields
         )
         if result_url_dict["query"]:
-            generated_url = generated_url + "&sdk-version=" + Default.SDK_VERSION.value
+            generated_url = (
+                generated_url + "&ik-sdk-version=" + Default.SDK_VERSION.value
+            )
         else:
-            generated_url = generated_url + "?sdk-version=" + Default.SDK_VERSION.value
+            generated_url = (
+                generated_url + "?ik-sdk-version=" + Default.SDK_VERSION.value
+            )
         return generated_url
 
     @staticmethod

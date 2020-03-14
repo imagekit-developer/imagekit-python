@@ -159,10 +159,10 @@ if __name__ == "__main__":
     print("File detail with url upload-", details, end="\n\n")
 
     print("-------------------------------------")
-    file_metadata = imagekit.get_file_metadata(list_files["response"][0]['fileId'])
+    file_metadata = imagekit.get_file_metadata(list_files["response"][0]["fileId"])
 
     print("-------------------------------------")
-    delete = imagekit.delete_file(list_files["response"][1]["fileId"], )
+    delete = imagekit.delete_file(list_files["response"][1]["fileId"],)
 
     print("Delete File-", delete)
 

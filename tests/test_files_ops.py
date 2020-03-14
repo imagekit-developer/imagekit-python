@@ -1,3 +1,4 @@
+import base64
 import os
 from unittest.mock import MagicMock
 
@@ -43,14 +44,41 @@ class TestUpload(ClientTestCase):
         self.assertIsNotNone(resp["error"])
         self.assertIsNone(resp["response"])
 
-    def test_upload_succeeds(self):
+    def test_binary_upload_succeeds(self):
         """
         Tests if  upload succeeds
         """
         self.client.ik_request.request = MagicMock(
             return_value=get_mocked_success_resp()
         )
-        resp = self.client.upload(file=self.image, file_name=self.filename)
+        file = open(self.image, "rb")
+        file.close()
+        resp = self.client.upload(file=file, file_name=self.filename)
+        self.assertIsNone(resp["error"])
+        self.assertIsNotNone(resp["response"])
+
+    def test_base64_upload_succeeds(self):
+        """
+        Tests if  upload succeeds
+        """
+        self.client.ik_request.request = MagicMock(
+            return_value=get_mocked_success_resp()
+        )
+        with open(self.image, mode="rb") as img:
+            imgstr = base64.b64encode(img.read())
+
+        resp = self.client.upload(file=imgstr, file_name=self.filename)
+        self.assertIsNone(resp["error"])
+        self.assertIsNotNone(resp["response"])
+
+    def test_url_upload_succeeds(self):
+        """
+        Tests if  url upload succeeds
+        """
+        self.client.ik_request.request = MagicMock(
+            return_value=get_mocked_success_resp()
+        )
+        resp = self.client.upload(file="example.com/abc.jpg", file_name=self.filename)
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
 
@@ -74,6 +102,44 @@ class TestUpload(ClientTestCase):
         self.assertRaises(TypeError, self.client.upload, file_name=self.filename)
         self.assertRaises(TypeError, self.client.upload, file=self.image)
 
+    def test_absence_of_params_gives_proper_resp(self) -> None:
+        self.client.ik_request.request = MagicMock(
+            return_value=get_mocked_success_resp()
+        )
+        resp = self.client.upload(
+            file=self.image,
+            file_name="x",
+            options={
+                "is_private_file": "",
+                "tags": None,
+                "custom_coordinates": None,
+                "use_unique_file_name": None,
+                "folder": None
+
+            }
+        )
+        self.assertIsNone(resp["error"])
+        self.assertIsNotNone(resp["response"])
+
+    def test_all_params_being_passed_on_upload(self) -> None:
+        self.client.ik_request.request = MagicMock(
+            return_value=get_mocked_success_resp()
+        )
+        resp = self.client.upload(
+            file=self.image,
+            file_name="fileabc",
+            options={
+                "is_private_file": True,
+                "tags": ["abc"],
+                "response_fields": ["is_private_file", "tags"],
+                "custom_coordinates": "10,10,100,100",
+                "use_unique_file_name": True,
+                "folder": "abc"
+            }
+        )
+        self.assertIsNone(resp["error"])
+        self.assertIsNotNone(resp["response"])
+
     def test_upload_file_fails_without_file_or_file_name(self) -> None:
         """Test upload raises error on missing required params
         """
@@ -91,7 +157,6 @@ class TestListFiles(ClientTestCase):
 
     def test_list_files_fails_on_unauthenticated_request(self) -> None:
         """ Tests unauthenticated request restricted for list_files method
-
         """
         self.client.ik_request.request = MagicMock(
             return_value=get_mocked_failed_resp()
@@ -109,6 +174,27 @@ class TestListFiles(ClientTestCase):
         )
 
         resp = self.client.list_files(self.options)
+
+        self.assertIsNone(resp["error"])
+        self.assertIsNotNone(resp["response"])
+
+    def test_list_accepting_all_parameter(self):
+        """
+        checking if list accept all parameter
+        """
+        self.client.ik_request.request = MagicMock(
+            return_value=get_mocked_success_resp()
+        )
+        resp = self.client.list_files(
+            options={
+                "file_type": "image",
+                "tags": ["tag1", "tag2"],
+                "include_folder": True,
+                "name": "new-dir",
+                "limit": "1",
+                "skip": "1",
+            },
+        )
 
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])

@@ -275,14 +275,18 @@ class File(object):
                     if j not in VALID_UPLOAD_OPTIONS:
                         return False
                     response_list.append(snake_to_lower_camel(j))
-                options[key] = ",".join(response_list)
+                val = ",".join(response_list)
+                if val:
+                    options[key] = ",".join(response_list)
                 continue
             if isinstance(val, list):
                 val = ",".join(val)
-                options[key] = val
+                if val:
+                    options[key] = val
                 continue
             # imagekit server accepts 'true/false'
             elif isinstance(val, bool):
                 val = str(val).lower()
-            options[key] = val
+            if val:
+                options[key] = val
         return request_formatter(options)
