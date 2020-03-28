@@ -58,7 +58,10 @@ class Url(object):
         if not (path or src):
             return ""
         result_url_dict = {"netloc": "", "path": "", "query": ""}
+        path_args = ""
         if path:
+            if len(path.split("?")) > 1:
+                path_args = path.split("?")[1]
             parsed_url = urlparse(path)
             parsed_host = urlparse(url_endpoint)
             result_url_dict["scheme"] = parsed_host.scheme
@@ -66,9 +69,12 @@ class Url(object):
                 "/"
             )
             result_url_dict["path"] = parsed_url.path.strip("/")
+            result_url_dict["query"] = path_args
 
         else:
             parsed_url = urlparse(src)
+            if len(src.split("?")) > 1:
+                path_args = src.split("?")[1]
             host = parsed_url.netloc
             if parsed_url.username:
                 # creating host like username:password@domain.com if username is there in parsed url
@@ -79,7 +85,6 @@ class Url(object):
             result_url_dict["scheme"] = parsed_url.scheme
             result_url_dict["path"] = parsed_url.path
             src_param_used_for_url = True
-
         query_params = options.get("query_parameters", {})
         transformation_str = self.transformation_to_str(options.get("transformation"))
         if transformation_str:
@@ -124,7 +129,11 @@ class Url(object):
                 str(k) + "=" + str(v) for k, v in query_params.items()
             )
             result_url_dict["query"] = query_params_str
+
         result_url_dict = self.prepare_dict_for_unparse(result_url_dict)
+        if path_args:
+            updated_query = path_args + "&" + result_url_dict["query"]
+            result_url_dict["query"] = updated_query
         generated_url = urlunparse(
             result_url_dict.get(f, "") for f in ParseResult._fields
         )
