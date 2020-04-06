@@ -321,3 +321,29 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(url.split("tr:h-300")[0][-1], "/")
         self.assertNotEqual(url.split("default-image.jpg")[0][-2:], "//")
+
+    def test_url_signed_with_expire_in_seconds(self):
+        options = {
+            "path": "/default-image.jpg",
+            "transformation": [
+                {
+                    "width": "400",
+                },
+            ],
+            "signed": True,
+            "expire_seconds": 100,
+        }
+        url = self.client.url(options)
+        self.assertIn("ik-t", url)
+
+    def test_get_signature_with_100_expire_seconds(self):
+        url = "https://test-domain.com/test-endpoint/tr:w-100/test-signed-url.png"
+        signature = self.client.url_obj.get_signature(
+            "private_test_key", url, "https://test-domain.com/test-endpoint/", 100)
+        self.assertEqual(signature, "5e5037a31a7121cbe2964e220b4338cc6e1ba66d")
+
+    def test_get_signature_without_expire_seconds(self):
+        url = "https://test-domain.com/test-endpoint/tr:w-100/test-signed-url.png"
+        signature = self.client.url_obj.get_signature(
+            "private_test_key", url, "https://test-domain.com/test-endpoint/", 0)
+        self.assertEqual(signature, "41b3075c40bc84147eb71b8b49ae7fbf349d0f00")
