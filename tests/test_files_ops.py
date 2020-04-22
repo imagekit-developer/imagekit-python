@@ -2,6 +2,7 @@ import os
 from unittest.mock import MagicMock
 
 from imagekitio.client import ImageKit
+from imagekitio.constants.url import URL
 from tests.dummy_data.file import (
     FAILED_DELETE_RESP,
     SUCCESS_DETAIL_MSG,
@@ -61,9 +62,22 @@ class TestUpload(ClientTestCase):
         self.client.ik_request.request = MagicMock(
             return_value=get_mocked_success_resp()
         )
+        self.client.file.request.request = MagicMock(
+            return_value=get_mocked_success_resp()
+        )
         resp = self.client.upload_file(file=self.image, file_name=self.filename)
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
+        self.client.file.request.request.assert_called_once_with(
+            "Post", 
+            url=URL.UPLOAD_URL.value,
+            files={
+                'file': (None, self.image), 
+                'fileName': (None, self.filename)
+                },
+            data={},
+            headers={'Accept-Encoding': 'gzip, deflate', 'Authorization': 'Basic ZmFrZTEyMjo='}
+        )
 
     def test_upload_fails_without_file_or_file_name(self) -> None:
         """Test upload raises error on missing required params
