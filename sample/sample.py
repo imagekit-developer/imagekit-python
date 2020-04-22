@@ -17,6 +17,36 @@ if __name__ == "__main__":
         private_key=private_key, public_key=public_key, url_endpoint=url_endpoint,
     )
 
+    ### The signed url generated for this file doesn't work using the Python SDK
+    upload = imagekit.upload_file(
+            file=open("sample.jpg", "rb"),
+            file_name="testing_upload_binary_signed_private.jpg",
+            options={
+                "response_fields": ["is_private_file", "tags"],
+                "is_private_file": True,
+                "tags": ["abc", "def"],
+                "use_unique_file_name": False,
+            },
+        )
+    
+    print("-------------------------------------")
+    print("Upload with binary-", upload, end="\n\n")
+
+
+    print("-------------------------------------")
+    image_url = imagekit.url(
+        {
+            "path": upload['response']['filePath'],
+            "query_parameters": {"v": "123"},
+            "transformation": [{"height": "300", "width": "400"}],
+            "signed": True,
+            "expire_seconds": 3000,
+        }
+    )
+
+    print("Signed url-", image_url, end="\n\n")
+
+
     # URL generation using image path and image hostname
     # 1
     print(imagekit.ik_request.private_key)
