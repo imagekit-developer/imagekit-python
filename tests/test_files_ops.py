@@ -93,9 +93,6 @@ class TestUpload(ClientTestCase):
         self.client.ik_request.request = MagicMock(
             return_value=get_mocked_success_resp()
         )
-        self.client.file.request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
 
         # generate expected encoded private key for the auth headers
         private_key_file_upload = ClientTestCase.private_key
@@ -108,7 +105,7 @@ class TestUpload(ClientTestCase):
         resp = self.client.upload_file(file=self.image, file_name=self.filename)
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
-        self.client.file.request.request.assert_called_once_with(
+        self.client.ik_request.request.assert_called_once_with(
             "Post", 
             url=URL.UPLOAD_URL.value,
             files={
@@ -591,9 +588,6 @@ class TestUpdateFileDetails(ClientTestCase):
         self.client.ik_request.request = MagicMock(
             return_value=get_mocked_success_resp()
         )
-        self.client.file.request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
 
         # generate expected encoded private key for the auth headers
         private_key_file_upload = ClientTestCase.private_key
@@ -608,7 +602,7 @@ class TestUpdateFileDetails(ClientTestCase):
         )
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
-        self.client.file.request.request.assert_called_once_with(
+        self.client.ik_request.request.assert_called_once_with(
             method="Patch", 
             url="{}/{}/details/".format(URL.BASE_URL.value, self.file_id),
             headers={'Content-Type': 'application/json', 'Authorization': "Basic {}".format(encoded_private_key)},
