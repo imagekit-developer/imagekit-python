@@ -178,9 +178,17 @@ class Url(object):
         create signature(hashed hex key) from
         private_key, url, url_endpoint and expiry_timestamp
         """
+        # ensure url_endpoint has a trailing slash
+        if url_endpoint[-1] != '/':
+            url_endpoint += '/'
+
+        if isinstance(expiry_timestamp, int) and expiry_timestamp < 1:
+            expiry_timestamp = DEFAULT_TIMESTAMP
+
         replaced_url = url.replace(url_endpoint, "") + str(expiry_timestamp)
+        
         signature = hmac.new(
-            key=replaced_url.encode(), msg=private_key.encode(), digestmod=hashlib.sha1
+            key=private_key.encode(), msg=replaced_url.encode(), digestmod=hashlib.sha1
         )
         return signature.hexdigest()
 
