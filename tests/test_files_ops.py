@@ -17,10 +17,8 @@ from tests.helpers import (
     get_mocked_success_resp,
 )
 
-private_key="private_fake:"
-
 imagekit_obj = ImageKit(
-    private_key=private_key, public_key="public_fake123:", url_endpoint="fake.com",
+    private_key="private_fake:", public_key="public_fake123:", url_endpoint="fake.com",
 )
 
 
