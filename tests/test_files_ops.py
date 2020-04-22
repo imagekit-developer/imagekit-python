@@ -1,4 +1,5 @@
 import os
+import base64
 from unittest.mock import MagicMock
 
 from imagekitio.client import ImageKit
@@ -16,8 +17,10 @@ from tests.helpers import (
     get_mocked_success_resp,
 )
 
+private_key="private_fake:"
+
 imagekit_obj = ImageKit(
-    private_key="private_fake:", public_key="public_fake123:", url_endpoint="fake.com",
+    private_key=private_key, public_key="public_fake123:", url_endpoint="fake.com",
 )
 
 
@@ -65,6 +68,15 @@ class TestUpload(ClientTestCase):
         self.client.file.request.request = MagicMock(
             return_value=get_mocked_success_resp()
         )
+
+        # generate expected encoded private key for the auth headers
+        private_key_file_upload = ClientTestCase.private_key
+        if private_key_file_upload != ":":
+            private_key_file_upload += ":"
+        encoded_private_key = base64.b64encode(private_key_file_upload.encode()).decode(
+            "utf-8"
+        )
+
         resp = self.client.upload_file(file=self.image, file_name=self.filename)
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
@@ -76,7 +88,7 @@ class TestUpload(ClientTestCase):
                 'fileName': (None, self.filename)
                 },
             data={},
-            headers={'Accept-Encoding': 'gzip, deflate', 'Authorization': 'Basic ZmFrZTEyMjo='}
+            headers={'Accept-Encoding': 'gzip, deflate', 'Authorization': "Basic {}".format(encoded_private_key)}
         )
 
     def test_upload_fails_without_file_or_file_name(self) -> None:

@@ -12,6 +12,7 @@ class ClientTestCase(unittest.TestCase):
     """
     Base TestCase for Client
     """
+    private_key="fake122"
 
     @patch("imagekitio.file.File")
     @patch("imagekitio.resource.ImageKitRequest")
@@ -24,7 +25,7 @@ class ClientTestCase(unittest.TestCase):
             "limit": "1",
         }
         self.client = ImageKit(
-            public_key="fake122", private_key="fake122", url_endpoint="fake122",
+            public_key="fake122", private_key=ClientTestCase.private_key, url_endpoint="fake122",
         )
 
 
