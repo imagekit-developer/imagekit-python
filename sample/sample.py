@@ -4,8 +4,8 @@ import sys
 sys.path.append("..")
 
 # #### set your private_key public_key, url_endpoint, url ### ##
-private_key = "private_eNZ+LM4YZH+wiiMaK2LRBs80000="
-public_key = "public_BimyddYm83A5tzSLpdF71jNfgoI="
+private_key = ""
+public_key = ""
 url_endpoint = "https://ik.imagekit.io/pshbwfiho"
 # dummy image url
 url = "https://file-examples.com/wp-content/uploads/2017/10/file_example_JPG_100kB.jpg"

@@ -328,20 +328,6 @@ class TestGenerateURL(unittest.TestCase):
         }
         self.assertEqual(self.client.url(options), "")
 
-    def test_url_with_signed_without_seconds(self):
-        options = {
-            "path": "/default-image.jpg",
-            "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-            "transformation": [{"height": "300", "width": "400"}],
-            "signed": True,
-            "transformation_position": "query",
-        }
-        url = self.client.url(options)
-        self.assertEqual(url,
-                         "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?ik-s=c9b57b14d758715505551023711c7c25a7b6f649&ik-sdk-version={}".format(
-                             Default.SDK_VERSION.value))
-        self.assertIn("ik-s", url)
-
     def test_url_contains_sdk_version(self):
         options = {
             "path": "/default-image.jpg",
@@ -397,4 +383,10 @@ class TestGenerateURL(unittest.TestCase):
         url = "https://test-domain.com/test-endpoint/tr:w-100/test-signed-url.png"
         signature = self.client.url_obj.get_signature(
             "private_key_test", url, "https://test-domain.com/test-endpoint/", 0)
+        self.assertEqual(signature, "41b3075c40bc84147eb71b8b49ae7fbf349d0f00")
+
+    def test_get_signature_without_expire_seconds_without_slash(self):
+        url = "https://test-domain.com/test-endpoint/tr:w-100/test-signed-url.png"
+        signature = self.client.url_obj.get_signature(
+            "private_key_test", url, "https://test-domain.com/test-endpoint", 0)
         self.assertEqual(signature, "41b3075c40bc84147eb71b8b49ae7fbf349d0f00")
