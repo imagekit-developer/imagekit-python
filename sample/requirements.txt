@@ -1,2 +1,1 @@
-imagekitio==2.2.3
 requests==2.22.0

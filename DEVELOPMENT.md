@@ -17,5 +17,6 @@ tox -e py
 
 ```shell
 pip install -r sample/requirements.txt
-python sample/sample.py
+cd sample
+python sample.py
 ```

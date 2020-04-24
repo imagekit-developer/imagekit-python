@@ -323,12 +323,12 @@ class TestDeleteFile(ClientTestCase):
         this function tests if bulk_file_delete working properly
         """
         self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp({"error": None, "response": None})
+            return_value=get_mocked_success_resp({"error": None, "response": {'successfullyDeletedFileIds': ['5e785a03ed03082733b979ec', '5e787c4427dd2a6c2fc564a5']}})
         )
         resp = self.client.bulk_file_delete(self.bulk_delete_ids)
 
         self.assertIsNone(resp["error"])
-        self.assertIsNone(resp["response"])
+        self.assertIsNotNone(resp["response"])
 
 
 class TestPurgeCache(ClientTestCase):
@@ -564,7 +564,6 @@ class TestUpdateFileDetails(ClientTestCase):
     file_id = "fake_123"
 
     valid_options = {"tags": ["tag1", "tag2"], "custom_coordinates": "10,10,100,100"}
-    invalid_options = {"tags": "", "custom_coordinates": ""}
 
     def test_update_file_details_fails_on_unauthenticated_request(self):
         """
@@ -611,16 +610,3 @@ class TestUpdateFileDetails(ClientTestCase):
 
     def test_file_details_succeeds_with_url(self):
         self.client.ik_request = MagicMock(return_value=get_mocked_success_resp())
-
-    def test_update_file_details_fails_without_file_or_file_name(self) -> None:
-        """Test upload raises error on missing required params
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        self.assertRaises(
-            ValueError,
-            self.client.update_file_details,
-            file_id=self.file_id,
-            options=self.invalid_options,
-        )

@@ -102,13 +102,8 @@ class File(object):
         update details identified by file_id and options,
         which is already uploaded
         """
-
-        if not ("tags" in options.keys() or "custom_coordinates" in options.keys()):
-            raise ValueError(ERRORS.UPDATE_DATA_MISSING.value)
-        if not isinstance(options.get("tags", []), list):
-            raise ValueError(ERRORS.UPDATE_DATA_TAGS_INVALID.value)
-        if not isinstance(options.get("custom_coordinates", ""), str):
-            raise ValueError(ERRORS.UPDATE_DATA_COORDS_INVALID.value)
+        if not file_id:
+            raise TypeError(ERRORS.FILE_ID_MISSING.value)
         url = "{}/{}/details/".format(URL.BASE_URL.value, file_id)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
@@ -161,7 +156,7 @@ class File(object):
             response = None
         else:
             error = None
-            response = None
+            response = resp.json()
 
         response = {"error": error, "response": response}
         return response
