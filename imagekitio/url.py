@@ -113,10 +113,10 @@ class Url(object):
             private_key = options.get("private_key")
             expiry_timestamp = self.get_signature_timestamp(expire_seconds)
 
-            # remove the trailing slash('/') from the netloc since `urlunparse` adds it
-            result_url_dict["netloc"].rstrip("/")
+            # Temporary variable to generate the URL signature
+            modified_result_url_dict = self.prepare_dict_for_unparse(result_url_dict)
             intermediate_url = urlunparse(
-                result_url_dict.get(f, "") for f in ParseResult._fields
+                modified_result_url_dict.get(f, "") for f in ParseResult._fields
             )
             url_signature = self.get_signature(
                 private_key=private_key,
