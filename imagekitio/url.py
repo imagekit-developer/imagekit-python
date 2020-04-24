@@ -114,7 +114,7 @@ class Url(object):
             expiry_timestamp = self.get_signature_timestamp(expire_seconds)
 
             # remove the trailing slash('/') from the netloc since `urlunparse` adds it
-            result_url_dict['netloc'] = result_url_dict['netloc'][:-1]
+            result_url_dict["netloc"].rstrip("/")
             intermediate_url = urlunparse(
                 result_url_dict.get(f, "") for f in ParseResult._fields
             )
