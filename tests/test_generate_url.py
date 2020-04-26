@@ -93,11 +93,10 @@ class TestGenerateURL(unittest.TestCase):
     def test_generate_url_query_parameters(self):
         options = {
             "path": "/default-image.jpg",
-            "query_parameters" : [
-                {
-                    "param1" : "value1"
-                }
-            ],
+            "query_parameters": {
+                "param1": "value1",
+                "param2": "value2"
+            },
             "transformation": [
                 {
                     "height": "300",
@@ -108,9 +107,9 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?param1=value1&ik-sdk-version={}".format(
+            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?ik-sdk-version={}".format(
                 Default.SDK_VERSION.value
-            ),
+            ) + "&param1=value1&param2=value2",
         )
 
     def test_generate_url_with_src(self):
@@ -138,11 +137,9 @@ class TestGenerateURL(unittest.TestCase):
     def test_generate_url_with_src_with_query_params_double(self):
         options = {
             "src": "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?queryparam1=value1",
-            "query_parameters" : [
-                {
-                    "param1" : "value1"
-                }
-            ],
+            "query_parameters": {
+                "param1": "value1"
+            },
             "transformation": [
                 {
                     "height": "300",
@@ -158,9 +155,9 @@ class TestGenerateURL(unittest.TestCase):
         # @TODO - adjust value of param1=value1 in test case but it should be there
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?queryparam1=value1&param1=value1&tr=h-300,w-400,f-jpg,pr-true,e-contrast-1:rt-90&ik-sdk-version={}".format(
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?queryparam1=value1&tr=h-300,w-400,f-jpg,pr-true,e-contrast-1:rt-90&ik-sdk-version={}".format(
                 Default.SDK_VERSION.value
-            ),
+            ) + "&param1=value1",
         )
 
     def test_generate_url_with_path_and_signed(self):

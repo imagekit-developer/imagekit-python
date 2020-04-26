@@ -50,7 +50,8 @@ class Url(object):
             raise ValueError(ERRORS.INVALID_TRANSFORMATION_POSITION.value)
 
         if src or (
-            options.get("transformation_position") == QUERY_TRANSFORMATION_POSITION
+            options.get(
+                "transformation_position") == QUERY_TRANSFORMATION_POSITION
         ):
             src_param_used_for_url = True
         else:
@@ -86,7 +87,8 @@ class Url(object):
             result_url_dict["path"] = parsed_url.path
             src_param_used_for_url = True
         query_params = options.get("query_parameters", {})
-        transformation_str = self.transformation_to_str(options.get("transformation"))
+        transformation_str = self.transformation_to_str(
+            options.get("transformation"))
         if transformation_str:
             if (
                 transformation_position == Default.QUERY_TRANSFORMATION_POSITION.value
@@ -114,7 +116,8 @@ class Url(object):
             expiry_timestamp = self.get_signature_timestamp(expire_seconds)
 
             # Temporary variable to generate the URL signature
-            modified_result_url_dict = self.prepare_dict_for_unparse(result_url_dict)
+            modified_result_url_dict = self.prepare_dict_for_unparse(
+                result_url_dict)
             intermediate_url = urlunparse(
                 modified_result_url_dict.get(f, "") for f in ParseResult._fields
             )
@@ -139,6 +142,7 @@ class Url(object):
         generated_url = urlunparse(
             result_url_dict.get(f, "") for f in ParseResult._fields
         )
+
         if result_url_dict["query"]:
             generated_url = (
                 generated_url + "&ik-sdk-version=" + Default.SDK_VERSION.value
@@ -147,6 +151,16 @@ class Url(object):
             generated_url = (
                 generated_url + "?ik-sdk-version=" + Default.SDK_VERSION.value
             )
+
+        extra_query_parameters = options.get("query_parameters")
+        if extra_query_parameters is not None:
+            extra_query_parameters_str = "&".join(
+                str(k) + "=" + str(v) for k, v in extra_query_parameters.items()
+            )
+            generated_url = (
+                generated_url + "&" + extra_query_parameters_str
+            )
+
         return generated_url
 
     @staticmethod
@@ -188,7 +202,7 @@ class Url(object):
             expiry_timestamp = DEFAULT_TIMESTAMP
 
         replaced_url = url.replace(url_endpoint, "") + str(expiry_timestamp)
-        
+
         signature = hmac.new(
             key=private_key.encode(), msg=replaced_url.encode(), digestmod=hashlib.sha1
         )
@@ -243,6 +257,7 @@ class Url(object):
                         )
                     )
 
-            parsed_transforms.append(TRANSFORM_DELIMITER.join(parsed_transform_step))
+            parsed_transforms.append(
+                TRANSFORM_DELIMITER.join(parsed_transform_step))
 
         return CHAIN_TRANSFORM_DELIMITER.join(parsed_transforms)
