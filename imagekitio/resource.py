@@ -42,13 +42,7 @@ class ImageKitRequest(object):
 
         :return: dictionary of encoded private key
         """
-        # checking if ':' is appearing for basic authentication
-        # otherwise password will be required with username
-        # see basic authentication related articles about
-        # being authenticated only with username
-        if self.private_key[-1] != ":":
-            self.private_key += ":"
-        encoded_private_key = base64.b64encode(self.private_key.encode()).decode(
+        encoded_private_key = base64.b64encode((self.private_key + ":").encode()).decode(
             "utf-8"
         )
         return {"Authorization": "Basic {}".format(encoded_private_key)}

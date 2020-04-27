@@ -107,9 +107,9 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?ik-sdk-version={}".format(
+            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?param1=value1&param2=value2&ik-sdk-version={}".format(
                 Default.SDK_VERSION.value
-            ) + "&param1=value1&param2=value2",
+            ),
         )
 
     def test_generate_url_with_src(self):
@@ -129,7 +129,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300,w-400,f-jpg,pr-true,e-contrast-1:rt-90&ik-sdk-version={}".format(
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90&ik-sdk-version={}".format(
                 Default.SDK_VERSION.value
             ),
         )
@@ -155,9 +155,9 @@ class TestGenerateURL(unittest.TestCase):
         # @TODO - adjust value of param1=value1 in test case but it should be there
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?queryparam1=value1&tr=h-300,w-400,f-jpg,pr-true,e-contrast-1:rt-90&ik-sdk-version={}".format(
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?queryparam1=value1&param1=value1&tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90&ik-sdk-version={}".format(
                 Default.SDK_VERSION.value
-            ) + "&param1=value1",
+            )
         )
 
     def test_generate_url_with_path_and_signed(self):
@@ -206,7 +206,7 @@ class TestGenerateURL(unittest.TestCase):
         self.assertIn("fake_xxxx", url)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300,fake_xxxx-400&ik-sdk-version={}".format(
+            "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cfake_xxxx-400&ik-sdk-version={}".format(
                 Default.SDK_VERSION.value
             ),
         )
@@ -246,7 +246,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300,w-400,f-jpg,pr-true,e-contrast-1:rt-90&ik-sdk-version={}".format(
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90&ik-sdk-version={}".format(
                 Default.SDK_VERSION.value
             ),
         )
@@ -259,7 +259,7 @@ class TestGenerateURL(unittest.TestCase):
         }
         url = self.client.url(options)
         self.assertEqual(url,
-                         "https://test-domain.com/test-endpoint/default-image.jpg?client=123&user=5&tr=h-300,w-400&ik-sdk-version={}".format(
+                         "https://test-domain.com/test-endpoint/default-image.jpg?client=123&user=5&tr=h-300%2Cw-400&ik-sdk-version={}".format(
                              Default.SDK_VERSION.value))
 
     def test_generate_url_with_src_query_parameters_merge_correctly(self):
@@ -279,7 +279,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?client=123&ab=c&tr=h-300,w-400,f-jpg,pr-true,e-contrast-1:rt-90&ik-sdk-version={}".format(
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?client=123&ab=c&tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90&ik-sdk-version={}".format(
                 Default.SDK_VERSION.value
             ),
         )
@@ -302,7 +302,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300,w-400,f-jpg,pr-true,e-contrast-1:rt-90&ik-sdk-version={}".format(
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90&ik-sdk-version={}".format(
                 Default.SDK_VERSION.value
             ),
         )

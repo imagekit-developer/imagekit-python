@@ -10,6 +10,9 @@ class ERRORS(enum.Enum):
         "message": "Invalid transformationPosition parameter",
         help: "",
     }
+    MANDATORY_SRC_OR_PATH = {
+        "message": "Pass one of the mandatory parameter path or src"
+    }
     INVALID_URL_GENERATION_PARAMETER = {"message": "Invalid url parameter", help: ""}
     INVALID_TRANSFORMATION_OPTIONS = {
         "message": "Invalid transformation parameter options",
