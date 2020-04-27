@@ -232,28 +232,30 @@ transformation code from ImageKit docs as the name when using in the ```url``` f
 
 ## File Upload
 
-The SDK provides a simple interface using the `.upload()` method to upload files to the ImageKit Media library. It
+The SDK provides a simple interface using the `.upload_file()` method to upload files to the ImageKit Media library. It
 accepts all the parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload).
 
-The `upload()` method requires at least the `file` and the `file_name` parameter to upload a file. You can pass other parameters supported by the ImageKit upload API using the same parameter name as specified in the upload API documentation. For example, to
-specify tags for a file at the time of upload use the tags parameter as specified in the
-[documentation here](https://docs.imagekit.io/media-library/overview/image-tags)
-
+The `upload_file()` method requires at least the `file` and the `file_name` parameter to upload a file and returns a Dict with error or success data. Use `options` parameter to pass other parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload). Use the same parameter name as specified in the upload API documentation.
 
 Simple usage
 
 ```python
-imagekit.file_upload(
-    file = "<url|base_64|binary>", # required
+imagekit.upload_file(
+    file= "<url|base_64|binary>", # required
     file_name= "my_file_name.jpg", # required
-    folder : "/example-folder/",
-    tags: ["sample-tag"]
+    options= {
+        "folder" : "/example-folder/",
+        "tags": ["sample-tag"],
+        "is_private_file": False,
+        "use_unique_file_name": True,
+        "response_fields": ["is_private_file", "tags"],
+    }
 )
 
 ```
 
 If the upload succeed, `error` will be `null` and the `result` will be the same as what is received from ImageKit's servers.
-If the upload fails, `error` will be the same as what is received from ImageKit's servers and the `result` will be null.
+If the upload fails, `error` will be the same as what is received from ImageKit's servers and the `result` will be null. Learn more from the sample app in this repository.
 
 ## File Management
 
