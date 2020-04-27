@@ -269,11 +269,10 @@ in the [documentation here](https://docs.imagekit.io/api-reference/media-api/lis
 correct values to get the results.
 
 ```python
-    imagekit.list_files({
-        "skip": 10,
-        "limit": 10,
-}
-    )
+imagekit.list_files({
+    "skip": 10,
+    "limit": 10,
+})
 ```
 **2. Get File Details**
 Accepts the file ID and fetches the details as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/get-file-details)
