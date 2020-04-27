@@ -4,9 +4,9 @@ import sys
 sys.path.append("..")
 
 # #### set your private_key public_key, url_endpoint, url ### ##
-private_key = ""
-public_key = ""
-url_endpoint = "https://ik.imagekit.io/pshbwfiho"
+private_key = "your_public_api_key"
+public_key = "your_private_api_key"
+url_endpoint = "https://ik.imagekit.io/your_imagekit_id/"
 # dummy image url
 url = "https://file-examples.com/wp-content/uploads/2017/10/file_example_JPG_100kB.jpg"
 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
             file_name="testing_upload_binary_signed_private.jpg",
             options={
                 "response_fields": ["is_private_file", "tags"],
-                "is_private_file": True,
+                "is_private_file": False,
                 "folder" : "/testing-python-folder/",
                 "tags": ["abc", "def"]
             },
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     print("Upload with binary")
     print("-------------------------------------")
     print(upload, end="\n\n")
-    
+
     image_url = imagekit.url(
         {
             "path": upload['response']['filePath'],
@@ -143,7 +143,7 @@ if __name__ == "__main__":
         file_name="testing-url.jpg",
         options={
             "response_fields": ["is_private_file"],
-            "is_private_file": True,
+            "is_private_file": False,
             "tags": ["abc", "def"],
         },
     )
@@ -162,7 +162,7 @@ if __name__ == "__main__":
         file_name="testing-base64.jpg",
         options={
             "response_fields": ["is_private_file", "metadata", "tags"],
-            "is_private_file": True,
+            "is_private_file": False,
             "tags": ["abc", "def"],
         },
     )
