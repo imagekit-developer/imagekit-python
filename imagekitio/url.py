@@ -20,10 +20,9 @@ TRANSFORM_KEY_VALUE_DELIMITER = "-"
 
 SIGNATURE_PARAMETER = "ik-s"
 TIMESTAMP_PARAMETER = "ik-t"
-DEFAULT_TIMESTAMP = "9999999999"
 
 
-class Url(object):
+class Url:
     """
     Url class holds the request and related methods
     to generate url(signed and unsigned)
@@ -42,36 +41,39 @@ class Url(object):
         builds url for from all options,
         """
         
+        # important to strip the trailing slashes. later logic assumes no trailing slashes.
         path = options.get("path", "").strip("/")
         src = options.get("src", "").strip("/")
         url_endpoint = options.get("url_endpoint", "").strip("/")
         transformation_str = self.transformation_to_str(options.get("transformation"))
-        transformation_position = options.get("transformation_position") or DEFAULT_TRANSFORMATION_POSITION
+        transformation_position = options.get("transformation_position", DEFAULT_TRANSFORMATION_POSITION)
 
         if transformation_position not in Default.VALID_TRANSFORMATION_POSITION.value:
             raise ValueError(ERRORS.INVALID_TRANSFORMATION_POSITION.value)
 
-        if (path is "" and src is ""):
+        if (path == "" and src == ""):
             return ""
 
-        if src:
-            temp_url = src.strip("/")
-            transformation_position = QUERY_TRANSFORMATION_POSITION
-        else:
+        # if path is present then it is given priority over src parameter
+        if path:
             if transformation_position == "path":
                 temp_url = "{}/{}:{}/{}".format(
-                    url_endpoint.strip("/"),
+                    url_endpoint,
                     TRANSFORMATION_PARAMETER,
                     transformation_str.strip("/"),
-                    path.strip("/")
+                    path
                 )
             else:
                 temp_url = "{}/{}".format(
-                    url_endpoint.strip("/"),
-                    path.strip("/")
+                    url_endpoint,
+                    path
                 )
+        else:
+            temp_url = src
+            # if src parameter is used, then we force transformation position in query
+            transformation_position = QUERY_TRANSFORMATION_POSITION
 
-        url_object = urlparse(temp_url.strip("/"))
+        url_object = urlparse(temp_url)
 
         query_params = dict(parse_qsl(url_object.query))
         query_params.update(options.get("query_parameters", {}))
@@ -79,7 +81,7 @@ class Url(object):
             query_params.update({"tr": transformation_str})
         query_params.update({"ik-sdk-version": Default.SDK_VERSION.value})
 
-        # Update query params
+        # Update query params in the url
         url_object = url_object._replace(query=urlencode(query_params))
 
         if options.get("signed"):
@@ -92,39 +94,41 @@ class Url(object):
                 url_endpoint=url_endpoint,
                 expiry_timestamp=expiry_timestamp,
             )
-            query_params.update({TIMESTAMP_PARAMETER: expiry_timestamp, SIGNATURE_PARAMETER: url_signature})
+
+            """
+            If the expire_seconds parameter is specified then the output URL contains
+            ik-t parameter (unix timestamp seconds when the URL expires) and 
+            the signature contains the timestamp for computation. 
+            
+            If not present, then no ik-t parameter and the value 9999999999 is used.
+            """
+            if expire_seconds:
+                query_params.update({TIMESTAMP_PARAMETER: expiry_timestamp, SIGNATURE_PARAMETER: url_signature})
+            else:
+                query_params.update({SIGNATURE_PARAMETER: url_signature})
+            
             # Update signature related query params
             url_object = url_object._replace(query=urlencode(query_params))
 
         return url_object.geturl()
 
     @staticmethod
-    def get_signature_timestamp(seconds: int = None) -> int:
+    def get_signature_timestamp(expiry_seconds: int = None) -> int:
         """
-        this function returns either default time stamp
-        or current unix time and expiry seconds to get
-        signature time stamp
+        this function returns the signature timestamp to be used
+        with the generated url. 
+        If expiry_seconds is provided, it returns expiry_seconds added
+        to the current unix time, otherwise the default time stamp
+        is returned.
         """
-        if not seconds:
+        if not expiry_seconds:
             return Default.DEFAULT_TIMESTAMP.value
         current_timestamp = int(dt.now().strftime("%s"))
 
-        return current_timestamp + seconds
+        return current_timestamp + expiry_seconds
 
     @staticmethod
-    def prepare_dict_for_unparse(url_dict: dict) -> dict:
-        """
-        remove and add required back slash of 'netloc' and 'path'
-        to parse it properly, urllib.parse.unparse() function can't
-        create url properly if path doesn't have '/' at the start
-        """
-        url_dict["netloc"] = url_dict["netloc"].rstrip("/")
-        url_dict["path"] = "/" + url_dict["path"].strip("/")
-
-        return url_dict
-
-    @staticmethod
-    def get_signature(private_key, url, url_endpoint, expiry_timestamp) -> str:
+    def get_signature(private_key, url, url_endpoint, expiry_timestamp : int) -> str:
         """"
         create signature(hashed hex key) from
         private_key, url, url_endpoint and expiry_timestamp
@@ -133,8 +137,8 @@ class Url(object):
         if url_endpoint[-1] != '/':
             url_endpoint += '/'
 
-        if isinstance(expiry_timestamp, int) and expiry_timestamp < 1:
-            expiry_timestamp = DEFAULT_TIMESTAMP
+        if expiry_timestamp < 1:
+            expiry_timestamp = Default.DEFAULT_TIMESTAMP.value
 
         replaced_url = url.replace(url_endpoint, "") + str(expiry_timestamp)
 
