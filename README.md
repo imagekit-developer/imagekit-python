@@ -235,9 +235,7 @@ transformation code from ImageKit docs as the name when using in the ```url``` f
 The SDK provides a simple interface using the `.upload()` method to upload files to the ImageKit Media library. It
 accepts all the parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload).
 
-The `upload()` method requires at least the `file` and the `file_name` parameter to upload a file and returns
-a callback with the `error` and `result`  as arguments. You can pass other parameters supported by the
-ImageKit upload API using the same parameter name as specified in the upload API documentation. For example, to
+The `upload()` method requires at least the `file` and the `file_name` parameter to upload a file. You can pass other parameters supported by the ImageKit upload API using the same parameter name as specified in the upload API documentation. For example, to
 specify tags for a file at the time of upload use the tags parameter as specified in the
 [documentation here](https://docs.imagekit.io/media-library/overview/image-tags)
 
@@ -247,184 +245,15 @@ Simple usage
 ```python
 imagekit.file_upload(
     file = "<url|base_64|binary>", # required
-    file_name= "my_file_name.jpg"  # required
+    file_name= "my_file_name.jpg", # required
+    folder : "/example-folder/",
+    tags: ["sample-tag"]
 )
 
 ```
-## Available options for request
 
-<table class="table-0f56c2d8" data-key="12024">
-
-<tbody>
-
-<tr class="tableRow-41a0302b" data-key="11680">
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11676" style="text-align: left;">
-
-<span class="text-4505230f--UIH400-4e41e82a--textContentFamily-49a318e1"><span data-key="11674"><span data-offset-key="11674:0">Parameter</span></span></span>
-
-</td>
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11679" style="text-align: left;">
-
-<span class="text-4505230f--UIH400-4e41e82a--textContentFamily-49a318e1"><span data-key="11677"><span data-offset-key="11677:0">Description</span></span></span>
-
-</td>
-
-</tr>
-
-<tr class="tableRow-41a0302b" data-key="11724">
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11697" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11681"><span data-offset-key="11681:0">**file**</span> <span data-offset-key="11681:1">required</span></span></span>
-
-</td>
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11723" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11698"><span data-offset-key="11698:0">This field accepts three kinds of values: -</span> <span data-offset-key="11698:1">`binary`</span> <span data-offset-key="11698:2">- You can send the content of the file as binary. This is used when a file is being uploaded from the browser. -</span> <span data-offset-key="11698:3">`base64`</span> <span data-offset-key="11698:4">- Base64 encoded string of file content. -</span> <span data-offset-key="11698:5">`url`</span> <span data-offset-key="11698:6">- URL of the file from where to download the content before uploading. Downloading file from URL might take longer, so it is recommended that you pass the binary or base64 content of the file. Pass the full URL, for example -</span> <span data-offset-key="11698:7">`https://www.example.com/rest-of-the-image-path.jpg`</span><span data-offset-key="11698:8">.</span></span></span>
-
-</td>
-
-</tr>
-
-<tr class="tableRow-41a0302b" data-key="11742">
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11738" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11725"><span data-offset-key="11725:0">**file_name**</span> <span data-offset-key="11725:1">required</span></span></span>
-
-</td>
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11741" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11739"><span data-offset-key="11739:0">The name with which the file has to be uploaded.</span></span></span>
-
-</td>
-
-</tr>
-
-<tr class="tableRow-41a0302b" data-key="11792">
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11756" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11743"><span data-offset-key="11743:0">**use_unique_file_name**</span> <span data-offset-key="11743:1">optional</span></span></span>
-
-</td>
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11791" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11757"><span data-offset-key="11757:0">Whether to use a unique filename for this file or not. - Accepts</span> <span data-offset-key="11757:1">`true`</span> <span data-offset-key="11757:2">or</span> <span data-offset-key="11757:3">`false`</span><span data-offset-key="11757:4">. - If set</span> <span data-offset-key="11757:5">`true`</span><span data-offset-key="11757:6">, ImageKit.io will add a unique suffix to the filename parameter to get a unique filename. - If set</span> <span data-offset-key="11757:7">`false`</span><span data-offset-key="11757:8">, then the image is uploaded with the provided filename parameter and any existing file with the same name is replaced.</span> <span data-offset-key="11757:9">**Default value**</span> <span data-offset-key="11757:10">-</span> <span data-offset-key="11757:11">`true`</span></span></span>
-
-</td>
-
-</tr>
-
-<tr class="tableRow-41a0302b" data-key="11837">
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11809" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11793"><span data-offset-key="11793:0">**tags**</span> <span data-offset-key="11793:1">optional</span></span></span>
-
-</td>
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11836" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11810"><span data-offset-key="11810:0">Set the tags while uploading the file. - Comma-separated value of tags in format</span> <span data-offset-key="11810:1">`tag1,tag2,tag3`</span><span data-offset-key="11810:2">. For example -</span> <span data-offset-key="11810:3">`t-shirt,round-neck,men`</span> <span data-offset-key="11810:4">- The maximum length of all characters should not exceed 500. -</span> <span data-offset-key="11810:5">`%`</span> <span data-offset-key="11810:6">is not allowed. - If this field is not specified and the file is overwritten then the tags will be removed.</span></span></span>
-
-</td>
-
-</tr>
-
-<tr class="tableRow-41a0302b" data-key="11900">
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11854" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11838"><span data-offset-key="11838:0">**folder**</span> <span data-offset-key="11838:1">optional</span></span></span>
-
-</td>
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11899" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11855"><span data-offset-key="11855:0">The folder path (e.g.</span> <span data-offset-key="11855:1">`/images/folder/`</span><span data-offset-key="11855:2">) in which the image has to be uploaded. If the folder(s) didn't exist before, a new folder(s) is created. The folder name can contain: - Alphanumeric Characters:</span> <span data-offset-key="11855:3">`a-z`</span> <span data-offset-key="11855:4">,</span> <span data-offset-key="11855:5">`A-Z`</span> <span data-offset-key="11855:6">,</span> <span data-offset-key="11855:7">`0-9`</span> <span data-offset-key="11855:8">- Special Characters:</span> <span data-offset-key="11855:9">`/``_`</span> <span data-offset-key="11855:10">and</span> <span data-offset-key="11855:11">`-`</span> <span data-offset-key="11855:12">- Using multiple</span> <span data-offset-key="11855:13">`/`</span> <span data-offset-key="11855:14">creates a nested folder.</span> <span data-offset-key="11855:15">**Default value**</span> <span data-offset-key="11855:16">- /</span></span></span>
-
-</td>
-
-</tr>
-
-<tr class="tableRow-41a0302b" data-key="11947">
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11917" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="ed9720d221654292aa58142f879dea91"><span data-offset-key="ed9720d221654292aa58142f879dea91:0">**is_private_file**</span> <span data-offset-key="ed9720d221654292aa58142f879dea91:1">optional</span></span></span>
-
-</td>
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11946" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11918"><span data-offset-key="11918:0">Whether to mark the file as private or not. This is only relevant for image type files. - Accepts</span> <span data-offset-key="11918:1">`true`</span> <span data-offset-key="11918:2">or</span> <span data-offset-key="11918:3">`false`</span><span data-offset-key="11918:4">. - If set</span> <span data-offset-key="11918:5">`true`</span><span data-offset-key="11918:6">, the file is marked as private which restricts access to the original image URL and unnamed image transformations without signed URLs. Without the signed URL, only named transformations work on private images</span> <span data-offset-key="11918:7">**Default value**</span> <span data-offset-key="11918:8">-</span> <span data-offset-key="11918:9">`false`</span></span></span>
-
-</td>
-
-</tr>
-
-<tr class="tableRow-41a0302b" data-key="11988">
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11964" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="a7aff28dce734653b30bdcc49230ad13"><span data-offset-key="a7aff28dce734653b30bdcc49230ad13:0">**custom_coordinates** </span><span data-offset-key="a7aff28dce734653b30bdcc49230ad13:1">optional</span></span></span>
-
-</td>
-
-<td data-table="cell" class="tableCell-150ac604" data-key="11987" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="11965"><span data-offset-key="11965:0">Define an important area in the image. This is only relevant for image type files.</span></span></span>
-
-*   <div data-key="c53fb2f1b56b418b9d6b9fb4a06f7792" class="reset-3c756112--listItemContent-756c9114">
-
-    <span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="1362a1a179384b28ba7e977050546dab"><span data-offset-key="1362a1a179384b28ba7e977050546dab:0">To be passed as a string with the x and y coordinates of the top-left corner, and width and height of the area of interest in format</span> <span data-offset-key="1362a1a179384b28ba7e977050546dab:1">`x,y,width,height`</span><span data-offset-key="1362a1a179384b28ba7e977050546dab:2">. For example -</span> <span data-offset-key="1362a1a179384b28ba7e977050546dab:3">`10,10,100,100`</span></span></span>
-
-    </div>
-
-*   <div data-key="844aad56bbb048179413ba0ca4fa120e" class="reset-3c756112--listItemContent-756c9114">
-
-    <span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="2a3ff3400c6142118f3d9c3bd8bce8b5"><span data-offset-key="2a3ff3400c6142118f3d9c3bd8bce8b5:0">Can be used with</span> <span data-offset-key="2a3ff3400c6142118f3d9c3bd8bce8b5:1">`fo-custom`</span><span data-offset-key="2a3ff3400c6142118f3d9c3bd8bce8b5:2">transformation.</span></span></span>
-
-    </div>
-
-*   <div data-key="6bd6a4128df149ccbf8ed85c23cb296a" class="reset-3c756112--listItemContent-756c9114">
-
-    <span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="f6e308adfee44156ad8ed6b849a7e65e"><span data-offset-key="f6e308adfee44156ad8ed6b849a7e65e:0">If this field is not specified and the file is overwritten, then customCoordinates will be removed.</span></span></span>
-
-    </div>
-
-</td>
-
-</tr>
-
-<tr class="tableRow-41a0302b" data-key="12023">
-
-<td data-table="cell" class="tableCell-150ac604" data-key="12002" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="455adcd180e141d2b1cc799f29b5b846"><span data-offset-key="455adcd180e141d2b1cc799f29b5b846:0">**response_fields**</span> <span data-offset-key="455adcd180e141d2b1cc799f29b5b846:1">optional</span></span></span>
-
-</td>
-
-<td data-table="cell" class="tableCell-150ac604" data-key="12022" style="text-align: left;">
-
-<span class="text-4505230f--TextH400-3033861f--textContentFamily-49a318e1"><span data-key="12003"><span data-offset-key="12003:0">Comma-separated values of the fields that you want ImageKit.io to return in response. For example, set the value of this field to</span> <span data-offset-key="12003:1">`tags,custom_coordinates,is_privateFile,metadata`</span> <span data-offset-key="12003:2">to get value of</span> <span data-offset-key="12003:3">`tags`</span><span data-offset-key="12003:4">,</span> <span data-offset-key="12003:5">`custom_coordinates`</span><span data-offset-key="12003:6">,</span> <span data-offset-key="12003:7">`is_privateFile`</span> <span data-offset-key="12003:8">, and</span> <span data-offset-key="12003:9">`metadata`</span> <span data-offset-key="12003:10">in the response.</span></span></span>
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-if upload is succeeded, `error` will be `None` and the result will be same as what is received from ImageKit's
-servers. If the upload fails, `error` will be the same as what is received from ImageKit's servers and the result will
-be `None`
+If the upload succeed, `error` will be `null` and the `result` will be the same as what is received from ImageKit's servers.
+If the upload fails, `error` will be the same as what is received from ImageKit's servers and the `result` will be null.
 
 ## File Management
 

@@ -14,12 +14,12 @@ class TestPHashDistance(unittest.TestCase):
     def test_phash_distance(self):
         """Tests if phash_distance working properly
         """
-        a, b = ("f06830ca9f1e3e90", "f06830ca9f1e3e90")
-        c, d = ("2d5ad3936d2e015b", "2d6ed293db36a4fb")
+        a, b = ("33699c96619cc69e", "968e978414fe04ea")
+        c, d = ("33699c96619cc69e", "33699c96619cc69e")
         e, f = ("a4a65595ac94518b", "7838873e791f8400")
 
-        self.assertEqual(imagekit_obj.phash_distance(a, b), 0)
-        self.assertEqual(imagekit_obj.phash_distance(c, d), 17)
+        self.assertEqual(imagekit_obj.phash_distance(a, b), 30)
+        self.assertEqual(imagekit_obj.phash_distance(c, d), 0)
         self.assertEqual(imagekit_obj.phash_distance(e, f), 37)
         self.assertRaises(TypeError, imagekit_obj.phash_distance, "", "dkf90")
         self.assertRaises(TypeError, imagekit_obj.phash_distance, 1234, 111)
