@@ -162,7 +162,8 @@ https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=f-jpg%2Cpr
     image_url = imagekit.url({
         "path": "/default-image",
         "query_parameters": {
-                    "v": "123"
+            "p1": "123",
+            "p2": "345"
         },
         "transformation": [{
             "height": "300",

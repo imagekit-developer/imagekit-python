@@ -1,13 +1,14 @@
 import hashlib
 import hmac
+import sys
 from datetime import datetime as dt
 from typing import Any, Dict, List
-from urllib.parse import ParseResult, urlparse, urlunparse
+from urllib.parse import ParseResult, urlparse, urlunparse, parse_qsl, urlencode
 
 from imagekitio.constants.defaults import Default
 from imagekitio.constants.supported_transform import SUPPORTED_TRANS
 from imagekitio.utils.formatter import camel_dict_to_snake_dict, flatten_dict
-from imagekitio.constants.supported_transform import SUPPORTED_TRANS
+
 from .constants import ERRORS
 
 TRANSFORMATION_PARAMETER = "tr"
@@ -33,8 +34,6 @@ class Url(object):
 
     def generate_url(self, options: Dict = None) -> str:
         options = camel_dict_to_snake_dict(options)
-        if options.get("src"):
-            options["transformation_position"] = DEFAULT_TRANSFORMATION_POSITION
         extended_options = self.request.extend_url_options(options)
         return self.build_url(extended_options)
 
@@ -42,97 +41,62 @@ class Url(object):
         """
         builds url for from all options,
         """
-        path = options.get("path", "")
-        src = options.get("src", "")
-        url_endpoint = options.get("url_endpoint", "")
-        transformation_position = options.get("transformation_position")
+        
+        path = options.get("path", "").strip("/")
+        src = options.get("src", "").strip("/")
+        url_endpoint = options.get("url_endpoint", "").strip("/")
+        transformation_str = self.transformation_to_str(options.get("transformation"))
+        transformation_position = options.get("transformation_position") or DEFAULT_TRANSFORMATION_POSITION
+
         if transformation_position not in Default.VALID_TRANSFORMATION_POSITION.value:
             raise ValueError(ERRORS.INVALID_TRANSFORMATION_POSITION.value)
 
-        if src or (
-            options.get("transformation_position") == QUERY_TRANSFORMATION_POSITION
-        ):
-            src_param_used_for_url = True
-        else:
-            src_param_used_for_url = False
-        if not (path or src):
+        if (path is "" and src is ""):
             return ""
-        result_url_dict = {"netloc": "", "path": "", "query": ""}
-        if path:
-            parsed_url = urlparse(path)
-            parsed_host = urlparse(url_endpoint)
-            result_url_dict["scheme"] = parsed_host.scheme
-            result_url_dict["netloc"] = (parsed_host.netloc + parsed_host.path).lstrip(
-                "/"
-            )
-            result_url_dict["path"] = parsed_url.path.strip("/")
 
+        if src:
+            temp_url = src.strip("/")
+            transformation_position = QUERY_TRANSFORMATION_POSITION
         else:
-            parsed_url = urlparse(src)
-            host = parsed_url.netloc
-            if parsed_url.username:
-                # creating host like username:password@domain.com if username is there in parsed url
-                host = "{}:{}@{}".format(
-                    parsed_url.username, parsed_url.password, parsed_url.netloc
-                )
-            result_url_dict["netloc"] = host
-            result_url_dict["scheme"] = parsed_url.scheme
-            result_url_dict["path"] = parsed_url.path
-            src_param_used_for_url = True
-
-        query_params = options.get("query_parameters", {})
-        transformation_str = self.transformation_to_str(options.get("transformation"))
-        if transformation_str:
-            if (
-                transformation_position == Default.QUERY_TRANSFORMATION_POSITION.value
-            ) or src_param_used_for_url:
-                result_url_dict["query"] = "{}={}".format(
-                    TRANSFORMATION_PARAMETER, transformation_str
-                )
-
-            else:
-                result_url_dict["path"] = "{}:{}/{}".format(
+            if transformation_position == "path":
+                temp_url = "{}/{}:{}/{}".format(
+                    url_endpoint.strip("/"),
                     TRANSFORMATION_PARAMETER,
-                    transformation_str,
-                    result_url_dict["path"],
+                    transformation_str.strip("/"),
+                    path.strip("/")
+                )
+            else:
+                temp_url = "{}/{}".format(
+                    url_endpoint.strip("/"),
+                    path.strip("/")
                 )
 
-        result_url_dict["scheme"] = result_url_dict["scheme"] or "https"
+        url_object = urlparse(temp_url.strip("/"))
 
-        # Signature String and Timestamp
-        # We can do this only for URLs that are created using urlEndpoint and path parameter
-        # because we need to know the endpoint to be able to remove it from the URL to create a signature
-        # for the remaining. With the src parameter, we would not know the "pattern" in the URL
-        if options.get("signed") and (not options.get("src")):
+        query_params = dict(parse_qsl(url_object.query))
+        query_params.update(options.get("query_parameters", {}))
+        if transformation_position == QUERY_TRANSFORMATION_POSITION:
+            query_params.update({"tr": transformation_str})
+        query_params.update({"ik-sdk-version": Default.SDK_VERSION.value})
+
+        # Update query params
+        url_object = url_object._replace(query=urlencode(query_params))
+
+        if options.get("signed"):
             expire_seconds = options.get("expire_seconds")
             private_key = options.get("private_key")
             expiry_timestamp = self.get_signature_timestamp(expire_seconds)
-
-            intermediate_url = urlunparse(
-                result_url_dict.get(f, "") for f in ParseResult._fields
-            )
             url_signature = self.get_signature(
                 private_key=private_key,
-                url=intermediate_url,
+                url=url_object.geturl(),
                 url_endpoint=url_endpoint,
                 expiry_timestamp=expiry_timestamp,
             )
-            if expiry_timestamp and (expiry_timestamp != DEFAULT_TIMESTAMP):
-                query_params[TIMESTAMP_PARAMETER] = expiry_timestamp
-            query_params[SIGNATURE_PARAMETER] = url_signature
-            query_params_str = "&".join(
-                str(k) + "=" + str(v) for k, v in query_params.items()
-            )
-            result_url_dict["query"] = query_params_str
-        result_url_dict = self.prepare_dict_for_unparse(result_url_dict)
-        generated_url = urlunparse(
-            result_url_dict.get(f, "") for f in ParseResult._fields
-        )
-        if result_url_dict["query"]:
-            generated_url = generated_url + "&sdk-version=" + Default.SDK_VERSION.value
-        else:
-            generated_url = generated_url + "?sdk-version=" + Default.SDK_VERSION.value
-        return generated_url
+            query_params.update({TIMESTAMP_PARAMETER: expiry_timestamp, SIGNATURE_PARAMETER: url_signature})
+            # Update signature related query params
+            url_object = url_object._replace(query=urlencode(query_params))
+
+        return url_object.geturl()
 
     @staticmethod
     def get_signature_timestamp(seconds: int = None) -> int:
@@ -165,9 +129,17 @@ class Url(object):
         create signature(hashed hex key) from
         private_key, url, url_endpoint and expiry_timestamp
         """
+        # ensure url_endpoint has a trailing slash
+        if url_endpoint[-1] != '/':
+            url_endpoint += '/'
+
+        if isinstance(expiry_timestamp, int) and expiry_timestamp < 1:
+            expiry_timestamp = DEFAULT_TIMESTAMP
+
         replaced_url = url.replace(url_endpoint, "") + str(expiry_timestamp)
+
         signature = hmac.new(
-            key=replaced_url.encode(), msg=private_key.encode(), digestmod=hashlib.sha1
+            key=private_key.encode(), msg=replaced_url.encode(), digestmod=hashlib.sha1
         )
         return signature.hexdigest()
 
@@ -220,6 +192,7 @@ class Url(object):
                         )
                     )
 
-            parsed_transforms.append(TRANSFORM_DELIMITER.join(parsed_transform_step))
+            parsed_transforms.append(
+                TRANSFORM_DELIMITER.join(parsed_transform_step))
 
         return CHAIN_TRANSFORM_DELIMITER.join(parsed_transforms)

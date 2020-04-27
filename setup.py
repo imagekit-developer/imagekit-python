@@ -3,12 +3,12 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-with open('requirements/requirements.txt') as f:
+with open("requirements/requirements.txt") as f:
     install_requires = f.read().splitlines()
 
 setuptools.setup(
     name="imagekitio",
-    version="2.2.3",
+    version="2.2.4",
     description="Python wrapper for the ImageKit API",
     long_description=long_description,
     long_description_content_type="text/markdown",
