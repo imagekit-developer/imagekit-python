@@ -11,16 +11,6 @@ from imagekitio.utils.formatter import camel_dict_to_snake_dict, flatten_dict
 
 from .constants import ERRORS
 
-TRANSFORMATION_PARAMETER = "tr"
-DEFAULT_TRANSFORMATION_POSITION = "path"
-QUERY_TRANSFORMATION_POSITION = "query"
-CHAIN_TRANSFORM_DELIMITER = ":"
-TRANSFORM_DELIMITER = ","
-TRANSFORM_KEY_VALUE_DELIMITER = "-"
-
-SIGNATURE_PARAMETER = "ik-s"
-TIMESTAMP_PARAMETER = "ik-t"
-
 
 class Url:
     """
@@ -46,7 +36,7 @@ class Url:
         src = options.get("src", "").strip("/")
         url_endpoint = options.get("url_endpoint", "").strip("/")
         transformation_str = self.transformation_to_str(options.get("transformation"))
-        transformation_position = options.get("transformation_position", DEFAULT_TRANSFORMATION_POSITION)
+        transformation_position = options.get("transformation_position", Default.DEFAULT_TRANSFORMATION_POSITION.value)
 
         if transformation_position not in Default.VALID_TRANSFORMATION_POSITION.value:
             raise ValueError(ERRORS.INVALID_TRANSFORMATION_POSITION.value)
@@ -59,7 +49,7 @@ class Url:
             if transformation_position == "path":
                 temp_url = "{}/{}:{}/{}".format(
                     url_endpoint,
-                    TRANSFORMATION_PARAMETER,
+                    Default.TRANSFORMATION_PARAMETER.value,
                     transformation_str.strip("/"),
                     path
                 )
@@ -71,15 +61,15 @@ class Url:
         else:
             temp_url = src
             # if src parameter is used, then we force transformation position in query
-            transformation_position = QUERY_TRANSFORMATION_POSITION
+            transformation_position = Default.QUERY_TRANSFORMATION_POSITION.value
 
         url_object = urlparse(temp_url)
 
         query_params = dict(parse_qsl(url_object.query))
         query_params.update(options.get("query_parameters", {}))
-        if transformation_position == QUERY_TRANSFORMATION_POSITION:
-            query_params.update({"tr": transformation_str})
-        query_params.update({"ik-sdk-version": Default.SDK_VERSION.value})
+        if transformation_position == Default.QUERY_TRANSFORMATION_POSITION.value:
+            query_params.update({Default.TRANSFORMATION_PARAMETER.value: transformation_str})
+        query_params.update({Default.SDK_VERSION_PARAMETER.value: Default.SDK_VERSION.value})
 
         # Update query params in the url
         url_object = url_object._replace(query=urlencode(query_params))
@@ -103,9 +93,9 @@ class Url:
             If not present, then no ik-t parameter and the value 9999999999 is used.
             """
             if expire_seconds:
-                query_params.update({TIMESTAMP_PARAMETER: expiry_timestamp, SIGNATURE_PARAMETER: url_signature})
+                query_params.update({Default.TIMESTAMP_PARAMETER.value: expiry_timestamp, Default.SIGNATURE_PARAMETER.value: url_signature})
             else:
-                query_params.update({SIGNATURE_PARAMETER: url_signature})
+                query_params.update({Default.SIGNATURE_PARAMETER.value: url_signature})
             
             # Update signature related query params
             url_object = url_object._replace(query=urlencode(query_params))
@@ -191,12 +181,12 @@ class Url:
                     parsed_transform_step.append(
                         "{}{}{}".format(
                             transform_key,
-                            TRANSFORM_KEY_VALUE_DELIMITER,
+                            Default.TRANSFORM_KEY_VALUE_DELIMITER.value,
                             transformation[i][key],
                         )
                     )
 
             parsed_transforms.append(
-                TRANSFORM_DELIMITER.join(parsed_transform_step))
+                Default.TRANSFORM_DELIMITER.value.join(parsed_transform_step))
 
-        return CHAIN_TRANSFORM_DELIMITER.join(parsed_transforms)
+        return Default.CHAIN_TRANSFORM_DELIMITER.value.join(parsed_transforms)

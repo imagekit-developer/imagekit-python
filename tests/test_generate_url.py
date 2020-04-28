@@ -192,7 +192,7 @@ class TestGenerateURL(unittest.TestCase):
         }
 
         url = self.client.url(options)
-        self.assertIn("ik-s", url)
+        self.assertIn(Default.SIGNATURE_PARAMETER.value, url)
 
     def test_generate_url_signed_without_expiry_does_not_have_timestamp_parameter(self):
         """
@@ -205,7 +205,7 @@ class TestGenerateURL(unittest.TestCase):
         }
 
         url = self.client.url(options)
-        self.assertNotIn("ik-t", url)
+        self.assertNotIn(Default.TIMESTAMP_PARAMETER.value, url)
 
     def test_url_with_new_transformation_returns_as_it_is(self):
         options = {
