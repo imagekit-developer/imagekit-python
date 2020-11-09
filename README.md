@@ -1,17 +1,12 @@
-# Python SDK for ImageKit
+[<img width="250" alt="ImageKit.io" src="https://raw.githubusercontent.com/imagekit-developer/imagekit-javascript/master/assets/imagekit-light-logo.svg"/>](https://imagekit.io)
+# ImageKit.io Python SDK
 
 [![Python CI](<https://github.com/imagekit-developer/imagekit-python/workflows/Python%20CI/badge.svg>)](https://github.com/imagekit-developer/imagekit-python/)
 [![imagekitio](<https://img.shields.io/pypi/v/imagekitio.svg>)](https://pypi.org/project/imagekitio)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
 
-Python SDK for [ImageKit](https://imagekit.io/) that implements the new APIs and interface for performing different file
-operations.
-
-ImageKit is a complete image optimization and transformation solution that comes with and
-[image CDN](https://imagekit.io/features/imagekit-infrastructure) and media storage. It can be integrated with your
-existing infrastructure - storages like AWS s3, web servers, your CDN and custom domain names, allowing you to deliver
-optimize images in minutes with minimal code changes.
+ImageKit Python SDK allows you to use [image resizing](https://docs.imagekit.io/features/image-transformations), [optimization](https://docs.imagekit.io/features/image-optimization), [file uploading](https://docs.imagekit.io/api-reference/upload-file-api) and other [ImageKit APIs](https://docs.imagekit.io/api-reference/api-introduction) from applications written in the Python language.
 
 Table of contents -
  * [Installation](#Installation)
@@ -42,8 +37,8 @@ imagekit = ImageKit(
 
 ## Usage
 
-You can use this Python SDK for 3 different kinds of methods - URL generation, file upload and file management.
-The usage of the SDK has been explained below
+You can use this Python SDK for 3 different kinds of methods - URL generation, file upload, and file management.
+The usage of the SDK has been explained below.
 
 ## URL generation
 
@@ -71,10 +66,7 @@ https://ik.imagekit.io/your_imagekit_id/endpoint/tr:h-300,w-400/default-image.jp
 ```
 
 **2.Using full image URL**
-This method allows you to add transformation parameters to and existing, complete URL that is already mapped to ImageKit
-using ```src``` parameter. This method should be used if you have the complete image URL mapped to ImageKit stored in your
-database.
-
+This method allows you to add transformation parameters to an absolute URL using `src` parameter. This method should be used if you have the complete image URL stored in your database.
 
 ```python
 image_url = imagekit.url({
@@ -93,18 +85,18 @@ https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cw-
 ```
 
 
-The ```.url()``` method accepts the following parameters
+The ```.url()``` method accepts the following parameters.
 
 | Option                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | :---------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | url_endpoint            | Optional. The base URL to be appended before the path of the image. If not specified, the URL Endpoint specified at the time of SDK initialization is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                                                                                                                                |
-| path                    | Conditional. This is the path at which the image exists. For example, `/path/to/image.jpg`. Either the `path` or `src` parameter need to be specified for URL generation.                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| src                     | Conditional. This is the complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Either the `path` or `src` parameter need to be specified for URL generation.                                                                                                                                                                                                                                                                                                                                            |
-| transformation          | Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name  and the value should be specified as a key-value pair in the object. Different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations) can be specified as different objects of the array. The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it gets applied as it is in the URL. |
-| transformation_position | Optional. Default value is `path` that places the transformation string as a path parameter in the URL. Can also be specified as `query` which adds the transformation string as the query parameter `tr` in the URL. If you use `src` parameter to create the URL, then the transformation string is always added as a query parameter.                                                                                                                                                                                                                                                  |
-| query_parameters        | Optional. These are the other query parameters that you want to add to the final URL. These can be any query parameters and not necessarily related to ImageKit. Especially useful, if you want to add some versioning parameter to your URLs.                                                                                                                                                                                                                                                                                                                                            |
-| signed                  | Optional. Boolean. Default is `false`. If set to `true`, the SDK generates a signed image URL adding the image signature to the image URL. This can only be used if you are creating the URL with the `url_endpoint` and `path` parameters, and not with the `src` parameter.                                                                                                                                                                                                                                                                                                             |
-| expire_seconds          | Optional. Integer. Meant to be used along with the `signed` parameter to specify the time in seconds from now when the URL should expire. If specified, the URL contains the expiry timestamp in the URL and the image signature is modified accordingly.                                                                                                                                                                                                                                                                                                                                 |
+| path                    | Conditional. This is the path at which the image exists. For example, `/path/to/image.jpg`. Either the `path` or `src` parameter needs to be specified for URL generation.                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| src                     | Conditional. This is the complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Either the `path` or `src` parameter needs to be specified for URL generation.                                                                                                                                                                                                                                                                                                                                            |
+| transformation          | Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name and the value should be specified as a key-value pair in the object. Different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations) can be specified as different objects of the array. The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it gets applied as it is in the URL. |
+| transformation_position | Optional. The default value is `path` that places the transformation string as a path parameter in the URL. It can also be specified as `query`, which adds the transformation string as the query parameter `tr` in the URL. If you use the `src` parameter to create the URL, then the transformation string is always added as a query parameter.                                                                                                                                                                                                                                                  |
+| query_parameters        | Optional. These are the other query parameters that you want to add to the final URL. These can be any query parameters and not necessarily related to ImageKit. Especially useful if you want to add some versioning parameter to your URLs.                                                                                                                                                                                                                                                                                                                                            |
+| signed                  | Optional. Boolean. Default is `false`. If set to `true`, the SDK generates a signed image URL adding the image signature to the image URL. This can only be used if you are creating the URL with the `url_endpoint` and `path` parameters and not with the `src` parameter.                                                                                                                                                                                                                                                                                                             |
+| expire_seconds          | Optional. Integer. Meant to be used along with the `signed` parameter to specify the time in seconds from now when the URL should expire. If specified, the URL contains the expiry timestamp in the URL, and the image signature is modified accordingly.                                                                                                                                                                                                                                                                                                                                 |
 
 
 ## Examples of generating URLs
@@ -135,8 +127,7 @@ https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cw-
 
 There are some transforms like [Sharpening](https://docs.imagekit.io/features/image-transformations/image-enhancement-and-color-manipulation)
 that can be added to the URL with or without any other value. To use such transforms without specifying a value, specify
-the value as "-" in the transformation object, otherwise, specify the value that you want to be
-added to this transformation.
+the value as "-" in the transformation object. Otherwise, specify the value that you want to be added to this transformation.
 
 
 ```python
@@ -181,54 +172,68 @@ https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400/default-image.jpg?v=123&i
 **List of transformations**
 
 The complete list of transformations supported and their usage in ImageKit can be found [here](https://docs.imagekit.io/features/image-transformations/resize-crop-and-other-transformations).
-The SDK gives a name to each transformation parameter, making the code simpler, making the code simpler and readable.
+The SDK gives a name to each transformation parameter, making the code simpler, making the code simpler, and readable.
 If a transformation is supported in ImageKit, but a name for it cannot be found in the table below, then use the
-transformation code from ImageKit docs as the name when using in the ```url``` function.
+transformation code from ImageKit docs as the name when using the `url` function.
 
 | Supported Transformation Name | Translates to parameter |
 | ----------------------------- | ----------------------- |
-| height                        | h                       |
-| width                         | w                       |
-| aspect_ratio                  | ar                      |
-| quality                       | q                       |
-| crop                          | c                       |
-| crop_mode                     | cm                      |
-| x                             | x                       |
-| y                             | y                       |
-| focus                         | fo                      |
-| format                        | f                       |
-| radius                        | r                       |
-| background                    | bg                      |
-| border                        | bo                      |
-| rotation                      | rt                      |
-| blur                          | bl                      |
-| named                         | n                       |
-| overlay_image                 | oi                      |
-| overlay_x                     | ox                      |
-| overlay_y                     | oy                      |
-| overlay_focus                 | ofo                     |
-| overlay_height                | oh                      |
-| overlay_width                 | ow                      |
-| overlay_text                  | ot                      |
-| overlay_text_font_size        | ots                     |
-| overlay_text_font_family      | otf                     |
-| overlay_text_color            | otc                     |
-| overlay_alpha                 | oa                      |
-| overlay_text_typography       | ott                     |
-| overlay_background            | obg                     |
-| overlay_image_trim            | oit                     |
-| progressive                   | pr                      |
-| lossless                      | lo                      |
-| trim                          | t                       |
-| metadata                      | md                      |
-| color_profile                 | cp                      |
-| default_image                 | di                      |
-| dpr                           | dpr                     |
-| effect_sharpen                | e-sharpen               |
-| effect_usm                    | e-usm                   |
-| effect_contrast               | e-contrast              |
-| effect_gray                   | e-grayscale             |
-| original                      | orig                    |
+| height |  h|
+| width |  w|
+| aspect_ratio |  ar|
+| quality |  q|
+| crop |  c|
+| crop_mode |  cm|
+| x |  x|
+| y |  y|
+| focus |  fo|
+| format |  f|
+| radius |  r|
+| background |  bg|
+| border |  b|
+| rotation |  rt|
+| blur |  bl|
+| named |  n|
+| overlay_image |  oi|
+| overlay_image_aspect_ratio |  oiar|
+| overlay_image_background |  oibg|
+| overlay_image_border |  oib|
+| overlay_image_dpr |  oidpr|
+| overlay_image_quality |  oiq|
+| overlay_image_cropping |  oic|
+| overlay_image_trim |  oit|
+| overlay_x |  ox|
+| overlay_y |  oy|
+| overlay_focus |  ofo|
+| overlay_height |  oh|
+| overlay_width |  ow|
+| overlay_text |  ot|
+| overlay_text_font_size |  ots|
+| overlay_text_font_family |  otf|
+| overlay_text_color |  otc|
+| overlay_text_transparency |  oa|
+| overlay_alpha |  oa|
+| overlay_text_typography |  ott|
+| overlay_background |  obg|
+| overlay_image_trim |  oit|
+| overlay_text_encoded |  ote|
+| overlay_text_width |  otw|
+| overlay_text_background |  otbg|
+| overlay_text_padding |  otp|
+| overlay_text_inner_alignment |  otia|
+| overlay_radius |  or|
+| progressive |  pr|
+| lossless |  lo|
+| trim |  t|
+| metadata |  md|
+| color_profile |  cp|
+| default_image |  di|
+| dpr |  dpr|
+| effect_sharpen |  e-sharpen|
+| effect_usm |  e-usm|
+| effect_contrast |  e-contrast|
+| effect_gray |  e-grayscale|
+| original |  orig|
 
 ## File Upload
 
@@ -254,19 +259,18 @@ imagekit.upload_file(
 
 ```
 
-If the upload succeed, `error` will be `null` and the `result` will be the same as what is received from ImageKit's servers.
-If the upload fails, `error` will be the same as what is received from ImageKit's servers and the `result` will be null. Learn more from the sample app in this repository.
+If the upload succeeds, `error` will be `null,` and the `result` will be the same as what is received from ImageKit's servers.
+If the upload fails, `error` will be the same as what is received from ImageKit's servers, and the `result` will be null. Learn more from the sample app in this repository.
 
 ## File Management
 
 The SDK provides a simple interface for all the [media APIs mentioned here](https://docs.imagekit.io/api-reference/media-api)
-to manage your files. This also returns `error` and `result`, error will be `None` if API succeeds.
+to manage your files. This also returns `error` and `result`. The error will be `None` if API succeeds.
 
 **1. List & Search Files**
 
 Accepts an object specifying the parameters to be used to list and search files. All parameters specified
-in the [documentation here](https://docs.imagekit.io/api-reference/media-api/list-and-search-files#list-and-search-file-api) can be passed as is with the
-correct values to get the results.
+in the [documentation here](https://docs.imagekit.io/api-reference/media-api/list-and-search-files#list-and-search-file-api) can be passed as it is with the correct values to get the results.
 
 ```python
 imagekit.list_files({
@@ -297,7 +301,7 @@ imagekit.get_remote_file_url_metadata(remote_file_url)
 
 **4. Update File Details**
 Update parameters associated with the file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/update-file-details).
-The first argument to the `update_field_details` method is the file ID and the second argument is an object with the
+The first argument to the `update_field_details` method is the file ID, and a second argument is an object with the
 parameters to be updated.
 
 ```python
@@ -316,15 +320,14 @@ imagekit.delete_file(file_id)
 ```
 
 **6. Bulk File Delete by IDs**
-Delete a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-files-bulk). The method accepts list of file IDs of  files that has to be
-deleted.
+Delete a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-files-bulk). The method accepts list of file IDs of files that has to be deleted.
 
 ```python
 imagekit.bulk_file_delete(["file_id1", "file_id2"])
 ```
 
 **6. Purge Cache**
-Programmatically issue a cache clear request as clear request as pet the [API documentation here](https://docs.imagekit.io/api-reference/media-api/purge-cache).
+Programmatically issue a cache clear request as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/purge-cache).
 Accepts the full URL of the file for which the cache has to be cleared.
 ```python
 imagekit.purge_file_cache(full_url)
@@ -341,16 +344,15 @@ imagekit.get_purge_file_cache_status(cache_request_id)
 
 ## Utility functions
 
-We have included following commonly used utility functions in this package.
+We have included the following commonly used utility functions in this package.
 
 **Authentication parameter generation**
 
 In case you are looking to implement client-side file upload, you are going to need a token, expiry timestamp
-and a valid signature for that upload. The SDK provides a simple method that you can use in your code to generate these
+, and a valid signature for that upload. The SDK provides a simple method that you can use in your code to generate these
 authentication parameters for you.
 
-<em>Note: The Private API Key should never be exposed in any client-side code. You must always generate these authentication
- parameters on the server-side</em>
+<em>Note: The Private API Key should never be exposed in any client-side code. You must always generate these authentications parameters on the server-side</em>
 
 authentication
 
@@ -365,19 +367,16 @@ Returns
 }
 ```
 
-Both the `token` and `expire` parameters are optional. If not specified the SDK uses the uuid to generate a random
-token and also generates a valid expiry timestamp internally. The value of the token and expire used to generate the
-signature are always returned in the response, no matter if they are provided as an input to this method or not.
+Both the `token` and `expire` parameters are optional. If not specified, the SDK uses the UUID to generate a random token and also generates a valid expiry timestamp internally. The value of the token and expire used to generate the signature are always returned in the response, no matter if they are provided as an input to this method or not.
 
 **Distance calculation between two pHash values**
 
-Perceptual hashing allows you to constructing a has value that uniquely identifies an input image based on the contents
+Perceptual hashing allows you to construct a has value that uniquely identifies an input image based on the contents
 of an image. [imagekit.io metadata API](https://docs.imagekit.io/api-reference/metadata-api) returns the pHash
-value of an image in the response. You can use this value to find duplicate, near duplicate(similar) image by calculating
-distance between the two images.
+value of an image in the response. You can use this value to [find a duplicate or similar image](https://docs.imagekit.io/api-reference/metadata-api#using-phash-to-find-similar-or-duplicate-images) by calculating the distance between the two images.
 
 
-This SDK exposes phash_distance function to calculate distance between two pHash value. It accepts two pHash hexadecimal
+This SDK exposes phash_distance function to calculate the distance between two pHash value. It accepts two pHash hexadecimal
 strings and returns a numeric value indicative of the level of difference between the two images.
 
 ```python
@@ -406,12 +405,12 @@ imagekit.phash_distance('a4a65595ac94518b', '7838873e791f8400')
 ```
 
 ### Sample Code Instruction
-To run `sample` code go to sample directory and run
+To run `sample` code go to the sample directory and run
 ```python
 python sample.py
 ```
 ## Support
-For any feedback or to report any issues or general implementation support please reach out to [support@imagekit.io]()
+For any feedback or to report any issues or general implementation support, please reach out to [support@imagekit.io]()
 
 
 ## Links

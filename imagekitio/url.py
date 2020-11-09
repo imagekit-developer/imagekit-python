@@ -178,11 +178,17 @@ class Url:
                 if transformation[i][key] == "-":
                     parsed_transform_step.append(transform_key)
                 else:
+                    value = transformation[i][key]
+                    if isinstance(value, bool):
+                        value = str(value).lower()
+                    if transform_key == "oi"  or transform_key == "di":
+                        value = value.strip("/")
+                        value = value.replace("/","@@")
                     parsed_transform_step.append(
                         "{}{}{}".format(
                             transform_key,
                             Default.TRANSFORM_KEY_VALUE_DELIMITER.value,
-                            transformation[i][key],
+                            value,
                         )
                     )
 
