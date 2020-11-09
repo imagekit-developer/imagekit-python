@@ -192,7 +192,20 @@ class TestGenerateURL(unittest.TestCase):
         }
 
         url = self.client.url(options)
-        self.assertIn("ik-s", url)
+        self.assertIn(Default.SIGNATURE_PARAMETER.value, url)
+
+    def test_generate_url_signed_without_expiry_does_not_have_timestamp_parameter(self):
+        """
+        Check query params does not contain timestamp parameter if expire_seconds isn't specified.
+        """
+        options = {
+            "path": "/test-signed-url.jpg",
+            "signed": True,
+            "transformation": [{"width": 100}],
+        }
+
+        url = self.client.url(options)
+        self.assertNotIn(Default.TIMESTAMP_PARAMETER.value, url)
 
     def test_url_with_new_transformation_returns_as_it_is(self):
         options = {
@@ -369,6 +382,23 @@ class TestGenerateURL(unittest.TestCase):
         }
         url = self.client.url(options)
         self.assertIn("ik-t", url)
+
+    def test_generate_url_with_path_and_src_uses_path(self):
+        """
+        In case when both path and src fields are provided, the `path` should be preferred
+        """
+        options = {
+            "path": "/default-image.jpg",
+            "src": "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg",
+            "transformation": [{"height": "300", "width": "400"}],
+        }
+        url = self.client.url(options)
+        self.assertEqual(
+            url,
+            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?ik-sdk-version={}".format(
+                Default.SDK_VERSION.value
+            ),
+        )
 
     def test_get_signature_with_100_expire_seconds(self):
         url = "https://test-domain.com/test-endpoint/tr:w-100/test-signed-url.png"
