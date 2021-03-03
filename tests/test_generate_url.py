@@ -488,3 +488,34 @@ class TestGenerateURL(unittest.TestCase):
         signature = self.client.url_obj.get_signature(
             "private_key_test", url, "https://test-domain.com/test-endpoint", 0)
         self.assertEqual(signature, "41b3075c40bc84147eb71b8b49ae7fbf349d0f00")
+
+
+    def test_generate_url_without_transforms(self):
+        options = {
+            "path": "/coffee.jpg",
+            "signed": False,
+            "expire_seconds": 10
+        }
+
+        url = self.client.url(options)
+        self.assertEqual(
+            url,
+            "https://test-domain.com/test-endpoint/coffee.jpg?ik-sdk-version={}".format(
+                Default.SDK_VERSION.value
+            ),
+        )
+
+    def test_generate_url_without_transforms_src(self):
+        options = {
+            "src": "https://test-domain.com/test-endpoint/coffee.jpg",
+            "signed": False,
+            "expire_seconds": 10
+        }
+
+        url = self.client.url(options)
+        self.assertEqual(
+            url,
+            "https://test-domain.com/test-endpoint/coffee.jpg?ik-sdk-version={}".format(
+                Default.SDK_VERSION.value
+            ),
+        )
