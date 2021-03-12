@@ -46,7 +46,7 @@ class Url:
 
         # if path is present then it is given priority over src parameter
         if path:
-            if transformation_position == "path":
+            if transformation_position == "path" and len(transformation_str) != 0:
                 temp_url = "{}/{}:{}/{}".format(
                     url_endpoint,
                     Default.TRANSFORMATION_PARAMETER.value,
@@ -67,7 +67,7 @@ class Url:
 
         query_params = dict(parse_qsl(url_object.query))
         query_params.update(options.get("query_parameters", {}))
-        if transformation_position == Default.QUERY_TRANSFORMATION_POSITION.value:
+        if transformation_position == Default.QUERY_TRANSFORMATION_POSITION.value and len(transformation_str) != 0:
             query_params.update({Default.TRANSFORMATION_PARAMETER.value: transformation_str})
         query_params.update({Default.SDK_VERSION_PARAMETER.value: Default.SDK_VERSION.value})
 
