@@ -21,7 +21,7 @@ def hamming_distance(first: str, second: str) -> int:
 
 
 def get_authenticated_params(token, expire, private_key):
-    default_expire = int(dt.now().strftime("%s")) + DEFAULT_TIME_DIFF
+    default_expire = int(dt.now().timestamp()) + DEFAULT_TIME_DIFF
     token = token or str(uuid.uuid4())
     expire = expire or default_expire
     auth_params = {"token": token, "expire": expire, "signature": ""}

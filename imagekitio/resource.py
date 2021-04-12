@@ -87,6 +87,6 @@ class ImageKitRequest(object):
 
         if not seconds:
             return Default.DEFAULT_TIMESTAMP.value
-        current_timestamp = int(dt.now().strftime("%s"))
+        current_timestamp = int(dt.now().timestamp())
 
         return current_timestamp + seconds
