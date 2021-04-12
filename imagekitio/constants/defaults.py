@@ -10,7 +10,7 @@ class Default(enum.Enum):
     ]
     DEFAULT_TIMESTAMP = 9999999999
     SDK_VERSION_PARAMETER = "ik-sdk-version"
-    SDK_VERSION = "python-2.2.6"
+    SDK_VERSION = "python-2.2.7"
     TRANSFORMATION_PARAMETER = "tr"
     CHAIN_TRANSFORM_DELIMITER = ":"
     TRANSFORM_DELIMITER = ","

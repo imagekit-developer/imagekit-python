@@ -8,6 +8,8 @@
 
 ImageKit Python SDK allows you to use [image resizing](https://docs.imagekit.io/features/image-transformations), [optimization](https://docs.imagekit.io/features/image-optimization), [file uploading](https://docs.imagekit.io/api-reference/upload-file-api) and other [ImageKit APIs](https://docs.imagekit.io/api-reference/api-introduction) from applications written in the Python language.
 
+Supported Python Versions: >=3.6
+
 Table of contents -
  * [Installation](#Installation)
  * [Initialization](#Initialization)
