@@ -21,12 +21,12 @@ class Url:
     def __init__(self, request_obj):
         self.request = request_obj
 
-    def generate_url(self, options: Dict = None) -> str:
+    def generate_url(self, options: Dict = None, show_sdk_version: bool = True) -> str:
         options = camel_dict_to_snake_dict(options)
         extended_options = self.request.extend_url_options(options)
         return self.build_url(extended_options)
 
-    def build_url(self, options: dict) -> str:
+    def build_url(self, options: dict, show_sdk_version: bool = True) -> str:
         """
         builds url for from all options,
         """
@@ -69,7 +69,8 @@ class Url:
         query_params.update(options.get("query_parameters", {}))
         if transformation_position == Default.QUERY_TRANSFORMATION_POSITION.value and len(transformation_str) != 0:
             query_params.update({Default.TRANSFORMATION_PARAMETER.value: transformation_str})
-        query_params.update({Default.SDK_VERSION_PARAMETER.value: Default.SDK_VERSION.value})
+        if show_sdk_version:
+            query_params.update({Default.SDK_VERSION_PARAMETER.value: Default.SDK_VERSION.value})
 
         # Update query params in the url
         url_object = url_object._replace(query=urlencode(query_params))
