@@ -10,6 +10,10 @@ from .utils.formatter import (
     snake_to_lower_camel,
 )
 
+try:
+    from simplejson.errors import JSONDecodeError
+except ImportError:
+    from json import JSONDecodeError
 
 class File(object):
     def __init__(self, request_obj):
@@ -47,7 +51,10 @@ class File(object):
         )
 
         if resp.status_code > 200:
-            error = resp.json()
+            try:
+                error = resp.json()
+            except JSONDecodeError:
+                error = resp.text
             response = None
         else:
             error = None

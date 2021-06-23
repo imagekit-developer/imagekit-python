@@ -15,6 +15,7 @@ from tests.dummy_data.file import (
 from tests.helpers import (
     ClientTestCase,
     get_mocked_failed_resp,
+    get_mocked_failed_resp_text,
     get_mocked_success_resp,
 )
 from imagekitio.utils.formatter import request_formatter
@@ -172,6 +173,27 @@ class TestUpload(ClientTestCase):
         )
         self.assertRaises(TypeError, self.client.upload_file, file_name=self.filename)
         self.assertRaises(TypeError, self.client.upload_file, file=self.image)
+
+    def test_upload_file_fails_without_json_response_from_server(self) -> None:
+        """Test upload raises error on non json response
+        """
+        self.client.ik_request.request = MagicMock(
+            return_value=get_mocked_failed_resp_text()
+        )
+        resp = self.client.upload(
+            file=self.image,
+            file_name="fileabc",
+            options={
+                "is_private_file": True,
+                "tags": ["abc"],
+                "response_fields": ["is_private_file", "tags"],
+                "custom_coordinates": "10,10,100,100",
+                "use_unique_file_name": True,
+                "folder": "abc"
+            }
+        )
+        self.assertIsNotNone(resp["error"])
+        self.assertIsNone(resp["response"])
 
 
 class TestListFiles(ClientTestCase):
