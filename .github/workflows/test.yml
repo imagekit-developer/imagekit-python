@@ -19,3 +19,5 @@ jobs:
               run: pip install -r requirements/test.txt
             - name: Run Tox
               run: tox -e py
+            - name: Upload Coverage to codecov
+              run: bash <(curl -s https://codecov.io/bash)
