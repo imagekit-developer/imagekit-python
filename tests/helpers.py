@@ -6,6 +6,10 @@ from requests import Response
 
 from imagekitio.client import ImageKit
 from tests.dummy_data.file import AUTHENTICATION_ERR_MSG, SUCCESS_GENERIC_RESP
+try:
+    from simplejson.errors import JSONDecodeError
+except ImportError:
+    from json import JSONDecodeError
 
 
 class ClientTestCase(unittest.TestCase):
@@ -38,6 +42,16 @@ def get_mocked_failed_resp(message=None, status=401):
         mocked_resp.json.return_value = AUTHENTICATION_ERR_MSG
     else:
         mocked_resp.json.return_value = message
+    return mocked_resp
+
+
+def get_mocked_failed_resp_text():
+    """GET failed mocked response returned as text not json
+    """
+    mocked_resp = Mock(spec=Response)
+    mocked_resp.status_code = 502
+    mocked_resp.text = 'Bad Gateway'
+    mocked_resp.json.side_effect = JSONDecodeError("Expecting value: ", "Bad Gateway", 0)
     return mocked_resp
 
 

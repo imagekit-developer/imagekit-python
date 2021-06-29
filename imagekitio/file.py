@@ -1,4 +1,4 @@
-import json
+from json import dumps
 from typing import Any, Dict
 
 from .constants.errors import ERRORS
@@ -10,6 +10,10 @@ from .utils.formatter import (
     snake_to_lower_camel,
 )
 
+try:
+    from simplejson.errors import JSONDecodeError
+except ImportError:
+    from json import JSONDecodeError
 
 class File(object):
     def __init__(self, request_obj):
@@ -47,7 +51,10 @@ class File(object):
         )
 
         if resp.status_code > 200:
-            error = resp.json()
+            try:
+                error = resp.json()
+            except JSONDecodeError:
+                error = resp.text
             response = None
         else:
             error = None
@@ -107,7 +114,7 @@ class File(object):
         url = "{}/{}/details/".format(URL.BASE_URL.value, file_id)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
-        data = json.dumps(request_formatter(options))
+        data = dumps(request_formatter(options))
         resp = self.request.request(method="Patch", url=url, headers=headers, data=data)
         if resp.status_code > 200:
             error = resp.json()
@@ -171,7 +178,7 @@ class File(object):
         headers.update(self.request.get_auth_headers())
         body = {"url": file_url}
         resp = self.request.request(
-            "Post", headers=headers, url=url, data=json.dumps(body)
+            "Post", headers=headers, url=url, data=dumps(body)
         )
         formatted_resp = camel_dict_to_snake_dict(resp.json())
         if resp.status_code > 204:
