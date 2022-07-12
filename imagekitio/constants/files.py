@@ -19,5 +19,11 @@ VALID_UPLOAD_OPTIONS = [
     "is_private_file",
     "custom_coordinates",
     "response_fields",
-    "metadata",
+    "extensions",
+    "webhook_url",
+    "overwrite_file",
+    "overwrite_a_i_tags",
+    "overwrite_tags",
+    "overwrite_custom_metadata",
+    "custom_metadata",
 ]

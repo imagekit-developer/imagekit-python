@@ -9,6 +9,9 @@ from .utils.formatter import (
     request_formatter,
     snake_to_lower_camel,
 )
+from .utils.utils import (
+    general_api_throw_exception
+)
 
 try:
     from simplejson.errors import JSONDecodeError
@@ -50,16 +53,13 @@ class File(object):
             "Post", url=url, files=files, data=options, headers=headers
         )
 
-        if resp.status_code > 200:
-            try:
-                error = resp.json()
-            except JSONDecodeError:
-                error = resp.text
-            response = None
-        else:
+        if resp.status_code == 200:
             error = None
             response = resp.json()
-        response = {"error": error, "response": response}
+        else:
+            general_api_throw_exception(resp)
+        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
+        response = {"error": error, "response": response, "responseMetaData": response_metadata}
         return response
 
     def list(self, options: dict) -> Dict:
@@ -282,7 +282,7 @@ class File(object):
                     options[key] = ",".join(response_list)
                 continue
             if isinstance(val, list):
-                val = ",".join(val)
+                val = ",".join([str(i) for i in val])
                 if val:
                     options[key] = val
                 continue
