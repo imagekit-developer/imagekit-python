@@ -248,6 +248,8 @@ The `upload_file()` method requires at least the `file` and the `file_name` para
 Simple usage
 
 ```python
+import json
+
 imagekit.upload_file(
     file= "<url|base_64|binary>", # required
     file_name= "my_file_name.jpg", # required
@@ -257,13 +259,28 @@ imagekit.upload_file(
         "is_private_file": False,
         "use_unique_file_name": True,
         "response_fields": ["is_private_file", "tags"],
+            "extensions": json.dumps(
+            ({"name": "remove-bg","options": {"add_shadow": True,"bg_color": "pink"}},
+            {"name": "google-auto-tagging","minConfidence": 80,"maxTags": 10})
+            ),
+            "webhook_url": "url",
+            "overwrite_file": True,
+            "overwrite_a_i_tags": False,
+            "overwrite_tags": False,
+            "overwrite_custom_metadata": True,
+            "custom_metadata": json.dumps({"test": 10}),
     }
 )
 
 ```
 
 If the upload succeeds, `error` will be `null,` and the `result` will be the same as what is received from ImageKit's servers.
-If the upload fails, `error` will be the same as what is received from ImageKit's servers, and the `result` will be null. Learn more from the sample app in this repository.
+
+If the upload fails, the custom exception will be thrown with
+- `response_help` for any kind of help
+- `response_metadata` json with `raw`, `httpStatusCode` and `headers`
+- `message` can be called to get the error message received from ImageKit's servers.
+
 
 ## File Management
 

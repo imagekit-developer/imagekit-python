@@ -2,9 +2,13 @@ import base64
 import json
 import os
 from unittest.mock import MagicMock
+import requests.models
 
+import imagekitio
 from imagekitio.client import ImageKit
 from imagekitio.constants.url import URL
+from imagekitio.exceptions.InternalServerException import InternalServerException
+from imagekitio.exceptions.UnauthorizedException import UnauthorizedException
 from tests.dummy_data.file import (
     FAILED_DELETE_RESP,
     SUCCESS_DETAIL_MSG,
@@ -18,6 +22,9 @@ from tests.helpers import (
     get_mocked_failed_resp_text,
     get_mocked_success_resp,
 )
+
+from unittest import TestCase, main, mock
+
 from imagekitio.utils.formatter import request_formatter
 
 
@@ -26,7 +33,7 @@ imagekit_obj = ImageKit(
 )
 
 
-class TestUpload(ClientTestCase):
+class TestUpload(TestCase):
     """
     TestUpload class used to test upload method
     """
@@ -42,12 +49,15 @@ class TestUpload(ClientTestCase):
 
         """
 
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        resp = self.client.upload(file=self.image, file_name=self.filename)
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
+        try:
+            self.client.ik_request.request = MagicMock(
+                return_value=get_mocked_failed_resp()
+            )
+            self.client.upload(file=self.image, file_name=self.filename)
+            self.assertRaises(UnauthorizedException)
+        except UnauthorizedException as e:
+            self.assertEqual(e.message, "Your account cannot be authenticated.")
+            self.assertEqual(e.response_metadata['httpStatusCode'], 401)
 
     def test_binary_upload_succeeds(self):
         """
@@ -61,6 +71,26 @@ class TestUpload(ClientTestCase):
         resp = self.client.upload(file=file, file_name=self.filename)
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
+
+    @mock.patch("requests.models.Response")
+    def test_binary_upload_succeeds_new(self, mock_post):
+        """
+        Tests if  upload succeeds
+        """
+        my_mock_response = mock.Mock(status_code=200)
+        my_mock_response.json.return_value = {  # 4
+            "result": [
+                {
+                    "name": "James Bond",
+                    "is_on_mission": True
+                }
+            ]
+        }
+        mock_post.return_value = my_mock_response
+        file = open(self.image, "rb")
+        file.close()
+        resp =  (file=file, file_name=self.filename)
+        print("resp:==>", resp)
 
     def test_base64_upload_succeeds(self):
         """
@@ -107,10 +137,10 @@ class TestUpload(ClientTestCase):
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
         self.client.ik_request.request.assert_called_once_with(
-            "Post", 
+            "Post",
             url=URL.UPLOAD_URL.value,
             files={
-                'file': (None, self.image), 
+                'file': (None, self.image),
                 'fileName': (None, self.filename)
                 },
             data={},
@@ -144,6 +174,7 @@ class TestUpload(ClientTestCase):
             }
         )
         self.assertIsNone(resp["error"])
+        print("resp:-->", resp["response"])
         self.assertIsNotNone(resp["response"])
 
     def test_all_params_being_passed_on_upload(self) -> None:
@@ -177,23 +208,25 @@ class TestUpload(ClientTestCase):
     def test_upload_file_fails_without_json_response_from_server(self) -> None:
         """Test upload raises error on non json response
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp_text()
-        )
-        resp = self.client.upload(
-            file=self.image,
-            file_name="fileabc",
-            options={
-                "is_private_file": True,
-                "tags": ["abc"],
-                "response_fields": ["is_private_file", "tags"],
-                "custom_coordinates": "10,10,100,100",
-                "use_unique_file_name": True,
-                "folder": "abc"
-            }
-        )
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
+        try:
+            self.client.ik_request.request = MagicMock(
+                return_value=get_mocked_failed_resp_text()
+            )
+            self.client.upload(
+                file=self.image,
+                file_name="fileabc",
+                options={
+                    "is_private_file": True,
+                    "tags": ["abc"],
+                    "response_fields": ["is_private_file", "tags"],
+                    "custom_coordinates": "10,10,100,100",
+                    "use_unique_file_name": True,
+                    "folder": "abc"
+                }
+            )
+            self.assertRaises(InternalServerException)
+        except InternalServerException as e:
+            self.assertEqual(502, e.response_metadata['httpStatusCode'])
 
 
 class TestListFiles(ClientTestCase):
@@ -624,7 +657,7 @@ class TestUpdateFileDetails(ClientTestCase):
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
         self.client.ik_request.request.assert_called_once_with(
-            method="Patch", 
+            method="Patch",
             url="{}/{}/details/".format(URL.BASE_URL.value, self.file_id),
             headers={'Content-Type': 'application/json', 'Authorization': "Basic {}".format(encoded_private_key)},
             data=json.dumps(request_formatter(self.valid_options))

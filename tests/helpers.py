@@ -38,6 +38,7 @@ def get_mocked_failed_resp(message=None, status=401):
     """
     mocked_resp = Mock(spec=Response)
     mocked_resp.status_code = status
+    mocked_resp.headers = "headers"
     if not message:
         mocked_resp.json.return_value = AUTHENTICATION_ERR_MSG
     else:
@@ -51,6 +52,7 @@ def get_mocked_failed_resp_text():
     mocked_resp = Mock(spec=Response)
     mocked_resp.status_code = 502
     mocked_resp.text = 'Bad Gateway'
+    mocked_resp.headers = 'headers'
     mocked_resp.json.side_effect = JSONDecodeError("Expecting value: ", "Bad Gateway", 0)
     return mocked_resp
 
@@ -60,6 +62,7 @@ def get_mocked_success_resp(message: dict = None, status: int = 200):
     """
     mocked_resp = Mock(spec=Response)
     mocked_resp.status_code = status
+    mocked_resp.headers = "headers"
     if not message:
         mocked_resp.json.return_value = SUCCESS_GENERIC_RESP
     else:

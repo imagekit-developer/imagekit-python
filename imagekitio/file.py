@@ -33,6 +33,8 @@ class File(object):
             raise TypeError(ERRORS.MISSING_UPLOAD_FILE_PARAMETER.value)
         if not file_name:
             raise TypeError(ERRORS.MISSING_UPLOAD_FILENAME_PARAMETER.value)
+
+        # url = "%s%s" % (URL.UPLOAD_BASE_URL.value, "api/v1/files/upload")
         url = URL.UPLOAD_URL.value
         headers = self.request.create_headers()
 
