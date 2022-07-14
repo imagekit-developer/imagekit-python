@@ -2,9 +2,7 @@ import base64
 import json
 import os
 from unittest.mock import MagicMock
-import requests.models
 
-import imagekitio
 from imagekitio.client import ImageKit
 from imagekitio.constants.url import URL
 from imagekitio.exceptions.InternalServerException import InternalServerException
@@ -23,8 +21,6 @@ from tests.helpers import (
     get_mocked_success_resp,
 )
 
-from unittest import TestCase, main, mock
-
 from imagekitio.utils.formatter import request_formatter
 
 
@@ -33,7 +29,7 @@ imagekit_obj = ImageKit(
 )
 
 
-class TestUpload(TestCase):
+class TestUpload(ClientTestCase):
     """
     TestUpload class used to test upload method
     """
@@ -71,26 +67,6 @@ class TestUpload(TestCase):
         resp = self.client.upload(file=file, file_name=self.filename)
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
-
-    @mock.patch("requests.models.Response")
-    def test_binary_upload_succeeds_new(self, mock_post):
-        """
-        Tests if  upload succeeds
-        """
-        my_mock_response = mock.Mock(status_code=200)
-        my_mock_response.json.return_value = {  # 4
-            "result": [
-                {
-                    "name": "James Bond",
-                    "is_on_mission": True
-                }
-            ]
-        }
-        mock_post.return_value = my_mock_response
-        file = open(self.image, "rb")
-        file.close()
-        resp =  (file=file, file_name=self.filename)
-        print("resp:==>", resp)
 
     def test_base64_upload_succeeds(self):
         """
