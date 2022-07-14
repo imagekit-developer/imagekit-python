@@ -1,11 +1,13 @@
 VALID_FILE_OPTIONS = [
+    "type",
+    "sort",
     "path",
+    "searchQuery",
     "fileType",
-    "tags",
-    "includeFolder",
-    "name",
     "limit",
     "skip",
+    "tags",
+    "includeFolder",
 ]
 
 VALID_FILE_DETAIL_OPTIONS = ["fileID"]

@@ -74,3 +74,7 @@ class ERRORS(enum.Enum):
         "message": "Unequal pHash string length",
         help: "For distance calculation, the two pHash strings must have equal length",
     }
+    VERSION_ID_MISSING = {
+        "message": "Missing Version ID parameter for this request",
+        help: "",
+    }

@@ -1,5 +1,5 @@
-import base64
 import sys
+import json
 
 sys.path.append("..")
 
@@ -18,225 +18,256 @@ if __name__ == "__main__":
     )
 
     ### The signed url generated for this file doesn't work using the Python SDK
-    upload = imagekit.upload_file(
-            file=open("sample.jpg", "rb"),
-            file_name="testing_upload_binary_signed_private.jpg",
-            options={
-                "response_fields": ["is_private_file", "tags"],
-                "is_private_file": False,
-                "folder" : "/testing-python-folder/",
-                "tags": ["abc", "def"]
-            },
-        )
-    
-    print("-------------------------------------")
-    print("Upload with binary")
-    print("-------------------------------------")
-    print(upload, end="\n\n")
 
-    image_url = imagekit.url(
-        {
-            "path": upload['response']['filePath'],
-            "query_parameters": {"v": "123"},
-            "transformation": [{"height": "300", "width": "400"}],
-            "signed": True,
-            "expire_seconds": 3000,
-        }
-    )
+    # upload = imagekit.upload_file(
+    #     file=open("sample.jpg", "rb"),
+    #     file_name="testing_upload_binary_signed_private.jpg",
+    #     options={
+    #         "response_fields": ["is_private_file", "tags"],
+    #         "is_private_file": False,
+    #         "folder": "/testing-python-folder/",
+    #         "tags": ["abc", "def"],
+    #         "extensions": json.dumps(
+    #         ({"name": "remove-bg","options": {"add_shadow": True,"bg_color": "pink"}},
+    #         {"name": "google-auto-tagging","minConfidence": 80,"maxTags": 10})
+    #         ),
+    #         "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+    #         "overwrite_file": True,
+    #         "overwrite_a_i_tags": False,
+    #         "overwrite_tags": False,
+    #         "overwrite_custom_metadata": True,
+    #         "custom_metadata": json.dumps({"testss": 10})
+    #     },
+    # )
+    #
+    # print("-------------------------------------")
+    # print("Upload with binary")
+    # print("-------------------------------------")
+    # print(upload, end="\n\n")
+    # print(upload, end="\n\n")
 
-    print("-------------------------------------")
-    print("Signed url")
-    print("-------------------------------------")
-    print(image_url, end="\n\n")
-
+    # image_url = imagekit.url(
+    #     {
+    #         "path": upload['response']['filePath'],
+    #         "query_parameters": {"v": "123"},
+    #         "transformation": [{"overlay_image": "/demo1/new_car.jpg", "default_image": "/demo1/default-image.jpg"}],
+    #         "signed": True,
+    #         "expire_seconds": 3000,
+    #     }
+    # )
+    #
+    # print("-------------------------------------")
+    # print("Signed url")
+    # print("-------------------------------------")
+    # print(image_url, end="\n\n")
 
     # URL generation using image path and image hostname
-    image_url = imagekit.url(
-        {
-            "path": "default-image.jpg",
-            "url_endpoint": url_endpoint,
-            "transformation": [{"height": "300", "width": "400"}],
-        }
-    )
+    # image_url = imagekit.url(
+    #     {
+    #         "path": "default-image.jpg",
+    #         "url_endpoint": url_endpoint,
+    #         "transformation": [{"height": "300", "width": "400"}],
+    #     }
+    # )
+    #
+    # print("-------------------------------------")
+    # print("Url using image path")
+    # print("-------------------------------------")
+    # print(image_url, end="\n\n")
+    #
+    # # 2 Using full image URL
+    # image_url = imagekit.url(
+    #     {
+    #         "src": url_endpoint.rstrip("/") + "/default-image.jpg",
+    #         "transformation": [{"height": "300", "width": "400"}],
+    #     }
+    # )
+    #
+    # print("-------------------------------------")
+    # print("Url using src")
+    # print("-------------------------------------")
+    # print(image_url, end="\n\n")
+    #
+    # image_url = imagekit.url(
+    #     {
+    #         "path": "/default-image.jpg",
+    #         "url_endpoint": "https://www.example.com",
+    #         "transformation": [{"height": "300", "width": "400"}, {"rotation": 90}],
+    #         "transformation_position": "query",
+    #     }
+    # )
+    #
+    # print("-------------------------------------")
+    # print("Chained transformation")
+    # print("-------------------------------------")
+    # print(image_url, end="\n\n")
+    #
+    # image_url = imagekit.url(
+    #     {
+    #         "src": url_endpoint.rstrip("/") + "/default-image.jpg",
+    #         "transformation": [
+    #             {
+    #                 "format": "jpg",
+    #                 "progressive": "true",
+    #                 "effect_sharpen": "-",
+    #                 "effect_contrast": "1",
+    #             }
+    #         ],
+    #     }
+    # )
+    #
+    # print("-------------------------------------")
+    # print("Sharpening and contrast transformation")
+    # print("-------------------------------------")
+    # print(image_url, end="\n\n")
+    #
+    list_files = imagekit.list_files({"type": "file", "sort": "ASC_CREATED", "path": "/",
+                                      "searchQuery": "createdAt >= '2d' OR size < '2mb' OR format='png'",
+                                      "fileType": "all", "limit": 5, "skip": 0,
+                                      "tags": "Software, Developer, Engineer"})
+    # bulk_ids = [
+    #     list_files["response"][3]["fileId"],
+    #     list_files["response"][4]["fileId"],
+    # ]
+    #
+    # print("-------------------------------------")
+    # print("List files")
+    # print("-------------------------------------")
+    # print(list_files, end="\n\n")
+    #
+    # upload = imagekit.upload_file(
+    #     file=open("sample.jpg", "rb"),
+    #     file_name="testing-binary.jpg",
+    #     options={
+    #         "response_fields": ["is_private_file", "tags"],
+    #         "tags": ["abc", "def"],
+    #         "use_unique_file_name": False,
+    #     },
+    # )
+    #
+    # print("-------------------------------------")
+    # print("Upload with binary")
+    # print("-------------------------------------")
+    # print(upload, end="\n\n")
+    #
+    # file_id = upload["response"]["fileId"]
+    #
+    # upload = imagekit.upload_file(
+    #     file=url,
+    #     file_name="testing-url.jpg",
+    #     options={
+    #         "response_fields": ["is_private_file"],
+    #         "is_private_file": False,
+    #         "tags": ["abc", "def"],
+    #     },
+    # )
+    # image_url = upload["response"]["url"]
+    #
+    # print("-------------------------------------")
+    # print("Upload with url")
+    # print("-------------------------------------")
+    # print(upload, end="\n\n")
+    #
+    # with open("sample.jpg", mode="rb") as img:
+    #     imgstr = base64.b64encode(img.read())
+    #
+    # upload_base64 = imagekit.upload_file(
+    #     file=imgstr,
+    #     file_name="testing-base64.jpg",
+    #     options={
+    #         "response_fields": ["is_private_file", "metadata", "tags"],
+    #         "is_private_file": False,
+    #         "tags": ["abc", "def"],
+    #     },
+    # )
+    #
+    #
+    # print("-------------------------------------")
+    # print("Upload with base64")
+    # print("-------------------------------------")
+    # print(upload_base64, end="\n\n")
+    #
+    # updated_detail = imagekit.update_file_details(
+    #     "62cfd39819ca454d82a07182",
+    #     {"remove_a_i_tags": ['Shoe', 'Female'],
+    #      "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+    #      "extensions": [{"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "red"}},
+    #           {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10}],
+    #      "tags": ["abc", "def"], "custom_coordinates": "10,10,100,100", "custom_metadata": {"test11": 11}},
+    # )
+    #
+    # print("-------------------------------------")
+    # print("Update file details")
+    # print("-------------------------------------")
+    # print(updated_detail, end="\n\n")
+    #
+    # details = imagekit.get_file_details(list_files["response"][0]["fileId"])
+    # print("-------------------------------------")
+    # print("Get file details")
+    # print("-------------------------------------")
+    # print(details, end="\n\n")
 
-    print("-------------------------------------")
-    print("Url using image path")
-    print("-------------------------------------")
-    print(image_url, end="\n\n")
+    # file_versions = imagekit.get_file_versions(list_files["response"][0]["fileId"])
+    # print("-------------------------------------")
+    # print("Get file versions")
+    # print("-------------------------------------")
+    # print(file_versions, end="\n\n")
 
-    # 2 Using full image URL
-    image_url = imagekit.url(
-        {
-            "src": url_endpoint.rstrip("/") + "/default-image.jpg",
-            "transformation": [{"height": "300", "width": "400"}],
-        }
-    )
+    # file_versions_details = imagekit.get_file_version_details(list_files["response"][0]["fileId"], list_files["response"][0]['versionInfo']['id'])
+    # print("-------------------------------------")
+    # print("Get file version details")
+    # print("-------------------------------------")
+    # print(file_versions_details, end="\n\n")
 
-    print("-------------------------------------")
-    print("Url using src")
-    print("-------------------------------------")
-    print(image_url, end="\n\n")
-
-    image_url = imagekit.url(
-        {
-            "path": "/default-image.jpg",
-            "url_endpoint": "https://www.example.com",
-            "transformation": [{"height": "300", "width": "400"}, {"rotation": 90}],
-            "transformation_position": "query",
-        }
-    )
-
-    print("-------------------------------------")
-    print("Chained transformation")
-    print("-------------------------------------")
-    print(image_url, end="\n\n")
-
-    image_url = imagekit.url(
-        {
-            "src": url_endpoint.rstrip("/") + "/default-image.jpg",
-            "transformation": [
-                {
-                    "format": "jpg",
-                    "progressive": "true",
-                    "effect_sharpen": "-",
-                    "effect_contrast": "1",
-                }
-            ],
-        }
-    )
-
-    print("-------------------------------------")
-    print("Sharpening and contrast transformation")
-    print("-------------------------------------")
-    print(image_url, end="\n\n")
-
-    list_files = imagekit.list_files({"skip": 0, "limit": 5})
-    bulk_ids = [
-        list_files["response"][3]["fileId"],
-        list_files["response"][4]["fileId"],
-    ]
-
-    print("-------------------------------------")
-    print("List files")
-    print("-------------------------------------")
-    print(list_files, end="\n\n")
-
-    upload = imagekit.upload_file(
-        file=open("sample.jpg", "rb"),
-        file_name="testing-binary.jpg",
-        options={
-            "response_fields": ["is_private_file", "tags"],
-            "tags": ["abc", "def"],
-            "use_unique_file_name": False,
-        },
-    )
-    
-    print("-------------------------------------")
-    print("Upload with binary")
-    print("-------------------------------------")
-    print(upload, end="\n\n")
-    
-    file_id = upload["response"]["fileId"]
-
-    upload = imagekit.upload_file(
-        file=url,
-        file_name="testing-url.jpg",
-        options={
-            "response_fields": ["is_private_file"],
-            "is_private_file": False,
-            "tags": ["abc", "def"],
-        },
-    )
-    image_url = upload["response"]["url"]
-
-    print("-------------------------------------")
-    print("Upload with url")
-    print("-------------------------------------")
-    print(upload, end="\n\n")
-
-    with open("sample.jpg", mode="rb") as img:
-        imgstr = base64.b64encode(img.read())
-
-    upload_base64 = imagekit.upload_file(
-        file=imgstr,
-        file_name="testing-base64.jpg",
-        options={
-            "response_fields": ["is_private_file", "metadata", "tags"],
-            "is_private_file": False,
-            "tags": ["abc", "def"],
-        },
-    )
-
-
-    print("-------------------------------------")
-    print("Upload with base64")
-    print("-------------------------------------")
-    print(upload_base64, end="\n\n")
-
-    updated_detail = imagekit.update_file_details(
-        list_files["response"][0]["fileId"],
-        {"tags": None, "custom_coordinates": "10,10,100,100"},
-    )
-
-    print("-------------------------------------")
-    print("Update file details")
-    print("-------------------------------------")
-    print(updated_detail, end="\n\n")
-
-    details = imagekit.get_file_details(list_files["response"][0]["fileId"])
-    print("-------------------------------------")
-    print("Get file details")
-    print("-------------------------------------")
-    print(details, end="\n\n")
-
-    file_metadata = imagekit.get_file_metadata(list_files["response"][0]["fileId"])
-    print("-------------------------------------")
-    print("File metadata")
-    print("-------------------------------------")
-    print(file_metadata, end="\n\n")
-
-    
-    delete = imagekit.delete_file(list_files["response"][1]["fileId"])
-    print("-------------------------------------")
-    print("Delete file")
-    print("-------------------------------------")
-    print(delete, end="\n\n")
-
-    
-    purge_cache = imagekit.purge_file_cache(file_url=image_url)
-    print("-------------------------------------")
-    print("Purge cache")
-    print("-------------------------------------")
-    print(purge_cache, end="\n\n")
-
-    request_id = purge_cache["response"]["request_id"]
-    purge_cache_status = imagekit.get_purge_file_cache_status(request_id)
-
-    print("-------------------------------------")
-    print("Cache status")
-    print("-------------------------------------")
-    print(purge_cache_status, end="\n\n")
-
-    auth_params = imagekit.get_authentication_parameters()
-    print("-------------------------------------")
-    print("Auth params")
-    print("-------------------------------------")
-    print(auth_params, end="\n\n")
-
-    print("-------------------------------------")
-    print("Phash distance")
-    print("-------------------------------------")
-    print(imagekit.phash_distance("f06830ca9f1e3e90", "f06830ca9f1e3e90"), end="\n\n")
-
-    
-
-    print("-------------------------------------")
-    print("Bulk file delete")
-    print("-------------------------------------")
-    print(imagekit.bulk_file_delete(bulk_ids), end="\n\n")
-
-    remote_file_url = upload["response"]["url"]
-    print("-------------------------------------")
-    print("Get metatdata via url")
-    print("-------------------------------------")
-    print(imagekit.get_remote_file_url_metadata(remote_file_url))
+    #
+    # file_metadata = imagekit.get_file_metadata(list_files["response"][0]["fileId"])
+    # print("-------------------------------------")
+    # print("File metadata")
+    # print("-------------------------------------")
+    # print(file_metadata, end="\n\n")
+    #
+    #
+    # delete = imagekit.delete_file(list_files["response"][1]["fileId"])
+    # print("-------------------------------------")
+    # print("Delete file")
+    # print("-------------------------------------")
+    # print(delete, end="\n\n")
+    #
+    #
+    # purge_cache = imagekit.purge_file_cache(file_url=image_url)
+    # print("-------------------------------------")
+    # print("Purge cache")
+    # print("-------------------------------------")
+    # print(purge_cache, end="\n\n")
+    #
+    # request_id = purge_cache["response"]["request_id"]
+    # purge_cache_status = imagekit.get_purge_file_cache_status(request_id)
+    #
+    # print("-------------------------------------")
+    # print("Cache status")
+    # print("-------------------------------------")
+    # print(purge_cache_status, end="\n\n")
+    #
+    # auth_params = imagekit.get_authentication_parameters()
+    # print("-------------------------------------")
+    # print("Auth params")
+    # print("-------------------------------------")
+    # print(auth_params, end="\n\n")
+    #
+    # print("-------------------------------------")
+    # print("Phash distance")
+    # print("-------------------------------------")
+    # print(imagekit.phash_distance("f06830ca9f1e3e90", "f06830ca9f1e3e90"), end="\n\n")
+    #
+    #
+    #
+    # print("-------------------------------------")
+    # print("Bulk file delete")
+    # print("-------------------------------------")
+    # print(imagekit.bulk_file_delete(bulk_ids), end="\n\n")
+    #
+    # remote_file_url = upload["response"]["url"]
+    # print("-------------------------------------")
+    # print("Get metatdata via url")
+    # print("-------------------------------------")
+    # print(imagekit.get_remote_file_url_metadata(remote_file_url))

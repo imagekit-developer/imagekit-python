@@ -7,6 +7,7 @@ from imagekitio.client import ImageKit
 from imagekitio.constants.url import URL
 from imagekitio.exceptions.InternalServerException import InternalServerException
 from imagekitio.exceptions.UnauthorizedException import UnauthorizedException
+from imagekitio.utils.formatter import request_formatter
 from tests.dummy_data.file import (
     FAILED_DELETE_RESP,
     SUCCESS_DETAIL_MSG,
@@ -20,9 +21,6 @@ from tests.helpers import (
     get_mocked_failed_resp_text,
     get_mocked_success_resp,
 )
-
-from imagekitio.utils.formatter import request_formatter
-
 
 imagekit_obj = ImageKit(
     private_key="private_fake:", public_key="public_fake123:", url_endpoint="fake.com",
@@ -118,11 +116,10 @@ class TestUpload(ClientTestCase):
             files={
                 'file': (None, self.image),
                 'fileName': (None, self.filename)
-                },
+            },
             data={},
             headers={'Accept-Encoding': 'gzip, deflate', 'Authorization': "Basic {}".format(encoded_private_key)}
         )
-
 
     def test_upload_fails_without_file_or_file_name(self) -> None:
         """Test upload raises error on missing required params
@@ -354,7 +351,8 @@ class TestDeleteFile(ClientTestCase):
         this function tests if bulk_file_delete working properly
         """
         self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp({"error": None, "response": {'successfullyDeletedFileIds': ['5e785a03ed03082733b979ec', '5e787c4427dd2a6c2fc564a5']}})
+            return_value=get_mocked_success_resp({"error": None, "response": {
+                'successfullyDeletedFileIds': ['5e785a03ed03082733b979ec', '5e787c4427dd2a6c2fc564a5']}})
         )
         resp = self.client.bulk_file_delete(self.bulk_delete_ids)
 

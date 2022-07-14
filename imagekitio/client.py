@@ -47,6 +47,16 @@ class ImageKit(object):
         """
         return self.file.details(file_identifier)
 
+    def get_file_versions(self, file_identifier: str = None) -> Dict:
+        """Get file_version by file_id or file_url
+        """
+        return self.file.get_file_versions(file_identifier)
+
+    def get_file_version_details(self, file_identifier: str = None, version_identifier: str = None) -> Dict:
+        """Get file_version by file_id or file_url
+        """
+        return self.file.get_file_version_details(file_identifier, version_identifier)
+
     def update_file_details(self, file_id: str, options: dict = None) -> Dict:
         """Update file detail by file id and options
         """

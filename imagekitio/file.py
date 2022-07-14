@@ -4,13 +4,14 @@ from typing import Any, Dict
 from .constants.errors import ERRORS
 from .constants.files import VALID_FILE_OPTIONS, VALID_UPLOAD_OPTIONS
 from .constants.url import URL
+from .exceptions.NotFoundException import NotFoundException
 from .utils.formatter import (
     camel_dict_to_snake_dict,
     request_formatter,
     snake_to_lower_camel,
 )
 from .utils.utils import (
-    general_api_throw_exception
+    general_api_throw_exception, get_response_json, populate_response_metadata
 )
 
 try:
@@ -34,7 +35,6 @@ class File(object):
         if not file_name:
             raise TypeError(ERRORS.MISSING_UPLOAD_FILENAME_PARAMETER.value)
 
-        # url = "%s%s" % (URL.UPLOAD_BASE_URL.value, "api/v1/files/upload")
         url = URL.UPLOAD_URL.value
         headers = self.request.create_headers()
 
@@ -79,13 +79,13 @@ class File(object):
         resp = self.request.request(
             method="GET", url=url, headers=headers, params=options
         )
-        if resp.status_code > 200:
-            error = resp.json()
-            response = None
-        else:
+        if resp.status_code == 200:
             error = None
             response = resp.json()
-        response = {"error": error, "response": response}
+        else:
+            general_api_throw_exception(resp)
+        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
+        response = {"error": error, "response": response, "responseMetaData": response_metadata}
         return response
 
     def details(self, file_identifier: str = None) -> Dict:
@@ -97,13 +97,63 @@ class File(object):
         resp = self.request.request(
             method="GET", url=url, headers=self.request.create_headers(),
         )
-        if resp.status_code > 200:
-            error = resp.json()
-            response = None
-        else:
+        if resp.status_code == 200:
             error = None
             response = resp.json()
-        response = {"error": error, "response": response}
+        else:
+            general_api_throw_exception(resp)
+        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
+        response = {"error": error, "response": response, "responseMetaData": response_metadata}
+        return response
+
+    def get_file_versions(self, file_identifier: str = None) -> Dict:
+        """returns file detail
+        """
+        if not file_identifier:
+            raise TypeError(ERRORS.FILE_ID_MISSING.value)
+        url = "{}/{}/versions".format(URL.BASE_URL.value, file_identifier)
+        resp = self.request.request(
+            method="GET", url=url, headers=self.request.create_headers(),
+        )
+        if resp.status_code == 200:
+            error = None
+            response = resp.json()
+        elif resp.status_code == 404:
+            response_json = get_response_json(resp)
+            response_meta_data = populate_response_metadata(resp)
+            error_message = response_json['message'] if type(response_json) == dict else ""
+            response_help = response_json['help'] if type(response_json) == dict else ""
+            raise NotFoundException(error_message, response_help, response_meta_data)
+        else:
+            general_api_throw_exception(resp)
+        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
+        response = {"error": error, "response": response, "responseMetaData": response_metadata}
+        return response
+
+    def get_file_version_details(self, file_identifier: str = None, version_identifier: str = None) -> Dict:
+        """returns file detail
+        """
+        if not file_identifier:
+            raise TypeError(ERRORS.FILE_ID_MISSING.value)
+        if not version_identifier:
+            raise TypeError(ERRORS.VERSION_ID_MISSING.value)
+        url = "{}/{}/versions/{}".format(URL.BASE_URL.value, file_identifier, version_identifier)
+        resp = self.request.request(
+            method="GET", url=url, headers=self.request.create_headers(),
+        )
+        if resp.status_code == 200:
+            error = None
+            response = resp.json()
+        elif resp.status_code == 404:
+            response_json = get_response_json(resp)
+            response_meta_data = populate_response_metadata(resp)
+            error_message = response_json['message'] if type(response_json) == dict else ""
+            response_help = response_json['help'] if type(response_json) == dict else ""
+            raise NotFoundException(error_message, response_help, response_meta_data)
+        else:
+            general_api_throw_exception(resp)
+        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
+        response = {"error": error, "response": response, "responseMetaData": response_metadata}
         return response
 
     def update_file_details(self, file_id: str, options: dict):
@@ -118,13 +168,13 @@ class File(object):
         headers.update(self.request.get_auth_headers())
         data = dumps(request_formatter(options))
         resp = self.request.request(method="Patch", url=url, headers=headers, data=data)
-        if resp.status_code > 200:
-            error = resp.json()
-            response = None
-        else:
+        if resp.status_code == 200:
             error = None
             response = resp.json()
-        response = {"error": error, "response": response}
+        else:
+            general_api_throw_exception(resp)
+        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
+        response = {"error": error, "response": response, "responseMetaData": response_metadata}
         return response
 
     def delete(self, file_id: str = None) -> Dict:

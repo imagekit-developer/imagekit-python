@@ -22,6 +22,7 @@ SUPPORTED_TRANS = {
     "overlay_image_dpr": "oidpr",
     "overlay_image_quality": "oiq",
     "overlay_image_cropping": "oic",
+    "overlay_image_focus": "oifo",
     "overlay_image_trim": "oit",
     "overlay_x": "ox",
     "overlay_y": "oy",
@@ -36,7 +37,6 @@ SUPPORTED_TRANS = {
     "overlay_alpha": "oa",
     "overlay_text_typography": "ott",
     "overlay_background": "obg",
-    "overlay_image_trim": "oit",
     "overlay_text_encoded": "ote",
     "overlay_text_width": "otw",
     "overlay_text_background": "otbg",
@@ -55,4 +55,5 @@ SUPPORTED_TRANS = {
     "effect_contrast": "e-contrast",
     "effect_gray": "e-grayscale",
     "original": "orig",
+    "raw": "raw",
 }
