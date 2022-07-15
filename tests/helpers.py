@@ -57,14 +57,21 @@ def get_mocked_failed_resp_text():
     return mocked_resp
 
 
-def get_mocked_success_resp(message: dict = None, status: int = 200):
+def get_mocked_success_resp(message: dict = None, status: int = 200, resp: dict = None):
     """GET success mocked response customize by parameter
     """
     mocked_resp = Mock(spec=Response)
     mocked_resp.status_code = status
     mocked_resp.headers = "headers"
-    if not message:
-        mocked_resp.json.return_value = SUCCESS_GENERIC_RESP
-    else:
+    if message and resp:
+        response = {}
+        response.update(message)
+        response.update(resp)
+        mocked_resp.json.return_value = response
+    elif message:
         mocked_resp.json.return_value = message
+    elif resp:
+        mocked_resp.json.return_value = resp
+    else:
+        mocked_resp.json.return_value = SUCCESS_GENERIC_RESP
     return mocked_resp

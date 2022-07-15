@@ -57,14 +57,33 @@ class TestUpload(ClientTestCase):
         """
         Tests if  upload succeeds
         """
+        mock_resp = {'response': {'fileId': '62d10d28c87a666d6911957e',
+                                                 'name': 'testing_upload_binary_signed_private_PhPHiy12P.jpg',
+                                                 'size': 102117,
+                                                 'versionInfo': {'id': '62d10d28c87a666d6911957e', 'name': 'Version 1'},
+                                                 'filePath': '/testing-python-folder/testing_upload_binary_signed_private_PhPHiy12P.jpg',
+                                                 'url': 'https://ik.imagekit.io/zv3rkhsym/testing-python-folder/testing_upload_binary_signed_private_PhPHiy12P.jpg',
+                                                 'fileType': 'image', 'height': 700, 'width': 1050,
+                                                 'thumbnailUrl': 'https://ik.imagekit.io/zv3rkhsym/tr:n-ik_ml_thumbnail/testing-python-folder/testing_upload_binary_signed_private_PhPHiy12P.jpg',
+                                                 'tags': ['abc', 'def'], 'AITags': None, 'isPrivateFile': False},
+                     'responseMetaData': {'httpStatusCode': 200, 'headers': {'access-control-allow-origin': '*',
+                                                                             'x-ik-requestid': 'ed6290e6-623e-4a1e-be8a-e16c7dd573a5',
+                                                                             'content-type': 'application/json; charset=utf-8',
+                                                                             'content-length': '625',
+                                                                             'etag': 'W/"271-mFk7B7J6PDR56Lc0R887bPnbz18"',
+                                                                             'date': 'Fri, 15 Jul 2022 06:46:01 GMT',
+                                                                             'x-request-id': 'ed6290e6-623e-4a1e-be8a-e16c7dd573a5'}}}
+
         self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
+            return_value=get_mocked_success_resp({}, 200, mock_resp)
         )
         file = open(self.image, "rb")
         file.close()
         resp = self.client.upload(file=file, file_name=self.filename)
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
+        print("here:==>", self.client.ik_request.request.__eq__(mock_resp))
+        # self.assertEqual()
 
     def test_base64_upload_succeeds(self):
         """

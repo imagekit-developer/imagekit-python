@@ -1,3 +1,8 @@
+import base64
+import functools
+import io
+import json
+from ast import literal_eval
 from json import dumps
 from typing import Any, Dict
 
@@ -54,7 +59,9 @@ class File(object):
         resp = self.request.request(
             "Post", url=url, files=files, data=options, headers=headers
         )
-
+        he = resp.request.body
+        str_he = he.decode('UTF-8', "ignore")
+        print("he:===>", str_he)
         if resp.status_code == 200:
             error = None
             response = resp.json()
