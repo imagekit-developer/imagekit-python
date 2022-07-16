@@ -107,6 +107,11 @@ class File(object):
         )
         if resp.status_code == 200:
             error = None
+            response_metadata = {'response_metadata': {}}
+            response_metadata['response_metadata']['httpStatusCode'] = resp.status_code
+            response_metadata['response_metadata']['headers'] = resp.headers
+            response_with_metadata = dict(resp.json())
+            response_with_metadata.update(response_metadata)
             res_new = json.loads(json.dumps(camel_dict_to_snake_dict(resp.json())))
             u = UploadResult(**res_new)
             response = {"error": error, "response": u.__str__()}
