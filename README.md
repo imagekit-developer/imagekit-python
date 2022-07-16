@@ -18,6 +18,7 @@ Table of contents -
  * [File Upload](#File-Upload)
  * [File Management](#File-Management)
  * [Utility Functions](#Utility-functions)
+ * [Handling errors](#handling-errors)
  * [Support](#Support)
  * [Links](#Links)
 
@@ -299,14 +300,49 @@ imagekit.list_files({"type": "file", "sort": "ASC_CREATED", "path": "/",
                       "fileType": "all", "limit": 5, "skip": 0,
                       "tags": "Software, Developer, Engineer"})
 ```
+
 **2. Get File Details**
+
 Accepts the file ID and fetches the details as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/get-file-details)
 
 ```python
-imagekit.get_file_details(file_id)
+imagekit.get_file_details("file_id")    # fileId required
+```
+
+**3. Get File Versions**
+
+Accepts the file ID and fetches the details as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/get-file-versions)
+
+```python
+imagekit.get_file_versions("file_id")   # fileId required
+```
+
+**4. Get File Version details**
+
+Accepts the file ID and version ID and fetches the details as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/get-file-version-details)
+
+```python
+imagekit.get_file_version_details("file_id"         # required
+                                  , "version_id")   # required
+```
+
+**4. Update File Details**
+
+Accepts all the parameters as per the [API documentation here](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload).  The first argument to the updateFileDetails method is the file ID, and the second argument is an object with the parameters to be updated.
+
+```python
+imagekit.update_file_details(
+        "62cfd39819ca454d82a07182",                 # required
+        {"remove_a_i_tags": ['Shoe', 'Female'],
+         "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+         "extensions": [{"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "red"}},
+              {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10}],
+         "tags": ["abc", "def"], "custom_coordinates": "10,10,100,100", "custom_metadata": {"test11": 11}},
+    )
 ```
 
 **3. Get File Metadata**
+
 Accepts the file ID and fetches the metadata as per the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api/get-image-metadata-for-uploaded-media-files)
 ```python
 imagekit.get_file_metadata(file_id)
@@ -314,6 +350,7 @@ imagekit.get_file_metadata(file_id)
 
 
 **3. Get File Metadata from remote url**
+
 Accepts the remote file url and fetches the metadata as per the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api/get-image-metadata-from-remote-url)
 
 ```python
@@ -321,6 +358,7 @@ imagekit.get_remote_file_url_metadata(remote_file_url)
 ```
 
 **4. Update File Details**
+
 Update parameters associated with the file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/update-file-details).
 The first argument to the `update_field_details` method is the file ID, and a second argument is an object with the
 parameters to be updated.
@@ -333,6 +371,7 @@ imagekit.update_file_details("file_id", {
 ```
 
 **6. Delete File**
+
 Delete a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-file). The method accepts the file ID of the file that has to be
 deleted.
 
@@ -341,6 +380,7 @@ imagekit.delete_file(file_id)
 ```
 
 **6. Bulk File Delete by IDs**
+
 Delete a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-files-bulk). The method accepts list of file IDs of files that has to be deleted.
 
 ```python
@@ -348,6 +388,7 @@ imagekit.bulk_file_delete(["file_id1", "file_id2"])
 ```
 
 **6. Purge Cache**
+
 Programmatically issue a cache clear request as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/purge-cache).
 Accepts the full URL of the file for which the cache has to be cleared.
 ```python
@@ -430,6 +471,27 @@ To run `sample` code go to the sample directory and run
 ```python
 python sample.py
 ```
+
+## Handling errors
+
+Catch and respond to invalid data, internal problems, and more.
+
+Imagekit Python SDK raise exceptions for many reasons, such as not found, invalid parameters, authentication errors, and internal server error. We recommend writing code that gracefully handles all possible API exceptions.
+
+#### Example:
+
+```python
+try:
+    # Use ImageKit's SDK to make requests...
+except BadRequestException as e:
+    print("Status is: " + e.getResponseMetaData().getHttpStatusCode());
+    print("Message is: " + e.getMessage());
+    print("Headers are: " + e.getResponseMetaData().getHeaders());
+    print("Raw body is: " + e.getResponseMetaData().getRaw());
+    print("Mapped body is: " + e.getResponseMetaData().getMap());
+
+```
+
 ## Support
 For any feedback or to report any issues or general implementation support, please reach out to [support@imagekit.io]()
 

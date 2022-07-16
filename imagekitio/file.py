@@ -3,6 +3,7 @@ import functools
 import io
 import json
 from ast import literal_eval
+from .results.upload_result import UploadResult
 from json import dumps
 from typing import Any, Dict
 
@@ -106,12 +107,12 @@ class File(object):
         )
         if resp.status_code == 200:
             error = None
-            response = resp.json()
+            res_new = json.loads(json.dumps(camel_dict_to_snake_dict(resp.json())))
+            u = UploadResult(**res_new)
+            response = {"error": error, "response": u.__str__()}
+            return response
         else:
             general_api_throw_exception(resp)
-        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
-        response = {"error": error, "response": response, "responseMetaData": response_metadata}
-        return response
 
     def get_file_versions(self, file_identifier: str = None) -> Dict:
         """returns file detail
