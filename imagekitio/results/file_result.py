@@ -1,7 +1,8 @@
+class FileResult:
 
-class UploadResult:
-
-    def __init__(self, type, name, created_at, updated_at, file_id, tags, ai_tags, version_info, embedded_metadata, custom_coordinates, custom_metadata, is_private_file, url, thumbnail, file_type, file_path, height, width, size, has_alpha, mime):
+    def __init__(self, type, name, created_at, updated_at, file_id, tags, ai_tags, version_info, embedded_metadata,
+                 custom_coordinates, custom_metadata, is_private_file, url, thumbnail, file_type, file_path, height,
+                 width, size, has_alpha, mime):
         self.type = type
         self.name = name
         self.created_at = created_at
@@ -23,6 +24,11 @@ class UploadResult:
         self.size = size
         self.has_alpha = has_alpha
         self.mime = mime
+        self._response_metadata = {}
 
     def __str__(self):
-        return str(self.__dict__)
+        return self.__dict__
+
+    @property
+    def response_metadata(self):
+        return self._response_metadata
