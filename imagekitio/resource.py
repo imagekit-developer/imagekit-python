@@ -34,7 +34,6 @@ class ImageKitRequest(object):
         """
         headers = {"Accept-Encoding": "gzip, deflate"}
         headers.update(self.get_auth_headers())
-        headers.update({"Content-Type": "application/json"})
         return headers
 
     def get_auth_headers(self):

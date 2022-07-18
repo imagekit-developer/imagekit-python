@@ -1,8 +1,8 @@
 class FileResult:
 
     def __init__(self, type, name, created_at, updated_at, file_id, tags, ai_tags, version_info, embedded_metadata,
-                 custom_coordinates, custom_metadata, is_private_file, url, thumbnail, file_type, file_path, height,
-                 width, size, has_alpha, mime):
+                 custom_coordinates, custom_metadata, is_private_file, url, thumbnail, file_type, file_path,
+                 height: int = None, width: int = None, size: int = None, has_alpha=False, mime: str = None):
         self.type = type
         self.name = name
         self.created_at = created_at

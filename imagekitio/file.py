@@ -1,9 +1,4 @@
-import base64
-import functools
-import io
 import json
-from ast import literal_eval
-from .results.file_result import FileResult
 from json import dumps
 from typing import Any, Dict
 
@@ -11,6 +6,9 @@ from .constants.errors import ERRORS
 from .constants.files import VALID_FILE_OPTIONS, VALID_UPLOAD_OPTIONS
 from .constants.url import URL
 from .exceptions.NotFoundException import NotFoundException
+from .results.file_result import FileResult
+from .results.get_file_details_result import GetFileDetailsResult
+from .results.list_file_result import ListFileResult
 from .utils.formatter import (
     camel_dict_to_snake_dict,
     request_formatter,
@@ -24,6 +22,7 @@ try:
     from simplejson.errors import JSONDecodeError
 except ImportError:
     from json import JSONDecodeError
+
 
 class File(object):
     def __init__(self, request_obj):
@@ -40,7 +39,6 @@ class File(object):
             raise TypeError(ERRORS.MISSING_UPLOAD_FILE_PARAMETER.value)
         if not file_name:
             raise TypeError(ERRORS.MISSING_UPLOAD_FILENAME_PARAMETER.value)
-
         url = URL.UPLOAD_URL.value
         headers = self.request.create_headers()
 
@@ -57,20 +55,21 @@ class File(object):
             raise ValueError("Invalid upload options")
         if isinstance(file, str) or isinstance(file, bytes):
             files.update({"file": (None, file)})
+
         resp = self.request.request(
             "Post", url=url, files=files, data=options, headers=headers
         )
-        he = resp.request.body
-        str_he = he.decode('UTF-8', "ignore")
-        print("he:===>", str_he)
         if resp.status_code == 200:
             error = None
-            response = resp.json()
+            res_new = json.loads(json.dumps(camel_dict_to_snake_dict(resp.json())))
+            u = GetFileDetailsResult(**res_new)
+            response = {"error": error, "response": u.__str__()}
+            u.response_metadata['raw'] = resp.json()
+            u.response_metadata['httpStatusCode'] = resp.status_code
+            u.response_metadata['headers'] = resp.headers
+            return response
         else:
             general_api_throw_exception(resp)
-        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
-        response = {"error": error, "response": response, "responseMetaData": response_metadata}
-        return response
 
     def list(self, options: dict) -> Dict:
         """Returns list files on ImageKit Server
@@ -89,12 +88,20 @@ class File(object):
         )
         if resp.status_code == 200:
             error = None
-            response = resp.json()
+            response_list = []
+            for item in resp.json():
+                res_new = json.loads(json.dumps(camel_dict_to_snake_dict(item)))
+                u = FileResult(**res_new)
+                response_list.append(u.__str__())
+
+            u = ListFileResult({'list': response_list})
+            response = {"error": error, "response": u.__str__()}
+            u.response_metadata['raw'] = resp.json()
+            u.response_metadata['httpStatusCode'] = resp.status_code
+            u.response_metadata['headers'] = resp.headers
+            return response
         else:
             general_api_throw_exception(resp)
-        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
-        response = {"error": error, "response": response, "responseMetaData": response_metadata}
-        return response
 
     def details(self, file_identifier: str = None) -> Dict:
         """returns file detail
@@ -128,7 +135,13 @@ class File(object):
         )
         if resp.status_code == 200:
             error = None
-            response = resp.json()
+            res_new = json.loads(json.dumps(camel_dict_to_snake_dict(resp.json())))
+            u = FileResult(**res_new)
+            response = {"error": error, "response": u.__str__()}
+            u.response_metadata['raw'] = resp.json()
+            u.response_metadata['httpStatusCode'] = resp.status_code
+            u.response_metadata['headers'] = resp.headers
+            return response
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
@@ -137,9 +150,6 @@ class File(object):
             raise NotFoundException(error_message, response_help, response_meta_data)
         else:
             general_api_throw_exception(resp)
-        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
-        response = {"error": error, "response": response, "responseMetaData": response_metadata}
-        return response
 
     def get_file_version_details(self, file_identifier: str = None, version_identifier: str = None) -> Dict:
         """returns file detail
