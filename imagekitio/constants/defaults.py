@@ -9,7 +9,6 @@ class Default(enum.Enum):
         QUERY_TRANSFORMATION_POSITION,
     ]
     DEFAULT_TIMESTAMP = 9999999999
-    SDK_VERSION_PARAMETER = "ik-sdk-version"
     SDK_VERSION = "python-3.0.0"
     TRANSFORMATION_PARAMETER = "tr"
     CHAIN_TRANSFORM_DELIMITER = ":"

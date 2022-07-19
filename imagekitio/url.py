@@ -69,7 +69,6 @@ class Url:
         query_params.update(options.get("query_parameters", {}))
         if transformation_position == Default.QUERY_TRANSFORMATION_POSITION.value and len(transformation_str) != 0:
             query_params.update({Default.TRANSFORMATION_PARAMETER.value: transformation_str})
-        query_params.update({Default.SDK_VERSION_PARAMETER.value: Default.SDK_VERSION.value})
 
         # Update query params in the url
         url_object = url_object._replace(query=urlencode(query_params))

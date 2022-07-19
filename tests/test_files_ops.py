@@ -1,7 +1,7 @@
 import base64
 import json
 import os
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 from imagekitio.client import ImageKit
 from imagekitio.constants.url import URL
@@ -57,32 +57,204 @@ class TestUpload(ClientTestCase):
         """
         Tests if  upload succeeds
         """
-        mock_resp = {'response': {'fileId': '62d10d28c87a666d6911957e',
-                                                 'name': 'testing_upload_binary_signed_private_PhPHiy12P.jpg',
-                                                 'size': 102117,
-                                                 'versionInfo': {'id': '62d10d28c87a666d6911957e', 'name': 'Version 1'},
-                                                 'filePath': '/testing-python-folder/testing_upload_binary_signed_private_PhPHiy12P.jpg',
-                                                 'url': 'https://ik.imagekit.io/zv3rkhsym/testing-python-folder/testing_upload_binary_signed_private_PhPHiy12P.jpg',
-                                                 'fileType': 'image', 'height': 700, 'width': 1050,
-                                                 'thumbnailUrl': 'https://ik.imagekit.io/zv3rkhsym/tr:n-ik_ml_thumbnail/testing-python-folder/testing_upload_binary_signed_private_PhPHiy12P.jpg',
-                                                 'tags': ['abc', 'def'], 'AITags': None, 'isPrivateFile': False},
-                     'responseMetaData': {'httpStatusCode': 200, 'headers': {'access-control-allow-origin': '*',
-                                                                             'x-ik-requestid': 'ed6290e6-623e-4a1e-be8a-e16c7dd573a5',
-                                                                             'content-type': 'application/json; charset=utf-8',
-                                                                             'content-length': '625',
-                                                                             'etag': 'W/"271-mFk7B7J6PDR56Lc0R887bPnbz18"',
-                                                                             'date': 'Fri, 15 Jul 2022 06:46:01 GMT',
-                                                                             'x-request-id': 'ed6290e6-623e-4a1e-be8a-e16c7dd573a5'}}}
-
+        mock_resp = {
+            "error": "None",
+            "response": {
+                "file_id": "62d670648cdb697522602b45",
+                "name": "testing_upload_binary_signed_private.jpg",
+                "url": "https://ik.imagekit.io/xyxt2lnil/testing-python-folder/testing_upload_binary_signed_private.jpg",
+                "thumbnail_url": "https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/testing-python-folder/testing_upload_binary_signed_private.jpg",
+                "height": 700,
+                "width": 1050,
+                "size": 102117,
+                "file_path": "/testing-python-folder/testing_upload_binary_signed_private.jpg",
+                "tags": [
+                    "abc",
+                    "def"
+                ],
+                "ai_tags": [
+                    {
+                        "name": "Computer",
+                        "confidence": 97.66,
+                        "source": "google-auto-tagging"
+                    },
+                    {
+                        "name": "Personal computer",
+                        "confidence": 94.96,
+                        "source": "google-auto-tagging"
+                    },
+                    {
+                        "name": "Laptop",
+                        "confidence": 94.71,
+                        "source": "google-auto-tagging"
+                    },
+                    {
+                        "name": "Netbook",
+                        "confidence": 93.47,
+                        "source": "google-auto-tagging"
+                    },
+                    {
+                        "name": "Table",
+                        "confidence": 91.82,
+                        "source": "google-auto-tagging"
+                    },
+                    {
+                        "name": "Wood",
+                        "confidence": 87.28,
+                        "source": "google-auto-tagging"
+                    },
+                    {
+                        "name": "Output device",
+                        "confidence": 87.17,
+                        "source": "google-auto-tagging"
+                    },
+                    {
+                        "name": "Office equipment",
+                        "confidence": 83.16,
+                        "source": "google-auto-tagging"
+                    },
+                    {
+                        "name": "Gadget",
+                        "confidence": 81.81,
+                        "source": "google-auto-tagging"
+                    },
+                    {
+                        "name": "Communication Device",
+                        "confidence": 81.38,
+                        "source": "google-auto-tagging"
+                    }
+                ],
+                "version_info": {
+                    "id": "62d670648cdb697522602b45",
+                    "name": "Version 3"
+                },
+                "is_private_file": True,
+                "custom_coordinates": "None",
+                "custom_metadata": "None",
+                "embedded_metadata": "None",
+                "extension_status": {
+                    "remove-bg": "pending",
+                    "google-auto-tagging": "success"
+                },
+                "file_type": "image",
+                "_response_metadata": {
+                    "raw": {
+                        "fileId": "62d670648cdb697522602b45",
+                        "name": "testing_upload_binary_signed_private.jpg",
+                        "size": 102117,
+                        "versionInfo": {
+                            "id": "62d670648cdb697522602b45",
+                            "name": "Version 3"
+                        },
+                        "filePath": "/testing-python-folder/testing_upload_binary_signed_private.jpg",
+                        "url": "https://ik.imagekit.io/xyxt2lnil/testing-python-folder/testing_upload_binary_signed_private.jpg",
+                        "fileType": "image",
+                        "height": 700,
+                        "width": 1050,
+                        "thumbnailUrl": "https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/testing-python-folder/testing_upload_binary_signed_private.jpg",
+                        "tags": [
+                            "abc",
+                            "def"
+                        ],
+                        "AITags": [
+                            {
+                                "name": "Computer",
+                                "confidence": 97.66,
+                                "source": "google-auto-tagging"
+                            },
+                            {
+                                "name": "Personal computer",
+                                "confidence": 94.96,
+                                "source": "google-auto-tagging"
+                            },
+                            {
+                                "name": "Laptop",
+                                "confidence": 94.71,
+                                "source": "google-auto-tagging"
+                            },
+                            {
+                                "name": "Netbook",
+                                "confidence": 93.47,
+                                "source": "google-auto-tagging"
+                            },
+                            {
+                                "name": "Table",
+                                "confidence": 91.82,
+                                "source": "google-auto-tagging"
+                            },
+                            {
+                                "name": "Wood",
+                                "confidence": 87.28,
+                                "source": "google-auto-tagging"
+                            },
+                            {
+                                "name": "Output device",
+                                "confidence": 87.17,
+                                "source": "google-auto-tagging"
+                            },
+                            {
+                                "name": "Office equipment",
+                                "confidence": 83.16,
+                                "source": "google-auto-tagging"
+                            },
+                            {
+                                "name": "Gadget",
+                                "confidence": 81.81,
+                                "source": "google-auto-tagging"
+                            },
+                            {
+                                "name": "Communication Device",
+                                "confidence": 81.38,
+                                "source": "google-auto-tagging"
+                            }
+                        ],
+                        "isPrivateFile": True,
+                        "extensionStatus": {
+                            "remove-bg": "pending",
+                            "google-auto-tagging": "success"
+                        }
+                    },
+                    "httpStatusCode": 200,
+                    "headers": {
+                        "access-control-allow-origin": "*",
+                        "x-ik-requestid": "13833b5b-3a4b-49da-98ad-8b6a5d734abd",
+                        "content-type": "application/json; charset=utf-8",
+                        "content-length": "1377",
+                        "etag": "W/\"561-OKWXYHepSUC8Ymy6NcCajtjq7yo\"",
+                        "date": "Tue, 19 Jul 2022 08:51:13 GMT",
+                        "x-request-id": "13833b5b-3a4b-49da-98ad-8b6a5d734abd"
+                    }
+                }
+            }
+        }
+        with patch("imagekitio.utils.utils.convert_to_response_object") as complex_function_mock:
+            complex_function_mock.return_value = mock_resp
         self.client.ik_request.request = MagicMock(
             return_value=get_mocked_success_resp({}, 200, mock_resp)
         )
         file = open(self.image, "rb")
         file.close()
-        resp = self.client.upload(file=file, file_name=self.filename)
+        resp = self.client.upload(file=file, file_name=self.filename,
+                                  options={
+                                      "use_unique_file_name": 'false',
+                                      "response_fields": ["is_private_file", "tags"],
+                                      "is_private_file": True,
+                                      "folder": "/testing-python-folder/",
+                                      "tags": ["abc", "def"],
+                                      "extensions": json.dumps(
+                                          ({"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
+                                           {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
+                                      ),
+                                      "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+                                      "overwrite_file": True,
+                                      "overwrite_a_i_tags": False,
+                                      "overwrite_tags": False,
+                                      "overwrite_custom_metadata": True,
+                                      "custom_metadata": json.dumps({"test100": 11})
+                                  })
         self.assertIsNone(resp["error"])
         self.assertIsNotNone(resp["response"])
-        print("here:==>", self.client.ik_request.request.__eq__(mock_resp))
+        # print("here:==>", self.client.ik_request.request.__eq__(mock_resp))
         # self.assertEqual()
 
     def test_base64_upload_succeeds(self):

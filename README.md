@@ -70,7 +70,7 @@ imagekit_url = imagekit.url({
 
 The result in a URL like
 ```
-https://ik.imagekit.io/your_imagekit_id/endpoint/tr:h-300,w-400/default-image.jpg
+https://ik.imagekit.io/your_imagekit_id/endpoint/tr:h-300,w-400,raw-ar-4-3,q-40/default-image.jpg
 ```
 
 **2.Using full image URL**

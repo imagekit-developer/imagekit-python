@@ -20,9 +20,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg"
         )
 
     def test_url_contains_ik_sdk_version(self):
@@ -31,12 +29,9 @@ class TestGenerateURL(unittest.TestCase):
             "transformation": [{"height": "300", "width": "400"}],
         }
         url = self.client.url(options)
-        self.assertIn("ik-sdk-version", url)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg"
         )
 
     def test_generate_url_without_leading_slash_in_path(self):
@@ -47,9 +42,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg"
         )
 
     def test_overriding_url_endpoint_generation_consists_new_url(self):
@@ -67,9 +60,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/new/endpoint/tr:h-300,w-400/default-image.jpg?ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://ik.imagekit.io/new/endpoint/tr:h-300,w-400/default-image.jpg"
         )
 
     def test_overriding_url_endpoint_without_slash_generation_consists_new_url(self):
@@ -85,9 +76,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/new/endpoint/tr:h-300,w-400/default-image.jpg?ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://ik.imagekit.io/new/endpoint/tr:h-300,w-400/default-image.jpg"
         )
 
     def test_generate_url_query_parameters(self):
@@ -107,9 +96,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?param1=value1&param2=value2&ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?param1=value1&param2=value2"
         )
 
     def test_generate_url_with_src(self):
@@ -129,9 +116,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90&ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90"
         )
 
     def test_generate_url_with_src_with_query_params_double(self):
@@ -155,9 +140,7 @@ class TestGenerateURL(unittest.TestCase):
         # @TODO - adjust value of param1=value1 in test case but it should be there
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?queryparam1=value1&param1=value1&tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90&ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            )
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?queryparam1=value1&param1=value1&tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90"
         )
 
     def test_generate_url_with_path_and_signed(self):
@@ -219,9 +202,7 @@ class TestGenerateURL(unittest.TestCase):
         self.assertIn("fake_xxxx", url)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cfake_xxxx-400&ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cfake_xxxx-400"
         )
 
     def test_query_url_generation_transformation_as_query_and_transformations_in_url(
@@ -237,9 +218,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300&ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300"
         )
 
     def test_generate_url_with_chained_transformations(self):
@@ -259,9 +238,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90&ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90"
         )
 
     def test_url_check_query_param_are_added_correctly(self):
@@ -272,8 +249,7 @@ class TestGenerateURL(unittest.TestCase):
         }
         url = self.client.url(options)
         self.assertEqual(url,
-                         "https://test-domain.com/test-endpoint/default-image.jpg?client=123&user=5&tr=h-300%2Cw-400&ik-sdk-version={}".format(
-                             Default.SDK_VERSION.value))
+                         "https://test-domain.com/test-endpoint/default-image.jpg?client=123&user=5&tr=h-300%2Cw-400")
 
     def test_generate_url_with_src_query_parameters_merge_correctly(self):
         options = {
@@ -292,9 +268,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?client=123&ab=c&tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90&ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?client=123&ab=c&tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90"
         )
 
     def test_generate_url_with_src_and_transformation_position_path(self):
@@ -315,9 +289,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90&ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90"
         )
 
     def test_url_with_invalid_trans_pos(self):
@@ -337,17 +309,6 @@ class TestGenerateURL(unittest.TestCase):
             "signed": True,
         }
         self.assertEqual(self.client.url(options), "")
-
-    def test_url_contains_sdk_version(self):
-        options = {
-            "path": "/default-image.jpg",
-            "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-            "transformation": [{"height": "300", "width": "400"}],
-            "signed": True,
-            "transformation_position": "query",
-        }
-
-        self.assertIn("ik-sdk-version", self.client.url(options))
 
     def test_url_contains_slash_if_transformation_position_is_path(self):
         options = {
@@ -395,9 +356,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg"
         )
 
     def test_generate_url_with_all_params(self):
@@ -427,7 +386,7 @@ class TestGenerateURL(unittest.TestCase):
                 "overlay_focus": "bottom",
                 "overlay_height": 20,
                 "overlay_width": 20,
-                "overlay_image": "/folder/file.jpg", # leading slash case
+                "overlay_image": "/folder/file.jpg",  # leading slash case
                 "overlay_image_trim": False,
                 "overlay_image_aspect_ratio": "4:3",
                 "overlay_image_background": "0F0F0F",
@@ -453,22 +412,20 @@ class TestGenerateURL(unittest.TestCase):
                 "trim": 5,
                 "metadata": "true",
                 "color_profile": "true",
-                "default_image": "folder/file.jpg/", # trailing slash case
+                "default_image": "folder/file.jpg/",  # trailing slash case
                 "dpr": 3,
                 "effect_sharpen": 10,
                 "effect_usm": "2-2-0.8-0.024",
                 "effect_contrast": "true",
                 "effect_gray": "true",
-                "original": True, ## Boolean handling
+                "original": True,  # Boolean handling
             }]
         }
         url = self.client.url(options)
         print(url)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400,ar-4-3,q-40,c-force,cm-extract,fo-left,f-jpeg,r-50,bg-A94D34,b-5-A94D34,rt-90,bl-10,n-some_name,ox-35,oy-35,ofo-bottom,oh-20,ow-20,oi-folder@@file.jpg,oit-false,oiar-4:3,oibg-0F0F0F,oib-10_0F0F0F,oidpr-2,oiq-50,oic-force,ot-two words,ots-20,otf-Open Sans,otc-00FFFF,oa-5,ott-b,obg-00AAFF55,ote-b3ZlcmxheSBtYWRlIGVhc3k%3D,otw-50,otbg-00AAFF55,otp-40,otia-left,or-10,pr-true,lo-true,t-5,md-true,cp-true,di-folder@@file.jpg,dpr-3,e-sharpen-10,e-usm-2-2-0.8-0.024,e-contrast-true,e-grayscale-true,orig-true/test_path.jpg?ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://test-domain.com/test-endpoint/tr:h-300,w-400,ar-4-3,q-40,c-force,cm-extract,fo-left,f-jpeg,r-50,bg-A94D34,b-5-A94D34,rt-90,bl-10,n-some_name,ox-35,oy-35,ofo-bottom,oh-20,ow-20,oi-folder@@file.jpg,oit-false,oiar-4:3,oibg-0F0F0F,oib-10_0F0F0F,oidpr-2,oiq-50,oic-force,ot-two words,ots-20,otf-Open Sans,otc-00FFFF,oa-5,ott-b,obg-00AAFF55,ote-b3ZlcmxheSBtYWRlIGVhc3k%3D,otw-50,otbg-00AAFF55,otp-40,otia-left,or-10,pr-true,lo-true,t-5,md-true,cp-true,di-folder@@file.jpg,dpr-3,e-sharpen-10,e-usm-2-2-0.8-0.024,e-contrast-true,e-grayscale-true,orig-true/test_path.jpg"
         )
 
     def test_get_signature_with_100_expire_seconds(self):
@@ -489,7 +446,6 @@ class TestGenerateURL(unittest.TestCase):
             "private_key_test", url, "https://test-domain.com/test-endpoint", 0)
         self.assertEqual(signature, "41b3075c40bc84147eb71b8b49ae7fbf349d0f00")
 
-
     def test_generate_url_without_transforms(self):
         options = {
             "path": "/coffee.jpg",
@@ -500,9 +456,7 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/coffee.jpg?ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://test-domain.com/test-endpoint/coffee.jpg"
         )
 
     def test_generate_url_without_transforms_src(self):
@@ -515,7 +469,5 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/coffee.jpg?ik-sdk-version={}".format(
-                Default.SDK_VERSION.value
-            ),
+            "https://test-domain.com/test-endpoint/coffee.jpg"
         )
