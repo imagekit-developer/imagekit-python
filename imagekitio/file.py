@@ -7,7 +7,7 @@ from .constants.files import VALID_FILE_OPTIONS, VALID_UPLOAD_OPTIONS
 from .constants.url import URL
 from .exceptions.NotFoundException import NotFoundException
 from .results.file_result import FileResult
-from .results.get_file_details_result import GetFileDetailsResult
+from .results.upload_file_result import UploadFileResult
 from .results.list_file_result import ListFileResult
 from .utils.formatter import (
     camel_dict_to_snake_dict,
@@ -15,7 +15,8 @@ from .utils.formatter import (
     snake_to_lower_camel,
 )
 from .utils.utils import (
-    general_api_throw_exception, get_response_json, populate_response_metadata
+    general_api_throw_exception, get_response_json, populate_response_metadata, convert_to_response_object,
+    convert_to_list_response_object
 )
 
 try:
@@ -60,13 +61,7 @@ class File(object):
             "Post", url=url, files=files, data=options, headers=headers
         )
         if resp.status_code == 200:
-            error = None
-            res_new = json.loads(json.dumps(camel_dict_to_snake_dict(resp.json())))
-            u = GetFileDetailsResult(**res_new)
-            response = {"error": error, "response": u.__str__()}
-            u.response_metadata['raw'] = resp.json()
-            u.response_metadata['httpStatusCode'] = resp.status_code
-            u.response_metadata['headers'] = resp.headers
+            response = convert_to_response_object(resp, UploadFileResult)
             return response
         else:
             general_api_throw_exception(resp)
@@ -87,18 +82,7 @@ class File(object):
             method="GET", url=url, headers=headers, params=options
         )
         if resp.status_code == 200:
-            error = None
-            response_list = []
-            for item in resp.json():
-                res_new = json.loads(json.dumps(camel_dict_to_snake_dict(item)))
-                u = FileResult(**res_new)
-                response_list.append(u.__str__())
-
-            u = ListFileResult({'list': response_list})
-            response = {"error": error, "response": u.__str__()}
-            u.response_metadata['raw'] = resp.json()
-            u.response_metadata['httpStatusCode'] = resp.status_code
-            u.response_metadata['headers'] = resp.headers
+            response = convert_to_list_response_object(resp, FileResult, ListFileResult)
             return response
         else:
             general_api_throw_exception(resp)
@@ -113,13 +97,7 @@ class File(object):
             method="GET", url=url, headers=self.request.create_headers(),
         )
         if resp.status_code == 200:
-            error = None
-            res_new = json.loads(json.dumps(camel_dict_to_snake_dict(resp.json())))
-            u = FileResult(**res_new)
-            response = {"error": error, "response": u.__str__()}
-            u.response_metadata['raw'] = resp.json()
-            u.response_metadata['httpStatusCode'] = resp.status_code
-            u.response_metadata['headers'] = resp.headers
+            response = convert_to_response_object(resp, FileResult)
             return response
         else:
             general_api_throw_exception(resp)
@@ -134,13 +112,7 @@ class File(object):
             method="GET", url=url, headers=self.request.create_headers(),
         )
         if resp.status_code == 200:
-            error = None
-            res_new = json.loads(json.dumps(camel_dict_to_snake_dict(resp.json())))
-            u = FileResult(**res_new)
-            response = {"error": error, "response": u.__str__()}
-            u.response_metadata['raw'] = resp.json()
-            u.response_metadata['httpStatusCode'] = resp.status_code
-            u.response_metadata['headers'] = resp.headers
+            response = convert_to_list_response_object(resp, FileResult, ListFileResult)
             return response
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
@@ -163,8 +135,8 @@ class File(object):
             method="GET", url=url, headers=self.request.create_headers(),
         )
         if resp.status_code == 200:
-            error = None
-            response = resp.json()
+            response = convert_to_response_object(resp, FileResult)
+            return response
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
@@ -173,9 +145,6 @@ class File(object):
             raise NotFoundException(error_message, response_help, response_meta_data)
         else:
             general_api_throw_exception(resp)
-        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
-        response = {"error": error, "response": response, "responseMetaData": response_metadata}
-        return response
 
     def update_file_details(self, file_id: str, options: dict):
         """Update detail of a file(like tags, coordinates)
@@ -190,13 +159,10 @@ class File(object):
         data = dumps(request_formatter(options))
         resp = self.request.request(method="Patch", url=url, headers=headers, data=data)
         if resp.status_code == 200:
-            error = None
-            response = resp.json()
+            response = convert_to_response_object(resp, FileResult)
+            return response
         else:
             general_api_throw_exception(resp)
-        response_metadata = {"httpStatusCode": resp.status_code, "headers": resp.headers}
-        response = {"error": error, "response": response, "responseMetaData": response_metadata}
-        return response
 
     def delete(self, file_id: str = None) -> Dict:
         """Delete file by file_id

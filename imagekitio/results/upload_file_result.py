@@ -1,4 +1,4 @@
-class GetFileDetailsResult:
+class UploadFileResult:
 
     def __init__(self, file_id, name, url, thumbnail_url, height, width, size, file_path, tags: {} = None,
                  ai_tags: {} = None, version_info: {} = None,

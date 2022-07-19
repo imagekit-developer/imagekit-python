@@ -1,3 +1,5 @@
+import json
+
 import requests.models
 
 from imagekitio.exceptions.BadRequestException import BadRequestException
@@ -8,6 +10,7 @@ from imagekitio.exceptions.PartialSuccessException import PartialSuccessExceptio
 from imagekitio.exceptions.TooManyRequestsException import TooManyRequestsException
 from imagekitio.exceptions.UnauthorizedException import UnauthorizedException
 from imagekitio.exceptions.UnknownException import UnknownException
+from imagekitio.utils.formatter import camel_dict_to_snake_dict
 
 try:
     from simplejson.errors import JSONDecodeError
@@ -59,3 +62,30 @@ def throw_other_exception(response: requests.models.Response):
         raise NotFoundException(error_message, response_help, response_meta_data)
     else:
         raise UnknownException(error_message, response_help, response_meta_data)
+
+
+def convert_to_response_object(resp: requests.models.Response, response_object):
+    error = None
+    res_new = json.loads(json.dumps(camel_dict_to_snake_dict(resp.json())))
+    u = response_object(**res_new)
+    response = {"error": error, "response": u.__str__()}
+    u.response_metadata['raw'] = resp.json()
+    u.response_metadata['httpStatusCode'] = resp.status_code
+    u.response_metadata['headers'] = resp.headers
+    return response
+
+
+def convert_to_list_response_object(resp: requests.models.Response, response_object, list_response_object):
+    error = None
+    response_list = []
+    for item in resp.json():
+        res_new = json.loads(json.dumps(camel_dict_to_snake_dict(item)))
+        u = response_object(**res_new)
+        response_list.append(u.__str__())
+
+    u = list_response_object({'list': response_list})
+    response = {"error": error, "response": u.__str__()}
+    u.response_metadata['raw'] = resp.json()
+    u.response_metadata['httpStatusCode'] = resp.status_code
+    u.response_metadata['headers'] = resp.headers
+    return response

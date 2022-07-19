@@ -41,7 +41,11 @@ imagekit = ImageKit(
 
 ## Usage
 
-You can use this Python SDK for 3 different kinds of methods - URL generation, file upload, and file management.
+You can use this Python SDK for 3 different kinds of methods:
+- URL generation
+- file upload
+- file management
+
 The usage of the SDK has been explained below.
 
 ## URL generation
@@ -176,9 +180,12 @@ https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400/default-image.jpg?v=123&i
 **List of transformations**
 
 The complete list of transformations supported and their usage in ImageKit can be found [here](https://docs.imagekit.io/features/image-transformations/resize-crop-and-other-transformations).
-The SDK gives a name to each transformation parameter, making the code simpler, making the code simpler, and readable.
+The SDK gives a name to each transformation parameter, making the code simpler and readable.
 If a transformation is supported in ImageKit, but a name for it cannot be found in the table below, then use the
-transformation code from ImageKit docs as the name when using the `url` function.
+transformation code from ImageKit docs as the name when using the `url()` function.
+
+If you want to generate transformations in your application and add them to the URL as it is, use the raw parameter.
+
 
 | Supported Transformation Name | Translates to parameter |
 |-------------------------------|-------------------------|
@@ -245,7 +252,7 @@ transformation code from ImageKit docs as the name when using the `url` function
 The SDK provides a simple interface using the `.upload_file()` method to upload files to the ImageKit Media library. It
 accepts all the parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload).
 
-The `upload_file()` method requires at least the `file` and the `file_name` parameter to upload a file and returns a Dict with error or success data. Use `options` parameter to pass other parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload). Use the same parameter name as specified in the upload API documentation.
+The `upload_file()` method requires at least the `file` as (URL/Base64/Binary) and the `file_name` parameter to upload a file. The method returns a Dict data in case of successful, or it will throw custom exception in case of failure. Use `options` parameter to pass other parameters supported by the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload). Use the same parameter name as specified in the upload API documentation.
 
 Simple usage
 
@@ -253,24 +260,24 @@ Simple usage
 import json
 
 imagekit.upload_file(
-    file= "<url|base_64|binary>", # required
-    file_name= "my_file_name.jpg", # required
+    file= "<url|base_64|binary>",       # required
+    file_name= "my_file_name.jpg",      # required
     options= {
         "folder" : "/example-folder/",
         "tags": ["sample-tag"],
         "is_private_file": False,
         "use_unique_file_name": True,
         "response_fields": ["is_private_file", "tags"],
-            "extensions": json.dumps(
+        "extensions": json.dumps(
             ({"name": "remove-bg","options": {"add_shadow": True,"bg_color": "pink"}},
             {"name": "google-auto-tagging","minConfidence": 80,"maxTags": 10})
-            ),
-            "webhook_url": "url",
-            "overwrite_file": True,
-            "overwrite_a_i_tags": False,
-            "overwrite_tags": False,
-            "overwrite_custom_metadata": True,
-            "custom_metadata": json.dumps({"test": 10}),
+        ),
+        "webhook_url": "url",
+        "overwrite_file": True,
+        "overwrite_a_i_tags": False,
+        "overwrite_tags": False,
+        "overwrite_custom_metadata": True,
+        "custom_metadata": json.dumps({"test": 10}),
     }
 )
 

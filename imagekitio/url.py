@@ -30,7 +30,7 @@ class Url:
         """
         builds url for from all options,
         """
-        
+
         # important to strip the trailing slashes. later logic assumes no trailing slashes.
         path = options.get("path", "").strip("/")
         src = options.get("src", "").strip("/")
@@ -87,16 +87,16 @@ class Url:
 
             """
             If the expire_seconds parameter is specified then the output URL contains
-            ik-t parameter (unix timestamp seconds when the URL expires) and 
-            the signature contains the timestamp for computation. 
-            
+            ik-t parameter (unix timestamp seconds when the URL expires) and
+            the signature contains the timestamp for computation.
+
             If not present, then no ik-t parameter and the value 9999999999 is used.
             """
             if expire_seconds:
                 query_params.update({Default.TIMESTAMP_PARAMETER.value: expiry_timestamp, Default.SIGNATURE_PARAMETER.value: url_signature})
             else:
                 query_params.update({Default.SIGNATURE_PARAMETER.value: url_signature})
-            
+
             # Update signature related query params
             url_object = url_object._replace(query=urlencode(query_params))
 
@@ -106,7 +106,7 @@ class Url:
     def get_signature_timestamp(expiry_seconds: int = None) -> int:
         """
         this function returns the signature timestamp to be used
-        with the generated url. 
+        with the generated url.
         If expiry_seconds is provided, it returns expiry_seconds added
         to the current unix time, otherwise the default time stamp
         is returned.
