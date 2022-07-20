@@ -7,6 +7,7 @@ from responses import matchers
 
 from imagekitio.client import ImageKit
 from imagekitio.constants.url import URL
+from imagekitio.exceptions.BadRequestException import BadRequestException
 from imagekitio.exceptions.InternalServerException import InternalServerException
 from imagekitio.exceptions.UnauthorizedException import UnauthorizedException
 from imagekitio.utils.formatter import request_formatter
@@ -62,11 +63,6 @@ class TestUpload(ClientTestCase):
         """
         URL.UPLOAD_BASE_URL = "http://example.com/"
         url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
-        headers = {"Accept-Encoding": "gzip, deflate"}
-        encoded_private_key = base64.b64encode((self.private_key + ":").encode()).decode(
-            "utf-8"
-        )
-        headers.update({"Authorization": "Basic {}".format(encoded_private_key)})
         responses.add(
             responses.POST,
             url,
@@ -83,7 +79,8 @@ class TestUpload(ClientTestCase):
                 "fileType": "image",
                 "height": 700,
                 "width": 1050,
-                "thumbnailUrl": "https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/testing-python-folder/testing_upload_binary_signed_private.jpg",
+                "thumbnailUrl": "https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/testing-python-folder"
+                                "/testing_upload_binary_signed_private.jpg",
                 "tags": ["abc", "def"],
                 "AITags": [{
                     "name": "Computer",
@@ -160,7 +157,8 @@ class TestUpload(ClientTestCase):
                 'file_id': '62d670648cdb697522602b45',
                 'name': 'testing_upload_binary_signed_private.jpg',
                 'url': 'https://ik.imagekit.io/xyxt2lnil/testing-python-folder/testing_upload_binary_signed_private.jpg',
-                'thumbnail_url': 'https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/testing-python-folder/testing_upload_binary_signed_private.jpg',
+                'thumbnail_url': 'https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/testing-python-folder'
+                                 '/testing_upload_binary_signed_private.jpg',
                 'height': 700,
                 'width': 1050,
                 'size': 102117,
@@ -234,7 +232,8 @@ class TestUpload(ClientTestCase):
                         'fileType': 'image',
                         'height': 700,
                         'width': 1050,
-                        'thumbnailUrl': 'https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/testing-python-folder/testing_upload_binary_signed_private.jpg',
+                        'thumbnailUrl': 'https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/testing-python-folder'
+                                        '/testing_upload_binary_signed_private.jpg',
                         'tags': ['abc', 'def'],
                         'AITags': [{
                             'name': 'Computer',
@@ -290,143 +289,52 @@ class TestUpload(ClientTestCase):
                 }
             }
         }
+        request_body = json.loads(json.dumps({
+            'file': "<_io.BufferedReader name='sample.jpg'>",
+            'fileName': 'testing_upload_binary_signed_private.jpg',
+            'useUniqueFileName': 'false',
+            'responseFields': 'isPrivateFile,tags',
+            'isPrivateFile': 'true',
+            'folder': '/testing-python-folder/',
+            'tags': 'abc,def',
+            'extensions': '[{"name": "remove-bg", "options": {"add_shadow": true, "bg_color": "pink"}}, {"name": '
+                          '"google-auto-tagging", "minConfidence": 80, "maxTags": 10}]',
+            'webhookUrl': 'https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e',
+            'overwriteFile': 'true',
+            'overwriteAITags': 'false',
+            'overwriteTags': 'false',
+            'overwriteCustomMetadata': 'true',
+            'customMetadata': '{"test100": 11}'
+        }))
+        actual_body = responses.calls[0].request.body.__dict__.__getitem__("fields")
+        actual_body['file'] = "<_io.BufferedReader name='sample.jpg'>"
+        self.assertEqual(request_body, actual_body)
         self.assertEqual(mock_resp, resp)
         self.assertEqual(url, responses.calls[0].request.url)
 
-    def test_base64_upload_succeeds(self):
-        """
-        Tests if  upload succeeds
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
-        with open(self.image, mode="rb") as img:
-            imgstr = base64.b64encode(img.read())
-
-        resp = self.client.upload(file=imgstr, file_name=self.filename)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
-
-    def test_url_upload_succeeds(self):
-        """
-        Tests if  url upload succeeds
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
-        resp = self.client.upload(file="example.com/abc.jpg", file_name=self.filename)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
-
-    def test_file_upload_succeeds(self):
-        """
-        Tests if  file upload succeeds
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
-
-        # generate expected encoded private key for the auth headers
-        private_key_file_upload = ClientTestCase.private_key
-        if private_key_file_upload != ":":
-            private_key_file_upload += ":"
-        encoded_private_key = base64.b64encode(private_key_file_upload.encode()).decode(
-            "utf-8"
-        )
-
-        resp = self.client.upload_file(file=self.image, file_name=self.filename)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
-        self.client.ik_request.request.assert_called_once_with(
-            "Post",
-            url=URL.UPLOAD_URL.value,
-            files={
-                'file': (None, self.image),
-                'fileName': (None, self.filename)
-            },
-            data={},
-            headers={'Accept-Encoding': 'gzip, deflate', 'Authorization': "Basic {}".format(encoded_private_key)}
-        )
-
-    def test_upload_fails_without_file_or_file_name(self) -> None:
+    def test_upload_fails_without_file_name(self) -> None:
         """Test upload raises error on missing required params
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        self.assertRaises(TypeError, self.client.upload, file_name=self.filename)
-        self.assertRaises(TypeError, self.client.upload, file=self.image)
-
-    def test_absence_of_params_gives_proper_resp(self) -> None:
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
-        resp = self.client.upload(
-            file=self.image,
-            file_name="x",
-            options={
-                "is_private_file": "",
-                "tags": None,
-                "custom_coordinates": None,
-                "use_unique_file_name": None,
-                "folder": None
-
-            }
-        )
-        self.assertIsNone(resp["error"])
-        print("resp:-->", resp["response"])
-        self.assertIsNotNone(resp["response"])
-
-    def test_all_params_being_passed_on_upload(self) -> None:
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
-        resp = self.client.upload(
-            file=self.image,
-            file_name="fileabc",
-            options={
-                "is_private_file": True,
-                "tags": ["abc"],
-                "response_fields": ["is_private_file", "tags"],
-                "custom_coordinates": "10,10,100,100",
-                "use_unique_file_name": True,
-                "folder": "abc"
-            }
-        )
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
-
-    def test_upload_file_fails_without_file_or_file_name(self) -> None:
-        """Test upload raises error on missing required params
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        self.assertRaises(TypeError, self.client.upload_file, file_name=self.filename)
-        self.assertRaises(TypeError, self.client.upload_file, file=self.image)
-
-    def test_upload_file_fails_without_json_response_from_server(self) -> None:
-        """Test upload raises error on non json response
         """
         try:
-            self.client.ik_request.request = MagicMock(
-                return_value=get_mocked_failed_resp_text()
-            )
-            self.client.upload(
-                file=self.image,
-                file_name="fileabc",
-                options={
-                    "is_private_file": True,
-                    "tags": ["abc"],
-                    "response_fields": ["is_private_file", "tags"],
-                    "custom_coordinates": "10,10,100,100",
-                    "use_unique_file_name": True,
-                    "folder": "abc"
-                }
-            )
-            self.assertRaises(InternalServerException)
-        except InternalServerException as e:
-            self.assertEqual(502, e.response_metadata['httpStatusCode'])
+            self.client.upload(file=open("sample.jpg", "rb"))
+        except TypeError as e:
+            self.assertEqual({'message': 'Missing fileName parameter for upload', 'help': ''}, e.args[0])
+
+    def test_upload_fails_without_file(self) -> None:
+        """Test upload raises error on missing required params
+        """
+        try:
+            self.client.upload(file_name="file_name.jpg")
+        except TypeError as e:
+            self.assertEqual({'message': 'Missing file parameter for upload', 'help': ''}, e.args[0])
+
+    def test_upload_fails_with_400_exception(self) -> None:
+        """Test upload raises error on missing required params
+        """
+        try:
+            self.client.upload(file_name="file_name.jpg")
+        except BadRequestException as e:
+            print("e:-->", e)
 
 
 class TestListFiles(ClientTestCase):

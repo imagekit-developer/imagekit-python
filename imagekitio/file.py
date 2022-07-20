@@ -22,6 +22,7 @@ try:
     from simplejson.errors import JSONDecodeError
 except ImportError:
     from json import JSONDecodeError
+from requests_toolbelt import MultipartEncoder
 
 
 class File(object):
@@ -41,10 +42,9 @@ class File(object):
             raise TypeError(ERRORS.MISSING_UPLOAD_FILENAME_PARAMETER.value)
         url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
         headers = self.request.create_headers()
-
         files = {
             "file": file,
-            "fileName": (None, file_name),
+            "fileName": file_name,
         }
 
         if not options:
@@ -55,9 +55,11 @@ class File(object):
             raise ValueError("Invalid upload options")
         if isinstance(file, str) or isinstance(file, bytes):
             files.update({"file": (None, file)})
-
+        all_fields = {**files, **options}
+        multipart_data = MultipartEncoder(fields=all_fields, boundary='--randomBoundary---------------------')
+        headers.update({'Content-Type': multipart_data.content_type})
         resp = self.request.request(
-            "Post", url=url, files=files, data=options, headers=headers
+            "Post", url=url, data=multipart_data, headers=headers
         )
         if resp.status_code == 200:
             response = convert_to_response_object(resp, UploadFileResult)

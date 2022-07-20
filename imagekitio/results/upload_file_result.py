@@ -1,6 +1,6 @@
 class UploadFileResult:
 
-    def __init__(self, file_id, name, url, thumbnail_url, height, width, size, file_path, tags: {} = None,
+    def __init__(self, file_id, name, url, thumbnail_url: str = None, height: int = None, width: int = None, size: int = None, file_path: str = None, tags: {} = None,
                  ai_tags: {} = None, version_info: {} = None,
                  is_private_file=False, custom_coordinates: {} = None, custom_metadata: {} = None,
                  embedded_metadata: {} = None, extension_status: {} = None, file_type: str = None):

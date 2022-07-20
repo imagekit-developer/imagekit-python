@@ -53,11 +53,11 @@ class ERRORS(enum.Enum):
     MISSING_UPLOAD_DATA = {"message": "Missing data for upload", help: ""}
     MISSING_UPLOAD_FILE_PARAMETER = {
         "message": "Missing file parameter for upload",
-        help: "",
+        "help": "",
     }
     MISSING_UPLOAD_FILENAME_PARAMETER = {
         "message": "Missing fileName parameter for upload",
-        help: "",
+        "help": "",
     }
 
     INVALID_PHASH_VALUE = (
