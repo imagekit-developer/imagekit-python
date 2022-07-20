@@ -1,4 +1,3 @@
-import json
 from json import dumps
 from typing import Any, Dict
 
@@ -7,8 +6,8 @@ from .constants.files import VALID_FILE_OPTIONS, VALID_UPLOAD_OPTIONS
 from .constants.url import URL
 from .exceptions.NotFoundException import NotFoundException
 from .results.file_result import FileResult
-from .results.upload_file_result import UploadFileResult
 from .results.list_file_result import ListFileResult
+from .results.upload_file_result import UploadFileResult
 from .utils.formatter import (
     camel_dict_to_snake_dict,
     request_formatter,
@@ -40,7 +39,7 @@ class File(object):
             raise TypeError(ERRORS.MISSING_UPLOAD_FILE_PARAMETER.value)
         if not file_name:
             raise TypeError(ERRORS.MISSING_UPLOAD_FILENAME_PARAMETER.value)
-        url = URL.UPLOAD_URL.value
+        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
         headers = self.request.create_headers()
 
         files = {
