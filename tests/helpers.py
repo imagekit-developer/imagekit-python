@@ -1,11 +1,12 @@
+import base64
 import unittest
-from typing import Any
 from unittest.mock import Mock, patch
 
 from requests import Response
 
 from imagekitio.client import ImageKit
 from tests.dummy_data.file import AUTHENTICATION_ERR_MSG, SUCCESS_GENERIC_RESP
+
 try:
     from simplejson.errors import JSONDecodeError
 except ImportError:
@@ -16,7 +17,7 @@ class ClientTestCase(unittest.TestCase):
     """
     Base TestCase for Client
     """
-    private_key="fake122"
+    private_key = "fake122"
 
     @patch("imagekitio.file.File")
     @patch("imagekitio.resource.ImageKitRequest")
@@ -25,8 +26,14 @@ class ClientTestCase(unittest.TestCase):
         Tests if list_files work with skip and limit
         """
         self.options = {
-            "skip": "10",
-            "limit": "1",
+            "type": "file",
+            "sort": "ASC_CREATED",
+            "path": "/",
+            "searchQuery": "createdAt >= '2d' OR size < '2mb' OR format='png'",
+            "fileType": "all",
+            "limit": 1,
+            "skip": 0,
+            "tags": "Tag-1, Tag-2, Tag-3"
         }
         self.client = ImageKit(
             public_key="fake122", private_key=ClientTestCase.private_key, url_endpoint="fake122",
@@ -75,3 +82,13 @@ def get_mocked_success_resp(message: dict = None, status: int = 200, resp: dict 
     else:
         mocked_resp.json.return_value = SUCCESS_GENERIC_RESP
     return mocked_resp
+
+
+def create_headers_for_test():
+    headers = {"Accept-Encoding": "gzip, deflate"}
+    encoded_private_key = base64.b64encode((ClientTestCase.private_key + ":").encode()).decode(
+        "utf-8"
+    )
+    headers.update({"Authorization": "Basic {}".format(encoded_private_key)})
+
+    return headers

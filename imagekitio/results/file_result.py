@@ -2,7 +2,8 @@ class FileResult:
 
     def __init__(self, type, name, created_at, updated_at, file_id, tags, ai_tags, version_info, embedded_metadata,
                  custom_coordinates, custom_metadata, is_private_file, url, thumbnail, file_type, file_path,
-                 height: int = None, width: int = None, size: int = None, has_alpha=False, mime: str = None):
+                 height: int = None, width: int = None, size: int = None, has_alpha=False, mime: str = None,
+                 extension_status: dict = {}):
         self.type = type
         self.name = name
         self.created_at = created_at
@@ -24,6 +25,7 @@ class FileResult:
         self.size = size
         self.has_alpha = has_alpha
         self.mime = mime
+        self.extension_status = extension_status
         self._response_metadata = {}
 
     def __str__(self):

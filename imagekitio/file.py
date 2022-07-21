@@ -76,7 +76,7 @@ class File(object):
         formatted_options = request_formatter(options)
         if not self.is_valid_list_options(formatted_options):
             raise ValueError("Invalid option for list_files")
-        url = URL.BASE_URL.value
+        url = URL.BASE_URL
         headers = self.request.create_headers()
 
         resp = self.request.request(
@@ -93,7 +93,7 @@ class File(object):
         """
         if not file_identifier:
             raise TypeError(ERRORS.FILE_ID_MISSING.value)
-        url = "{}/{}/details".format(URL.BASE_URL.value, file_identifier)
+        url = "{}/{}/details".format(URL.BASE_URL, file_identifier)
         resp = self.request.request(
             method="GET", url=url, headers=self.request.create_headers(),
         )
@@ -108,7 +108,7 @@ class File(object):
         """
         if not file_identifier:
             raise TypeError(ERRORS.FILE_ID_MISSING.value)
-        url = "{}/{}/versions".format(URL.BASE_URL.value, file_identifier)
+        url = "{}/{}/versions".format(URL.BASE_URL, file_identifier)
         resp = self.request.request(
             method="GET", url=url, headers=self.request.create_headers(),
         )
@@ -154,7 +154,7 @@ class File(object):
         """
         if not file_id:
             raise TypeError(ERRORS.FILE_ID_MISSING.value)
-        url = "{}/{}/details/".format(URL.BASE_URL.value, file_id)
+        url = "{}/{}/details/".format(URL.BASE_URL, file_id)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
         data = dumps(request_formatter(options))

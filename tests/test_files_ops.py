@@ -8,21 +8,18 @@ from responses import matchers
 from imagekitio.client import ImageKit
 from imagekitio.constants.url import URL
 from imagekitio.exceptions.BadRequestException import BadRequestException
-from imagekitio.exceptions.InternalServerException import InternalServerException
-from imagekitio.exceptions.UnauthorizedException import UnauthorizedException
-from imagekitio.utils.formatter import request_formatter
+from imagekitio.exceptions.ForbiddenException import ForbiddenException
+from imagekitio.exceptions.NotFoundException import NotFoundException
+from imagekitio.exceptions.UnknownException import UnknownException
 from tests.dummy_data.file import (
     FAILED_DELETE_RESP,
-    SUCCESS_DETAIL_MSG,
-    SUCCESS_LIST_RESP_MESSAGE,
     SUCCESS_PURGE_CACHE_MSG,
     SUCCESS_PURGE_CACHE_STATUS_MSG,
 )
 from tests.helpers import (
     ClientTestCase,
     get_mocked_failed_resp,
-    get_mocked_failed_resp_text,
-    get_mocked_success_resp,
+    get_mocked_success_resp, create_headers_for_test,
 )
 
 imagekit_obj = ImageKit(
@@ -40,47 +37,70 @@ class TestUpload(ClientTestCase):
     )
     filename = "test"
 
+    @responses.activate
     def test_upload_fails_on_unauthenticated_request(self):
         """
         Tests if the unauthenticated request restricted
-
         """
-
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
         try:
-            self.client.ik_request.request = MagicMock(
-                return_value=get_mocked_failed_resp()
+            responses.add(
+                responses.POST,
+                url,
+                status=403,
+                body=json.dumps({'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
             )
-            self.client.upload(file=self.image, file_name=self.filename)
-            self.assertRaises(UnauthorizedException)
-        except UnauthorizedException as e:
+            self.client.upload(file=self.image, file_name=self.filename,
+                               options={
+                                   "use_unique_file_name": 'false',
+                                   "response_fields": ["is_private_file", "tags"],
+                                   "is_private_file": True,
+                                   "folder": "/testing-python-folder/",
+                                   "tags": ["abc", "def"],
+                                   "extensions": json.dumps(
+                                       ({"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
+                                        {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
+                                   ),
+                                   "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+                                   "overwrite_file": True,
+                                   "overwrite_a_i_tags": False,
+                                   "overwrite_tags": False,
+                                   "overwrite_custom_metadata": True,
+                                   "custom_metadata": json.dumps({"test100": 11})
+                               })
+            self.assertRaises(ForbiddenException)
+        except ForbiddenException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
-            self.assertEqual(e.response_metadata['httpStatusCode'], 401)
+            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
 
     @responses.activate
     def test_binary_upload_succeeds(self):
         """
         Tests if  upload succeeds
         """
-        URL.UPLOAD_BASE_URL = "http://example.com/"
+        URL.UPLOAD_BASE_URL = "http://test.com"
         url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
+        headers = create_headers_for_test()
         responses.add(
             responses.POST,
             url,
             body=json.dumps({
-                "fileId": "62d670648cdb697522602b45",
-                "name": "testing_upload_binary_signed_private.jpg",
+                "fileId": "fake_file_id1234",
+                "name": "file_name.jpg",
                 "size": 102117,
                 "versionInfo": {
                     "id": "62d670648cdb697522602b45",
                     "name": "Version 11"
                 },
-                "filePath": "/testing-python-folder/testing_upload_binary_signed_private.jpg",
-                "url": "https://ik.imagekit.io/xyxt2lnil/testing-python-folder/testing_upload_binary_signed_private.jpg",
+                "filePath": "/testing-python-folder/file_name.jpg",
+                "url": "https://ik.imagekit.io/your_imagekit_id/testing-python-folder/file_name.jpg",
                 "fileType": "image",
                 "height": 700,
                 "width": 1050,
-                "thumbnailUrl": "https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/testing-python-folder"
-                                "/testing_upload_binary_signed_private.jpg",
+                "thumbnailUrl": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/testing-python-folder"
+                                "/file_name.jpg",
                 "tags": ["abc", "def"],
                 "AITags": [{
                     "name": "Computer",
@@ -90,38 +110,6 @@ class TestUpload(ClientTestCase):
                     "name": "Personal computer",
                     "confidence": 94.96,
                     "source": "google-auto-tagging"
-                }, {
-                    "name": "Laptop",
-                    "confidence": 94.71,
-                    "source": "google-auto-tagging"
-                }, {
-                    "name": "Netbook",
-                    "confidence": 93.47,
-                    "source": "google-auto-tagging"
-                }, {
-                    "name": "Table",
-                    "confidence": 91.82,
-                    "source": "google-auto-tagging"
-                }, {
-                    "name": "Wood",
-                    "confidence": 87.28,
-                    "source": "google-auto-tagging"
-                }, {
-                    "name": "Output device",
-                    "confidence": 87.17,
-                    "source": "google-auto-tagging"
-                }, {
-                    "name": "Office equipment",
-                    "confidence": 83.16,
-                    "source": "google-auto-tagging"
-                }, {
-                    "name": "Gadget",
-                    "confidence": 81.81,
-                    "source": "google-auto-tagging"
-                }, {
-                    "name": "Communication Device",
-                    "confidence": 81.38,
-                    "source": "google-auto-tagging"
                 }],
                 "isPrivateFile": True,
                 "extensionStatus": {
@@ -129,11 +117,11 @@ class TestUpload(ClientTestCase):
                     "google-auto-tagging": "success"
                 }
             }),
-            match=[matchers.query_string_matcher("")],
+            headers=headers
         )
 
         resp = self.client.upload(file=open("sample.jpg", "rb"),
-                                  file_name="testing_upload_binary_signed_private.jpg",
+                                  file_name="file_name.jpg",
                                   options={
                                       "use_unique_file_name": 'false',
                                       "response_fields": ["is_private_file", "tags"],
@@ -144,7 +132,7 @@ class TestUpload(ClientTestCase):
                                           ({"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
                                            {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
                                       ),
-                                      "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+                                      "webhook_url": "url",
                                       "overwrite_file": True,
                                       "overwrite_a_i_tags": False,
                                       "overwrite_tags": False,
@@ -154,15 +142,14 @@ class TestUpload(ClientTestCase):
         mock_resp = {
             'error': None,
             'response': {
-                'file_id': '62d670648cdb697522602b45',
-                'name': 'testing_upload_binary_signed_private.jpg',
-                'url': 'https://ik.imagekit.io/xyxt2lnil/testing-python-folder/testing_upload_binary_signed_private.jpg',
-                'thumbnail_url': 'https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/testing-python-folder'
-                                 '/testing_upload_binary_signed_private.jpg',
+                'file_id': 'fake_file_id1234',
+                'name': 'file_name.jpg',
+                'url': 'https://ik.imagekit.io/your_imagekit_id/testing-python-folder/file_name.jpg',
+                'thumbnail_url': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/testing-python-folder/file_name.jpg',
                 'height': 700,
                 'width': 1050,
                 'size': 102117,
-                'file_path': '/testing-python-folder/testing_upload_binary_signed_private.jpg',
+                'file_path': '/testing-python-folder/file_name.jpg',
                 'tags': ['abc', 'def'],
                 'ai_tags': [{
                     'name': 'Computer',
@@ -171,38 +158,6 @@ class TestUpload(ClientTestCase):
                 }, {
                     'name': 'Personal computer',
                     'confidence': 94.96,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Laptop',
-                    'confidence': 94.71,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Netbook',
-                    'confidence': 93.47,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Table',
-                    'confidence': 91.82,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Wood',
-                    'confidence': 87.28,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Output device',
-                    'confidence': 87.17,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Office equipment',
-                    'confidence': 83.16,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Gadget',
-                    'confidence': 81.81,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Communication Device',
-                    'confidence': 81.38,
                     'source': 'google-auto-tagging'
                 }],
                 'version_info': {
@@ -220,20 +175,19 @@ class TestUpload(ClientTestCase):
                 'file_type': 'image',
                 '_response_metadata': {
                     'raw': {
-                        'fileId': '62d670648cdb697522602b45',
-                        'name': 'testing_upload_binary_signed_private.jpg',
+                        'fileId': 'fake_file_id1234',
+                        'name': 'file_name.jpg',
                         'size': 102117,
                         'versionInfo': {
                             'id': '62d670648cdb697522602b45',
                             'name': 'Version 11'
                         },
-                        'filePath': '/testing-python-folder/testing_upload_binary_signed_private.jpg',
-                        'url': 'https://ik.imagekit.io/xyxt2lnil/testing-python-folder/testing_upload_binary_signed_private.jpg',
+                        'filePath': '/testing-python-folder/file_name.jpg',
+                        'url': 'https://ik.imagekit.io/your_imagekit_id/testing-python-folder/file_name.jpg',
                         'fileType': 'image',
                         'height': 700,
                         'width': 1050,
-                        'thumbnailUrl': 'https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/testing-python-folder'
-                                        '/testing_upload_binary_signed_private.jpg',
+                        'thumbnailUrl': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/testing-python-folder/file_name.jpg',
                         'tags': ['abc', 'def'],
                         'AITags': [{
                             'name': 'Computer',
@@ -242,38 +196,6 @@ class TestUpload(ClientTestCase):
                         }, {
                             'name': 'Personal computer',
                             'confidence': 94.96,
-                            'source': 'google-auto-tagging'
-                        }, {
-                            'name': 'Laptop',
-                            'confidence': 94.71,
-                            'source': 'google-auto-tagging'
-                        }, {
-                            'name': 'Netbook',
-                            'confidence': 93.47,
-                            'source': 'google-auto-tagging'
-                        }, {
-                            'name': 'Table',
-                            'confidence': 91.82,
-                            'source': 'google-auto-tagging'
-                        }, {
-                            'name': 'Wood',
-                            'confidence': 87.28,
-                            'source': 'google-auto-tagging'
-                        }, {
-                            'name': 'Output device',
-                            'confidence': 87.17,
-                            'source': 'google-auto-tagging'
-                        }, {
-                            'name': 'Office equipment',
-                            'confidence': 83.16,
-                            'source': 'google-auto-tagging'
-                        }, {
-                            'name': 'Gadget',
-                            'confidence': 81.81,
-                            'source': 'google-auto-tagging'
-                        }, {
-                            'name': 'Communication Device',
-                            'confidence': 81.38,
                             'source': 'google-auto-tagging'
                         }],
                         'isPrivateFile': True,
@@ -284,14 +206,16 @@ class TestUpload(ClientTestCase):
                     },
                     'httpStatusCode': 200,
                     'headers': {
-                        'Content-Type': 'text/plain'
+                        'Content-Type': 'text/plain',
+                        'Accept-Encoding': 'gzip, deflate',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
                     }
                 }
             }
         }
         request_body = json.loads(json.dumps({
             'file': "<_io.BufferedReader name='sample.jpg'>",
-            'fileName': 'testing_upload_binary_signed_private.jpg',
+            'fileName': 'file_name.jpg',
             'useUniqueFileName': 'false',
             'responseFields': 'isPrivateFile,tags',
             'isPrivateFile': 'true',
@@ -299,7 +223,7 @@ class TestUpload(ClientTestCase):
             'tags': 'abc,def',
             'extensions': '[{"name": "remove-bg", "options": {"add_shadow": true, "bg_color": "pink"}}, {"name": '
                           '"google-auto-tagging", "minConfidence": 80, "maxTags": 10}]',
-            'webhookUrl': 'https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e',
+            'webhookUrl': 'url',
             'overwriteFile': 'true',
             'overwriteAITags': 'false',
             'overwriteTags': 'false',
@@ -328,13 +252,46 @@ class TestUpload(ClientTestCase):
         except TypeError as e:
             self.assertEqual({'message': 'Missing file parameter for upload', 'help': ''}, e.args[0])
 
+    @responses.activate
     def test_upload_fails_with_400_exception(self) -> None:
-        """Test upload raises error on missing required params
-        """
+        """Test upload raises 400 error"""
+
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
         try:
-            self.client.upload(file_name="file_name.jpg")
+            responses.add(
+                responses.POST,
+                url,
+                status=400,
+                body=json.dumps({
+                    'message': 'A file with the same name already exists at the exact location. We '
+                               'could not overwrite it because both overwriteFile and '
+                               'useUniqueFileName are set to false.'
+                }),
+            )
+            self.client.upload(file=self.image, file_name=self.filename,
+                               options={
+                                   "use_unique_file_name": 'false',
+                                   "response_fields": ["is_private_file", "tags"],
+                                   "is_private_file": True,
+                                   "folder": "/testing-python-folder/",
+                                   "tags": ["abc", "def"],
+                                   "extensions": json.dumps(
+                                       ({"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
+                                        {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
+                                   ),
+                                   "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+                                   "overwrite_file": False,
+                                   "overwrite_a_i_tags": False,
+                                   "overwrite_tags": False,
+                                   "overwrite_custom_metadata": True,
+                                   "custom_metadata": json.dumps({"test100": 11})
+                               })
+            self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            print("e:-->", e)
+            self.assertEqual("A file with the same name already exists at the exact location. We could not overwrite "
+                             "it because both overwriteFile and useUniqueFileName are set to false.", e.message)
+            self.assertEqual(400, e.response_metadata['httpStatusCode'])
 
 
 class TestListFiles(ClientTestCase):
@@ -342,49 +299,203 @@ class TestListFiles(ClientTestCase):
     TestListFiles class used to test list_files method
     """
 
+    @responses.activate
     def test_list_files_fails_on_unauthenticated_request(self) -> None:
         """ Tests unauthenticated request restricted for list_files method
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        resp = self.client.list_files(self.options)
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
 
+        URL.BASE_URL = "http://test.com"
+        url = URL.BASE_URL
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=403,
+                body=json.dumps({'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+            )
+            self.client.list_files(self.options)
+            self.assertRaises(ForbiddenException)
+        except ForbiddenException as e:
+            self.assertEqual(e.message, "Your account cannot be authenticated.")
+            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
+
+    @responses.activate
     def test_list_files_succeeds_with_basic_request(self) -> None:
         """
-        Tests if list_files work with skip and limit
+        Tests if list_files work with options which contains type, sort, path, searchQuery, fileType, limit, skip and tags
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp(message=SUCCESS_LIST_RESP_MESSAGE)
+
+        URL.BASE_URL = "http://test.com/files"
+        url = URL.BASE_URL
+
+        headers = create_headers_for_test()
+        responses.add(
+            responses.GET,
+            url,
+            body=json.dumps([{
+                "type": "file",
+                "name": "sample-cat-image_gr64HPlJS.jpg",
+                "createdAt": "2022-06-15T08:19:00.843Z",
+                "updatedAt": "2022-06-15T08:19:45.169Z",
+                "fileId": "62a995f4d875ec08dc587b72",
+                "tags": ["{Tag_1", " Tag_2", " Tag_3}", "tag-to-add-2"],
+                "AITags": None,
+                "versionInfo": {
+                    "id": "62a995f4d875ec08dc587b72",
+                    "name": "Version 1"
+                },
+                "embeddedMetadata": {
+                    "XResolution": 250,
+                    "YResolution": 250,
+                    "DateCreated": "2022-06-15T08:19:01.523Z",
+                    "DateTimeCreated": "2022-06-15T08:19:01.524Z"
+                },
+                "customCoordinates": "10,10,20,20",
+                "customMetadata": {
+                    "test100": 10
+                },
+                "isPrivateFile": False,
+                "url": "https://ik.imagekit.io/your_imagekit_id/sample-cat-image_gr64HPlJS.jpg",
+                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/sample-cat-image_gr64HPlJS.jpg",
+                "fileType": "image",
+                "filePath": "/sample-cat-image_gr64HPlJS.jpg",
+                "height": 354,
+                "width": 236,
+                "size": 23023,
+                "hasAlpha": False,
+                "mime": "image/jpeg"
+            }]),
+            headers=headers,
+            match=[matchers.query_string_matcher(
+                "type=file&sort=ASC_CREATED&path=%2F&searchQuery=createdAt+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3")],
         )
 
         resp = self.client.list_files(self.options)
 
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain',
+                        'Accept-Encoding': 'gzip, deflate',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    },
+                    'httpStatusCode': 200,
+                    'raw': [{
+                        'AITags': None,
+                        'createdAt': '2022-06-15T08:19:00.843Z',
+                        'customCoordinates': '10,10,20,20',
+                        'customMetadata': {
+                            'test100': 10
+                        },
+                        'embeddedMetadata': {
+                            'DateCreated': '2022-06-15T08:19:01.523Z',
+                            'DateTimeCreated': '2022-06-15T08:19:01.524Z',
+                            'XResolution': 250,
+                            'YResolution': 250
+                        },
+                        'fileId': '62a995f4d875ec08dc587b72',
+                        'filePath': '/sample-cat-image_gr64HPlJS.jpg',
+                        'fileType': 'image',
+                        'hasAlpha': False,
+                        'height': 354,
+                        'isPrivateFile': False,
+                        'mime': 'image/jpeg',
+                        'name': 'sample-cat-image_gr64HPlJS.jpg',
+                        'size': 23023,
+                        'tags': ['{Tag_1',
+                                 ' Tag_2',
+                                 ' Tag_3}',
+                                 'tag-to-add-2'
+                                 ],
+                        'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/sample-cat-image_gr64HPlJS.jpg',
+                        'type': 'file',
+                        'updatedAt': '2022-06-15T08:19:45.169Z',
+                        'url': 'https://ik.imagekit.io/your_imagekit_id/sample-cat-image_gr64HPlJS.jpg',
+                        'versionInfo': {
+                            'id': '62a995f4d875ec08dc587b72',
+                            'name': 'Version '
+                                    '1'
+                        },
+                        'width': 236
+                    }]
+                },
+                'list': [{
+                    '_response_metadata': {},
+                    'ai_tags': None,
+                    'created_at': '2022-06-15T08:19:00.843Z',
+                    'custom_coordinates': '10,10,20,20',
+                    'custom_metadata': {
+                        'test100': 10
+                    },
+                    'embedded_metadata': {
+                        'DateCreated': '2022-06-15T08:19:01.523Z',
+                        'DateTimeCreated': '2022-06-15T08:19:01.524Z',
+                        'XResolution': 250,
+                        'YResolution': 250
+                    },
+                    'extension_status': {},
+                    'file_id': '62a995f4d875ec08dc587b72',
+                    'file_path': '/sample-cat-image_gr64HPlJS.jpg',
+                    'file_type': 'image',
+                    'has_alpha': False,
+                    'height': 354,
+                    'is_private_file': False,
+                    'mime': 'image/jpeg',
+                    'name': 'sample-cat-image_gr64HPlJS.jpg',
+                    'size': 23023,
+                    'tags': ['{Tag_1', ' Tag_2', ' Tag_3}', 'tag-to-add-2'],
+                    'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/sample-cat-image_gr64HPlJS.jpg',
+                    'type': 'file',
+                    'updated_at': '2022-06-15T08:19:45.169Z',
+                    'url': 'https://ik.imagekit.io/your_imagekit_id/sample-cat-image_gr64HPlJS.jpg',
+                    'version_info': {
+                        'id': '62a995f4d875ec08dc587b72',
+                        'name': 'Version 1'
+                    },
+                    'width': 236
+                }]
+            }
+        }
 
-    def test_list_accepting_all_parameter(self):
-        """
-        checking if list accept all parameter
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
-        resp = self.client.list_files(
-            options={
-                "file_type": "image",
-                "tags": ["tag1", "tag2"],
-                "include_folder": True,
-                "name": "new-dir",
-                "limit": "1",
-                "skip": "1",
-            },
-        )
+        self.assertEqual(
+            "http://test.com/files?type=file&sort=ASC_CREATED&path=%2F&searchQuery=createdAt+%3E%3D+%272d%27+OR+size"
+            "+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3",
+            responses.calls[0].request.url)
+        self.assertEqual(mock_resp, resp)
 
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
+    @responses.activate
+    def test_list_files_fails_with_400_exception(self) -> None:
+        """Test get list of files raises 400 error"""
+
+        URL.BASE_URL = "http://test.com/files"
+        url = URL.BASE_URL
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=400,
+                body=json.dumps({"message": "Invalid search query - createdAt field must have a valid date value. Make "
+                                            "sure the value is enclosed within quotes. Please refer to the "
+                                            "documentation for syntax specification.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                match=[matchers.query_string_matcher("type=file&sort=ASC_CREATED&path=%2F&searchQuery=createdAt+%3E"
+                                                     "%3D+%272date%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27"
+                                                     "&fileType=all&limit=1&skip=0&tags=Tag_1%2C+Tag_2%2C"
+                                                     "+Tag_3")],
+            )
+            self.client.list_files({"type": "file", "sort": "ASC_CREATED", "path": "/",
+                                    "searchQuery": "createdAt >= '2date' OR size < '2mb' OR format='png'",
+                                    "fileType": "all", "limit": 1, "skip": 0,
+                                    "tags": "Tag_1, Tag_2, Tag_3"})
+            self.assertRaises(BadRequestException)
+        except BadRequestException as e:
+            self.assertEqual("Invalid search query - createdAt field must have a valid date value. Make "
+                             "sure the value is enclosed within quotes. Please refer to the "
+                             "documentation for syntax specification.", e.message)
+            self.assertEqual(400, e.response_metadata['httpStatusCode'])
 
 
 class TestGetFileDetails(ClientTestCase):
@@ -395,32 +506,199 @@ class TestGetFileDetails(ClientTestCase):
     file_id = "fake_file_id1234"
     file_url = "https://example.com/default.jpg"
 
+    @responses.activate
     def test_get_file_details_fails_on_unauthenticated_request(self) -> None:
-        """Tests if get_file_details raise error on unauthenticated request
+        """Tests of get_file_details raise error on unauthenticated request
         """
 
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        resp = self.client.get_file_details(self.file_id)
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
+        URL.BASE_URL = "http://test.com"
+        url = "{}/{}/details".format(URL.BASE_URL, self.file_id)
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=403,
+                body=json.dumps({'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+            )
+            self.client.get_file_details(self.file_id)
+            self.assertRaises(ForbiddenException)
+        except ForbiddenException as e:
+            self.assertEqual(e.message, "Your account cannot be authenticated.")
+            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
 
+    @responses.activate
     def test_file_details_succeeds_with_id(self) -> None:
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp(message=SUCCESS_DETAIL_MSG)
+        URL.BASE_URL = "http://test.com"
+        url = "{}/{}/details".format(URL.BASE_URL, self.file_id)
+
+        headers = create_headers_for_test()
+        responses.add(
+            responses.GET,
+            url,
+            body=json.dumps({
+                "type": "file",
+                "name": "new_car.jpg",
+                "createdAt": "2022-06-15T11:34:36.294Z",
+                "updatedAt": "2022-07-04T10:15:50.067Z",
+                "fileId": "fake_file_id1234",
+                "tags": ["Tag_1", "Tag_2", "Tag_3"],
+                "AITags": [{
+                    "name": "Clothing",
+                    "confidence": 98.77,
+                    "source": "google-auto-tagging"
+                }, {
+                    "name": "Smile",
+                    "confidence": 95.31,
+                    "source": "google-auto-tagging"
+                }],
+                "versionInfo": {
+                    "id": "62b97749f63122840530fda9",
+                    "name": "Version 4"
+                },
+                "embeddedMetadata": {
+                    "DateCreated": "2022-07-04T10:15:50.066Z",
+                    "DateTimeCreated": "2022-07-04T10:15:50.066Z"
+                },
+                "customCoordinates": "null",
+                "customMetadata": {
+                    "test100": 10,
+                    "test10": 11
+                },
+                "isPrivateFile": False,
+                "url": "https://ik.imagekit.io/zv3rkhsym/new_car.jpg",
+                "thumbnail": "https://ik.imagekit.io/zv3rkhsym/tr:n-ik_ml_thumbnail/new_car.jpg",
+                "fileType": "image",
+                "filePath": "/new_car.jpg",
+                "height": 354,
+                "width": 236,
+                "size": 7390,
+                "hasAlpha": False,
+                "mime": "image/jpeg"
+            }),
+            headers=headers
         )
         resp = self.client.get_file_details(self.file_id)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
 
-    def test_file_details_succeeds_with_url(self) -> None:
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp(message=SUCCESS_DETAIL_MSG)
-        )
-        resp = self.client.get_file_details(self.file_url)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain',
+                        'Accept-Encoding': 'gzip, deflate',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    },
+                    'httpStatusCode': 200,
+                    'raw': {
+                        'AITags': [{
+                            'confidence': 98.77,
+                            'name': 'Clothing',
+                            'source': 'google-auto-tagging'
+                        }, {
+                            'confidence': 95.31,
+                            'name': 'Smile',
+                            'source': 'google-auto-tagging'
+                        }],
+                        'createdAt': '2022-06-15T11:34:36.294Z',
+                        'customCoordinates': 'null',
+                        'customMetadata': {
+                            'test10': 11,
+                            'test100': 10
+                        },
+                        'embeddedMetadata': {
+                            'DateCreated': '2022-07-04T10:15:50.066Z',
+                            'DateTimeCreated': '2022-07-04T10:15:50.066Z'
+                        },
+                        'fileId': 'fake_file_id1234',
+                        'filePath': '/new_car.jpg',
+                        'fileType': 'image',
+                        'hasAlpha': False,
+                        'height': 354,
+                        'isPrivateFile': False,
+                        'mime': 'image/jpeg',
+                        'name': 'new_car.jpg',
+                        'size': 7390,
+                        'tags': ['Tag_1',
+                                 'Tag_2',
+                                 'Tag_3'
+                                 ],
+                        'thumbnail': 'https://ik.imagekit.io/zv3rkhsym/tr:n-ik_ml_thumbnail/new_car.jpg',
+                        'type': 'file',
+                        'updatedAt': '2022-07-04T10:15:50.067Z',
+                        'url': 'https://ik.imagekit.io/zv3rkhsym/new_car.jpg',
+                        'versionInfo': {
+                            'id': '62b97749f63122840530fda9',
+                            'name': 'Version '
+                                    '4'
+                        },
+                        'width': 236
+                    }
+                },
+                'ai_tags': [{
+                    'confidence': 98.77,
+                    'name': 'Clothing',
+                    'source': 'google-auto-tagging'
+                }, {
+                    'confidence': 95.31,
+                    'name': 'Smile',
+                    'source': 'google-auto-tagging'
+                }],
+                'created_at': '2022-06-15T11:34:36.294Z',
+                'custom_coordinates': 'null',
+                'custom_metadata': {
+                    'test10': 11,
+                    'test100': 10
+                },
+                'embedded_metadata': {
+                    'DateCreated': '2022-07-04T10:15:50.066Z',
+                    'DateTimeCreated': '2022-07-04T10:15:50.066Z'
+                },
+                'extension_status': {},
+                'file_id': 'fake_file_id1234',
+                'file_path': '/new_car.jpg',
+                'file_type': 'image',
+                'has_alpha': False,
+                'height': 354,
+                'is_private_file': False,
+                'mime': 'image/jpeg',
+                'name': 'new_car.jpg',
+                'size': 7390,
+                'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
+                'thumbnail': 'https://ik.imagekit.io/zv3rkhsym/tr:n-ik_ml_thumbnail/new_car.jpg',
+                'type': 'file',
+                'updated_at': '2022-07-04T10:15:50.067Z',
+                'url': 'https://ik.imagekit.io/zv3rkhsym/new_car.jpg',
+                'version_info': {
+                    'id': '62b97749f63122840530fda9',
+                    'name': 'Version 4'
+                },
+                'width': 236
+            }
+        }
+
+        self.assertEqual("http://test.com/fake_file_id1234/details", responses.calls[0].request.url)
+        self.assertEqual(mock_resp, resp)
+
+    @responses.activate
+    def test_file_details_fails_with_400_exception(self) -> None:
+        """Test get file details raises 400 error"""
+
+        URL.BASE_URL = "http://test.com"
+        url = "{}/{}/details".format(URL.BASE_URL, self.file_id)
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=400,
+                body=json.dumps({"message": "Your request contains invalid fileId parameter.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+            )
+            self.client.get_file_details(self.file_id)
+            self.assertRaises(BadRequestException)
+        except BadRequestException as e:
+            self.assertEqual("Your request contains invalid fileId parameter.", e.message)
+            self.assertEqual(400, e.response_metadata['httpStatusCode'])
 
 
 class TestDeleteFile(ClientTestCase):
@@ -729,48 +1007,625 @@ class TestUpdateFileDetails(ClientTestCase):
 
     valid_options = {"tags": ["tag1", "tag2"], "custom_coordinates": "10,10,100,100"}
 
+    @responses.activate
     def test_update_file_details_fails_on_unauthenticated_request(self):
         """
         Tests if the unauthenticated request restricted
-
         """
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "{}/{}/details/".format(URL.BASE_URL, self.file_id)
+        try:
+            responses.add(
+                responses.PATCH,
+                url,
+                status=403,
+                body=json.dumps({'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+            )
+            self.client.update_file_details(
+                file_id=self.file_id, options=self.valid_options
+            )
+            self.assertRaises(ForbiddenException)
+        except ForbiddenException as e:
+            self.assertEqual(e.message, "Your account cannot be authenticated.")
+            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
 
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        resp = self.client.update_file_details(
-            file_id=self.file_id, options=self.valid_options
-        )
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
-
+    @responses.activate
     def test_update_file_details_succeeds_with_id(self):
         """
-        Tests if  update_file_details succeeds with file_url
+        Tests if  update file details succeeds with file id
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
-
-        # generate expected encoded private key for the auth headers
-        private_key_file_upload = ClientTestCase.private_key
-        if private_key_file_upload != ":":
-            private_key_file_upload += ":"
-        encoded_private_key = base64.b64encode(private_key_file_upload.encode()).decode(
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "{}/{}/details/".format(URL.BASE_URL, self.file_id)
+        headers = {"Content-Type": "application/json"}
+        encoded_private_key = base64.b64encode((self.private_key + ":").encode()).decode(
             "utf-8"
         )
-
-        resp = self.client.update_file_details(
-            file_id=self.file_id, options=self.valid_options
+        headers.update({"Authorization": "Basic {}".format(encoded_private_key)})
+        responses.add(
+            responses.PATCH,
+            url,
+            body=json.dumps({
+                "type": "file",
+                "name": "default-image.jpg",
+                "createdAt": "2022-07-21T10:31:22.529Z",
+                "updatedAt": "2022-07-21T10:37:11.848Z",
+                "fileId": "fake_123",
+                "tags": ["tag1", "tag2"],
+                "AITags": [{
+                    "name": "Corridor",
+                    "confidence": 99.39,
+                    "source": "aws-auto-tagging"
+                }, {
+                    "name": "Floor",
+                    "confidence": 97.59,
+                    "source": "aws-auto-tagging"
+                }],
+                "versionInfo": {
+                    "id": "versionId",
+                    "name": "Version 2"
+                },
+                "embeddedMetadata": {
+                    "XResolution": 1,
+                    "YResolution": 1,
+                    "DateCreated": "2022-07-21T10:35:34.497Z",
+                    "DateTimeCreated": "2022-07-21T10:35:34.500Z"
+                },
+                "customCoordinates": "10,10,100,100",
+                "customMetadata": {
+                    "test": 11
+                },
+                "isPrivateFile": False,
+                "url": "https://ik.imagekit.io/your_imagekit_id/default-image.jpg",
+                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/default-image.jpg",
+                "fileType": "image",
+                "filePath": "/default-image.jpg",
+                "height": 1000,
+                "width": 1000,
+                "size": 184425,
+                "hasAlpha": False,
+                "mime": "image/jpeg",
+                "extensionStatus": {
+                    "remove-bg": "pending",
+                    "google-auto-tagging": "success"
+                }
+            }),
+            headers=headers
         )
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
-        self.client.ik_request.request.assert_called_once_with(
-            method="Patch",
-            url="{}/{}/details/".format(URL.BASE_URL.value, self.file_id),
-            headers={'Content-Type': 'application/json', 'Authorization': "Basic {}".format(encoded_private_key)},
-            data=json.dumps(request_formatter(self.valid_options))
-        )
 
-    def test_file_details_succeeds_with_url(self):
-        self.client.ik_request = MagicMock(return_value=get_mocked_success_resp())
+        request_body = {
+            "removeAITags": ["ai-tag1", "ai-tag2"],
+            "webhookUrl": "url",
+            "extensions": [{
+                "name": "remove-bg",
+                "options": {
+                    "add_shadow": True,
+                    "bg_color": "red"
+                }
+            }, {
+                "name": "google-auto-tagging",
+                "minConfidence": 80,
+                "maxTags": 10
+            }],
+            "tags": ["tag1", "tag2"],
+            "customCoordinates": "10,10,100,100",
+            "customMetadata": {
+                "test": 11
+            }
+        }
+        resp = self.client.update_file_details(self.file_id, request_body)
+        mock_resp = {
+            'error': None,
+            'response': {
+                'type': 'file',
+                'name': 'default-image.jpg',
+                'created_at': '2022-07-21T10:31:22.529Z',
+                'updated_at': '2022-07-21T10:37:11.848Z',
+                'file_id': 'fake_123',
+                'tags': ['tag1', 'tag2'],
+                'ai_tags': [{
+                    'name': 'Corridor',
+                    'confidence': 99.39,
+                    'source': 'aws-auto-tagging'
+                }, {
+                    'name': 'Floor',
+                    'confidence': 97.59,
+                    'source': 'aws-auto-tagging'
+                }],
+                'version_info': {
+                    'id': 'versionId',
+                    'name': 'Version 2'
+                },
+                'embedded_metadata': {
+                    'XResolution': 1,
+                    'YResolution': 1,
+                    'DateCreated': '2022-07-21T10:35:34.497Z',
+                    'DateTimeCreated': '2022-07-21T10:35:34.500Z'
+                },
+                'custom_coordinates': '10,10,100,100',
+                'custom_metadata': {
+                    'test': 11
+                },
+                'is_private_file': False,
+                'url': 'https://ik.imagekit.io/your_imagekit_id/default-image.jpg',
+                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/default-image.jpg',
+                'file_type': 'image',
+                'file_path': '/default-image.jpg',
+                'height': 1000,
+                'width': 1000,
+                'size': 184425,
+                'has_alpha': False,
+                'mime': 'image/jpeg',
+                'extension_status': {
+                    'remove-bg': 'pending',
+                    'google-auto-tagging': 'success'
+                },
+                '_response_metadata': {
+                    'raw': {
+                        'type': 'file',
+                        'name': 'default-image.jpg',
+                        'createdAt': '2022-07-21T10:31:22.529Z',
+                        'updatedAt': '2022-07-21T10:37:11.848Z',
+                        'fileId': 'fake_123',
+                        'tags': ['tag1', 'tag2'],
+                        'AITags': [{
+                            'name': 'Corridor',
+                            'confidence': 99.39,
+                            'source': 'aws-auto-tagging'
+                        }, {
+                            'name': 'Floor',
+                            'confidence': 97.59,
+                            'source': 'aws-auto-tagging'
+                        }],
+                        'versionInfo': {
+                            'id': 'versionId',
+                            'name': 'Version 2'
+                        },
+                        'embeddedMetadata': {
+                            'XResolution': 1,
+                            'YResolution': 1,
+                            'DateCreated': '2022-07-21T10:35:34.497Z',
+                            'DateTimeCreated': '2022-07-21T10:35:34.500Z'
+                        },
+                        'customCoordinates': '10,10,100,100',
+                        'customMetadata': {
+                            'test': 11
+                        },
+                        'isPrivateFile': False,
+                        'url': 'https://ik.imagekit.io/your_imagekit_id/default-image.jpg',
+                        'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/default-image.jpg',
+                        'fileType': 'image',
+                        'filePath': '/default-image.jpg',
+                        'height': 1000,
+                        'width': 1000,
+                        'size': 184425,
+                        'hasAlpha': False,
+                        'mime': 'image/jpeg',
+                        'extensionStatus': {
+                            'remove-bg': 'pending',
+                            'google-auto-tagging': 'success'
+                        }
+                    },
+                    'httpStatusCode': 200,
+                    'headers': {
+                        'Content-Type': 'text/plain, application/json',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    }
+                }
+            }
+        }
+        self.assertEqual(json.dumps(request_body), responses.calls[0].request.body)
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("https://api.imagekit.io/v1/files/fake_123/details/", responses.calls[0].request.url)
+
+    @responses.activate
+    def test_update_file_details_fails_with_404_exception(self) -> None:
+        """Test update file details raises 404 error"""
+
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "{}/{}/details/".format(URL.BASE_URL, self.file_id)
+        try:
+            responses.add(
+                responses.PATCH,
+                url,
+                status=404,
+                body=json.dumps({"message": "The requested file does not exist.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+            )
+
+            request_body = {
+                "removeAITags": ["ai-tag1", "ai-tag2"],
+                "webhookUrl": "url",
+                "extensions": [{
+                    "name": "remove-bg",
+                    "options": {
+                        "add_shadow": True,
+                        "bg_color": "red"
+                    }
+                }, {
+                    "name": "google-auto-tagging",
+                    "minConfidence": 80,
+                    "maxTags": 10
+                }],
+                "tags": ["tag1", "tag2"],
+                "customCoordinates": "10,10,100,100",
+                "customMetadata": {
+                    "test": 11
+                }
+            }
+            self.client.update_file_details(self.file_id, request_body)
+            self.assertRaises(UnknownException)
+        except UnknownException as e:
+            self.assertEqual("The requested file does not exist.", e.message)
+            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+
+
+class TestGetFileVersions(ClientTestCase):
+    """
+    TestGetFileVersions class used to get file versions and it's details
+    """
+
+    file_id = "fake_123"
+
+    valid_options = {"tags": ["tag1", "tag2"], "custom_coordinates": "10,10,100,100"}
+
+    @responses.activate
+    def test_get_file_versions_fails_on_unauthenticated_request(self):
+        """
+        Tests if the unauthenticated request restricted
+        """
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "{}/{}/versions".format(URL.BASE_URL, self.file_id)
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=403,
+                body=json.dumps({'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+            )
+            self.client.get_file_versions(self.file_id)
+            self.assertRaises(ForbiddenException)
+        except ForbiddenException as e:
+            self.assertEqual(e.message, "Your account cannot be authenticated.")
+            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
+
+    @responses.activate
+    def test_get_file_versions_succeeds_with_id(self):
+        """
+        Tests if get file versions succeeds with file id
+        """
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "{}/{}/versions".format(URL.BASE_URL, self.file_id)
+
+        headers = {"Content-Type": "application/json"}
+        encoded_private_key = base64.b64encode((self.private_key + ":").encode()).decode(
+            "utf-8"
+        )
+        headers.update({"Authorization": "Basic {}".format(encoded_private_key)})
+        responses.add(
+            responses.GET,
+            url,
+            body=json.dumps([{
+                "type": "file",
+                "name": "new_car.jpg",
+                "createdAt": "2022-06-15T11:34:36.294Z",
+                "updatedAt": "2022-07-04T10:15:50.067Z",
+                "fileId": "fake_123",
+                "tags": ["Tag_1", "Tag_2", "Tag_3"],
+                "AITags": [{
+                    "name": "Clothing",
+                    "confidence": 98.77,
+                    "source": "google-auto-tagging"
+                }, {
+                    "name": "Smile",
+                    "confidence": 95.31,
+                    "source": "google-auto-tagging"
+                }, {
+                    "name": "Shoe",
+                    "confidence": 95.2,
+                    "source": "google-auto-tagging"
+                }],
+                "versionInfo": {
+                    "id": "versionId",
+                    "name": "Version 4"
+                },
+                "embeddedMetadata": {
+                    "DateCreated": "2022-07-04T10:15:50.066Z",
+                    "DateTimeCreated": "2022-07-04T10:15:50.066Z"
+                },
+                "customCoordinates": None,
+                "customMetadata": {
+                    "test100": 10,
+                    "test10": 11
+                },
+                "isPrivateFile": False,
+                "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg",
+                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg",
+                "fileType": "image",
+                "filePath": "/new_car.jpg",
+                "height": 354,
+                "width": 236,
+                "size": 7390,
+                "hasAlpha": False,
+                "mime": "image/jpeg"
+            }, {
+                "type": "file-version",
+                "name": "new_car.jpg",
+                "createdAt": "2022-07-04T10:15:49.698Z",
+                "updatedAt": "2022-07-04T10:15:49.734Z",
+                "fileId": "fileId",
+                "tags": ["Tag_1", "Tag_2", "Tag_3"],
+                "AITags": [{
+                    "name": "Clothing",
+                    "confidence": 98.77,
+                    "source": "google-auto-tagging"
+                }, {
+                    "name": "Smile",
+                    "confidence": 95.31,
+                    "source": "google-auto-tagging"
+                }, {
+                    "name": "Shoe",
+                    "confidence": 95.2,
+                    "source": "google-auto-tagging"
+                }, {
+                    "name": "Street light",
+                    "confidence": 91.05,
+                    "source": "google-auto-tagging"
+                }],
+                "versionInfo": {
+                    "id": "62c2bdd5872375c6b8f40fd4",
+                    "name": "Version 1"
+                },
+                "embeddedMetadata": {
+                    "XResolution": 250,
+                    "YResolution": 250,
+                    "DateCreated": "2022-06-15T11:34:36.702Z",
+                    "DateTimeCreated": "2022-06-15T11:34:36.702Z"
+                },
+                "customCoordinates": "10,10,40,40",
+                "customMetadata": {
+                    "test100": 10,
+                    "test10": 11
+                },
+                "isPrivateFile": False,
+                "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version"
+                       "=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version"
+                             "=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                "fileType": "image",
+                "filePath": "/new_car.jpg",
+                "height": 354,
+                "width": 236,
+                "size": 23023,
+                "hasAlpha": False,
+                "mime": "image/jpeg"
+            }]),
+            headers=headers
+        )
+        resp = self.client.get_file_versions(self.file_id)
+        mock_resp = {
+            'error': None,
+            'response': {
+                'list': [{
+                    'type': 'file',
+                    'name': 'new_car.jpg',
+                    'created_at': '2022-06-15T11:34:36.294Z',
+                    'updated_at': '2022-07-04T10:15:50.067Z',
+                    'file_id': 'fake_123',
+                    'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
+                    'ai_tags': [{
+                        'name': 'Clothing',
+                        'confidence': 98.77,
+                        'source': 'google-auto-tagging'
+                    }, {
+                        'name': 'Smile',
+                        'confidence': 95.31,
+                        'source': 'google-auto-tagging'
+                    }, {
+                        'name': 'Shoe',
+                        'confidence': 95.2,
+                        'source': 'google-auto-tagging'
+                    }],
+                    'version_info': {
+                        'id': 'versionId',
+                        'name': 'Version 4'
+                    },
+                    'embedded_metadata': {
+                        'DateCreated': '2022-07-04T10:15:50.066Z',
+                        'DateTimeCreated': '2022-07-04T10:15:50.066Z'
+                    },
+                    'custom_coordinates': None,
+                    'custom_metadata': {
+                        'test100': 10,
+                        'test10': 11
+                    },
+                    'is_private_file': False,
+                    'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg',
+                    'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg',
+                    'file_type': 'image',
+                    'file_path': '/new_car.jpg',
+                    'height': 354,
+                    'width': 236,
+                    'size': 7390,
+                    'has_alpha': False,
+                    'mime': 'image/jpeg',
+                    'extension_status': {},
+                    '_response_metadata': {}
+                }, {
+                    'type': 'file-version',
+                    'name': 'new_car.jpg',
+                    'created_at': '2022-07-04T10:15:49.698Z',
+                    'updated_at': '2022-07-04T10:15:49.734Z',
+                    'file_id': 'fileId',
+                    'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
+                    'ai_tags': [{
+                        'name': 'Clothing',
+                        'confidence': 98.77,
+                        'source': 'google-auto-tagging'
+                    }, {
+                        'name': 'Smile',
+                        'confidence': 95.31,
+                        'source': 'google-auto-tagging'
+                    }, {
+                        'name': 'Shoe',
+                        'confidence': 95.2,
+                        'source': 'google-auto-tagging'
+                    }, {
+                        'name': 'Street light',
+                        'confidence': 91.05,
+                        'source': 'google-auto-tagging'
+                    }],
+                    'version_info': {
+                        'id': '62c2bdd5872375c6b8f40fd4',
+                        'name': 'Version 1'
+                    },
+                    'embedded_metadata': {
+                        'XResolution': 250,
+                        'YResolution': 250,
+                        'DateCreated': '2022-06-15T11:34:36.702Z',
+                        'DateTimeCreated': '2022-06-15T11:34:36.702Z'
+                    },
+                    'custom_coordinates': '10,10,40,40',
+                    'custom_metadata': {
+                        'test100': 10,
+                        'test10': 11
+                    },
+                    'is_private_file': False,
+                    'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
+                    'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
+                    'file_type': 'image',
+                    'file_path': '/new_car.jpg',
+                    'height': 354,
+                    'width': 236,
+                    'size': 23023,
+                    'has_alpha': False,
+                    'mime': 'image/jpeg',
+                    'extension_status': {},
+                    '_response_metadata': {}
+                }],
+                '_response_metadata': {
+                    'raw': [{
+                        'type': 'file',
+                        'name': 'new_car.jpg',
+                        'createdAt': '2022-06-15T11:34:36.294Z',
+                        'updatedAt': '2022-07-04T10:15:50.067Z',
+                        'fileId': 'fake_123',
+                        'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
+                        'AITags': [{
+                            'name': 'Clothing',
+                            'confidence': 98.77,
+                            'source': 'google-auto-tagging'
+                        }, {
+                            'name': 'Smile',
+                            'confidence': 95.31,
+                            'source': 'google-auto-tagging'
+                        }, {
+                            'name': 'Shoe',
+                            'confidence': 95.2,
+                            'source': 'google-auto-tagging'
+                        }],
+                        'versionInfo': {
+                            'id': 'versionId',
+                            'name': 'Version 4'
+                        },
+                        'embeddedMetadata': {
+                            'DateCreated': '2022-07-04T10:15:50.066Z',
+                            'DateTimeCreated': '2022-07-04T10:15:50.066Z'
+                        },
+                        'customCoordinates': None,
+                        'customMetadata': {
+                            'test100': 10,
+                            'test10': 11
+                        },
+                        'isPrivateFile': False,
+                        'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg',
+                        'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg',
+                        'fileType': 'image',
+                        'filePath': '/new_car.jpg',
+                        'height': 354,
+                        'width': 236,
+                        'size': 7390,
+                        'hasAlpha': False,
+                        'mime': 'image/jpeg'
+                    }, {
+                        'type': 'file-version',
+                        'name': 'new_car.jpg',
+                        'createdAt': '2022-07-04T10:15:49.698Z',
+                        'updatedAt': '2022-07-04T10:15:49.734Z',
+                        'fileId': 'fileId',
+                        'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
+                        'AITags': [{
+                            'name': 'Clothing',
+                            'confidence': 98.77,
+                            'source': 'google-auto-tagging'
+                        }, {
+                            'name': 'Smile',
+                            'confidence': 95.31,
+                            'source': 'google-auto-tagging'
+                        }, {
+                            'name': 'Shoe',
+                            'confidence': 95.2,
+                            'source': 'google-auto-tagging'
+                        }, {
+                            'name': 'Street light',
+                            'confidence': 91.05,
+                            'source': 'google-auto-tagging'
+                        }],
+                        'versionInfo': {
+                            'id': '62c2bdd5872375c6b8f40fd4',
+                            'name': 'Version 1'
+                        },
+                        'embeddedMetadata': {
+                            'XResolution': 250,
+                            'YResolution': 250,
+                            'DateCreated': '2022-06-15T11:34:36.702Z',
+                            'DateTimeCreated': '2022-06-15T11:34:36.702Z'
+                        },
+                        'customCoordinates': '10,10,40,40',
+                        'customMetadata': {
+                            'test100': 10,
+                            'test10': 11
+                        },
+                        'isPrivateFile': False,
+                        'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
+                        'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
+                        'fileType': 'image',
+                        'filePath': '/new_car.jpg',
+                        'height': 354,
+                        'width': 236,
+                        'size': 23023,
+                        'hasAlpha': False,
+                        'mime': 'image/jpeg'
+                    }],
+                    'httpStatusCode': 200,
+                    'headers': {
+                        'Content-Type': 'text/plain, application/json',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    }
+                }
+            }
+        }
+
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("https://api.imagekit.io/v1/files/fake_123/versions", responses.calls[0].request.url)
+
+    @responses.activate
+    def test_get_file_versions_fails_with_404_exception(self) -> None:
+        """Test get file versions raises 404 error"""
+
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "{}/{}/versions".format(URL.BASE_URL, self.file_id)
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=404,
+                body=json.dumps({"message": "The requested asset does not exist.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+            )
+            self.client.get_file_versions(self.file_id)
+            self.assertRaises(NotFoundException)
+        except NotFoundException as e:
+            self.assertEqual("The requested asset does not exist.", e.message)
+            self.assertEqual(404, e.response_metadata['httpStatusCode'])

@@ -28,7 +28,7 @@ class ERRORS(enum.Enum):
     }
     FILE_ID_MISSING = {
         "message": "Missing File ID parameter for this request",
-        help: "",
+        "help": "",
     }
     UPDATE_DATA_MISSING = {
         "message": "Missing file update data for this request",

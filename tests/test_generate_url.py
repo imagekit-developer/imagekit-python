@@ -23,28 +23,6 @@ class TestGenerateURL(unittest.TestCase):
             "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg"
         )
 
-    def test_url_contains_ik_sdk_version(self):
-        options = {
-            "path": "/default-image.jpg",
-            "transformation": [{"height": "300", "width": "400"}],
-        }
-        url = self.client.url(options)
-        self.assertEqual(
-            url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg"
-        )
-
-    def test_generate_url_without_leading_slash_in_path(self):
-        options = {
-            "path": "default-image.jpg",
-            "transformation": [{"height": "300", "width": "400"}],
-        }
-        url = self.client.url(options)
-        self.assertEqual(
-            url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg"
-        )
-
     def test_overriding_url_endpoint_generation_consists_new_url(self):
         """
         Overriding urlEndpoint parameter. Passing a urlEndpoint value which is
@@ -54,22 +32,6 @@ class TestGenerateURL(unittest.TestCase):
         options = {
             "path": "/default-image.jpg",
             "url_endpoint": "https://ik.imagekit.io/new/endpoint/",
-            "transformation": [{"height": "300", "width": "400"}],
-        }
-
-        url = self.client.url(options)
-        self.assertEqual(
-            url,
-            "https://ik.imagekit.io/new/endpoint/tr:h-300,w-400/default-image.jpg"
-        )
-
-    def test_overriding_url_endpoint_without_slash_generation_consists_new_url(self):
-        """
-        Overriding urlEndpoint parameter. Passing a urlEndpoint value without slash
-        """
-        options = {
-            "path": "/default-image.jpg",
-            "url_endpoint": "https://ik.imagekit.io/new/endpoint",
             "transformation": [{"height": "300", "width": "400"}],
         }
 
@@ -109,6 +71,7 @@ class TestGenerateURL(unittest.TestCase):
                     "format": "jpg",
                     "progressive": "true",
                     "effect_contrast": "1",
+                    "raw": "ar-4-3,q-40"
                 },
                 {"rotation": 90},
             ],
@@ -116,7 +79,8 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90"
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1"
+            "%2Craw-ar-4-3%2Cq-40%3Art-90"
         )
 
     def test_generate_url_with_src_with_query_params_double(self):
@@ -140,7 +104,8 @@ class TestGenerateURL(unittest.TestCase):
         # @TODO - adjust value of param1=value1 in test case but it should be there
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?queryparam1=value1&param1=value1&tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90"
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?queryparam1=value1&param1=value1&tr=h-300%2Cw-400"
+            "%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90"
         )
 
     def test_generate_url_with_path_and_signed(self):
@@ -238,7 +203,8 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90"
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1"
+            "%3Art-90"
         )
 
     def test_url_check_query_param_are_added_correctly(self):
@@ -268,7 +234,8 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?client=123&ab=c&tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1%3Art-90"
+            "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?client=123&ab=c&tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true"
+            "%2Ce-contrast-1%3Art-90"
         )
 
     def test_generate_url_with_src_and_transformation_position_path(self):
@@ -376,24 +343,24 @@ class TestGenerateURL(unittest.TestCase):
                 "focus": 'left',
                 "format": 'jpeg',
                 "radius": 50,
-                "bg": "A94D34",
+                "background": "A94D34",
                 "border": "5-A94D34",
                 "rotation": 90,
                 "blur": 10,
                 "named": "some_name",
-                "overlay_x": 35,
-                "overlay_y": 35,
-                "overlay_focus": "bottom",
-                "overlay_height": 20,
-                "overlay_width": 20,
                 "overlay_image": "/folder/file.jpg",  # leading slash case
-                "overlay_image_trim": False,
                 "overlay_image_aspect_ratio": "4:3",
                 "overlay_image_background": "0F0F0F",
                 "overlay_image_border": "10_0F0F0F",
                 "overlay_image_dpr": 2,
                 "overlay_image_quality": 50,
                 "overlay_image_cropping": "force",
+                "overlay_image_trim": False,
+                "overlay_x": 35,
+                "overlay_y": 35,
+                "overlay_focus": "bottom",
+                "overlay_height": 20,
+                "overlay_width": 20,
                 "overlay_text": "two words",
                 "overlay_text_font_size": 20,
                 "overlay_text_font_family": "Open Sans",
@@ -419,13 +386,19 @@ class TestGenerateURL(unittest.TestCase):
                 "effect_contrast": "true",
                 "effect_gray": "true",
                 "original": True,  # Boolean handling
+                "raw": 'w-200,h-200',
             }]
         }
         url = self.client.url(options)
         print(url)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400,ar-4-3,q-40,c-force,cm-extract,fo-left,f-jpeg,r-50,bg-A94D34,b-5-A94D34,rt-90,bl-10,n-some_name,ox-35,oy-35,ofo-bottom,oh-20,ow-20,oi-folder@@file.jpg,oit-false,oiar-4:3,oibg-0F0F0F,oib-10_0F0F0F,oidpr-2,oiq-50,oic-force,ot-two words,ots-20,otf-Open Sans,otc-00FFFF,oa-5,ott-b,obg-00AAFF55,ote-b3ZlcmxheSBtYWRlIGVhc3k%3D,otw-50,otbg-00AAFF55,otp-40,otia-left,or-10,pr-true,lo-true,t-5,md-true,cp-true,di-folder@@file.jpg,dpr-3,e-sharpen-10,e-usm-2-2-0.8-0.024,e-contrast-true,e-grayscale-true,orig-true/test_path.jpg"
+            "https://test-domain.com/test-endpoint/tr:h-300,w-400,ar-4-3,q-40,c-force,cm-extract,fo-left,f-jpeg,r-50,"
+            "bg-A94D34,b-5-A94D34,rt-90,bl-10,n-some_name,oi-folder@@file.jpg,oiar-4:3,oibg-0F0F0F,oib-10_0F0F0F,"
+            "oidpr-2,oiq-50,oic-force,oit-false,ox-35,oy-35,ofo-bottom,oh-20,ow-20,ot-two words,ots-20,otf-Open Sans,"
+            "otc-00FFFF,oa-5,ott-b,obg-00AAFF55,ote-b3ZlcmxheSBtYWRlIGVhc3k%3D,otw-50,otbg-00AAFF55,otp-40,otia-left,"
+            "or-10,pr-true,lo-true,t-5,md-true,cp-true,di-folder@@file.jpg,dpr-3,e-sharpen-10,e-usm-2-2-0.8-0.024,"
+            "e-contrast-true,e-grayscale-true,orig-true,raw-w-200,h-200/test_path.jpg"
         )
 
     def test_get_signature_with_100_expire_seconds(self):

@@ -36,7 +36,7 @@ def general_api_throw_exception(response: requests.models.Response):
     resp = get_response_json(response)
     response_meta_data = populate_response_metadata(response)
     error_message = resp['message'] if type(resp) == dict else ""
-    response_help = resp['help'] if type(resp) == dict else ""
+    response_help = resp['help'] if type(resp) == dict and 'help' in resp else ""
     if response.status_code == 400:
         raise BadRequestException(error_message, response_help, response_meta_data)
     elif response.status_code == 401:
