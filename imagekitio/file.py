@@ -1,3 +1,4 @@
+import json
 from json import dumps
 from typing import Any, Dict
 
@@ -5,8 +6,10 @@ from .constants.errors import ERRORS
 from .constants.files import VALID_FILE_OPTIONS, VALID_UPLOAD_OPTIONS
 from .constants.url import URL
 from .exceptions.NotFoundException import NotFoundException
+from .results.bulk_delete_file_result import BulkDeleteFileResult
 from .results.file_result import FileResult
 from .results.list_file_result import ListFileResult
+from .results.tags_result import TagsResult
 from .results.upload_file_result import UploadFileResult
 from .utils.formatter import (
     camel_dict_to_snake_dict,
@@ -15,7 +18,7 @@ from .utils.formatter import (
 )
 from .utils.utils import (
     general_api_throw_exception, get_response_json, populate_response_metadata, convert_to_response_object,
-    convert_to_list_response_object
+    convert_to_list_response_object, throw_other_exception
 )
 
 try:
@@ -104,7 +107,7 @@ class File(object):
             general_api_throw_exception(resp)
 
     def get_file_versions(self, file_identifier: str = None) -> Dict:
-        """returns file detail
+        """returns file versions
         """
         if not file_identifier:
             raise TypeError(ERRORS.FILE_ID_MISSING.value)
@@ -125,7 +128,7 @@ class File(object):
             general_api_throw_exception(resp)
 
     def get_file_version_details(self, file_identifier: str = None, version_identifier: str = None) -> Dict:
-        """returns file detail
+        """returns file version detail
         """
         if not file_identifier:
             raise TypeError(ERRORS.FILE_ID_MISSING.value)
@@ -165,48 +168,84 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
+    def manage_tags(self, file_ids, tags, action):
+        """Add or Remove tags of files
+        :param file_ids: array of file ids
+        :param tags: array of tags
+        :param action: to identify call either for removeTags or addTags
+        """
+        url = "{}/removeTags".format(URL.BASE_URL) if action == "removeTags" else "{}/addTags".format(URL.BASE_URL)
+        headers = {"Content-Type": "application/json"}
+        headers.update(self.request.get_auth_headers())
+        data = json.dumps({"fileIds": file_ids, "tags": tags})
+        resp = self.request.request(method="Post", url=url, headers=headers, data=data)
+        if resp.status_code == 200:
+            response = convert_to_response_object(resp, TagsResult)
+            return response
+        elif resp.status_code == 207 or resp.status_code == 404:
+            throw_other_exception(resp)
+        else:
+            general_api_throw_exception(resp)
+
+    def remove_ai_tags(self, file_ids, a_i_tags):
+        """Remove AI tags of files
+        :param file_ids: array of file ids
+        :param a_i_tags: array of AI tags
+        """
+        url = "{}/removeAITags".format(URL.BASE_URL)
+        headers = {"Content-Type": "application/json"}
+        headers.update(self.request.get_auth_headers())
+        data = json.dumps({"fileIds": file_ids, "AITags": a_i_tags})
+        resp = self.request.request(method="Post", url=url, headers=headers, data=data)
+        if resp.status_code == 200:
+            response = convert_to_response_object(resp, TagsResult)
+            return response
+        elif resp.status_code == 207 or resp.status_code == 404:
+            throw_other_exception(resp)
+        else:
+            general_api_throw_exception(resp)
+
     def delete(self, file_id: str = None) -> Dict:
         """Delete file by file_id
         deletes file from imagekit server
         """
         if not file_id:
             raise TypeError(ERRORS.FILE_ID_MISSING.value)
-        url = "{}/{}".format(URL.BASE_URL.value, file_id)
+        url = "{}/{}".format(URL.BASE_URL, file_id)
         resp = self.request.request(
             method="Delete", url=url, headers=self.request.create_headers()
         )
-        if resp.status_code > 204:
-            error = resp.text
-            response = None
+        if resp.status_code == 204:
+            response = {
+                "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
+            response = {"error": None, "response": response}
+            return response
         else:
-            error = None
-            response = None
-        response = {"error": error, "response": response}
-        return response
+            general_api_throw_exception(resp)
 
-    def batch_delete(self, file_ids: list = None):
+    def batch_delete(self, file_ids):
         """Delete bulk files
         Delete files by batch ids
         """
         if not file_ids:
             raise ValueError("Need to pass ids in list")
-        url = URL.BASE_URL.value + URL.BULK_FILE_DELETE.value
+        url = URL.BASE_URL + URL.BULK_FILE_DELETE
         resp = self.request.request(
             method="POST",
             url=url,
             headers=self.request.create_headers(),
             data={"fileIds": file_ids},
         )
-
-        if resp.status_code > 204:
-            error = resp.text
-            response = None
+        print("Resp1:-->", resp.status_code)
+        print("Resp1:-->", resp.request.body)
+        print("Resp2:-->", resp.text)
+        if resp.status_code == 200:
+            response = convert_to_response_object(resp, BulkDeleteFileResult)
+            return response
+        elif resp.status_code == 207 or resp.status_code == 404:
+            throw_other_exception(resp)
         else:
-            error = None
-            response = resp.json()
-
-        response = {"error": error, "response": response}
-        return response
+            general_api_throw_exception(resp)
 
     def purge_cache(self, file_url: str = None) -> Dict[str, Any]:
         """Use from child class to purge cache

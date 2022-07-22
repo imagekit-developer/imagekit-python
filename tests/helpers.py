@@ -86,9 +86,12 @@ def get_mocked_success_resp(message: dict = None, status: int = 200, resp: dict 
 
 def create_headers_for_test():
     headers = {"Accept-Encoding": "gzip, deflate"}
+    headers.update(get_auth_headers_for_test())
+    return headers
+
+
+def get_auth_headers_for_test():
     encoded_private_key = base64.b64encode((ClientTestCase.private_key + ":").encode()).decode(
         "utf-8"
     )
-    headers.update({"Authorization": "Basic {}".format(encoded_private_key)})
-
-    return headers
+    return {"Authorization": "Basic {}".format(encoded_private_key)}

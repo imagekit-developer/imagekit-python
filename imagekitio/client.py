@@ -1,3 +1,4 @@
+from array import array
 from typing import Any, Dict
 
 from .constants.errors import ERRORS
@@ -62,6 +63,21 @@ class ImageKit(object):
         """
         return self.file.update_file_details(file_id, options)
 
+    def add_tags(self, file_ids, tags) -> Dict:
+        """Add tags by file ids and tags
+        """
+        return self.file.manage_tags(file_ids, tags, "addTags")
+
+    def remove_tags(self, file_ids, tags) -> Dict:
+        """Add tags by file ids and tags
+        """
+        return self.file.manage_tags(file_ids, tags, "removeTags")
+
+    def remove_ai_tags(self, file_ids, a_i_tags) -> Dict:
+        """Add tags by file ids and AI tags
+        """
+        return self.file.remove_ai_tags(file_ids, a_i_tags)
+
     def delete_file(self, file_id: str = None) -> Dict[str, Any]:
         """Delete file by file_id
         """
@@ -72,7 +88,7 @@ class ImageKit(object):
         """
         return self.file.batch_delete(file_ids)
 
-    def bulk_file_delete(self, file_ids: list = None):
+    def bulk_file_delete(self, file_ids):
         """Delete files in bulk by provided list of ids
         """
         return self.file.batch_delete(file_ids)

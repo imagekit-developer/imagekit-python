@@ -1,4 +1,3 @@
-import base64
 import json
 import os
 
@@ -12,14 +11,13 @@ from imagekitio.exceptions.ForbiddenException import ForbiddenException
 from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.exceptions.UnknownException import UnknownException
 from tests.dummy_data.file import (
-    FAILED_DELETE_RESP,
     SUCCESS_PURGE_CACHE_MSG,
     SUCCESS_PURGE_CACHE_STATUS_MSG,
 )
 from tests.helpers import (
     ClientTestCase,
     get_mocked_failed_resp,
-    get_mocked_success_resp, create_headers_for_test,
+    get_mocked_success_resp, create_headers_for_test, get_auth_headers_for_test,
 )
 
 imagekit_obj = ImageKit(
@@ -720,57 +718,162 @@ class TestDeleteFile(ClientTestCase):
         self.assertIsNotNone(resp["error"])
         self.assertIsNone(resp["response"])
 
+    @responses.activate
     def test_bulk_file_delete_fails_on_unauthenticated_request(self) -> None:
         """Test bulk_file_delete on unauthenticated request
         this function checks if raises error on unauthenticated request
         to check if bulk_delete is only restricted to authenticated
         requests
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        resp = self.client.bulk_file_delete(self.bulk_delete_ids)
 
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
+        URL.BASE_URL = "http://test.com"
+        url = URL.BASE_URL + URL.BULK_FILE_DELETE
+        try:
+            responses.add(
+                responses.POST,
+                url,
+                status=403,
+                body=json.dumps({'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+            )
+            self.client.bulk_file_delete(self.bulk_delete_ids)
+            self.assertRaises(ForbiddenException)
+        except ForbiddenException as e:
+            self.assertEqual(e.message, "Your account cannot be authenticated.")
+            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
 
-    def test_file_delete_fails_on_item_not_found(self):
-        """Test delete_file on unavailable content
-        this function raising expected error if the file
-        is not available
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp(message=FAILED_DELETE_RESP)
-        )
-        resp = self.client.delete_file(self.file_id)
-
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
-
-    def test_file_delete_succeeds(self):
-        """Test delete file on authenticated request
-        this function tests if delete_file working properly
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp({"error": None, "response": None})
-        )
-        resp = self.client.delete_file(self.file_id)
-
-        self.assertIsNone(resp["error"])
-        self.assertIsNone(resp["response"])
-
+    @responses.activate
     def test_bulk_file_delete_succeeds(self):
         """Test bulk_delete  on authenticated request
         this function tests if bulk_file_delete working properly
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp({"error": None, "response": {
-                'successfullyDeletedFileIds': ['5e785a03ed03082733b979ec', '5e787c4427dd2a6c2fc564a5']}})
+
+        URL.BASE_URL = "http://test.com"
+        url = URL.BASE_URL + URL.BULK_FILE_DELETE
+        headers = {"Content-Type": "application/json"}
+        headers.update(get_auth_headers_for_test())
+
+        responses.add(
+            responses.POST,
+            url,
+            body=json.dumps({
+                "successfullyDeletedFileIds": ["fake_123", "fake_222"]
+            }),
+            headers=headers
         )
+
         resp = self.client.bulk_file_delete(self.bulk_delete_ids)
 
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
+        mock_resp = {
+            'error': None,
+            'response': {
+                'successfully_deleted_file_ids': ['fake_123', 'fake_222'],
+                '_response_metadata': {
+                    'raw': {
+                        'successfullyDeletedFileIds': ['fake_123', 'fake_222']
+                    },
+                    'httpStatusCode': 200,
+                    'headers': {
+                        'Content-Type': 'text/plain, application/json',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    }
+                }
+            }
+        }
+        self.assertEqual("fileIds=fake_123&fileIds=fake_222", responses.calls[0].request.body)
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/batch/deleteByFileIds", responses.calls[0].request.url)
+
+    @responses.activate
+    def test_bulk_file_delete_fails_with_404_exception(self) -> None:
+        """Test bulk_file_delete raises 404 error"""
+
+        URL.BASE_URL = "http://test.com"
+        url = URL.BASE_URL + URL.BULK_FILE_DELETE
+        headers = {"Content-Type": "application/json"}
+        headers.update(get_auth_headers_for_test())
+        try:
+            responses.add(
+                responses.POST,
+                url,
+                status=404,
+                body=json.dumps({
+                    "message": "The requested file(s) does not exist.",
+                    "help": "For support kindly contact us at support@imagekit.io .",
+                    "missingFileIds": ["fake_123", "fake_222"]
+                }),
+                headers=headers
+            )
+            self.client.bulk_file_delete(self.bulk_delete_ids)
+            self.assertRaises(NotFoundException)
+        except NotFoundException as e:
+            self.assertEqual("The requested file(s) does not exist.", e.message)
+            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+            self.assertEqual(["fake_123", "fake_222"], e.response_metadata['raw']['missingFileIds'])
+
+    @responses.activate
+    def test_file_delete_fails_with_400_exception(self):
+        """Test delete_file on unavailable content
+        this function raising 400 if the file
+        is not available
+        """
+
+        URL.BASE_URL = "http://test.com"
+        url = "{}/{}".format(URL.BASE_URL, self.file_id)
+        headers = {"Content-Type": "application/json"}
+        headers.update(get_auth_headers_for_test())
+        try:
+            responses.add(
+                responses.DELETE,
+                url,
+                status=400,
+                body=json.dumps({
+                    "message": "Your request contains invalid fileId parameter.",
+                    "help": "For support kindly contact us at support@imagekit.io ."
+                }),
+                headers=headers
+            )
+            self.client.delete_file(self.file_id)
+            self.assertRaises(BadRequestException)
+        except BadRequestException as e:
+            self.assertEqual("Your request contains invalid fileId parameter.", e.message)
+            self.assertEqual(400, e.response_metadata['httpStatusCode'])
+
+    @responses.activate
+    def test_file_delete_succeeds(self):
+        """Test delete file on authenticated request
+        this function tests if delete_file working properly
+        """
+        URL.BASE_URL = "http://test.com"
+        url = "{}/{}".format(URL.BASE_URL, self.file_id)
+        headers = {"Content-Type": "application/json"}
+        headers.update(get_auth_headers_for_test())
+
+        responses.add(
+            responses.DELETE,
+            url,
+            body=json.dumps({}),
+            status=204,
+            headers=headers
+        )
+
+        resp = self.client.delete_file(self.file_id)
+
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain, application/json',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    },
+                    'httpStatusCode': 204,
+                    'raw': None
+                }
+            }
+        }
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/fax_abx1223", responses.calls[0].request.url)
 
 
 class TestPurgeCache(ClientTestCase):
@@ -1038,10 +1141,7 @@ class TestUpdateFileDetails(ClientTestCase):
         URL.BASE_URL = "http://test.com"
         url = "{}/{}/details/".format(URL.BASE_URL, self.file_id)
         headers = {"Content-Type": "application/json"}
-        encoded_private_key = base64.b64encode((self.private_key + ":").encode()).decode(
-            "utf-8"
-        )
-        headers.update({"Authorization": "Basic {}".format(encoded_private_key)})
+        headers.update(get_auth_headers_for_test())
         responses.add(
             responses.PATCH,
             url,
@@ -1299,13 +1399,9 @@ class TestGetFileVersions(ClientTestCase):
         """
         URL.BASE_URL = "http://test.com"
         url = "{}/{}/versions".format(URL.BASE_URL, self.file_id)
-        print("he url:-->", url)
 
         headers = {"Content-Type": "application/json"}
-        encoded_private_key = base64.b64encode((self.private_key + ":").encode()).decode(
-            "utf-8"
-        )
-        headers.update({"Authorization": "Basic {}".format(encoded_private_key)})
+        headers.update(get_auth_headers_for_test())
         responses.add(
             responses.GET,
             url,
@@ -1646,7 +1742,7 @@ class TestGetFileVersions(ClientTestCase):
                 url,
                 status=403,
                 body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
             )
             self.client.get_file_version_details(self.file_id, self.version_id)
             self.assertRaises(ForbiddenException)
@@ -1663,10 +1759,7 @@ class TestGetFileVersions(ClientTestCase):
         url = "{}/{}/versions/{}".format(URL.BASE_URL, self.file_id, self.version_id)
 
         headers = {"Content-Type": "application/json"}
-        encoded_private_key = base64.b64encode((self.private_key + ":").encode()).decode(
-            "utf-8"
-        )
-        headers.update({"Authorization": "Basic {}".format(encoded_private_key)})
+        headers.update(get_auth_headers_for_test())
         responses.add(
             responses.GET,
             url,
