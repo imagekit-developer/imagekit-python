@@ -131,7 +131,7 @@ class File(object):
             raise TypeError(ERRORS.FILE_ID_MISSING.value)
         if not version_identifier:
             raise TypeError(ERRORS.VERSION_ID_MISSING.value)
-        url = "{}/{}/versions/{}".format(URL.BASE_URL.value, file_identifier, version_identifier)
+        url = "{}/{}/versions/{}".format(URL.BASE_URL, file_identifier, version_identifier)
         resp = self.request.request(
             method="GET", url=url, headers=self.request.create_headers(),
         )

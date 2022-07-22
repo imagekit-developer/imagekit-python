@@ -566,8 +566,8 @@ class TestGetFileDetails(ClientTestCase):
                     "test10": 11
                 },
                 "isPrivateFile": False,
-                "url": "https://ik.imagekit.io/zv3rkhsym/new_car.jpg",
-                "thumbnail": "https://ik.imagekit.io/zv3rkhsym/tr:n-ik_ml_thumbnail/new_car.jpg",
+                "url": "https://ik.imagekit.io/your-imagekit-id/new_car.jpg",
+                "thumbnail": "https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg",
                 "fileType": "image",
                 "filePath": "/new_car.jpg",
                 "height": 354,
@@ -623,10 +623,10 @@ class TestGetFileDetails(ClientTestCase):
                                  'Tag_2',
                                  'Tag_3'
                                  ],
-                        'thumbnail': 'https://ik.imagekit.io/zv3rkhsym/tr:n-ik_ml_thumbnail/new_car.jpg',
+                        'thumbnail': 'https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg',
                         'type': 'file',
                         'updatedAt': '2022-07-04T10:15:50.067Z',
-                        'url': 'https://ik.imagekit.io/zv3rkhsym/new_car.jpg',
+                        'url': 'https://ik.imagekit.io/your-imagekit-id/new_car.jpg',
                         'versionInfo': {
                             'id': '62b97749f63122840530fda9',
                             'name': 'Version '
@@ -665,10 +665,10 @@ class TestGetFileDetails(ClientTestCase):
                 'name': 'new_car.jpg',
                 'size': 7390,
                 'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
-                'thumbnail': 'https://ik.imagekit.io/zv3rkhsym/tr:n-ik_ml_thumbnail/new_car.jpg',
+                'thumbnail': 'https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg',
                 'type': 'file',
                 'updated_at': '2022-07-04T10:15:50.067Z',
-                'url': 'https://ik.imagekit.io/zv3rkhsym/new_car.jpg',
+                'url': 'https://ik.imagekit.io/your-imagekit-id/new_car.jpg',
                 'version_info': {
                     'id': '62b97749f63122840530fda9',
                     'name': 'Version 4'
@@ -1012,7 +1012,7 @@ class TestUpdateFileDetails(ClientTestCase):
         """
         Tests if the unauthenticated request restricted
         """
-        URL.UPLOAD_BASE_URL = "http://test.com"
+        URL.BASE_URL = "http://test.com"
         url = "{}/{}/details/".format(URL.BASE_URL, self.file_id)
         try:
             responses.add(
@@ -1035,7 +1035,7 @@ class TestUpdateFileDetails(ClientTestCase):
         """
         Tests if  update file details succeeds with file id
         """
-        URL.UPLOAD_BASE_URL = "http://test.com"
+        URL.BASE_URL = "http://test.com"
         url = "{}/{}/details/".format(URL.BASE_URL, self.file_id)
         headers = {"Content-Type": "application/json"}
         encoded_private_key = base64.b64encode((self.private_key + ":").encode()).decode(
@@ -1216,13 +1216,13 @@ class TestUpdateFileDetails(ClientTestCase):
         }
         self.assertEqual(json.dumps(request_body), responses.calls[0].request.body)
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("https://api.imagekit.io/v1/files/fake_123/details/", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/fake_123/details/", responses.calls[0].request.url)
 
     @responses.activate
     def test_update_file_details_fails_with_404_exception(self) -> None:
         """Test update file details raises 404 error"""
 
-        URL.UPLOAD_BASE_URL = "http://test.com"
+        URL.BASE_URL = "http://test.com"
         url = "{}/{}/details/".format(URL.BASE_URL, self.file_id)
         try:
             responses.add(
@@ -1267,6 +1267,8 @@ class TestGetFileVersions(ClientTestCase):
 
     file_id = "fake_123"
 
+    version_id = "fake_version_123"
+
     valid_options = {"tags": ["tag1", "tag2"], "custom_coordinates": "10,10,100,100"}
 
     @responses.activate
@@ -1274,7 +1276,7 @@ class TestGetFileVersions(ClientTestCase):
         """
         Tests if the unauthenticated request restricted
         """
-        URL.UPLOAD_BASE_URL = "http://test.com"
+        URL.BASE_URL = "http://test.com"
         url = "{}/{}/versions".format(URL.BASE_URL, self.file_id)
         try:
             responses.add(
@@ -1295,8 +1297,9 @@ class TestGetFileVersions(ClientTestCase):
         """
         Tests if get file versions succeeds with file id
         """
-        URL.UPLOAD_BASE_URL = "http://test.com"
+        URL.BASE_URL = "http://test.com"
         url = "{}/{}/versions".format(URL.BASE_URL, self.file_id)
+        print("he url:-->", url)
 
         headers = {"Content-Type": "application/json"}
         encoded_private_key = base64.b64encode((self.private_key + ":").encode()).decode(
@@ -1608,13 +1611,13 @@ class TestGetFileVersions(ClientTestCase):
         }
 
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("https://api.imagekit.io/v1/files/fake_123/versions", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/fake_123/versions", responses.calls[0].request.url)
 
     @responses.activate
     def test_get_file_versions_fails_with_404_exception(self) -> None:
         """Test get file versions raises 404 error"""
 
-        URL.UPLOAD_BASE_URL = "http://test.com"
+        URL.BASE_URL = "http://test.com"
         url = "{}/{}/versions".format(URL.BASE_URL, self.file_id)
         try:
             responses.add(
@@ -1629,3 +1632,197 @@ class TestGetFileVersions(ClientTestCase):
         except NotFoundException as e:
             self.assertEqual("The requested asset does not exist.", e.message)
             self.assertEqual(404, e.response_metadata['httpStatusCode'])
+
+    @responses.activate
+    def test_get_file_version_details_fails_on_unauthenticated_request(self):
+        """
+        Tests if the unauthenticated request restricted
+        """
+        URL.BASE_URL = "http://test.com"
+        url = "{}/{}/versions/{}".format(URL.BASE_URL, self.file_id, self.version_id)
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=403,
+                body=json.dumps({'message': 'Your account cannot be authenticated.'
+                                , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+            )
+            self.client.get_file_version_details(self.file_id, self.version_id)
+            self.assertRaises(ForbiddenException)
+        except ForbiddenException as e:
+            self.assertEqual(e.message, "Your account cannot be authenticated.")
+            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
+
+    @responses.activate
+    def test_get_file_version_details_succeeds_with_id(self):
+        """
+        Tests if get file version details succeeds with file id
+        """
+        URL.BASE_URL = "http://test.com"
+        url = "{}/{}/versions/{}".format(URL.BASE_URL, self.file_id, self.version_id)
+
+        headers = {"Content-Type": "application/json"}
+        encoded_private_key = base64.b64encode((self.private_key + ":").encode()).decode(
+            "utf-8"
+        )
+        headers.update({"Authorization": "Basic {}".format(encoded_private_key)})
+        responses.add(
+            responses.GET,
+            url,
+            body=json.dumps({
+                "type": "file-version",
+                "name": "new_car.jpg",
+                "createdAt": "2022-06-27T09:24:25.251Z",
+                "updatedAt": "2022-06-27T12:11:11.247Z",
+                "fileId": "fake_123",
+                "tags": ["tagg", "tagg1"],
+                "AITags": None,
+                "versionInfo": {
+                    "id": "fake_version_123",
+                    "name": "Version 1"
+                },
+                "embeddedMetadata": {
+                    "XResolution": 250,
+                    "YResolution": 250,
+                    "DateCreated": "2022-06-15T11:34:36.702Z",
+                    "DateTimeCreated": "2022-06-15T11:34:36.702Z"
+                },
+                "customCoordinates": "10,10,20,20",
+                "customMetadata": {
+                    "test100": 10
+                },
+                "isPrivateFile": False,
+                "url": "https://ik.imagekit.io/your-imagekit-id/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH",
+                "thumbnail": "https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH",
+                "fileType": "image",
+                "filePath": "/new_car.jpg",
+                "height": 354,
+                "width": 236,
+                "size": 23023,
+                "hasAlpha": False,
+                "mime": "image/jpeg"
+            }),
+            headers=headers
+        )
+        resp = self.client.get_file_version_details(self.file_id, self.version_id)
+        mock_resp = {
+            'error': None,
+            'response': {
+                'type': 'file-version',
+                'name': 'new_car.jpg',
+                'created_at': '2022-06-27T09:24:25.251Z',
+                'updated_at': '2022-06-27T12:11:11.247Z',
+                'file_id': 'fake_123',
+                'tags': ['tagg', 'tagg1'],
+                'ai_tags': None,
+                'version_info': {
+                    'id': 'fake_version_123',
+                    'name': 'Version 1'
+                },
+                'embedded_metadata': {
+                    'XResolution': 250,
+                    'YResolution': 250,
+                    'DateCreated': '2022-06-15T11:34:36.702Z',
+                    'DateTimeCreated': '2022-06-15T11:34:36.702Z'
+                },
+                'custom_coordinates': '10,10,20,20',
+                'custom_metadata': {
+                    'test100': 10
+                },
+                'is_private_file': False,
+                'url': 'https://ik.imagekit.io/your-imagekit-id/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH',
+                'thumbnail': 'https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH',
+                'file_type': 'image',
+                'file_path': '/new_car.jpg',
+                'height': 354,
+                'width': 236,
+                'size': 23023,
+                'has_alpha': False,
+                'mime': 'image/jpeg',
+                'extension_status': {},
+                '_response_metadata': {
+                    'raw': {
+                        'type': 'file-version',
+                        'name': 'new_car.jpg',
+                        'createdAt': '2022-06-27T09:24:25.251Z',
+                        'updatedAt': '2022-06-27T12:11:11.247Z',
+                        'fileId': 'fake_123',
+                        'tags': ['tagg', 'tagg1'],
+                        'AITags': None,
+                        'versionInfo': {
+                            'id': 'fake_version_123',
+                            'name': 'Version 1'
+                        },
+                        'embeddedMetadata': {
+                            'XResolution': 250,
+                            'YResolution': 250,
+                            'DateCreated': '2022-06-15T11:34:36.702Z',
+                            'DateTimeCreated': '2022-06-15T11:34:36.702Z'
+                        },
+                        'customCoordinates': '10,10,20,20',
+                        'customMetadata': {
+                            'test100': 10
+                        },
+                        'isPrivateFile': False,
+                        'url': 'https://ik.imagekit.io/your-imagekit-id/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH',
+                        'thumbnail': 'https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH',
+                        'fileType': 'image',
+                        'filePath': '/new_car.jpg',
+                        'height': 354,
+                        'width': 236,
+                        'size': 23023,
+                        'hasAlpha': False,
+                        'mime': 'image/jpeg'
+                    },
+                    'httpStatusCode': 200,
+                    'headers': {
+                        'Content-Type': 'text/plain, application/json',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    }
+                }
+            }
+        }
+
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/fake_123/versions/fake_version_123", responses.calls[0].request.url)
+
+    @responses.activate
+    def test_get_file_version_details_fails_with_404_exception(self) -> None:
+        """Test get file version details raises 404 error"""
+
+        URL.BASE_URL = "http://test.com"
+        url = "{}/{}/versions/{}".format(URL.BASE_URL, self.file_id, self.version_id)
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=404,
+                body=json.dumps({"message": "The requested asset does not exist.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+            )
+            self.client.get_file_version_details(self.file_id, self.version_id)
+            self.assertRaises(NotFoundException)
+        except NotFoundException as e:
+            self.assertEqual("The requested asset does not exist.", e.message)
+            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+
+    @responses.activate
+    def test_get_file_version_details_fails_with_400_exception(self) -> None:
+        """Test get file version details raises 400 error"""
+
+        URL.BASE_URL = "http://test.com"
+        url = "{}/{}/versions/{}".format(URL.BASE_URL, self.file_id, self.version_id)
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=400,
+                body=json.dumps({"message": "Your request contains invalid fileId parameter.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+            )
+            self.client.get_file_version_details(self.file_id, self.version_id)
+            self.assertRaises(BadRequestException)
+        except BadRequestException as e:
+            self.assertEqual("Your request contains invalid fileId parameter.", e.message)
+            self.assertEqual(400, e.response_metadata['httpStatusCode'])
