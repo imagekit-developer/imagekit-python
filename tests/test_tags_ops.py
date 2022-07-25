@@ -30,8 +30,8 @@ class TestTags(ClientTestCase):
         """
         Tests if the unauthenticated request restricted
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/addTags".format(URL.BASE_URL)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/addTags".format(URL.API_BASE_URL)
         try:
             responses.add(
                 responses.POST,
@@ -51,8 +51,8 @@ class TestTags(ClientTestCase):
         """
         Tests if add tags succeeds
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/addTags".format(URL.BASE_URL)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/addTags".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
         responses.add(
@@ -87,14 +87,14 @@ class TestTags(ClientTestCase):
         })
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("http://test.com/addTags", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/v1/files/addTags", responses.calls[0].request.url)
 
     @responses.activate
     def test_add_tags_fails_with_404_exception(self) -> None:
         """Test add tags raises 404 error"""
 
-        URL.BASE_URL = "http://test.com"
-        url = "{}/addTags".format(URL.BASE_URL)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/addTags".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
         try:
@@ -121,8 +121,8 @@ class TestTags(ClientTestCase):
         """
         Tests if the unauthenticated request restricted
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/removeTags".format(URL.BASE_URL)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/removeTags".format(URL.API_BASE_URL)
         try:
             responses.add(
                 responses.POST,
@@ -142,8 +142,8 @@ class TestTags(ClientTestCase):
         """
         Tests if remove tags succeeds
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/removeTags".format(URL.BASE_URL)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/removeTags".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
         responses.add(
@@ -178,14 +178,14 @@ class TestTags(ClientTestCase):
         })
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("http://test.com/removeTags", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/v1/files/removeTags", responses.calls[0].request.url)
 
     @responses.activate
     def test_remove_tags_fails_with_404_exception(self) -> None:
         """Test remove tags raises 404 error"""
 
-        URL.BASE_URL = "http://test.com"
-        url = "{}/removeTags".format(URL.BASE_URL)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/removeTags".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
         try:
@@ -225,8 +225,8 @@ class TestAITags(ClientTestCase):
         """
         Tests if the unauthenticated request restricted
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/removeAITags".format(URL.BASE_URL)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/removeAITags".format(URL.API_BASE_URL)
         try:
             responses.add(
                 responses.POST,
@@ -246,8 +246,8 @@ class TestAITags(ClientTestCase):
         """
         Tests if Remove AI tags succeeds
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/removeAITags".format(URL.BASE_URL)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/removeAITags".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
         responses.add(
@@ -282,14 +282,14 @@ class TestAITags(ClientTestCase):
         })
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("http://test.com/removeAITags", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/v1/files/removeAITags", responses.calls[0].request.url)
 
     @responses.activate
     def test_remove_ai_tags_fails_with_404_exception(self) -> None:
         """Test Remove AI tags raises 404 error"""
 
-        URL.BASE_URL = "http://test.com"
-        url = "{}/removeAITags".format(URL.BASE_URL)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/removeAITags".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
         try:

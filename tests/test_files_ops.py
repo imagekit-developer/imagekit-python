@@ -7,6 +7,7 @@ from responses import matchers
 from imagekitio.client import ImageKit
 from imagekitio.constants.url import URL
 from imagekitio.exceptions.BadRequestException import BadRequestException
+from imagekitio.exceptions.ConflictException import ConflictException
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
 from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.exceptions.UnknownException import UnknownException
@@ -40,8 +41,8 @@ class TestUpload(ClientTestCase):
         """
         Tests if the unauthenticated request restricted
         """
-        URL.UPLOAD_BASE_URL = "http://test.com"
-        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
+        URL.UPLOAD_API_BASE_URL = "http://test.com"
+        url = "%s%s" % (URL.UPLOAD_API_BASE_URL, "api/v1/files/upload")
         try:
             responses.add(
                 responses.POST,
@@ -78,8 +79,8 @@ class TestUpload(ClientTestCase):
         """
         Tests if  upload succeeds
         """
-        URL.UPLOAD_BASE_URL = "http://test.com"
-        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
+        URL.UPLOAD_API_BASE_URL = "http://test.com"
+        url = "%s%s" % (URL.UPLOAD_API_BASE_URL, "api/v1/files/upload")
         headers = create_headers_for_test()
         responses.add(
             responses.POST,
@@ -254,8 +255,8 @@ class TestUpload(ClientTestCase):
     def test_upload_fails_with_400_exception(self) -> None:
         """Test upload raises 400 error"""
 
-        URL.UPLOAD_BASE_URL = "http://test.com"
-        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
+        URL.UPLOAD_API_BASE_URL = "http://test.com"
+        url = "%s%s" % (URL.UPLOAD_API_BASE_URL, "api/v1/files/upload")
         try:
             responses.add(
                 responses.POST,
@@ -302,8 +303,8 @@ class TestListFiles(ClientTestCase):
         """ Tests unauthenticated request restricted for list_files method
         """
 
-        URL.BASE_URL = "http://test.com"
-        url = URL.BASE_URL
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files".format(URL.API_BASE_URL)
         try:
             responses.add(
                 responses.GET,
@@ -324,8 +325,8 @@ class TestListFiles(ClientTestCase):
         Tests if list_files work with options which contains type, sort, path, searchQuery, fileType, limit, skip and tags
         """
 
-        URL.BASE_URL = "http://test.com/files"
-        url = URL.BASE_URL
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files".format(URL.API_BASE_URL)
 
         headers = create_headers_for_test()
         responses.add(
@@ -459,7 +460,7 @@ class TestListFiles(ClientTestCase):
         }
 
         self.assertEqual(
-            "http://test.com/files?type=file&sort=ASC_CREATED&path=%2F&searchQuery=createdAt+%3E%3D+%272d%27+OR+size"
+            "http://test.com/v1/files?type=file&sort=ASC_CREATED&path=%2F&searchQuery=createdAt+%3E%3D+%272d%27+OR+size"
             "+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3",
             responses.calls[0].request.url)
         self.assertEqual(mock_resp, resp)
@@ -468,8 +469,8 @@ class TestListFiles(ClientTestCase):
     def test_list_files_fails_with_400_exception(self) -> None:
         """Test get list of files raises 400 error"""
 
-        URL.BASE_URL = "http://test.com/files"
-        url = URL.BASE_URL
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files".format(URL.API_BASE_URL)
         try:
             responses.add(
                 responses.GET,
@@ -509,8 +510,8 @@ class TestGetFileDetails(ClientTestCase):
         """Tests of get_file_details raise error on unauthenticated request
         """
 
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/details".format(URL.BASE_URL, self.file_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/details".format(URL.API_BASE_URL, self.file_id)
         try:
             responses.add(
                 responses.GET,
@@ -527,8 +528,8 @@ class TestGetFileDetails(ClientTestCase):
 
     @responses.activate
     def test_file_details_succeeds_with_id(self) -> None:
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/details".format(URL.BASE_URL, self.file_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/details".format(URL.API_BASE_URL, self.file_id)
 
         headers = create_headers_for_test()
         responses.add(
@@ -675,15 +676,15 @@ class TestGetFileDetails(ClientTestCase):
             }
         }
 
-        self.assertEqual("http://test.com/fake_file_id1234/details", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/v1/files/fake_file_id1234/details", responses.calls[0].request.url)
         self.assertEqual(mock_resp, resp)
 
     @responses.activate
     def test_file_details_fails_with_400_exception(self) -> None:
         """Test get file details raises 400 error"""
 
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/details".format(URL.BASE_URL, self.file_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/details".format(URL.API_BASE_URL, self.file_id)
         try:
             responses.add(
                 responses.GET,
@@ -704,20 +705,6 @@ class TestDeleteFile(ClientTestCase):
 
     bulk_delete_ids = ["fake_123", "fake_222"]
 
-    def test_bulk_delete_fails_on_unauthenticated_request(self) -> None:
-        """Test bulk_delete on unauthenticated request
-        this function checks if raises error on unauthenticated request
-        to check if bulk_delete is only restricted to authenticated
-        requests
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        resp = self.client.bulk_delete(self.bulk_delete_ids)
-
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
-
     @responses.activate
     def test_bulk_file_delete_fails_on_unauthenticated_request(self) -> None:
         """Test bulk_file_delete on unauthenticated request
@@ -726,8 +713,8 @@ class TestDeleteFile(ClientTestCase):
         requests
         """
 
-        URL.BASE_URL = "http://test.com"
-        url = URL.BASE_URL + URL.BULK_FILE_DELETE
+        URL.API_BASE_URL = "http://test.com"
+        url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
         try:
             responses.add(
                 responses.POST,
@@ -748,8 +735,8 @@ class TestDeleteFile(ClientTestCase):
         this function tests if bulk_file_delete working properly
         """
 
-        URL.BASE_URL = "http://test.com"
-        url = URL.BASE_URL + URL.BULK_FILE_DELETE
+        URL.API_BASE_URL = "http://test.com"
+        url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
 
@@ -780,16 +767,16 @@ class TestDeleteFile(ClientTestCase):
                 }
             }
         }
-        self.assertEqual("fileIds=fake_123&fileIds=fake_222", responses.calls[0].request.body)
+        self.assertEqual(json.dumps({"fileIds": ["fake_123", "fake_222"]}), responses.calls[0].request.body)
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("http://test.com/batch/deleteByFileIds", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/v1/files/batch/deleteByFileIds", responses.calls[0].request.url)
 
     @responses.activate
     def test_bulk_file_delete_fails_with_404_exception(self) -> None:
         """Test bulk_file_delete raises 404 error"""
 
-        URL.BASE_URL = "http://test.com"
-        url = URL.BASE_URL + URL.BULK_FILE_DELETE
+        URL.API_BASE_URL = "http://test.com"
+        url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
         try:
@@ -818,8 +805,8 @@ class TestDeleteFile(ClientTestCase):
         is not available
         """
 
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}".format(URL.BASE_URL, self.file_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}".format(URL.API_BASE_URL, self.file_id)
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
         try:
@@ -844,8 +831,8 @@ class TestDeleteFile(ClientTestCase):
         """Test delete file on authenticated request
         this function tests if delete_file working properly
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}".format(URL.BASE_URL, self.file_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}".format(URL.API_BASE_URL, self.file_id)
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
 
@@ -873,7 +860,7 @@ class TestDeleteFile(ClientTestCase):
             }
         }
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("http://test.com/fax_abx1223", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/v1/files/fax_abx1223", responses.calls[0].request.url)
 
 
 class TestPurgeCache(ClientTestCase):
@@ -1115,8 +1102,8 @@ class TestUpdateFileDetails(ClientTestCase):
         """
         Tests if the unauthenticated request restricted
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/details/".format(URL.BASE_URL, self.file_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/details/".format(URL.API_BASE_URL, self.file_id)
         try:
             responses.add(
                 responses.PATCH,
@@ -1138,8 +1125,8 @@ class TestUpdateFileDetails(ClientTestCase):
         """
         Tests if  update file details succeeds with file id
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/details/".format(URL.BASE_URL, self.file_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/details/".format(URL.API_BASE_URL, self.file_id)
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
         responses.add(
@@ -1316,14 +1303,14 @@ class TestUpdateFileDetails(ClientTestCase):
         }
         self.assertEqual(json.dumps(request_body), responses.calls[0].request.body)
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("http://test.com/fake_123/details/", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/v1/files/fake_123/details/", responses.calls[0].request.url)
 
     @responses.activate
     def test_update_file_details_fails_with_404_exception(self) -> None:
         """Test update file details raises 404 error"""
 
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/details/".format(URL.BASE_URL, self.file_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/details/".format(URL.API_BASE_URL, self.file_id)
         try:
             responses.add(
                 responses.PATCH,
@@ -1376,8 +1363,8 @@ class TestGetFileVersions(ClientTestCase):
         """
         Tests if the unauthenticated request restricted
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/versions".format(URL.BASE_URL, self.file_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/versions".format(URL.API_BASE_URL, self.file_id)
         try:
             responses.add(
                 responses.GET,
@@ -1397,8 +1384,8 @@ class TestGetFileVersions(ClientTestCase):
         """
         Tests if get file versions succeeds with file id
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/versions".format(URL.BASE_URL, self.file_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/versions".format(URL.API_BASE_URL, self.file_id)
 
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
@@ -1707,14 +1694,14 @@ class TestGetFileVersions(ClientTestCase):
         }
 
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("http://test.com/fake_123/versions", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/v1/files/fake_123/versions", responses.calls[0].request.url)
 
     @responses.activate
     def test_get_file_versions_fails_with_404_exception(self) -> None:
         """Test get file versions raises 404 error"""
 
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/versions".format(URL.BASE_URL, self.file_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/versions".format(URL.API_BASE_URL, self.file_id)
         try:
             responses.add(
                 responses.GET,
@@ -1734,8 +1721,8 @@ class TestGetFileVersions(ClientTestCase):
         """
         Tests if the unauthenticated request restricted
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/versions/{}".format(URL.BASE_URL, self.file_id, self.version_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
         try:
             responses.add(
                 responses.GET,
@@ -1755,8 +1742,8 @@ class TestGetFileVersions(ClientTestCase):
         """
         Tests if get file version details succeeds with file id
         """
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/versions/{}".format(URL.BASE_URL, self.file_id, self.version_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
 
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
@@ -1878,14 +1865,14 @@ class TestGetFileVersions(ClientTestCase):
         }
 
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("http://test.com/fake_123/versions/fake_version_123", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/v1/files/fake_123/versions/fake_version_123", responses.calls[0].request.url)
 
     @responses.activate
     def test_get_file_version_details_fails_with_404_exception(self) -> None:
         """Test get file version details raises 404 error"""
 
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/versions/{}".format(URL.BASE_URL, self.file_id, self.version_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
         try:
             responses.add(
                 responses.GET,
@@ -1904,8 +1891,8 @@ class TestGetFileVersions(ClientTestCase):
     def test_get_file_version_details_fails_with_400_exception(self) -> None:
         """Test get file version details raises 400 error"""
 
-        URL.BASE_URL = "http://test.com"
-        url = "{}/{}/versions/{}".format(URL.BASE_URL, self.file_id, self.version_id)
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
         try:
             responses.add(
                 responses.GET,
@@ -1919,3 +1906,381 @@ class TestGetFileVersions(ClientTestCase):
         except BadRequestException as e:
             self.assertEqual("Your request contains invalid fileId parameter.", e.message)
             self.assertEqual(400, e.response_metadata['httpStatusCode'])
+
+
+class TestDeleteFileVersion(ClientTestCase):
+    version_id = "fake_123_version_id"
+    file_id = "fax_abx1223"
+
+    @responses.activate
+    def test_delete_file_version_fails_with_404_exception(self) -> None:
+        """Test delete_file_version raises 404 error"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        try:
+            responses.add(
+                responses.DELETE,
+                url,
+                status=404,
+                body=json.dumps({"message": "The requested file version does not exist.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+            )
+            self.client.delete_file_version(self.file_id, self.version_id)
+            self.assertRaises(NotFoundException)
+        except NotFoundException as e:
+            self.assertEqual("The requested file version does not exist.", e.message)
+            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+
+    @responses.activate
+    def test_delete_file_version_succeeds(self) -> None:
+        """Test delete_file_version succeeds with file and version Id"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+            headers=headers
+        )
+        resp = self.client.delete_file_version(self.file_id, self.version_id)
+
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain, application/json',
+                        'Accept-Encoding': 'gzip, deflate',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    },
+                    'httpStatusCode': 204,
+                    'raw': None
+                }
+            }
+        }
+
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/fax_abx1223/versions/fake_123_version_id", responses.calls[0].request.url)
+
+
+class TestCopyFile(ClientTestCase):
+    source_file_path = "/source_file.jpg"
+
+    destination_path = "/destination_path"
+
+    @responses.activate
+    def test_copy_file_fails_with_404(self) -> None:
+        """Test copy_file raises 404"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/copy".format(URL.API_BASE_URL)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        responses.add(
+            responses.POST,
+            url,
+            status=404,
+            headers=headers,
+            body=json.dumps({
+                "message": "No file found with filePath /source_file.jpg",
+                "help": "For support kindly contact us at support@imagekit.io .",
+                "reason": "SOURCE_FILE_MISSING"
+            })
+        )
+        try:
+            self.client.copy_file({"source_file_path": self.source_file_path,
+                                   "destination_path": self.destination_path,
+                                   "include_file_versions": False})
+            self.assertRaises(NotFoundException)
+        except NotFoundException as e:
+            self.assertEqual("No file found with filePath /source_file.jpg", e.message)
+            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+
+    @responses.activate
+    def test_copy_file_succeeds(self) -> None:
+        """Test copy_file succeeds"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/copy".format(URL.API_BASE_URL)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        responses.add(
+            responses.POST,
+            url,
+            status=204,
+            headers=headers
+        )
+        resp = self.client.copy_file({"source_file_path": self.source_file_path,
+                                      "destination_path": self.destination_path,
+                                      "include_file_versions": True})
+
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain, application/json',
+                        'Accept-Encoding': 'gzip, deflate',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    },
+                    'httpStatusCode': 204,
+                    'raw': None
+                }
+            }
+        }
+
+        request_body = json.dumps({
+            "sourceFilePath": "/source_file.jpg",
+            "destinationPath": "/destination_path",
+            "includeFileVersions": True
+        })
+
+        self.assertEqual(request_body, responses.calls[0].request.body)
+
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/files/copy", responses.calls[0].request.url)
+
+
+class TestMoveFile(ClientTestCase):
+    source_file_path = "/source_file.jpg"
+
+    destination_path = "/destination_path"
+
+    @responses.activate
+    def test_move_file_fails_with_404(self) -> None:
+        """Test move_file raises 404"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/move".format(URL.API_BASE_URL)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        responses.add(
+            responses.POST,
+            url,
+            status=404,
+            headers=headers,
+            body=json.dumps({
+                "message": "No file found with filePath /source_file.jpg",
+                "help": "For support kindly contact us at support@imagekit.io .",
+                "reason": "SOURCE_FILE_MISSING"
+            })
+        )
+        try:
+            self.client.move_file({"source_file_path": self.source_file_path,
+                                   "destination_path": self.destination_path})
+            self.assertRaises(NotFoundException)
+        except NotFoundException as e:
+            self.assertEqual("No file found with filePath /source_file.jpg", e.message)
+            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+
+    @responses.activate
+    def test_move_file_succeeds(self) -> None:
+        """Test move_file succeeds"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/move".format(URL.API_BASE_URL)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        responses.add(
+            responses.POST,
+            url,
+            status=204,
+            headers=headers
+        )
+        resp = self.client.move_file({"source_file_path": self.source_file_path,
+                                      "destination_path": self.destination_path})
+
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain, application/json',
+                        'Accept-Encoding': 'gzip, deflate',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    },
+                    'httpStatusCode': 204,
+                    'raw': None
+                }
+            }
+        }
+
+        request_body = json.dumps({
+            "sourceFilePath": "/source_file.jpg",
+            "destinationPath": "/destination_path",
+        })
+
+        self.assertEqual(request_body, responses.calls[0].request.body)
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/files/move", responses.calls[0].request.url)
+
+
+class TestRenameFile(ClientTestCase):
+    file_path = "/file_path.jpg"
+
+    new_file_name = "new_file.jpg"
+
+    @responses.activate
+    def test_rename_file_fails_with_409(self) -> None:
+        """Test rename_file raises 409"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/rename".format(URL.API_BASE_URL)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        try:
+            responses.add(
+                responses.PUT,
+                url,
+                status=409,
+                headers=headers,
+                body=json.dumps({
+                    "message": "File with name testing-binary.jpg already exists at the same location.",
+                    "help": "For support kindly contact us at support@imagekit.io .",
+                    "reason": "FILE_ALREADY_EXISTS"
+                })
+            )
+            self.client.rename_file({"file_path": self.file_path,
+                                     "new_file_name": self.new_file_name})
+            self.assertRaises(ConflictException)
+        except ConflictException as e:
+            self.assertEqual("File with name testing-binary.jpg already exists at the same location.", e.message)
+            self.assertEqual(409, e.response_metadata['httpStatusCode'])
+            self.assertEqual("FILE_ALREADY_EXISTS", e.response_metadata['raw']['reason'])
+
+    @responses.activate
+    def test_rename_file_succeeds_with_purge_cache(self) -> None:
+        """Test rename_file succeeds with Purge cache"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/rename".format(URL.API_BASE_URL)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        responses.add(
+            responses.PUT,
+            url,
+            headers=headers,
+            body=json.dumps({"purgeRequestId": "62de3e986f68334a5a3339fb"})
+        )
+        resp = self.client.rename_file({"file_path": self.file_path,
+                                        "new_file_name": self.new_file_name,
+                                        "purge_cache": True})
+
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain, application/json',
+                        'Accept-Encoding': 'gzip, deflate',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    },
+                    'httpStatusCode': 200,
+                    'raw': {
+                        'purgeRequestId': '62de3e986f68334a5a3339fb'
+                    }
+                },
+                'purge_request_id': '62de3e986f68334a5a3339fb'
+            }
+        }
+
+        request_body = json.dumps({
+            "filePath": "/file_path.jpg",
+            "newFileName": "new_file.jpg",
+            "purgeCache": True
+        })
+
+        self.assertEqual(request_body, responses.calls[0].request.body)
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/files/rename", responses.calls[0].request.url)
+
+    @responses.activate
+    def test_rename_file_succeeds(self) -> None:
+        """Test rename_file succeeds"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/rename".format(URL.API_BASE_URL)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        responses.add(
+            responses.PUT,
+            url,
+            headers=headers,
+            body=json.dumps({})
+        )
+        resp = self.client.rename_file({"file_path": self.file_path,
+                                        "new_file_name": self.new_file_name})
+
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain, application/json',
+                        'Accept-Encoding': 'gzip, deflate',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    },
+                    'httpStatusCode': 200,
+                    'raw': None
+                }
+            }
+        }
+
+        request_body = json.dumps({
+            "filePath": "/file_path.jpg",
+            "newFileName": "new_file.jpg"
+        })
+
+        self.assertEqual(request_body, responses.calls[0].request.body)
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/files/rename", responses.calls[0].request.url)
+
+
+class TestRestoreFileVersion(ClientTestCase):
+    version_id = "fake_123_version_id"
+    file_id = "fax_abx1223"
+
+    @responses.activate
+    def test_restore_file_version_fails_with_404_exception(self) -> None:
+        """Test restore_file_version raises 404 error"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/versions/{}/restore".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        try:
+            responses.add(
+                responses.PUT,
+                url,
+                status=404,
+                body=json.dumps({"message": "The requested file version does not exist.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+            )
+            self.client.restore_file_version(self.file_id, self.version_id)
+            self.assertRaises(NotFoundException)
+        except NotFoundException as e:
+            self.assertEqual("The requested file version does not exist.", e.message)
+            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+
+    @responses.activate
+    def test_restore_file_version_succeeds(self) -> None:
+        """Test restore_file_version succeeds with file and version Id"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/versions/{}/restore".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        responses.add(
+            responses.PUT,
+            url,
+            headers=headers
+        )
+        resp = self.client.restore_file_version(self.file_id, self.version_id)
+
+        mock_resp = {}
+
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/fax_abx1223/versions/fake_123_version_id/restore",
+                         responses.calls[0].request.url)

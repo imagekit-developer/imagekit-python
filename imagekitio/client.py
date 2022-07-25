@@ -88,10 +88,60 @@ class ImageKit(object):
         """
         return self.file.batch_delete(file_ids)
 
+    def delete_file_version(self, file_id, version_id):
+        """Delete file version by provided file and version id
+        """
+        return self.file.delete_file_version(file_id, version_id)
+
     def bulk_file_delete(self, file_ids):
         """Delete files in bulk by provided list of ids
         """
         return self.file.batch_delete(file_ids)
+
+    def copy_file(self, options):
+        """Copy file by provided sourceFilePath, destinationPath and includeFileVersions as an options
+        """
+        return self.file.copy_file(options)
+
+    def move_file(self, options):
+        """Move file by provided sourceFilePath and destinationPath as an options
+        """
+        return self.file.move_file(options)
+
+    def rename_file(self, options):
+        """Rename file by provided filePath, newFileName and purgeCache as an options
+        """
+        return self.file.rename_file(options)
+
+    def restore_file_version(self, file_id, version_id):
+        """Rename file by provided filePath, newFileName and purgeCache as an options
+        """
+        return self.file.restore_file_version(file_id, version_id)
+
+    def create_folder(self, options):
+        """Create folder by provided folderName and parentFolderPath
+        """
+        return self.file.create_folder(options)
+
+    def delete_folder(self, options):
+        """Delete folder by provided folderPath
+        """
+        return self.file.delete_folder(options)
+
+    def copy_folder(self, options):
+        """Copy folder by provided sourceFolderPath, destinationPath and includeFileVersions as an options
+        """
+        return self.file.copy_folder(options)
+
+    def move_folder(self, options):
+        """Move folder by provided sourceFolderPath and destinationPath as an options
+        """
+        return self.file.move_folder(options)
+
+    def get_bulk_job_status(self, job_id):
+        """Get bulk job status by provided jobId
+        """
+        return self.file.get_bulk_job_status(job_id)
 
     def purge_cache(self, file_url: str = None) -> Dict[str, Any]:
         """Purge Cache from server by file url

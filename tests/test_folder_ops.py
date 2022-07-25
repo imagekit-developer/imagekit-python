@@ -1,0 +1,418 @@
+import json
+
+import responses
+
+from imagekitio import ImageKit
+from imagekitio.constants.url import URL
+from imagekitio.exceptions.BadRequestException import BadRequestException
+from imagekitio.exceptions.ForbiddenException import ForbiddenException
+from imagekitio.exceptions.NotFoundException import NotFoundException
+from tests.helpers import ClientTestCase, create_headers_for_test
+
+imagekit_obj = ImageKit(
+    private_key="private_fake:", public_key="public_fake123:", url_endpoint="fake.com",
+)
+
+
+class TestFolders(ClientTestCase):
+    """
+    TestFolders class used to test create and Delete folders
+    """
+
+    @responses.activate
+    def test_create_folder_fails_on_unauthenticated_request(self):
+        """
+        Tests if the unauthenticated request restricted
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/folder".format(URL.API_BASE_URL)
+        try:
+            responses.add(
+                responses.POST,
+                url,
+                status=403,
+                body=json.dumps({'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+            )
+            self.client.create_folder(options={"folder_name": "folder_name", "parent_folder_path": "/test"})
+            self.assertRaises(ForbiddenException)
+        except ForbiddenException as e:
+            self.assertEqual(e.message, "Your account cannot be authenticated.")
+            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
+
+    @responses.activate
+    def test_create_folder_succeeds(self):
+        """
+        Tests if create_folder succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/folder".format(URL.API_BASE_URL)
+        headers = create_headers_for_test()
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+            body=json.dumps({}),
+            headers=headers
+        )
+        resp = self.client.create_folder(options={"folder_name": "folder_name", "parent_folder_path": "/test"})
+
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain',
+                        'Accept-Encoding': 'gzip, deflate',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    },
+                    'httpStatusCode': 201,
+                    'raw': None
+                }
+            }
+        }
+
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/folder", responses.calls[0].request.url)
+        self.assertEqual("folderName=folder_name&parentFolderPath=%2Ftest", responses.calls[0].request.body)
+
+    @responses.activate
+    def test_create_folder_fails_with_400(self):
+        """
+        Tests if create folder fails with 400
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/folder".format(URL.API_BASE_URL)
+        try:
+            responses.add(
+                responses.POST,
+                url,
+                status=400,
+                body=json.dumps({"message": "folderName parameter cannot have a slash.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+            )
+            self.client.create_folder(options={"folder_name": "/folder_name", "parent_folder_path": "/test"})
+            self.assertRaises(BadRequestException)
+        except BadRequestException as e:
+            self.assertEqual(e.message, "folderName parameter cannot have a slash.")
+            self.assertEqual(e.response_metadata['httpStatusCode'], 400)
+
+    @responses.activate
+    def test_delete_folder_fails_with_400(self):
+        """
+        Tests if Delete folder fails with 400
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/folder".format(URL.API_BASE_URL)
+        try:
+            responses.add(
+                responses.DELETE,
+                url,
+                status=404,
+                body=json.dumps({
+                    "message": "No folder found with folderPath test",
+                    "help": "For support kindly contact us at support@imagekit.io .",
+                    "reason": "FOLDER_NOT_FOUND"
+                }),
+            )
+            self.client.delete_folder(options={"folder_path": "/test"})
+            self.assertRaises(NotFoundException)
+        except NotFoundException as e:
+            self.assertEqual("No folder found with folderPath test", e.message)
+            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+            self.assertEqual("FOLDER_NOT_FOUND", e.response_metadata['raw']['reason'])
+
+    @responses.activate
+    def test_delete_folder_succeeds(self):
+        """
+        Tests if Delete folder succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/folder".format(URL.API_BASE_URL)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+            body=json.dumps({}),
+        )
+        resp = self.client.delete_folder(options={"folder_path": "/folderName"})
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'raw': None,
+                    'httpStatusCode': 204,
+                    'headers': {
+                        'Content-Type': 'text/plain'
+                    }
+                }
+            }
+        }
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/folder", responses.calls[0].request.url)
+        self.assertEqual("folderPath=%2FfolderName", responses.calls[0].request.body)
+
+
+class TestCopyFolder(ClientTestCase):
+    """
+    TestCopyFolder class used to test copy folder
+    """
+
+    @responses.activate
+    def test_copy_folder_fails_with_400(self):
+        """
+        Tests if Copy folder fails with 400
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/bulkJobs/copyFolder".format(URL.API_BASE_URL)
+        try:
+            responses.add(
+                responses.POST,
+                url,
+                status=400,
+                body=json.dumps({
+                    "message": "sourceFolderPath and destinationPath cannot be same.",
+                    "help": "For support kindly contact us at support@imagekit.io ."
+                }),
+            )
+            self.client.copy_folder(options={"source_folder_path": "/test",
+                                             "destination_path": "/test",
+                                             "include_file_versions": False})
+            self.assertRaises(BadRequestException)
+        except BadRequestException as e:
+            self.assertEqual("sourceFolderPath and destinationPath cannot be same.", e.message)
+            self.assertEqual(400, e.response_metadata['httpStatusCode'])
+
+    @responses.activate
+    def test_copy_folder_fails_with_404(self):
+        """
+        Tests if Copy folder fails with 404
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/bulkJobs/copyFolder".format(URL.API_BASE_URL)
+        try:
+            responses.add(
+                responses.POST,
+                url,
+                status=404,
+                body=json.dumps({
+                    "message": "No files & folder found at sourceFolderPath /test",
+                    "help": "For support kindly contact us at support@imagekit.io .",
+                    "reason": "NO_FILES_FOLDER"
+                }),
+            )
+            self.client.copy_folder(options={"source_folder_path": "/test",
+                                             "destination_path": "/test1",
+                                             "include_file_versions": False})
+            self.assertRaises(NotFoundException)
+        except NotFoundException as e:
+            self.assertEqual("No files & folder found at sourceFolderPath /test", e.message)
+            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+            self.assertEqual("NO_FILES_FOLDER", e.response_metadata['raw']['reason'])
+
+    @responses.activate
+    def test_copy_folder_succeeds(self):
+        """
+        Tests if Copy folder succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/bulkJobs/copyFolder".format(URL.API_BASE_URL)
+        responses.add(
+            responses.POST,
+            url,
+            body=json.dumps({"jobId": "62de84fb1b02a58936cc740c"}),
+        )
+        resp = self.client.copy_folder(options={"source_folder_path": "/test",
+                                                "destination_path": "/test1",
+                                                "include_file_versions": True})
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain'
+                    },
+                    'httpStatusCode': 200,
+                    'raw': {
+                        'jobId': '62de84fb1b02a58936cc740c'
+                    }
+                },
+                'job_id': '62de84fb1b02a58936cc740c'
+            }
+        }
+        request_body = json.dumps({
+            "sourceFolderPath": "/test",
+            "destinationPath": "/test1",
+            "includeFileVersions": True
+        })
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/bulkJobs/copyFolder", responses.calls[0].request.url)
+        self.assertEqual(request_body, responses.calls[0].request.body)
+
+
+class TestMoveFolder(ClientTestCase):
+    """
+    TestMoveFolder class used to test move folder
+    """
+
+    @responses.activate
+    def test_move_folder_fails_on_unauthenticated_request(self):
+        """
+        Tests if the unauthenticated request restricted
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/bulkJobs/moveFolder".format(URL.API_BASE_URL)
+        try:
+            responses.add(
+                responses.POST,
+                url,
+                status=403,
+                body=json.dumps({'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+            )
+            self.client.move_folder(options={"source_folder_path": "/test",
+                                             "destination_path": "/test1"})
+            self.assertRaises(ForbiddenException)
+        except ForbiddenException as e:
+            self.assertEqual(e.message, "Your account cannot be authenticated.")
+            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
+
+    @responses.activate
+    def test_move_folder_fails_with_400(self):
+        """
+        Tests if Move folder fails with 400
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/bulkJobs/moveFolder".format(URL.API_BASE_URL)
+        try:
+            responses.add(
+                responses.POST,
+                url,
+                status=400,
+                body=json.dumps({
+                    "message": "sourceFolderPath and destinationPath cannot be same.",
+                    "help": "For support kindly contact us at support@imagekit.io ."
+                }),
+            )
+            self.client.move_folder(options={"source_folder_path": "/test",
+                                             "destination_path": "/test"})
+            self.assertRaises(BadRequestException)
+        except BadRequestException as e:
+            self.assertEqual("sourceFolderPath and destinationPath cannot be same.", e.message)
+            self.assertEqual(400, e.response_metadata['httpStatusCode'])
+
+    @responses.activate
+    def test_move_folder_fails_with_404(self):
+        """
+        Tests if Move folder fails with 404
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/bulkJobs/moveFolder".format(URL.API_BASE_URL)
+        try:
+            responses.add(
+                responses.POST,
+                url,
+                status=404,
+                body=json.dumps({
+                    "message": "No files & folder found at sourceFolderPath /test",
+                    "help": "For support kindly contact us at support@imagekit.io .",
+                    "reason": "NO_FILES_FOLDER"
+                }),
+            )
+            self.client.move_folder(options={"source_folder_path": "/test",
+                                             "destination_path": "/test1"})
+            self.assertRaises(NotFoundException)
+        except NotFoundException as e:
+            self.assertEqual("No files & folder found at sourceFolderPath /test", e.message)
+            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+            self.assertEqual("NO_FILES_FOLDER", e.response_metadata['raw']['reason'])
+
+    @responses.activate
+    def test_move_folder_succeeds(self):
+        """
+        Tests if Move folder succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/bulkJobs/moveFolder".format(URL.API_BASE_URL)
+        responses.add(
+            responses.POST,
+            url,
+            body=json.dumps({"jobId": "62de84fb1b02a58936cc740c"}),
+        )
+        resp = self.client.move_folder(options={"source_folder_path": "/test",
+                                                "destination_path": "/test1"})
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain'
+                    },
+                    'httpStatusCode': 200,
+                    'raw': {
+                        'jobId': '62de84fb1b02a58936cc740c'
+                    }
+                },
+                'job_id': '62de84fb1b02a58936cc740c'
+            }
+        }
+        request_body = json.dumps({
+            "sourceFolderPath": "/test",
+            "destinationPath": "/test1"
+        })
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/bulkJobs/moveFolder", responses.calls[0].request.url)
+        self.assertEqual(request_body, responses.calls[0].request.body)
+
+
+class TestGetBulkJobStatus(ClientTestCase):
+    """
+    TestGetBulkJobStatus class used to get bulk job status
+    """
+
+    job_id = "mock_job_id"
+
+    @responses.activate
+    def test_get_bulk_job_status_succeeds(self):
+        """
+        Tests if get_bulk_job_status succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/bulkJobs/{}".format(URL.API_BASE_URL, self.job_id)
+        headers = create_headers_for_test()
+        responses.add(
+            responses.GET,
+            url,
+            body=json.dumps({
+                "jobId": "mock_job_id",
+                "type": "COPY_FOLDER",
+                "status": "Completed"
+            }),
+            headers=headers
+        )
+        resp = self.client.get_bulk_job_status(self.job_id)
+
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain',
+                        'Accept-Encoding': 'gzip, deflate',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    },
+                    'httpStatusCode': 200,
+                    'raw': {
+                        'jobId': 'mock_job_id',
+                        'status': 'Completed',
+                        'type': 'COPY_FOLDER'
+                    }
+                },
+                'job_id': 'mock_job_id',
+                'status': 'Completed',
+                'type': 'COPY_FOLDER'
+            }
+        }
+
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/bulkJobs/mock_job_id", responses.calls[0].request.url)
