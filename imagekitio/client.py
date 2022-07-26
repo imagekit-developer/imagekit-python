@@ -1,4 +1,3 @@
-from array import array
 from typing import Any, Dict
 
 from .constants.errors import ERRORS
@@ -174,10 +173,34 @@ class ImageKit(object):
         return self.file.get_metadata(str(file_id))
 
     def get_remote_url_metadata(self, remote_file_url: str = ""):
+        """Get remote metadata by provided remote_file_url
+        """
         return self.file.get_metadata_from_remote_url(remote_file_url)
 
     def get_remote_file_url_metadata(self, remote_file_url: str = ""):
+        """Get remote metadata by provided remote_file_url
+        """
         return self.file.get_metadata_from_remote_url(remote_file_url)
+
+    def create_custom_metadata_fields(self, options):
+        """creates custom metadata fields by passing name, label and schema as an options
+        """
+        return self.file.create_custom_metadata_fields(options)
+
+    def update_custom_metadata_fields(self, custom_metadata_field_identifier, options):
+        """updates custom metadata fields by passing params as an options
+        """
+        return self.file.update_custom_metadata_fields(custom_metadata_field_identifier, options)
+
+    def get_custom_metadata_fields(self, include_deleted: bool = False):
+        """get custom metadata fields
+        """
+        return self.file.get_custom_metadata_fields(include_deleted)
+
+    def delete_custom_metadata_field(self, custom_metadata_field_identifier: str = ""):
+        """Deletes custom metadata fields by passing custom_metadata_field_identifier
+        """
+        return self.file.delete_custom_metadata_field(custom_metadata_field_identifier)
 
     def url(self, options: Dict[str, Any]) -> str:
         """Get generated Url from options parameter

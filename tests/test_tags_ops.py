@@ -134,8 +134,8 @@ class TestTags(ClientTestCase):
             self.client.remove_tags(file_ids=[self.file_id], tags=['remove-tag-1', 'remove-tag-2'])
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
-            self.assertEqual(e.message, "Your account cannot be authenticated.")
-            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
+            self.assertEqual("Your account cannot be authenticated.", e.message)
+            self.assertEqual(403, e.response_metadata['httpStatusCode'])
 
     @responses.activate
     def test_remove_tags_succeeds(self):

@@ -10,9 +10,14 @@ from .exceptions.ConflictException import ConflictException
 from .exceptions.NotFoundException import NotFoundException
 from .results.bulk_delete_file_result import BulkDeleteFileResult
 from .results.copy_folder_result import CopyFolderResult
+from .results.custom_metadata_fields_result import CustomMetadataFieldsResult
 from .results.file_result import FileResult
 from .results.get_bulk_job_status_result import GetBulkJobStatusResult
+from .results.get_metadata_result import GetMetadataResult
+from .results.list_custom_metadata_fields_result import ListCustomMetadataFieldsResult
 from .results.list_file_result import ListFileResult
+from .results.purge_cache_result import PurgeCacheResult
+from .results.purge_cache_status_result import PurgeCacheStatusResult
 from .results.rename_file_result import RenameFileResult
 from .results.tags_result import TagsResult
 from .results.upload_file_result import UploadFileResult
@@ -509,15 +514,11 @@ class File(object):
         resp = self.request.request(
             "Post", headers=headers, url=url, data=dumps(body)
         )
-        formatted_resp = camel_dict_to_snake_dict(resp.json())
-        if resp.status_code > 204:
-            error = formatted_resp
-            response = None
+        if resp.status_code == 201:
+            response = convert_to_response_object(resp, PurgeCacheResult)
+            return response
         else:
-            error = None
-            response = formatted_resp
-        response = {"error": error, "response": response}
-        return response
+            general_api_throw_exception(resp)
 
     def get_purge_cache_status(self, cache_request_id: str = None) -> Dict[str, Any]:
         """Get purge cache status by cache_request_id
@@ -526,19 +527,14 @@ class File(object):
         if not cache_request_id:
             raise TypeError(ERRORS.CACHE_PURGE_STATUS_ID_MISSING.value)
 
-        url = "{}/v1/files/purge/{}".format(URL.API_BASE_URL.value, cache_request_id)
+        url = "{}/v1/files/purge/{}".format(URL.API_BASE_URL, cache_request_id)
         headers = self.request.create_headers()
         resp = self.request.request("GET", url, headers=headers)
-        formatted_resp = camel_dict_to_snake_dict(resp.json())
-
-        if resp.status_code > 200:
-            error = formatted_resp
-            response = None
+        if resp.status_code == 200:
+            response = convert_to_response_object(resp, PurgeCacheStatusResult)
+            return response
         else:
-            error = None
-            response = formatted_resp
-        response = {"error": error, "response": response}
-        return response
+            general_api_throw_exception(resp)
 
     def get_metadata(self, file_id: str = None):
         """Get metadata by file_id
@@ -546,17 +542,13 @@ class File(object):
         if not file_id:
             raise TypeError(ERRORS.FILE_ID_MISSING.value)
 
-        url = "{}/v1/files/{}/metadata".format(URL.API_BASE_URL.value, file_id)
+        url = "{}/v1/files/{}/metadata".format(URL.API_BASE_URL, file_id)
         resp = self.request.request("GET", url, headers=self.request.create_headers())
-        formatted_resp = camel_dict_to_snake_dict(resp.json())
-        if resp.status_code > 200:
-            error = resp.json()
-            response = None
+        if resp.status_code == 200:
+            response = convert_to_response_object(resp, GetMetadataResult)
+            return response
         else:
-            error = None
-            response = resp.json()
-        response = {"error": error, "response": response}
-        return response
+            general_api_throw_exception(resp)
 
     def get_metadata_from_remote_url(self, remote_file_url: str):
         if not remote_file_url:
@@ -566,15 +558,92 @@ class File(object):
         resp = self.request.request(
             "GET", url, headers=self.request.create_headers(), params=param
         )
-
-        if resp.status_code > 204:
-            error = resp.json()
-            response = None
+        if resp.status_code == 200:
+            response = convert_to_response_object(resp, GetMetadataResult)
+            return response
         else:
-            error = None
-            response = resp.json()
-        response = {"error": error, "response": response}
-        return response
+            general_api_throw_exception(resp)
+
+    def create_custom_metadata_fields(self, options):
+        """creates custom metadata fields by passing name, label and schema as an options
+        """
+        url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
+        options['schema'] = request_formatter(options['schema'])
+        formatted_options = json.dumps(request_formatter(options))
+        headers = {"Content-Type": "application/json"}
+        headers.update(self.request.create_headers())
+        resp = self.request.request(
+            method="Post", url=url, headers=headers, data=formatted_options
+        )
+        if resp.status_code == 201:
+            response = convert_to_response_object(resp, CustomMetadataFieldsResult)
+            return response
+        else:
+            if resp.status_code == 400:
+                response_json = get_response_json(resp)
+                response_meta_data = populate_response_metadata(resp)
+                error_message = response_json['message'] if type(response_json) == dict else ""
+                response_help = response_json['help'] if type(response_json) == dict else ""
+                raise BadRequestException(error_message, response_help, response_meta_data)
+
+    def get_custom_metadata_fields(self, include_deleted: bool = False):
+        """returns custom metadata fields
+        """
+        url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
+        param = {"includeDeleted": include_deleted}
+        resp = self.request.request(
+            method="GET", url=url, headers=self.request.create_headers(), params=param
+        )
+        if resp.status_code == 200:
+            response = convert_to_list_response_object(resp, CustomMetadataFieldsResult, ListCustomMetadataFieldsResult)
+            return response
+
+    def update_custom_metadata_fields(self, custom_metadata_field_identifier, options):
+        """updates custom metadata fields by passing params as an options
+        """
+        if not custom_metadata_field_identifier:
+            raise ValueError(ERRORS.MISSING_CUSTOM_METADATA_FIELD_ID)
+        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, custom_metadata_field_identifier)
+        if 'schema' in options:
+            options['schema'] = request_formatter(options['schema'])
+        formatted_options = json.dumps(request_formatter(options))
+        headers = {"Content-Type": "application/json"}
+        headers.update(self.request.create_headers())
+        resp = self.request.request(
+            method="Patch", url=url, headers=headers, data=formatted_options
+        )
+        if resp.status_code == 200:
+            response = convert_to_response_object(resp, CustomMetadataFieldsResult)
+            return response
+        else:
+            if resp.status_code == 400 or resp.status_code == 404:
+                response_json = get_response_json(resp)
+                response_meta_data = populate_response_metadata(resp)
+                error_message = response_json['message'] if type(response_json) == dict else ""
+                response_help = response_json['help'] if type(response_json) == dict else ""
+                if resp.status_code == 400:
+                    raise BadRequestException(error_message, response_help, response_meta_data)
+                else:
+                    raise NotFoundException(error_message, response_help, response_meta_data)
+
+
+    def delete_custom_metadata_field(self, custom_metadata_field_identifier: str):
+        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, custom_metadata_field_identifier)
+        resp = self.request.request(
+            "Delete", url, headers=self.request.create_headers()
+        )
+        if resp.status_code == 204:
+            response = {
+                "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
+            response = {"error": None, "response": response}
+            return response
+        else:
+            if resp.status_code == 404:
+                response_json = get_response_json(resp)
+                response_meta_data = populate_response_metadata(resp)
+                error_message = response_json['message'] if type(response_json) == dict else ""
+                response_help = response_json['help'] if type(response_json) == dict else ""
+                raise NotFoundException(error_message, response_help, response_meta_data)
 
     def is_valid_list_options(self, options: Dict[str, Any]) -> bool:
         """Returns if options are valid

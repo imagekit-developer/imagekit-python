@@ -6,6 +6,7 @@ from imagekitio import ImageKit
 from imagekitio.constants.url import URL
 from imagekitio.exceptions.BadRequestException import BadRequestException
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
+from imagekitio.exceptions.InternalServerException import InternalServerException
 from imagekitio.exceptions.NotFoundException import NotFoundException
 from tests.helpers import ClientTestCase, create_headers_for_test
 
@@ -371,6 +372,27 @@ class TestGetBulkJobStatus(ClientTestCase):
     """
 
     job_id = "mock_job_id"
+
+    @responses.activate
+    def test_get_bulk_job_status_fails_with_500(self):
+        """
+        Tests if get_bulk_job_status succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/bulkJobs/{}".format(URL.API_BASE_URL, self.job_id)
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=500,
+                body=json.dumps({"message": "We have experienced an internal error while processing your request.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+            )
+            self.client.get_bulk_job_status(self.job_id)
+            self.assertRaises(InternalServerException)
+        except InternalServerException as e:
+            self.assertEqual("We have experienced an internal error while processing your request.", e.message)
+            self.assertEqual(500, e.response_metadata['httpStatusCode'])
 
     @responses.activate
     def test_get_bulk_job_status_succeeds(self):

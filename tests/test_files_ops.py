@@ -11,14 +11,9 @@ from imagekitio.exceptions.ConflictException import ConflictException
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
 from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.exceptions.UnknownException import UnknownException
-from tests.dummy_data.file import (
-    SUCCESS_PURGE_CACHE_MSG,
-    SUCCESS_PURGE_CACHE_STATUS_MSG,
-)
 from tests.helpers import (
     ClientTestCase,
-    get_mocked_failed_resp,
-    get_mocked_success_resp, create_headers_for_test, get_auth_headers_for_test,
+    create_headers_for_test, get_auth_headers_for_test,
 )
 
 imagekit_obj = ImageKit(
@@ -866,226 +861,311 @@ class TestDeleteFile(ClientTestCase):
 class TestPurgeCache(ClientTestCase):
     fake_image_url = "https://example.com/fakeid/fakeimage.jpg"
 
-    def test_purge_cache_fails_on_unauthenticated_request(self) -> None:
-        """Test purge_cache unauthenticated request
-        this function checks if raises error on unauthenticated request
-        to check if purge_cache is only restricted to authenticated request
+    @responses.activate
+    def test_purge_file_cache_fails_on_unauthenticated_request(self):
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        resp = self.client.purge_cache(self.fake_image_url)
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
+        Tests if the unauthenticated request restricted
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = URL.API_BASE_URL + "/v1/files/purge"
+        try:
+            responses.add(
+                responses.POST,
+                url,
+                status=403,
+                body=json.dumps({'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+            )
+            self.client.purge_file_cache(self.fake_image_url)
+            self.assertRaises(ForbiddenException)
+        except ForbiddenException as e:
+            self.assertEqual(e.message, "Your account cannot be authenticated.")
+            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
 
-    def test_purge_file_cache_fails_on_unauthenticated_request(self) -> None:
-        """Test purge_cache unauthenticated request
-        this function checks if raises error on unauthenticated request
-        to check if purge_cache is only restricted to authenticated request
+    @responses.activate
+    def test_purge_file_cache_fails_with_400(self):
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
+        Tests if the purge_file_cache fails with 400
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = URL.API_BASE_URL + "/v1/files/purge"
+        try:
+            responses.add(
+                responses.POST,
+                url,
+                status=400,
+                body=json.dumps({"message": "Invalid url"}),
+            )
+            self.client.purge_file_cache("url")
+            self.assertRaises(BadRequestException)
+        except BadRequestException as e:
+            self.assertEqual("Invalid url", e.message)
+            self.assertEqual(400, e.response_metadata['httpStatusCode'])
+
+    @responses.activate
+    def test_purge_file_cache_succeeds(self):
+        """
+        Tests if purge_file_cache succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = URL.API_BASE_URL + "/v1/files/purge"
+        responses.add(
+            responses.POST,
+            url,
+            status=201,
+            body=json.dumps({"requestId": "62df7d671b02a58936e7c732"}),
         )
         resp = self.client.purge_file_cache(self.fake_image_url)
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
-
-    def test_purge_cache_fails_without_passing_file_url(self) -> None:
-        """Test purge_cache raises error on invalid_body request
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        self.assertRaises(TypeError, self.client.purge_cache)
-
-    def test_purge_file_cache_fails_without_passing_file_url(self) -> None:
-        """Test purge_file_cache raises error on invalid_body request
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        self.assertRaises(TypeError, self.client.purge_file_cache)
-
-    def test_purge_cache_succeeds(self) -> None:
-        """Test purge_cache working properly
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp(message=SUCCESS_PURGE_CACHE_MSG)
-        )
-        resp = self.client.purge_cache(self.fake_image_url)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
-        self.assertIn("request_id", resp["response"])
-
-    def test_purge_file_cache_succeeds(self) -> None:
-        """Test purge_file_cache working properly
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp(message=SUCCESS_PURGE_CACHE_MSG)
-        )
-        resp = self.client.purge_file_cache(self.fake_image_url)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
-        self.assertIn("request_id", resp["response"])
+        mock_resp = {
+            'error': None,
+            'response': {
+                'request_id': '62df7d671b02a58936e7c732',
+                '_response_metadata': {
+                    'raw': {
+                        'requestId': '62df7d671b02a58936e7c732'
+                    },
+                    'httpStatusCode': 201,
+                    'headers': {
+                        'Content-Type': 'text/plain'
+                    }
+                }
+            }
+        }
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/files/purge", responses.calls[0].request.url)
+        self.assertEqual(json.dumps({"url": "https://example.com/fakeid/fakeimage.jpg"}),
+                         responses.calls[0].request.body)
 
 
 class TestPurgeCacheStatus(ClientTestCase):
     cache_request_id = "fake1234"
 
-    def test_get_purge_cache_status_fails_on_unauthenticated_request(self) -> None:
-        """Test get_purge_cache_status unauthenticated request
-        this function checks if raises error on unauthenticated request
-        to check if get_purge_cache_status is only restricted to authenticated
-        user
+    @responses.activate
+    def test_purge_file_cache_status_fails_with_400(self):
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        resp = self.client.get_purge_cache_status(self.cache_request_id)
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
+        Tests if the purge_file_cache_status fails with 400
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/purge/{}".format(URL.API_BASE_URL, self.cache_request_id)
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=400,
+                body=json.dumps({"message": "No request found for this requestId.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+            )
+            self.client.get_purge_file_cache_status(self.cache_request_id)
+            self.assertRaises(BadRequestException)
+        except BadRequestException as e:
+            self.assertEqual("No request found for this requestId.", e.message)
+            self.assertEqual(400, e.response_metadata['httpStatusCode'])
 
-    def test_get_purge_file_cache_status_fails_on_unauthenticated_request(self) -> None:
-        """Test get_purge_file_cache_status unauthenticated request
-        this function checks if raises error on unauthenticated request
-        to check if get_purge_cache_status is only restricted to authenticated
-        user
+    @responses.activate
+    def test_purge_file_cache_status_succeeds(self):
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
+        Tests if purge_file_cache_status succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/purge/{}".format(URL.API_BASE_URL, self.cache_request_id)
+        responses.add(
+            responses.GET,
+            url,
+            body=json.dumps({"status": "Completed"}),
         )
         resp = self.client.get_purge_file_cache_status(self.cache_request_id)
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
-
-    def test_purge_cache_status_fails_without_passing_file_url(self) -> None:
-        """Test purge_cache raises error on invalid_body request
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        self.assertRaises(TypeError, self.client.get_purge_cache_status)
-
-    def test_purge_file_cache_status_fails_without_passing_file_url(self) -> None:
-        """Test purge_file_cache raises error on invalid_body request
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        self.assertRaises(TypeError, self.client.get_purge_file_cache_status)
-
-    def test_purge_cache_status_succeeds(self) -> None:
-        """Test get_purge_cache_status working properly
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp(message=SUCCESS_PURGE_CACHE_STATUS_MSG)
-        )
-        resp = self.client.get_purge_cache_status(self.cache_request_id)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
-
-    def test_purge_cache_status_fails_without_passing_file_id(self) -> None:
-        """Test purge_cache raises error on invalid_body request
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        self.assertRaises(TypeError, self.client.get_metadata())
-
-    def test_purge_file_cache_status_succeeds(self) -> None:
-        """Test get_purge_file_cache_status working properly
-        """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp(message=SUCCESS_PURGE_CACHE_STATUS_MSG)
-        )
-        resp = self.client.get_purge_file_cache_status(self.cache_request_id)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain'
+                    },
+                    'httpStatusCode': 200,
+                    'raw': {
+                        'status': 'Completed'
+                    }
+                },
+                'status': 'Completed'
+            }
+        }
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/files/purge/fake1234", responses.calls[0].request.url)
 
 
 class TestGetMetaData(ClientTestCase):
     file_id = "fake_file_xbc"
 
-    def test_get_metadata_fails_on_unauthenticated_request(self) -> None:
-        """Tests get_metadata raise error on unauthenticated request
+    fake_image_url = "https://example.com/fakeid/fakeimage.jpg"
+
+    @responses.activate
+    def test_get_file_metadata_fails_with_400(self):
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        resp = self.client.get_metadata(file_id=self.file_id)
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
-
-    def test_get_file_metadata_fails_on_unauthenticated_request(self) -> None:
-        """Tests get_file_metadata raise error on unauthenticated request
+        Tests if the get_file_metadata fails with 400
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
-        )
-        resp = self.client.get_file_metadata(file_id=self.file_id)
-        self.assertIsNotNone(resp["error"])
-        self.assertIsNone(resp["response"])
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/metadata".format(URL.API_BASE_URL, self.file_id)
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=400,
+                body=json.dumps({"message": "Your request contains invalid fileId parameter.",
+                                 "help": "For support kindly contact us at support@imagekit.io .",
+                                 "type": "INVALID_PARAM_ERROR"}),
+            )
+            self.client.get_file_metadata(self.file_id)
+            self.assertRaises(BadRequestException)
+        except BadRequestException as e:
+            self.assertEqual("Your request contains invalid fileId parameter.", e.message)
+            self.assertEqual(400, e.response_metadata['httpStatusCode'])
+            self.assertEqual("INVALID_PARAM_ERROR", e.response_metadata['raw']['type'])
 
-    def test_get_metadata_succeeds(self):
-        """Tests if get_metadata working properly
-        """
-
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
-        resp = self.client.get_metadata(file_id=self.file_id)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
-
+    @responses.activate
     def test_get_file_metadata_succeeds(self):
-        """Tests if get_file_metadata working properly
         """
-
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
-        resp = self.client.get_file_metadata(file_id=self.file_id)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
-
-    def test_get_remote_url_metadata_file_url(self) -> None:
-        """Test get_remote_url_metadata_ raises error on invalid_body request
+        Tests if get_file_metadata succeeds
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_failed_resp()
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/metadata".format(URL.API_BASE_URL, self.file_id)
+        responses.add(
+            responses.GET,
+            url,
+            body=json.dumps({
+                "height": 354,
+                "width": 236,
+                "size": 7390,
+                "format": "jpg",
+                "hasColorProfile": False,
+                "quality": 0,
+                "density": 250,
+                "hasTransparency": False,
+                "exif": {},
+                "pHash": "2e0ed1f12eda9525"
+            }),
         )
-        self.assertRaises(ValueError, self.client.get_remote_url_metadata)
+        resp = self.client.get_file_metadata(self.file_id)
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain'
+                    },
+                    'httpStatusCode': 200,
+                    'raw': {
+                        'density': 250,
+                        'exif': {},
+                        'format': 'jpg',
+                        'hasColorProfile': False,
+                        'hasTransparency': False,
+                        'height': 354,
+                        'pHash': '2e0ed1f12eda9525',
+                        'quality': 0,
+                        'size': 7390,
+                        'width': 236
+                    }
+                },
+                'density': 250,
+                'exif': {},
+                'format': 'jpg',
+                'has_color_profile': False,
+                'has_transparency': False,
+                'height': 354,
+                'p_hash': '2e0ed1f12eda9525',
+                'quality': 0,
+                'size': 7390,
+                'width': 236
+            }
+        }
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/files/fake_file_xbc/metadata", responses.calls[0].request.url)
 
-    def test_get_remote_url_metadata_succeeds(self):
-        """Tests if get_remote_url_metadata working properly
+    @responses.activate
+    def test_get_remote_file_url_metadata_fails_with_400(self):
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
-        resp = self.client.get_remote_url_metadata(
-            remote_file_url="http://imagekit.io/default.jpg"
-        )
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone("response")
+        Tests if the get_remote_file_url_metadata fails with 400
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/metadata".format(URL.API_BASE_URL)
+        try:
+            responses.add(
+                responses.GET,
+                url,
+                status=400,
+                body=json.dumps({
+                    "message": "https://example.com/fakeid/fakeimage.jpg should be accessible using your ImageKit.io account.",
+                    "help": "For support kindly contact us at support@imagekit.io ."
+                }),
+                match=[matchers.query_string_matcher("url=https://example.com/fakeid/fakeimage.jpg")]
+            )
+            self.client.get_remote_file_url_metadata(self.fake_image_url)
+            self.assertRaises(BadRequestException)
+        except BadRequestException as e:
+            self.assertEqual("https://example.com/fakeid/fakeimage.jpg should be accessible using your ImageKit.io account.", e.message)
+            self.assertEqual(400, e.response_metadata['httpStatusCode'])
 
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
-        )
-        resp = self.client.get_metadata(file_id=self.file_id)
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone(resp["response"])
-
+    @responses.activate
     def test_get_remote_file_url_metadata_succeeds(self):
-        """Tests if get_remote_url_metadata working properly
         """
-        self.client.ik_request.request = MagicMock(
-            return_value=get_mocked_success_resp()
+        Tests if get_remote_file_url_metadata succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/metadata".format(URL.API_BASE_URL)
+        responses.add(
+            responses.GET,
+            url,
+            body=json.dumps({
+                "height": 354,
+                "width": 236,
+                "size": 7390,
+                "format": "jpg",
+                "hasColorProfile": False,
+                "quality": 0,
+                "density": 250,
+                "hasTransparency": False,
+                "exif": {},
+                "pHash": "2e0ed1f12eda9525"
+            }),
+            match=[matchers.query_string_matcher("url=https://example.com/fakeid/fakeimage.jpg")]
         )
-        resp = self.client.get_remote_file_url_metadata(
-            remote_file_url="http://imagekit.io/default.jpg"
-        )
-        self.assertIsNone(resp["error"])
-        self.assertIsNotNone("response")
+        resp = self.client.get_remote_file_url_metadata(self.fake_image_url)
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain'
+                    },
+                    'httpStatusCode': 200,
+                    'raw': {
+                        'density': 250,
+                        'exif': {},
+                        'format': 'jpg',
+                        'hasColorProfile': False,
+                        'hasTransparency': False,
+                        'height': 354,
+                        'pHash': '2e0ed1f12eda9525',
+                        'quality': 0,
+                        'size': 7390,
+                        'width': 236
+                    }
+                },
+                'density': 250,
+                'exif': {},
+                'format': 'jpg',
+                'has_color_profile': False,
+                'has_transparency': False,
+                'height': 354,
+                'p_hash': '2e0ed1f12eda9525',
+                'quality': 0,
+                'size': 7390,
+                'width': 236
+            }
+        }
+        self.assertEqual(mock_resp, resp)
+        self.assertEqual("http://test.com/v1/metadata?url=https%3A%2F%2Fexample.com%2Ffakeid%2Ffakeimage.jpg",
+                         responses.calls[0].request.url)
 
 
 class TestUpdateFileDetails(ClientTestCase):
