@@ -342,10 +342,10 @@ if __name__ == "__main__":
                                                           "label": "test-py-area",
                                                           "schema":
                                                               {
-                                                                  #  "is_value_required": True,
-                                                                  #  "default_value": 100,
+                                                                  "is_value_required": True,
+                                                                  "default_value": "The",
                                                                   "type": "Textarea",
-                                                                  "min_length": 100,
+                                                                  "min_length": 3,
                                                                   "max_length": 200}
                                                           }
                                                  ))

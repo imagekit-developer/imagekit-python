@@ -316,12 +316,14 @@ class TestCustomMetadataFields(ClientTestCase):
             status=201,
             headers=headers,
             body=json.dumps({
-                "id": "62dfc6141b02a58936f08fd8",
+                "id": "62e0d7ae1b02a589360dc1fd",
                 "name": "test",
                 "label": "test",
                 "schema": {
+                    "isValueRequired": True,
+                    "defaultValue": "The",
                     "type": "Textarea",
-                    "minLength": 100,
+                    "minLength": 3,
                     "maxLength": 200
                 }
             })
@@ -330,8 +332,10 @@ class TestCustomMetadataFields(ClientTestCase):
                                                                   "label": "test",
                                                                   "schema":
                                                                       {
+                                                                          "is_value_required": True,
+                                                                          "default_value": "The",
                                                                           "type": "Textarea",
-                                                                          "min_length": 100,
+                                                                          "min_length": 3,
                                                                           "max_length": 200}
                                                                   }
                                                          )
@@ -347,22 +351,26 @@ class TestCustomMetadataFields(ClientTestCase):
                     },
                     'httpStatusCode': 201,
                     'raw': {
-                        'id': '62dfc6141b02a58936f08fd8',
+                        'id': '62e0d7ae1b02a589360dc1fd',
                         'label': 'test',
                         'name': 'test',
                         'schema': {
+                            'defaultValue': 'The',
+                            'isValueRequired': True,
                             'maxLength': 200,
-                            'minLength': 100,
+                            'minLength': 3,
                             'type': 'Textarea'
                         }
                     }
                 },
-                'id': '62dfc6141b02a58936f08fd8',
+                'id': '62e0d7ae1b02a589360dc1fd',
                 'label': 'test',
                 'name': 'test',
                 'schema': {
+                    'defaultValue': 'The',
+                    'isValueRequired': True,
                     'maxLength': 200,
-                    'minLength': 100,
+                    'minLength': 3,
                     'type': 'Textarea'
                 }
             }
@@ -372,9 +380,11 @@ class TestCustomMetadataFields(ClientTestCase):
             "name": "test",
             "label": "test",
             "schema": {
-                'type': 'Textarea',
-                'minLength': 100,
-                'maxLength': 200
+                "isValueRequired": True,
+                "defaultValue": "The",
+                "type": "Textarea",
+                "minLength": 3,
+                "maxLength": 200
             }
         })
         self.assertEqual(mock_resp, resp)
