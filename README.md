@@ -84,7 +84,8 @@ The result in a URL like
 https://ik.imagekit.io/your_imagekit_id/endpoint/tr:h-300,w-400,raw-ar-4-3,q-40/default-image.jpg
 ```
 
-**2.Using full image URL**
+**2. Using full image URL**
+
 This method allows you to add transformation parameters to an absolute URL using `src` parameter. This method should be
 used if you have the complete image URL stored in your database.
 
@@ -163,8 +164,9 @@ transformation.
 })
 ```
 
+Note that because `src` parameter was used, the transformation string gets added as a query parameter.
+
 ```
-//Note that because `src` parameter was used, the transformation string gets added as a query parameter `tr`
 https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=f-jpg%2Cpr-true%2Ce-sharpen%2Ce-contrast-1
 ```
 
@@ -312,7 +314,7 @@ print(result['response']['_response_metadata']['raw'])
 If the upload succeeds, `error` will be `null,` and the `result` will be the same as what is received from ImageKit's
 servers.
 
-If the upload fails, the custom exception will be thrown with
+If the upload fails, the custom exception will be thrown with:
 
 - `response_help` for any kind of help
 - `response_metadata` json with `raw`, `httpStatusCode` and `headers`
@@ -386,8 +388,9 @@ print(result['response']['_response_metadata']['raw'])
 **5. Update File Details**
 
 Accepts all the parameters as per
-the [API documentation here](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload). The first
-argument to the updateFileDetails method is the file ID, and the second argument is an object with the parameters to be
+the [API documentation here](https://docs.imagekit.io/api-reference/media-api/update-file-details).
+The first argument to the `update_file_details()` method is the file ID, and the second argument is an object with the
+parameters to be
 updated.
 
 ```python
@@ -565,7 +568,7 @@ the [API documentation here](https://docs.imagekit.io/api-reference/media-api/re
 The method accepts fileId and versionId of file that has to be restored.
 
 ```python
-result = imagekit.restore_file_version("file_id", "versionId")
+result = imagekit.restore_file_version("file_id", "version_id")
 print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
@@ -781,7 +784,7 @@ the [API documentation here](https://docs.imagekit.io/api-reference/custom-metad
 .
 
 ```python
-result = imagekit.get_custom_metadata_fields()  # in this case it will consider includeDeleted False
+result = imagekit.get_custom_metadata_fields()  # in this case, it will consider includeDeleted as a False
 print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
@@ -798,7 +801,7 @@ print("Raw Response:")
 print(result['response']['_response_metadata']['raw'])
 ```
 
-**27. Edit CustomMetaDataFields**
+**27. Update CustomMetaDataFields**
 
 Accepts an ID of customMetaDataField and options for specifying the parameters to be used to edit customMetaDataFields
 as per
@@ -954,33 +957,35 @@ from imagekitio.exceptions.UnknownException import UnknownException
 try:
 # Use ImageKit's SDK to make requests...
 except BadRequestException as e:
+    # Missing or Invalid parameters were supplied to Imagekit.io's API
     print("Status is: " + e.response_metadata['httpStatusCode'])
     print("Message is: " + e.message)
     print("Headers are: " + e.response_metadata['headers'])
     print("Raw body is: " + e.response_metadata['raw'])
 except UnauthorizedException as e:
-    # No valid API key was provided.
+# No valid API key was provided.
 except ForbiddenException as e:
-  # Can be for the following reasons:
-  # ImageKit could not authenticate your account with the keys provided.
-  # An expired key (public or private) was used with the request.
-  # The account is disabled.
-  # If you are using the upload API, the total storage limit (or upload limit) is exceeded.
+# Can be for the following reasons:
+# ImageKit could not authenticate your account with the keys provided.
+# An expired key (public or private) was used with the request.
+# The account is disabled.
+# If you are using the upload API, the total storage limit (or upload limit) is exceeded.
 except TooManyRequestsException as e:
-    # Too many requests made to the API too quickly
+# Too many requests made to the API too quickly
 except InternalServerException as e:
-    # Something went wrong with ImageKit.io API.
+# Something went wrong with ImageKit.io API.
 except PartialSuccessException as e:
-    # Error cases on partial success.
+# Error cases on partial success.
 except NotFoundException as e:
-    # If any of the field or parameter is not found in data
+# If any of the field or parameter is not found in data
 except UnknownException as e:
-    # Something else happened, which can be unrelated to imagekit, reason will be indicated in the message field
+# Something else happened, which can be unrelated to imagekit, reason will be indicated in the message field
 ```
 
 ## Support
 
-For any feedback or to report any issues or general implementation support, please reach out to [support@imagekit.io](https://github.com/imagekit-developer/imagekit-python)
+For any feedback or to report any issues or general implementation support, please reach out
+to [support@imagekit.io](https://github.com/imagekit-developer/imagekit-python)
 
 ## Links
 

@@ -46,7 +46,7 @@ class TestUpload(ClientTestCase):
                 body=json.dumps({'message': 'Your account cannot be authenticated.'
                                     , 'help': 'For support kindly contact us at support@imagekit.io .'}),
             )
-            self.client.upload(file=self.image, file_name=self.filename,
+            self.client.upload_file(file=self.image, file_name=self.filename,
                                options={
                                    "use_unique_file_name": 'false',
                                    "response_fields": ["is_private_file", "tags"],
@@ -114,7 +114,7 @@ class TestUpload(ClientTestCase):
             headers=headers
         )
 
-        resp = self.client.upload(file=open("sample.jpg", "rb"),
+        resp = self.client.upload_file(file=open("sample.jpg", "rb"),
                                   file_name="file_name.jpg",
                                   options={
                                       "use_unique_file_name": 'false',
@@ -234,7 +234,7 @@ class TestUpload(ClientTestCase):
         """Test upload raises error on missing required params
         """
         try:
-            self.client.upload(file=open("sample.jpg", "rb"))
+            self.client.upload_file(file=open("sample.jpg", "rb"))
         except TypeError as e:
             self.assertEqual({'message': 'Missing fileName parameter for upload', 'help': ''}, e.args[0])
 
@@ -242,7 +242,7 @@ class TestUpload(ClientTestCase):
         """Test upload raises error on missing required params
         """
         try:
-            self.client.upload(file_name="file_name.jpg")
+            self.client.upload_file(file_name="file_name.jpg")
         except TypeError as e:
             self.assertEqual({'message': 'Missing file parameter for upload', 'help': ''}, e.args[0])
 
@@ -263,7 +263,7 @@ class TestUpload(ClientTestCase):
                                'useUniqueFileName are set to false.'
                 }),
             )
-            self.client.upload(file=self.image, file_name=self.filename,
+            self.client.upload_file(file=self.image, file_name=self.filename,
                                options={
                                    "use_unique_file_name": 'false',
                                    "response_fields": ["is_private_file", "tags"],

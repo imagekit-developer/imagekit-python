@@ -54,6 +54,16 @@ if __name__ == "__main__":
             "response_fields": ["is_private_file"],
             "is_private_file": False,
             "tags": ["abc", "def"],
+            "extensions": json.dumps(
+                ({"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
+                 {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
+            ),
+            "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+            "overwrite_file": False,
+            "overwrite_a_i_tags": False,
+            "overwrite_tags": False,
+            "overwrite_custom_metadata": True,
+            "custom_metadata": json.dumps({"test": 11})
         },
     )
 
@@ -69,9 +79,19 @@ if __name__ == "__main__":
         file=imgstr,
         file_name="testing-base64.jpg",
         options={
-            "response_fields": ["is_private_file", "metadata", "tags"],
+            "response_fields": ["is_private_file", "custom_metadata", "tags"],
             "is_private_file": False,
             "tags": ["abc", "def"],
+            "extensions": json.dumps(
+                ({"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
+                 {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
+            ),
+            "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+            "overwrite_file": False,
+            "overwrite_a_i_tags": False,
+            "overwrite_tags": False,
+            "overwrite_custom_metadata": True,
+            "custom_metadata": json.dumps({"test": 11})
         },
     )
 

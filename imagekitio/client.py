@@ -27,11 +27,6 @@ class ImageKit(object):
         self.file = File(self.ik_request)
         self.url_obj = Url(self.ik_request)
 
-    def upload(self, file=None, file_name=None, options=None) -> Dict[str, Any]:
-        """Provides upload functionality
-        """
-        return self.file.upload(file, file_name, options)
-
     def upload_file(self, file=None, file_name=None, options=None) -> Dict[str, Any]:
         """Provides upload functionality
         """
@@ -81,11 +76,6 @@ class ImageKit(object):
         """Delete file by file_id
         """
         return self.file.delete(file_id)
-
-    def bulk_delete(self, file_ids: list = None):
-        """Delete files in bulk by provided list of ids
-        """
-        return self.file.batch_delete(file_ids)
 
     def delete_file_version(self, file_id, version_id):
         """Delete file version by provided file and version id
@@ -142,40 +132,20 @@ class ImageKit(object):
         """
         return self.file.get_bulk_job_status(job_id)
 
-    def purge_cache(self, file_url: str = None) -> Dict[str, Any]:
-        """Purge Cache from server by file url
-        """
-        return self.file.purge_cache(file_url)
-
     def purge_file_cache(self, file_url: str = None) -> Dict[str, Any]:
         """Purge Cache from server by file url
         """
         return self.file.purge_cache(file_url)
-
-    def get_purge_cache_status(self, purge_cache_id: str = "") -> Dict[str, Any]:
-        """Get Purge Cache status by purge cache request_id
-        """
-        return self.file.get_purge_cache_status(str(purge_cache_id))
 
     def get_purge_file_cache_status(self, purge_cache_id: str = "") -> Dict[str, Any]:
         """Get Purge Cache status by purge cache request_id
         """
         return self.file.get_purge_cache_status(str(purge_cache_id))
 
-    def get_metadata(self, file_id: str = None) -> Dict[str, Any]:
-        """Get Meta Data of a file by file id
-        """
-        return self.file.get_metadata(str(file_id))
-
     def get_file_metadata(self, file_id: str = None) -> Dict[str, Any]:
         """Get Meta Data of a file by file id
         """
         return self.file.get_metadata(str(file_id))
-
-    def get_remote_url_metadata(self, remote_file_url: str = ""):
-        """Get remote metadata by provided remote_file_url
-        """
-        return self.file.get_metadata_from_remote_url(remote_file_url)
 
     def get_remote_file_url_metadata(self, remote_file_url: str = ""):
         """Get remote metadata by provided remote_file_url
@@ -187,15 +157,15 @@ class ImageKit(object):
         """
         return self.file.create_custom_metadata_fields(options)
 
-    def update_custom_metadata_fields(self, custom_metadata_field_identifier, options):
-        """updates custom metadata fields by passing params as an options
-        """
-        return self.file.update_custom_metadata_fields(custom_metadata_field_identifier, options)
-
     def get_custom_metadata_fields(self, include_deleted: bool = False):
         """get custom metadata fields
         """
         return self.file.get_custom_metadata_fields(include_deleted)
+
+    def update_custom_metadata_fields(self, custom_metadata_field_identifier, options):
+        """updates custom metadata fields by passing params as an options
+        """
+        return self.file.update_custom_metadata_fields(custom_metadata_field_identifier, options)
 
     def delete_custom_metadata_field(self, custom_metadata_field_identifier: str = ""):
         """Deletes custom metadata fields by passing custom_metadata_field_identifier
