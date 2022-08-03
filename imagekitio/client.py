@@ -27,6 +27,11 @@ class ImageKit(object):
         self.file = File(self.ik_request)
         self.url_obj = Url(self.ik_request)
 
+    def upload(self, file=None, file_name=None, options=None) -> Dict[str, Any]:
+        """Provides upload functionality
+        """
+        return self.file.upload(file, file_name, options)
+
     def upload_file(self, file=None, file_name=None, options=None) -> Dict[str, Any]:
         """Provides upload functionality
         """
@@ -48,12 +53,12 @@ class ImageKit(object):
         return self.file.get_file_versions(file_identifier)
 
     def get_file_version_details(self, file_identifier: str = None, version_identifier: str = None) -> Dict:
-        """Get file_version by file_id or file_url
+        """Get file_version details by file_id or file_url
         """
         return self.file.get_file_version_details(file_identifier, version_identifier)
 
     def update_file_details(self, file_id: str, options: dict = None) -> Dict:
-        """Update file detail by file id and options
+        """Update file details by file id and options
         """
         return self.file.update_file_details(file_id, options)
 
@@ -63,12 +68,12 @@ class ImageKit(object):
         return self.file.manage_tags(file_ids, tags, "addTags")
 
     def remove_tags(self, file_ids, tags) -> Dict:
-        """Add tags by file ids and tags
+        """Remove tags by file ids and tags
         """
         return self.file.manage_tags(file_ids, tags, "removeTags")
 
     def remove_ai_tags(self, file_ids, a_i_tags) -> Dict:
-        """Add tags by file ids and AI tags
+        """Remove AI tags by file ids and AI tags
         """
         return self.file.remove_ai_tags(file_ids, a_i_tags)
 
@@ -78,12 +83,12 @@ class ImageKit(object):
         return self.file.delete(file_id)
 
     def delete_file_version(self, file_id, version_id):
-        """Delete file version by provided file and version id
+        """Delete file version by provided file id and version id
         """
         return self.file.delete_file_version(file_id, version_id)
 
     def bulk_file_delete(self, file_ids):
-        """Delete files in bulk by provided list of ids
+        """Delete files in bulk by provided list of file ids
         """
         return self.file.batch_delete(file_ids)
 
@@ -103,17 +108,17 @@ class ImageKit(object):
         return self.file.rename_file(options)
 
     def restore_file_version(self, file_id, version_id):
-        """Rename file by provided filePath, newFileName and purgeCache as an options
+        """Restore file version by provided file id and version id
         """
         return self.file.restore_file_version(file_id, version_id)
 
     def create_folder(self, options):
-        """Create folder by provided folderName and parentFolderPath
+        """Create folder by provided folderName and parentFolderPath as an options
         """
         return self.file.create_folder(options)
 
     def delete_folder(self, options):
-        """Delete folder by provided folderPath
+        """Delete folder by provided folderPath as an options
         """
         return self.file.delete_folder(options)
 
@@ -128,7 +133,7 @@ class ImageKit(object):
         return self.file.move_folder(options)
 
     def get_bulk_job_status(self, job_id):
-        """Get bulk job status by provided jobId
+        """Get bulk job status by provided only jobId
         """
         return self.file.get_bulk_job_status(job_id)
 
@@ -137,10 +142,20 @@ class ImageKit(object):
         """
         return self.file.purge_cache(file_url)
 
+    def get_purge_cache_status(self, purge_cache_id: str = "") -> Dict[str, Any]:
+        """Get Purge Cache status by purge cache request_id
+        """
+        return self.file.get_purge_cache_status(str(purge_cache_id))
+
     def get_purge_file_cache_status(self, purge_cache_id: str = "") -> Dict[str, Any]:
         """Get Purge Cache status by purge cache request_id
         """
         return self.file.get_purge_cache_status(str(purge_cache_id))
+
+    def get_metadata(self, file_id: str = None) -> Dict[str, Any]:
+        """Get Meta Data of a file by file id
+        """
+        return self.file.get_metadata(str(file_id))
 
     def get_file_metadata(self, file_id: str = None) -> Dict[str, Any]:
         """Get Meta Data of a file by file id
@@ -163,7 +178,7 @@ class ImageKit(object):
         return self.file.get_custom_metadata_fields(include_deleted)
 
     def update_custom_metadata_fields(self, custom_metadata_field_identifier, options):
-        """updates custom metadata fields by passing params as an options
+        """updates custom metadata fields by passing id of custom metadata field and params as an options
         """
         return self.file.update_custom_metadata_fields(custom_metadata_field_identifier, options)
 

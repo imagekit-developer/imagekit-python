@@ -1,9 +1,7 @@
 import unittest
-from unittest.mock import MagicMock
 
 from imagekitio.client import ImageKit
-from tests.dummy_data.file import SUCCESS_DETAIL_MSG
-from tests.helpers import ClientTestCase, get_mocked_success_resp
+from tests.helpers import ClientTestCase
 
 imagekit_obj = ImageKit(
     private_key="private_fake:", public_key="public_fake123:", url_endpoint="fake.com",

@@ -76,7 +76,7 @@ class ERRORS(enum.Enum):
     }
     VERSION_ID_MISSING = {
         "message": "Missing Version ID parameter for this request",
-        help: "",
+        "help": "",
     }
     MISSING_CUSTOM_METADATA_FIELD_ID = {
-        "message": "Missing custom_metadata_field_identifier for update_custom_metadata_fields", help: ""}
+        "message": "Missing custom_metadata_field_identifier for update_custom_metadata_fields", "help": ""}

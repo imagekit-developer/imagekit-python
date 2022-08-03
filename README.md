@@ -154,9 +154,9 @@ The ```.url()``` method accepts the following parameters.
         "height": "300",
         "width": "400"
     },
-        {
-            "rotation": 90
-        }],
+    {
+        "rotation": 90
+    }],
     "transformation_position": "query"
 })
 ```
@@ -197,7 +197,7 @@ https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=f-jpg%2Cpr
 
 ```python
     image_url = imagekit.url({
-    "path": "/default-image",
+    "path": "/default-image.jpg",
     "query_parameters": {
         "p1": "123",
         "p2": "345"
@@ -214,7 +214,7 @@ https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=f-jpg%2Cpr
 **Sample Result URL**
 
 ```
-https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400/default-image?p1=123&p2=345&ik-t=1658899345&ik-s=8f03aca28432d4e87f697a48143efb4497bbed9e
+https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400/default-image.jpg?p1=123&p2=345&ik-t=1658899345&ik-s=8f03aca28432d4e87f697a48143efb4497bbed9e
 ```
 
 **List of transformations**
@@ -296,8 +296,8 @@ accepts all the parameters supported by
 the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload).
 
 The `upload_file()` method requires at least the `file` as (URL/Base64/Binary) and the `file_name` parameter to upload a
-file. The method returns a Dict data in case of successful, or it will throw custom exception in case of failure.
-Use `options` parameter to pass other parameters supported by
+file. The method returns a Dict data in case of success, or it will throw a custom exception in case of failure.
+Use the `options` parameter to pass other parameters supported by
 the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload). Use the same
 parameter name as specified in the upload API documentation.
 
@@ -630,7 +630,7 @@ print(result['response']['_response_metadata']['raw'])
 **18. Copy Folder**
 
 Copy a folder as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/copy-folder).
-The method accepts sourceFolderPath, destinationPath of a folder and include_file_versions boolean as an options that
+The method accepts sourceFolderPath, destinationPath of a folder and includeFileVersions boolean as an options that
 has to be copied.
 
 ```python
@@ -953,9 +953,8 @@ print(result['response']['_response_metadata']['headers'])
 
 To run `sample` code go to the sample directory and run
 
-```python
-python
-sample.py
+```shell
+python sample.py
 ```
 
 ## Handling errors

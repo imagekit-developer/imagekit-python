@@ -343,7 +343,7 @@ class TestGenerateURL(unittest.TestCase):
                 "focus": 'left',
                 "format": 'jpeg',
                 "radius": 50,
-                "background": "A94D34",
+                "bg": "A94D34",
                 "border": "5-A94D34",
                 "rotation": 90,
                 "blur": 10,

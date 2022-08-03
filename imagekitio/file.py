@@ -184,7 +184,8 @@ class File(object):
         :param tags: array of tags
         :param action: to identify call either for removeTags or addTags
         """
-        url = "{}/v1/files/removeTags".format(URL.API_BASE_URL) if action == "removeTags" else "{}/v1/files/addTags".format(URL.API_BASE_URL)
+        url = "{}/v1/files/removeTags".format(
+            URL.API_BASE_URL) if action == "removeTags" else "{}/v1/files/addTags".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
         data = json.dumps({"fileIds": file_ids, "tags": tags})
@@ -372,7 +373,7 @@ class File(object):
             general_api_throw_exception(resp)
 
     def restore_file_version(self, file_id, version_id):
-        """Rename file by provided filePath, newFileName and purgeCache as an options
+        """Restore file by provided fileId and versionId
         """
         url = "{}/v1/files/{}/versions/{}/restore".format(URL.API_BASE_URL, file_id, version_id)
         headers = self.request.create_headers()
@@ -406,12 +407,13 @@ class File(object):
             data=formatted_data
         )
         if resp.status_code == 201:
-            response = {"_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
+            response = {
+                "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
             response = {"error": None, "response": response}
             return response
 
     def delete_folder(self, options):
-        """Delete folder by provided folderPath
+        """Delete folder by provided folderPath as an options
         """
         url = "{}/v1/folder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
@@ -423,7 +425,8 @@ class File(object):
             data=formatted_data
         )
         if resp.status_code == 204:
-            response = {"_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
+            response = {
+                "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
             response = {"error": None, "response": response}
             return response
         elif resp.status_code == 404:
@@ -487,7 +490,7 @@ class File(object):
             general_api_throw_exception(resp)
 
     def get_bulk_job_status(self, job_id):
-        """Move folder by provided sourceFolderPath and destinationPath as an options
+        """Get bulk job status by provided only jobId
         """
         url = "{}/v1/bulkJobs/{}".format(URL.API_BASE_URL, job_id)
         headers = self.request.create_headers()
@@ -551,6 +554,8 @@ class File(object):
             general_api_throw_exception(resp)
 
     def get_metadata_from_remote_url(self, remote_file_url: str):
+        """Get remote metadata by provided remote_file_url
+        """
         if not remote_file_url:
             raise ValueError("You must provide remote url")
         url = "{}/v1/metadata".format(URL.API_BASE_URL)
@@ -587,7 +592,7 @@ class File(object):
                 raise BadRequestException(error_message, response_help, response_meta_data)
 
     def get_custom_metadata_fields(self, include_deleted: bool = False):
-        """returns custom metadata fields
+        """get custom metadata fields
         """
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
         param = {"includeDeleted": include_deleted}
@@ -599,7 +604,7 @@ class File(object):
             return response
 
     def update_custom_metadata_fields(self, custom_metadata_field_identifier, options):
-        """updates custom metadata fields by passing params as an options
+        """updates custom metadata fields by passing id of custom metadata field and params as an options
         """
         if not custom_metadata_field_identifier:
             raise ValueError(ERRORS.MISSING_CUSTOM_METADATA_FIELD_ID)
@@ -626,8 +631,9 @@ class File(object):
                 else:
                     raise NotFoundException(error_message, response_help, response_meta_data)
 
-
     def delete_custom_metadata_field(self, custom_metadata_field_identifier: str):
+        """Deletes custom metadata fields by passing custom_metadata_field_identifier
+        """
         url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, custom_metadata_field_identifier)
         resp = self.request.request(
             "Delete", url, headers=self.request.create_headers()
