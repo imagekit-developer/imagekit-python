@@ -262,7 +262,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def batch_delete(self, file_ids):
+    def batch_delete(self, file_ids: list = None):
         """Delete bulk files
         Delete files by batch ids
         """

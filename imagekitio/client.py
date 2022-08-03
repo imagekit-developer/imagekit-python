@@ -87,7 +87,12 @@ class ImageKit(object):
         """
         return self.file.delete_file_version(file_id, version_id)
 
-    def bulk_file_delete(self, file_ids):
+    def bulk_delete(self, file_ids: list = None):
+        """Delete files in bulk by provided list of ids
+        """
+        return self.file.batch_delete(file_ids)
+
+    def bulk_file_delete(self, file_ids: list = None):
         """Delete files in bulk by provided list of file ids
         """
         return self.file.batch_delete(file_ids)
@@ -137,6 +142,11 @@ class ImageKit(object):
         """
         return self.file.get_bulk_job_status(job_id)
 
+    def purge_cache(self, file_url: str = None) -> Dict[str, Any]:
+        """Purge Cache from server by file url
+        """
+        return self.file.purge_cache(file_url)
+
     def purge_file_cache(self, file_url: str = None) -> Dict[str, Any]:
         """Purge Cache from server by file url
         """
@@ -161,6 +171,9 @@ class ImageKit(object):
         """Get Meta Data of a file by file id
         """
         return self.file.get_metadata(str(file_id))
+
+    def get_remote_url_metadata(self, remote_file_url: str = ""):
+        return self.file.get_metadata_from_remote_url(remote_file_url)
 
     def get_remote_file_url_metadata(self, remote_file_url: str = ""):
         """Get remote metadata by provided remote_file_url
