@@ -20,6 +20,7 @@ Table of contents -
 
 * [Installation](#Installation)
 * [Initialization](#Initialization)
+* [Versioning](#versioning)
 * [URL Generation](#URL-generation)
 * [File Upload](#File-Upload)
 * [File Management](#File-Management)
@@ -57,6 +58,28 @@ You can use this Python SDK for 3 different kinds of methods:
 - file management
 
 The usage of the SDK has been explained below.
+
+## Change log
+
+This document presents a list of changes that break existing functionality of previous versions. We try our best to minimize these disruptions, but sometimes they are unavoidable and they will be in major versions.
+
+### Breaking History:
+
+Changes from 2.2.8 -> 3.0.0 are listed below
+
+1. Throw an Error:
+
+**What changed**
+
+- In case of failure, the API would throw an exception.
+
+**Who is affected?**
+
+- This affects any development in your application that calls APIs from imagekit IO.
+
+**How should I update my code?**
+
+- To avoid failures in an application, you could handle errors as [documented here](#handling-errors)
 
 ## URL generation
 
