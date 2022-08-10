@@ -71,7 +71,7 @@ Changes from 2.2.8 -> 3.0.0 are listed below
 
 **What changed**
 
-- In case of failure, the API would throw an exception.
+- Earlier, in case of failure `error` dict was coming in the `Response` object. Now, an exception is thrown.
 
 **Who is affected?**
 
@@ -85,7 +85,7 @@ Changes from 2.2.8 -> 3.0.0 are listed below
 
 **1. Using Image path and image hostname or endpoint**
 
-This method allows you to create an URL using the relative file path where the image exists and the URL
+This method allows you to create a URL using the relative file path where the image exists and the URL
 endpoint(url_endpoint) you want to use to access the image. You can refer to the documentation
 [here](https://docs.imagekit.io/integration/url-endpoints) to read more about URL endpoints
 in ImageKit and the section about [image origins](https://docs.imagekit.io/integration/configure-origin) to understand
@@ -334,7 +334,7 @@ print("Raw Response:")
 print(result['response']['_response_metadata']['raw'])
 ```
 
-If the upload succeeds, `error` will be `null,` and the `result` will be the same as what is received from ImageKit's
+If the upload succeeds, the `result` will be the same as what is received from ImageKit's
 servers.
 
 If the upload fails, the custom exception will be thrown with:
@@ -347,7 +347,7 @@ If the upload fails, the custom exception will be thrown with:
 
 The SDK provides a simple interface for all
 the [media APIs mentioned here](https://docs.imagekit.io/api-reference/media-api)
-to manage your files. This also returns `error` and `result`. The error will be `None` if API succeeds.
+to manage your files. This also returns `result`.
 
 **1. List & Search Files**
 
