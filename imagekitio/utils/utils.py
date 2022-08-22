@@ -1,5 +1,4 @@
 import json
-
 import requests.models
 
 from imagekitio.exceptions.BadRequestException import BadRequestException
