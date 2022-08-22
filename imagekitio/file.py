@@ -1,4 +1,3 @@
-import json
 from json import dumps
 from typing import Any, Dict
 
@@ -182,7 +181,7 @@ class File(object):
             URL.API_BASE_URL) if action == "removeTags" else "{}/v1/files/addTags".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
-        data = json.dumps({"fileIds": file_ids, "tags": tags})
+        data = dumps({"fileIds": file_ids, "tags": tags})
         resp = self.request.request(method="Post", url=url, headers=headers, data=data)
         if resp.status_code == 200:
             response = convert_to_response_object(resp, TagsResult)
@@ -200,7 +199,7 @@ class File(object):
         url = "{}/v1/files/removeAITags".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
-        data = json.dumps({"fileIds": file_ids, "AITags": a_i_tags})
+        data = dumps({"fileIds": file_ids, "AITags": a_i_tags})
         resp = self.request.request(method="Post", url=url, headers=headers, data=data)
         if resp.status_code == 200:
             response = convert_to_response_object(resp, TagsResult)
@@ -265,7 +264,7 @@ class File(object):
         url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        data = json.dumps({"fileIds": file_ids})
+        data = dumps({"fileIds": file_ids})
         resp = self.request.request(
             method="POST",
             url=url,
@@ -286,7 +285,7 @@ class File(object):
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        formatted_options = json.dumps(request_formatter(options))
+        formatted_options = dumps(request_formatter(options))
         resp = self.request.request(
             method="Post",
             url=url,
@@ -313,7 +312,7 @@ class File(object):
         url = "{}/v1/files/move".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        formatted_options = json.dumps(request_formatter(options))
+        formatted_options = dumps(request_formatter(options))
         resp = self.request.request(
             method="Post",
             url=url,
@@ -340,7 +339,7 @@ class File(object):
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        formatted_options = json.dumps(request_formatter(options))
+        formatted_options = dumps(request_formatter(options))
         resp = self.request.request(
             method="Put",
             url=url,
@@ -438,7 +437,7 @@ class File(object):
         url = "{}/v1/bulkJobs/copyFolder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
         headers.update({"Content-Type": "application/json"})
-        formatted_data = json.dumps(request_formatter(options))
+        formatted_data = dumps(request_formatter(options))
         resp = self.request.request(
             method="Post",
             url=url,
@@ -463,7 +462,7 @@ class File(object):
         url = "{}/v1/bulkJobs/moveFolder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
         headers.update({"Content-Type": "application/json"})
-        formatted_data = json.dumps(request_formatter(options))
+        formatted_data = dumps(request_formatter(options))
         resp = self.request.request(
             method="Post",
             url=url,
@@ -568,7 +567,7 @@ class File(object):
         """
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
         options['schema'] = request_formatter(options['schema'])
-        formatted_options = json.dumps(request_formatter(options))
+        formatted_options = dumps(request_formatter(options))
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
         resp = self.request.request(
@@ -605,7 +604,7 @@ class File(object):
         url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, custom_metadata_field_identifier)
         if 'schema' in options:
             options['schema'] = request_formatter(options['schema'])
-        formatted_options = json.dumps(request_formatter(options))
+        formatted_options = dumps(request_formatter(options))
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
         resp = self.request.request(
