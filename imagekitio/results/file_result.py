@@ -1,9 +1,15 @@
 class FileResult:
 
-    def __init__(self, type, name, created_at, updated_at, file_id, tags, ai_tags, version_info, embedded_metadata,
-                 custom_coordinates, custom_metadata, is_private_file, url, thumbnail, file_type, file_path,
+    def __init__(self, type, name, created_at, updated_at, file_id, tags, ai_tags, version_info, embedded_metadata=None,
+                 custom_coordinates: str = '', custom_metadata=None, is_private_file = False, url: str = '', thumbnail: str = '', file_type: str = '', file_path: str = '',
                  height: int = None, width: int = None, size: int = None, has_alpha=False, mime: str = None,
-                 extension_status: dict = {}):
+                 extension_status=None):
+        if extension_status is None:
+            extension_status = {}
+        if embedded_metadata is None:
+            embedded_metadata = {}
+        if custom_metadata is None:
+            custom_metadata = {}
         self.type = type
         self.name = name
         self.created_at = created_at

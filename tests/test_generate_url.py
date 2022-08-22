@@ -390,7 +390,6 @@ class TestGenerateURL(unittest.TestCase):
             }]
         }
         url = self.client.url(options)
-        print(url)
         self.assertEqual(
             url,
             "https://test-domain.com/test-endpoint/tr:h-300,w-400,ar-4-3,q-40,c-force,cm-extract,fo-left,f-jpeg,r-50,"

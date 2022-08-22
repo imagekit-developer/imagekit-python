@@ -2,6 +2,8 @@ import json
 from json import dumps
 from typing import Any, Dict
 
+from requests_toolbelt import MultipartEncoder
+
 from .constants.errors import ERRORS
 from .constants.files import VALID_FILE_OPTIONS, VALID_UPLOAD_OPTIONS
 from .constants.url import URL
@@ -22,7 +24,6 @@ from .results.rename_file_result import RenameFileResult
 from .results.tags_result import TagsResult
 from .results.upload_file_result import UploadFileResult
 from .utils.formatter import (
-    camel_dict_to_snake_dict,
     request_formatter,
     snake_to_lower_camel,
 )
@@ -30,12 +31,6 @@ from .utils.utils import (
     general_api_throw_exception, get_response_json, populate_response_metadata, convert_to_response_object,
     convert_to_list_response_object, throw_other_exception
 )
-
-try:
-    from simplejson.errors import JSONDecodeError
-except ImportError:
-    from json import JSONDecodeError
-from requests_toolbelt import MultipartEncoder
 
 
 class File(object):

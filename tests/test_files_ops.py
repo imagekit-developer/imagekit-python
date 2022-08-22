@@ -36,8 +36,8 @@ class TestUpload(ClientTestCase):
         """
         Tests if the unauthenticated request restricted
         """
-        URL.UPLOAD_API_BASE_URL = "http://test.com"
-        url = "%s%s" % (URL.UPLOAD_API_BASE_URL, "api/v1/files/upload")
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
         try:
             responses.add(
                 responses.POST,
@@ -47,23 +47,23 @@ class TestUpload(ClientTestCase):
                                     , 'help': 'For support kindly contact us at support@imagekit.io .'}),
             )
             self.client.upload_file(file=self.image, file_name=self.filename,
-                               options={
-                                   "use_unique_file_name": 'false',
-                                   "response_fields": ["is_private_file", "tags"],
-                                   "is_private_file": True,
-                                   "folder": "/testing-python-folder/",
-                                   "tags": ["abc", "def"],
-                                   "extensions": json.dumps(
-                                       ({"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
-                                        {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
-                                   ),
-                                   "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
-                                   "overwrite_file": True,
-                                   "overwrite_a_i_tags": False,
-                                   "overwrite_tags": False,
-                                   "overwrite_custom_metadata": True,
-                                   "custom_metadata": json.dumps({"test100": 11})
-                               })
+                                    options={
+                                        "use_unique_file_name": 'false',
+                                        "response_fields": ["is_private_file", "tags"],
+                                        "is_private_file": True,
+                                        "folder": "/testing-python-folder/",
+                                        "tags": ["abc", "def"],
+                                        "extensions": json.dumps(
+                                            ({"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
+                                             {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
+                                        ),
+                                        "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+                                        "overwrite_file": True,
+                                        "overwrite_a_i_tags": False,
+                                        "overwrite_tags": False,
+                                        "overwrite_custom_metadata": True,
+                                        "custom_metadata": json.dumps({"test100": 11})
+                                    })
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
@@ -74,8 +74,8 @@ class TestUpload(ClientTestCase):
         """
         Tests if  upload succeeds
         """
-        URL.UPLOAD_API_BASE_URL = "http://test.com"
-        url = "%s%s" % (URL.UPLOAD_API_BASE_URL, "api/v1/files/upload")
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
         headers = create_headers_for_test()
         responses.add(
             responses.POST,
@@ -115,24 +115,25 @@ class TestUpload(ClientTestCase):
         )
 
         resp = self.client.upload_file(file=open("sample.jpg", "rb"),
-                                  file_name="file_name.jpg",
-                                  options={
-                                      "use_unique_file_name": 'false',
-                                      "response_fields": ["is_private_file", "tags"],
-                                      "is_private_file": True,
-                                      "folder": "/testing-python-folder/",
-                                      "tags": ["abc", "def"],
-                                      "extensions": json.dumps(
-                                          ({"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
-                                           {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
-                                      ),
-                                      "webhook_url": "url",
-                                      "overwrite_file": True,
-                                      "overwrite_a_i_tags": False,
-                                      "overwrite_tags": False,
-                                      "overwrite_custom_metadata": True,
-                                      "custom_metadata": json.dumps({"test100": 11})
-                                  })
+                                       file_name="file_name.jpg",
+                                       options={
+                                           "use_unique_file_name": 'false',
+                                           "response_fields": ["is_private_file", "tags"],
+                                           "is_private_file": True,
+                                           "folder": "/testing-python-folder/",
+                                           "tags": ["abc", "def"],
+                                           "extensions": json.dumps(
+                                               ({"name": "remove-bg",
+                                                 "options": {"add_shadow": True, "bg_color": "pink"}},
+                                                {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
+                                           ),
+                                           "webhook_url": "url",
+                                           "overwrite_file": True,
+                                           "overwrite_a_i_tags": False,
+                                           "overwrite_tags": False,
+                                           "overwrite_custom_metadata": True,
+                                           "custom_metadata": json.dumps({"test100": 11})
+                                       })
         mock_resp = {
             'error': None,
             'response': {
@@ -250,8 +251,8 @@ class TestUpload(ClientTestCase):
     def test_upload_fails_with_400_exception(self) -> None:
         """Test upload raises 400 error"""
 
-        URL.UPLOAD_API_BASE_URL = "http://test.com"
-        url = "%s%s" % (URL.UPLOAD_API_BASE_URL, "api/v1/files/upload")
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
         try:
             responses.add(
                 responses.POST,
@@ -264,23 +265,23 @@ class TestUpload(ClientTestCase):
                 }),
             )
             self.client.upload_file(file=self.image, file_name=self.filename,
-                               options={
-                                   "use_unique_file_name": 'false',
-                                   "response_fields": ["is_private_file", "tags"],
-                                   "is_private_file": True,
-                                   "folder": "/testing-python-folder/",
-                                   "tags": ["abc", "def"],
-                                   "extensions": json.dumps(
-                                       ({"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
-                                        {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
-                                   ),
-                                   "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
-                                   "overwrite_file": False,
-                                   "overwrite_a_i_tags": False,
-                                   "overwrite_tags": False,
-                                   "overwrite_custom_metadata": True,
-                                   "custom_metadata": json.dumps({"test100": 11})
-                               })
+                                    options={
+                                        "use_unique_file_name": 'false',
+                                        "response_fields": ["is_private_file", "tags"],
+                                        "is_private_file": True,
+                                        "folder": "/testing-python-folder/",
+                                        "tags": ["abc", "def"],
+                                        "extensions": json.dumps(
+                                            ({"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
+                                             {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10})
+                                        ),
+                                        "webhook_url": "https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+                                        "overwrite_file": False,
+                                        "overwrite_a_i_tags": False,
+                                        "overwrite_tags": False,
+                                        "overwrite_custom_metadata": True,
+                                        "custom_metadata": json.dumps({"test100": 11})
+                                    })
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
             self.assertEqual("A file with the same name already exists at the exact location. We could not overwrite "
@@ -1102,7 +1103,9 @@ class TestGetMetaData(ClientTestCase):
             self.client.get_remote_file_url_metadata(self.fake_image_url)
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            self.assertEqual("https://example.com/fakeid/fakeimage.jpg should be accessible using your ImageKit.io account.", e.message)
+            self.assertEqual(
+                "https://example.com/fakeid/fakeimage.jpg should be accessible using your ImageKit.io account.",
+                e.message)
             self.assertEqual(400, e.response_metadata['httpStatusCode'])
 
     @responses.activate
@@ -1997,7 +2000,7 @@ class TestDeleteFileVersion(ClientTestCase):
         """Test delete_file_version raises 404 error"""
 
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
         try:
             responses.add(
                 responses.DELETE,
@@ -2017,7 +2020,7 @@ class TestDeleteFileVersion(ClientTestCase):
         """Test delete_file_version succeeds with file and version Id"""
 
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
         responses.add(
@@ -2044,7 +2047,8 @@ class TestDeleteFileVersion(ClientTestCase):
         }
 
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("http://test.com/fax_abx1223/versions/fake_123_version_id", responses.calls[0].request.url)
+        self.assertEqual("http://test.com/v1/files/fax_abx1223/versions/fake_123_version_id",
+                         responses.calls[0].request.url)
 
 
 class TestCopyFile(ClientTestCase):
@@ -2355,12 +2359,126 @@ class TestRestoreFileVersion(ClientTestCase):
         responses.add(
             responses.PUT,
             url,
-            headers=headers
+            headers=headers,
+            body=json.dumps({
+                "fileId": "fileId",
+                "type": "file",
+                "name": "file1.jpg",
+                "filePath": "/images/file.jpg",
+                "tags": ["t-shirt", "round-neck", "sale2019"],
+                "AITags": [
+                    {
+                        "name": "Shirt",
+                        "confidence": 90.12,
+                        "source": "google-auto-tagging"
+                    },
+                ],
+                "versionInfo": {
+                    "id": "versionId",
+                    "name": "Version 2"
+                },
+                "isPrivateFile": False,
+                "customCoordinates": None,
+                "url": "https://ik.imagekit.io/your_imagekit_id/images/products/file1.jpg",
+                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-media_library_thumbnail/images/products/file1.jpg",
+                "fileType": "image",
+                "mime": "image/jpeg",
+                "width": 100,
+                "height": 100,
+                "size": 100,
+                "hasAlpha": False,
+                "customMetadata": {
+                    "brand": "Nike",
+                    "color": "red"
+                },
+                "createdAt": "2019-08-24T06:14:41.313Z",
+                "updatedAt": "2019-09-24T06:14:41.313Z"
+            })
         )
         resp = self.client.restore_file_version(self.file_id, self.version_id)
 
-        mock_resp = {}
+        mock_resp = {
+            'error': None,
+            'response': {
+                '_response_metadata': {
+                    'headers': {
+                        'Content-Type': 'text/plain, application/json',
+                        'Accept-Encoding': 'gzip, deflate',
+                        'Authorization': 'Basic ZmFrZTEyMjo='
+                    },
+                    'httpStatusCode': 200,
+                    'raw': {
+                        'AITags': [{
+                            'confidence': 90.12,
+                            'name': 'Shirt',
+                            'source': 'google-auto-tagging'
+                        }],
+                        'createdAt': '2019-08-24T06:14:41.313Z',
+                        'customCoordinates': None,
+                        'customMetadata': {
+                            'brand': 'Nike',
+                            'color': 'red'
+                        },
+                        'fileId': 'fileId',
+                        'filePath': '/images/file.jpg',
+                        'fileType': 'image',
+                        'hasAlpha': False,
+                        'height': 100,
+                        'isPrivateFile': False,
+                        'mime': 'image/jpeg',
+                        'name': 'file1.jpg',
+                        'size': 100,
+                        'tags': ['t-shirt',
+                                 'round-neck',
+                                 'sale2019'
+                                 ],
+                        'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-media_library_thumbnail/images/products/file1.jpg',
+                        'type': 'file',
+                        'updatedAt': '2019-09-24T06:14:41.313Z',
+                        'url': 'https://ik.imagekit.io/your_imagekit_id/images/products/file1.jpg',
+                        'versionInfo': {
+                            'id': 'versionId',
+                            'name': 'Version '
+                                    '2'
+                        },
+                        'width': 100
+                    }
+                },
+                'ai_tags': [{
+                    'confidence': 90.12,
+                    'name': 'Shirt',
+                    'source': 'google-auto-tagging'
+                }],
+                'created_at': '2019-08-24T06:14:41.313Z',
+                'custom_coordinates': None,
+                'custom_metadata': {
+                    'brand': 'Nike',
+                    'color': 'red'
+                },
+                'embedded_metadata': {},
+                'extension_status': {},
+                'file_id': 'fileId',
+                'file_path': '/images/file.jpg',
+                'file_type': 'image',
+                'has_alpha': False,
+                'height': 100,
+                'is_private_file': False,
+                'mime': 'image/jpeg',
+                'name': 'file1.jpg',
+                'size': 100,
+                'tags': ['t-shirt', 'round-neck', 'sale2019'],
+                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-media_library_thumbnail/images/products/file1.jpg',
+                'type': 'file',
+                'updated_at': '2019-09-24T06:14:41.313Z',
+                'url': 'https://ik.imagekit.io/your_imagekit_id/images/products/file1.jpg',
+                'version_info': {
+                    'id': 'versionId',
+                    'name': 'Version 2'
+                },
+                'width': 100
+            }
+        }
 
         self.assertEqual(mock_resp, resp)
-        self.assertEqual("http://test.com/fax_abx1223/versions/fake_123_version_id/restore",
+        self.assertEqual("http://test.com/v1/files/fax_abx1223/versions/fake_123_version_id/restore",
                          responses.calls[0].request.url)

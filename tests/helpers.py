@@ -4,11 +4,6 @@ from unittest.mock import patch
 
 from imagekitio.client import ImageKit
 
-try:
-    from simplejson.errors import JSONDecodeError
-except ImportError:
-    from json import JSONDecodeError
-
 
 class ClientTestCase(unittest.TestCase):
     """
