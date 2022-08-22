@@ -1,5 +1,5 @@
-import json
-import requests.models
+from json import loads, dumps
+from requests.models import Response
 
 from imagekitio.exceptions.BadRequestException import BadRequestException
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
@@ -17,7 +17,7 @@ except ImportError:
     from json import JSONDecodeError
 
 
-def get_response_json(response: requests.models.Response):
+def get_response_json(response: Response):
     try:
         resp = response.json()
     except JSONDecodeError:
@@ -25,13 +25,13 @@ def get_response_json(response: requests.models.Response):
     return resp
 
 
-def populate_response_metadata(response: requests.models.Response):
+def populate_response_metadata(response: Response):
     resp = get_response_json(response)
     response_metadata = {"raw": resp, "httpStatusCode": response.status_code, "headers": response.headers}
     return response_metadata
 
 
-def general_api_throw_exception(response: requests.models.Response):
+def general_api_throw_exception(response: Response):
     resp = get_response_json(response)
     response_meta_data = populate_response_metadata(response)
     error_message = resp['message'] if type(resp) == dict else ""
@@ -50,7 +50,7 @@ def general_api_throw_exception(response: requests.models.Response):
         raise UnknownException(error_message, response_help, response_meta_data)
 
 
-def throw_other_exception(response: requests.models.Response):
+def throw_other_exception(response: Response):
     resp = get_response_json(response)
     response_meta_data = populate_response_metadata(response)
     error_message = resp['message'] if type(resp) == dict else ""
@@ -63,9 +63,9 @@ def throw_other_exception(response: requests.models.Response):
         raise UnknownException(error_message, response_help, response_meta_data)
 
 
-def convert_to_response_object(resp: requests.models.Response, response_object):
+def convert_to_response_object(resp: Response, response_object):
     error = None
-    res_new = json.loads(json.dumps(camel_dict_to_snake_dict(resp.json())))
+    res_new = loads(dumps(camel_dict_to_snake_dict(resp.json())))
     u = response_object(**res_new)
     response = {"error": error, "response": u.__str__()}
     u.response_metadata['raw'] = resp.json()
@@ -74,11 +74,11 @@ def convert_to_response_object(resp: requests.models.Response, response_object):
     return response
 
 
-def convert_to_list_response_object(resp: requests.models.Response, response_object, list_response_object):
+def convert_to_list_response_object(resp: Response, response_object, list_response_object):
     error = None
     response_list = []
     for item in resp.json():
-        res_new = json.loads(json.dumps(camel_dict_to_snake_dict(item)))
+        res_new = loads(dumps(camel_dict_to_snake_dict(item)))
         u = response_object(**res_new)
         response_list.append(u.__str__())
 
