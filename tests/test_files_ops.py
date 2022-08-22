@@ -1,3 +1,4 @@
+import base64
 import json
 import os
 
@@ -29,6 +30,10 @@ class TestUpload(ClientTestCase):
     image = os.path.join(
         os.path.dirname(os.path.realpath(__file__)), "dummy_data/image.png"
     )
+
+    sample_image = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), "sample.jpg"
+    )
     filename = "test"
 
     @responses.activate
@@ -37,7 +42,7 @@ class TestUpload(ClientTestCase):
         Tests if the unauthenticated request restricted
         """
         URL.UPLOAD_BASE_URL = "http://test.com"
-        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
+        url = "%s%s" % (URL.UPLOAD_BASE_URL, "/api/v1/files/upload")
         try:
             responses.add(
                 responses.POST,
@@ -75,7 +80,7 @@ class TestUpload(ClientTestCase):
         Tests if  upload succeeds
         """
         URL.UPLOAD_BASE_URL = "http://test.com"
-        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
+        url = "%s%s" % (URL.UPLOAD_BASE_URL, "/api/v1/files/upload")
         headers = create_headers_for_test()
         responses.add(
             responses.POST,
@@ -114,7 +119,9 @@ class TestUpload(ClientTestCase):
             headers=headers
         )
 
-        resp = self.client.upload_file(file=open("sample.jpg", "rb"),
+        with open(self.sample_image, mode="rb") as img:
+            imgstr = base64.b64encode(img.read())
+        resp = self.client.upload_file(file=imgstr,
                                        file_name="file_name.jpg",
                                        options={
                                            "use_unique_file_name": 'false',
@@ -235,7 +242,9 @@ class TestUpload(ClientTestCase):
         """Test upload raises error on missing required params
         """
         try:
-            self.client.upload_file(file=open("sample.jpg", "rb"))
+            with open(self.sample_image, mode="rb") as img:
+                imgstr = base64.b64encode(img.read())
+            self.client.upload_file(file=imgstr)
         except TypeError as e:
             self.assertEqual({'message': 'Missing fileName parameter for upload', 'help': ''}, e.args[0])
 
@@ -252,7 +261,7 @@ class TestUpload(ClientTestCase):
         """Test upload raises 400 error"""
 
         URL.UPLOAD_BASE_URL = "http://test.com"
-        url = "%s%s" % (URL.UPLOAD_BASE_URL, "api/v1/files/upload")
+        url = "%s%s" % (URL.UPLOAD_BASE_URL, "/api/v1/files/upload")
         try:
             responses.add(
                 responses.POST,
