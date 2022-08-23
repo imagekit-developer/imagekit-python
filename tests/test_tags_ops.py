@@ -7,6 +7,7 @@ from imagekitio.client import ImageKit
 from imagekitio.constants.url import URL
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
 from imagekitio.exceptions.NotFoundException import NotFoundException
+from imagekitio.utils.formatter import camel_dict_to_snake_dict
 from tests.helpers import (
     ClientTestCase, get_auth_headers_for_test,
 )
@@ -44,7 +45,7 @@ class TestTags(ClientTestCase):
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
-            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
+            self.assertEqual(403, e.response_metadata.http_status_code)
 
     @responses.activate
     def test_add_tags_succeeds(self):
@@ -65,10 +66,7 @@ class TestTags(ClientTestCase):
         )
 
         resp = self.client.add_tags(file_ids=[self.file_id], tags=['add-tag-1', 'add-tag-2'])
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain, application/json',
                         'Authorization': 'Basic ZmFrZTEyMjo='
@@ -77,16 +75,14 @@ class TestTags(ClientTestCase):
                     'raw': {
                         'successfullyUpdatedFileIds': ['fake_123']
                     }
-                },
-                'successfully_updated_file_ids': ['fake_123']
-            }
-        }
+                }
         request_body = json.dumps({
             "fileIds": ["fake_123"],
             "tags": ["add-tag-1", "add-tag-2"]
         })
         self.assertEqual(request_body, responses.calls[0].request.body)
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(['fake_123'], resp.successfully_updated_file_ids)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/files/addTags", responses.calls[0].request.url)
 
     @responses.activate
@@ -113,8 +109,8 @@ class TestTags(ClientTestCase):
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("The requested file(s) does not exist.", e.message)
-            self.assertEqual(404, e.response_metadata['httpStatusCode'])
-            self.assertEqual(['fake_123'], e.response_metadata['raw']['missingFileIds'])
+            self.assertEqual(404, e.response_metadata.http_status_code)
+            self.assertEqual(['fake_123'], e.response_metadata.raw['missingFileIds'])
 
     @responses.activate
     def test_remove_tags_fails_on_unauthenticated_request(self):
@@ -135,7 +131,7 @@ class TestTags(ClientTestCase):
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
             self.assertEqual("Your account cannot be authenticated.", e.message)
-            self.assertEqual(403, e.response_metadata['httpStatusCode'])
+            self.assertEqual(403, e.response_metadata.http_status_code)
 
     @responses.activate
     def test_remove_tags_succeeds(self):
@@ -156,10 +152,7 @@ class TestTags(ClientTestCase):
         )
 
         resp = self.client.remove_tags(file_ids=[self.file_id], tags=['remove-tag-1', 'remove-tag-2'])
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain, application/json',
                         'Authorization': 'Basic ZmFrZTEyMjo='
@@ -168,16 +161,14 @@ class TestTags(ClientTestCase):
                     'raw': {
                         'successfullyUpdatedFileIds': ['fake_123']
                     }
-                },
-                'successfully_updated_file_ids': ['fake_123']
-            }
-        }
+                }
         request_body = json.dumps({
             "fileIds": ["fake_123"],
             "tags": ["remove-tag-1", "remove-tag-2"]
         })
         self.assertEqual(request_body, responses.calls[0].request.body)
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(['fake_123'], resp.successfully_updated_file_ids)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/files/removeTags", responses.calls[0].request.url)
 
     @responses.activate
@@ -204,8 +195,8 @@ class TestTags(ClientTestCase):
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("The requested file(s) does not exist.", e.message)
-            self.assertEqual(404, e.response_metadata['httpStatusCode'])
-            self.assertEqual(['fake_123'], e.response_metadata['raw']['missingFileIds'])
+            self.assertEqual(404, e.response_metadata.http_status_code)
+            self.assertEqual(['fake_123'], e.response_metadata.raw['missingFileIds'])
 
 
 class TestAITags(ClientTestCase):
@@ -239,7 +230,7 @@ class TestAITags(ClientTestCase):
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
-            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
+            self.assertEqual(403, e.response_metadata.http_status_code)
 
     @responses.activate
     def test_remove_ai_tags_succeeds(self):
@@ -260,10 +251,7 @@ class TestAITags(ClientTestCase):
         )
 
         resp = self.client.remove_ai_tags(file_ids=[self.file_id], a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain, application/json',
                         'Authorization': 'Basic ZmFrZTEyMjo='
@@ -272,16 +260,14 @@ class TestAITags(ClientTestCase):
                     'raw': {
                         'successfullyUpdatedFileIds': ['fake_123']
                     }
-                },
-                'successfully_updated_file_ids': ['fake_123']
-            }
-        }
+                }
         request_body = json.dumps({
             "fileIds": ["fake_123"],
             "AITags": ['remove-ai-tag-1', 'remove-ai-tag-2']
         })
         self.assertEqual(request_body, responses.calls[0].request.body)
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(['fake_123'], resp.successfully_updated_file_ids)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/files/removeAITags", responses.calls[0].request.url)
 
     @responses.activate
@@ -308,5 +294,5 @@ class TestAITags(ClientTestCase):
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("The requested file(s) does not exist.", e.message)
-            self.assertEqual(404, e.response_metadata['httpStatusCode'])
-            self.assertEqual(['fake_123'], e.response_metadata['raw']['missingFileIds'])
+            self.assertEqual(404, e.response_metadata.http_status_code)
+            self.assertEqual(['fake_123'], e.response_metadata.raw['missingFileIds'])

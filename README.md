@@ -20,7 +20,7 @@ Table of contents -
 
 * [Installation](#Installation)
 * [Initialization](#Initialization)
-* [Versioning](#versioning)
+* [Change log](#Change log)
 * [URL Generation](#URL-generation)
 * [File Upload](#File-Upload)
 * [File Management](#File-Management)
@@ -331,16 +331,18 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print that uploaded file's ID
+print(result.file_id)
 ```
 
-If the upload succeeds, `error` will be `null,` and the `result` will be the same as what is received from ImageKit's
+If the upload succeeds, the `result` will be the same as what is received from ImageKit's
 servers.
 
 If the upload fails, the custom exception will be thrown with:
 
 - `response_help` for any kind of help
-- `response_metadata` json with `raw`, `httpStatusCode` and `headers`
+- `response_metadata` with `raw`, `http_status_code` and `headers`
 - `message` can be called to get the error message received from ImageKit's servers.
 
 ## File Management
@@ -365,7 +367,9 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the first file's ID
+print(result.list[0].file_id)
 ```
 
 **2. Get File Details**
@@ -380,7 +384,9 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print that file's id
+print(result.file_id)
 ```
 
 **3. Get File Versions**
@@ -390,7 +396,14 @@ the [API documentation here](https://docs.imagekit.io/api-reference/media-api/ge
 
 ```python
 file_id = "your_file_id"
-imagekit.get_file_versions(file_id)  # fileId required
+result = imagekit.get_file_versions(file_id)  # fileId required
+print("======FINAL RESULT=======")
+print("-------------------------------------")
+print(result)
+print("Raw Response:")
+print(result.response_metadata.raw)
+# print that file's version id
+print(result.list[0].version_info.id)
 ```
 
 **4. Get File Version details**
@@ -405,7 +418,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print that file's id
+print(result.file_id)
+# print that file's version id
+print(result.version_info.id)
 ```
 
 **5. Update File Details**
@@ -444,7 +461,9 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print that file's id
+print(result.file_id)
 ```
 
 **6. Add tags**
@@ -459,7 +478,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# list successfully updated file ids
+print(result.successfully_updated_file_ids)
+# print the first file's id
+print(result.successfully_updated_file_ids[0])
 ```
 
 **7. Remove tags**
@@ -474,7 +497,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# list successfully updated file ids
+print(result.successfully_updated_file_ids)
+# print the first file's id
+print(result.successfully_updated_file_ids[0])
 ```
 
 **8. Remove AI tags**
@@ -489,7 +516,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# list successfully updated file ids
+print(result.successfully_updated_file_ids)
+# print the first file's id
+print(result.successfully_updated_file_ids[0])
 ```
 
 **9. Delete File**
@@ -505,7 +536,7 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
 ```
 
 **10. Delete FileVersion**
@@ -520,7 +551,7 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
 ```
 
 **11. Bulk File Delete by IDs**
@@ -534,7 +565,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# list successfully deleted file ids
+print(result.successfully_deleted_file_ids)
+# print the first file's id
+print(result.successfully_deleted_file_ids[0])
 ```
 
 **12. Copy file**
@@ -550,7 +585,7 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
 ```
 
 **13. Move file**
@@ -565,7 +600,7 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
 ```
 
 **14. Rename file**
@@ -581,7 +616,9 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the purge request id
+print(result.purge_request_id)
 ```
 
 **15. Restore file Version**
@@ -596,7 +633,9 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print that file's id
+print(result.file_id)
 ```
 
 **16. Create Folder**
@@ -610,7 +649,7 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
 ```
 
 **17. Delete Folder**
@@ -624,7 +663,7 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
 ```
 
 **18. Copy Folder**
@@ -641,7 +680,9 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the job's id
+print(result.job_id)
 ```
 
 **19. Move Folder**
@@ -656,7 +697,9 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the job's id
+print(result.job_id)
 ```
 
 **20. Get Bulk Job Status**
@@ -671,7 +714,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the job's id
+print(result.job_id)
+# print the status
+print(result.status)
 ```
 
 **21. Purge Cache**
@@ -686,7 +733,9 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the purge file cache request id
+print(result.request_id)
 ```
 
 **22. Purge Cache Status**
@@ -700,7 +749,9 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the purge file cache status
+print(result.status)
 ```
 
 **23. Get File Metadata**
@@ -714,7 +765,10 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the file metadata fields
+print(result.width)
+print(result.exif.image.x_resolution)
 ```
 
 **24. Get File Metadata from remote url**
@@ -728,7 +782,10 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the file metadata fields
+print(result.width)
+print(result.exif.image.x_resolution)
 ```
 
 **25. Create CustomMetaDataFields**
@@ -756,7 +813,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the id of created custom metadata fields
+print(result.id)
+# print the schema's type of created custom metadata fields
+print(result.schema.type)
 ```
 
 **MultiSelect type Example:**
@@ -778,7 +839,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the name of created custom metadata fields
+print(result.name)
+# print the schema's select options of created custom metadata fields
+print(result.schema.select_options)
 ```
 
 **Date type Example:**
@@ -797,7 +862,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the label of created custom metadata fields
+print(result.label)
+# print the schema's min value of created custom metadata fields
+print(result.schema.min_value)
 ```
 
 **26. Get CustomMetaDataFields**
@@ -812,7 +881,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the first customMetadataField's id
+print(result.list[0].id)
+# print the first customMetadataField schema's type
+print(result.list[0].schema.type)
 ```
 
 ```python
@@ -821,7 +894,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the first customMetadataField's name
+print(result.list[0].name)
+# print the first customMetadataField schema's default value
+print(result.list[0].schema.default_value)
 ```
 
 **27. Update CustomMetaDataFields**
@@ -844,7 +921,11 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
+# print the label of updated custom metadata fields
+print(result.label)
+# print the schema's min value of updated custom metadata fields
+print(result.schema.min_value)
 ```
 
 **28. Delete CustomMetaDataFields**
@@ -859,7 +940,7 @@ print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
 print("Raw Response:")
-print(result['response']['_response_metadata']['raw'])
+print(result.response_metadata.raw)
 ```
 
 ## Utility functions
@@ -934,7 +1015,7 @@ imagekit.phash_distance('a4a65595ac94518b', '7838873e791f8400')
 
 **HTTP response metadata of Internal API**
 
-HTTP response metadata of the internal API call can be accessed using the _response_metadata on the Result object.
+HTTP response metadata of the internal API call can be accessed using the response_metadata on the Result object.
 Example:
 
 ```python
@@ -944,9 +1025,9 @@ result = imagekit.upload_file(
 )
 print("======FINAL RESULT=======")
 print(result)
-print(result['response']['_response_metadata']['raw'])
-print(result['response']['_response_metadata']['httpStatusCode'])
-print(result['response']['_response_metadata']['headers'])
+print(result.response_metadata.raw)
+print(result.response_metadata.http_status_code)
+print(result.response_metadata.headers)
 ```
 
 ### Sample Code Instruction
@@ -980,10 +1061,10 @@ try:
 # Use ImageKit's SDK to make requests...
 except BadRequestException as e:
     # Missing or Invalid parameters were supplied to Imagekit.io's API
-    print("Status is: " + e.response_metadata['httpStatusCode'])
+    print("Status is: " + e.response_metadata.http_status_code)
     print("Message is: " + e.message)
-    print("Headers are: " + e.response_metadata['headers'])
-    print("Raw body is: " + e.response_metadata['raw'])
+    print("Headers are: " + e.response_metadata.headers)
+    print("Raw body is: " + e.response_metadata.raw)
 except UnauthorizedException as e:
 # No valid API key was provided.
 except ForbiddenException as e:

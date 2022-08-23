@@ -1,6 +1,11 @@
+from typing import List
+from imagekitio.models.results.AITags import AITags
+from imagekitio.models.results.VersionInfo import VersionInfo
+
+
 class FileResult:
 
-    def __init__(self, type, name, created_at, updated_at, file_id, tags, ai_tags, version_info, embedded_metadata=None,
+    def __init__(self, type, name, created_at, updated_at, file_id, tags, ai_tags: List[AITags] = AITags(None, None, None), version_info: VersionInfo = VersionInfo(None, None), embedded_metadata=None,
                  custom_coordinates: str = '', custom_metadata=None, is_private_file = False, url: str = '', thumbnail: str = '', file_type: str = '', file_path: str = '',
                  height: int = None, width: int = None, size: int = None, has_alpha=False, mime: str = None,
                  extension_status=None):
@@ -16,8 +21,13 @@ class FileResult:
         self.updated_at = updated_at
         self.file_id = file_id
         self.tags = tags
-        self.ai_tags = ai_tags
-        self.version_info = version_info
+        self.ai_tags: List[AITags] = []
+        if ai_tags is not None:
+            for i in ai_tags:
+                self.ai_tags.append(AITags(i['name'], i['confidence'], i['source']))
+        else:
+            self.ai_tags.append(AITags(None, None, None))
+        self.version_info = VersionInfo(version_info['id'], version_info['name'])
         self.embedded_metadata = embedded_metadata
         self.custom_coordinates = custom_coordinates
         self.custom_metadata = custom_metadata
@@ -32,11 +42,3 @@ class FileResult:
         self.has_alpha = has_alpha
         self.mime = mime
         self.extension_status = extension_status
-        self._response_metadata = {}
-
-    def __str__(self):
-        return self.__dict__
-
-    @property
-    def response_metadata(self):
-        return self._response_metadata

@@ -9,6 +9,8 @@ from imagekitio.exceptions.PartialSuccessException import PartialSuccessExceptio
 from imagekitio.exceptions.TooManyRequestsException import TooManyRequestsException
 from imagekitio.exceptions.UnauthorizedException import UnauthorizedException
 from imagekitio.exceptions.UnknownException import UnknownException
+from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from imagekitio.models.results.ResponseMetadataResult import ResponseMetadataResult
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
 
 try:
@@ -27,7 +29,7 @@ def get_response_json(response: Response):
 
 def populate_response_metadata(response: Response):
     resp = get_response_json(response)
-    response_metadata = {"raw": resp, "httpStatusCode": response.status_code, "headers": response.headers}
+    response_metadata = ResponseMetadata(resp, response.status_code, response.headers)
     return response_metadata
 
 
@@ -64,27 +66,25 @@ def throw_other_exception(response: Response):
 
 
 def convert_to_response_object(resp: Response, response_object):
-    error = None
     res_new = loads(dumps(camel_dict_to_snake_dict(resp.json())))
     u = response_object(**res_new)
-    response = {"error": error, "response": u.__str__()}
-    u.response_metadata['raw'] = resp.json()
-    u.response_metadata['httpStatusCode'] = resp.status_code
-    u.response_metadata['headers'] = resp.headers
-    return response
+    u.response_metadata = ResponseMetadata(resp.json(), resp.status_code, resp.headers)
+    return u
+
+
+def convert_to_response_metadata_result_object(resp: Response = None):
+    u = ResponseMetadataResult()
+    u.response_metadata = ResponseMetadata(resp.json() if resp.status_code is not 204 else None, resp.status_code, resp.headers)
+    return u
 
 
 def convert_to_list_response_object(resp: Response, response_object, list_response_object):
-    error = None
     response_list = []
     for item in resp.json():
         res_new = loads(dumps(camel_dict_to_snake_dict(item)))
         u = response_object(**res_new)
-        response_list.append(u.__str__())
+        response_list.append(u)
 
-    u = list_response_object({'list': response_list})
-    response = {"error": error, "response": u.__str__()}
-    u.response_metadata['raw'] = resp.json()
-    u.response_metadata['httpStatusCode'] = resp.status_code
-    u.response_metadata['headers'] = resp.headers
-    return response
+    u = list_response_object(response_list)
+    u.response_metadata = ResponseMetadata(resp.json(), resp.status_code, resp.headers)
+    return u
