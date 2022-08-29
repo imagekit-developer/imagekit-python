@@ -336,8 +336,7 @@ print(result.response_metadata.raw)
 print(result.file_id)
 ```
 
-If the upload succeeds, the `result` will be the same as what is received from ImageKit's
-servers.
+If the upload succeeds, the `result` will be the `UploadFileResult` class.
 
 If the upload fails, the custom exception will be thrown with:
 
@@ -360,9 +359,9 @@ can be passed with the correct values to get the results.
 
 ```python
 result = imagekit.list_files({"type": "file", "sort": "ASC_CREATED", "path": "/",
-                              "searchQuery": "createdAt >= '2d' OR size < '2mb' OR format='png'",
-                              "fileType": "all", "limit": 5, "skip": 0,
-                              "tags": "Software, Developer, Engineer"})
+                                      "search_query": "created_at >= '2d' OR size < '2mb' OR format='png'",
+                                      "file_type": "all", "limit": 5, "skip": 0,
+                                      "tags": "Software, Developer, Engineer"})
 print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
@@ -1032,7 +1031,7 @@ print(result.response_metadata.headers)
 
 ### Sample Code Instruction
 
-To run `sample` code go to the sample directory and run
+To run `sample` code go to the code samples here are hosted on Github - https://github.com/imagekit-samples/quickstart/tree/master/python and run
 
 ```shell
 python sample.py
