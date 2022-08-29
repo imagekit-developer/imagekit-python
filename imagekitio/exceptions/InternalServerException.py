@@ -1,6 +1,9 @@
+from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+
+
 class InternalServerException(Exception):
 
-    def __init__(self, message, response_help, response_metadata):
+    def __init__(self, message, response_help, response_metadata: ResponseMetadata):
         self.message = message
         self.response_help = response_help
         self.response_metadata = response_metadata

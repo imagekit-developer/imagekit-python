@@ -1,4 +1,4 @@
-from json import dumps
+from json import dumps, loads
 from typing import Any, Dict
 
 from requests_toolbelt import MultipartEncoder
@@ -9,26 +9,32 @@ from .constants.url import URL
 from .exceptions.BadRequestException import BadRequestException
 from .exceptions.ConflictException import ConflictException
 from .exceptions.NotFoundException import NotFoundException
-from .results.bulk_delete_file_result import BulkDeleteFileResult
-from .results.copy_folder_result import CopyFolderResult
-from .results.custom_metadata_fields_result import CustomMetadataFieldsResult
-from .results.file_result import FileResult
-from .results.get_bulk_job_status_result import GetBulkJobStatusResult
-from .results.get_metadata_result import GetMetadataResult
-from .results.list_custom_metadata_fields_result import ListCustomMetadataFieldsResult
-from .results.list_file_result import ListFileResult
-from .results.purge_cache_result import PurgeCacheResult
-from .results.purge_cache_status_result import PurgeCacheStatusResult
-from .results.rename_file_result import RenameFileResult
-from .results.tags_result import TagsResult
-from .results.upload_file_result import UploadFileResult
+from .exceptions.UnknownException import UnknownException
+from .models.results.CustomMetadataFieldsResultWithResponseMetadata import CustomMetadataFieldsResultWithResponseMetadata
+from .models.results.FileResultWithResponseMetadata import FileResultWithResponseMetadata
+from .models.results.CustomMetadataFieldsResult import CustomMetadataFieldsResult
+from .models.results.BulkDeleteFileResult import BulkDeleteFileResult
+from .models.results.FolderResult import FolderResult
+
+from .models.results.FileResult import FileResult
+from .models.results.GetBulkJobStatusResult import GetBulkJobStatusResult
+from .models.results.GetMetadataResult import GetMetadataResult
+from .models.results.ListCustomMetadataFieldsResult import ListCustomMetadataFieldsResult
+from .models.results.ListFileResult import ListFileResult
+from .models.results.PurgeCacheResult import PurgeCacheResult
+from .models.results.PurgeCacheStatusResult import PurgeCacheStatusResult
+from .models.results.RenameFileResult import RenameFileResult
+from .models.results.ResponseMetadata import ResponseMetadata
+from .models.results.ResponseMetadataResult import ResponseMetadataResult
+from .models.results.TagsResult import TagsResult
+from .models.results.UploadFileResult import UploadFileResult
 from .utils.formatter import (
     request_formatter,
-    snake_to_lower_camel,
+    snake_to_lower_camel, camel_dict_to_snake_dict,
 )
 from .utils.utils import (
     general_api_throw_exception, get_response_json, populate_response_metadata, convert_to_response_object,
-    convert_to_list_response_object, throw_other_exception
+    convert_to_list_response_object, throw_other_exception, convert_to_response_metadata_result_object
 )
 
 
@@ -36,12 +42,12 @@ class File(object):
     def __init__(self, request_obj):
         self.request = request_obj
 
-    def upload(self, file, file_name, options) -> Dict:
+    def upload(self, file, file_name, options) -> UploadFileResult:
         """Upload file to server using local image or url
         :param file: either local file path or network file path
         :param file_name: intended file name
         :param options: intended options
-        :return: json response from server
+        :return: UploadFileResult
         """
         if not file:
             raise TypeError(ERRORS.MISSING_UPLOAD_FILE_PARAMETER.value)
@@ -73,10 +79,10 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def list(self, options: dict) -> Dict:
+    def list(self, options: dict) -> ListFileResult:
         """Returns list files on ImageKit Server
         :param: options dictionary of options
-        :return: list of the response
+        :return: ListFileResult
         """
 
         formatted_options = request_formatter(options)
@@ -88,13 +94,14 @@ class File(object):
         resp = self.request.request(
             method="GET", url=url, headers=headers, params=options
         )
+        print("resp in list:-->", resp.text)
         if resp.status_code == 200:
             response = convert_to_list_response_object(resp, FileResult, ListFileResult)
             return response
         else:
             general_api_throw_exception(resp)
 
-    def details(self, file_identifier: str = None) -> Dict:
+    def details(self, file_identifier: str = None) -> FileResultWithResponseMetadata:
         """returns file detail
         """
         if not file_identifier:
@@ -104,12 +111,12 @@ class File(object):
             method="GET", url=url, headers=self.request.create_headers(),
         )
         if resp.status_code == 200:
-            response = convert_to_response_object(resp, FileResult)
+            response = convert_to_response_object(resp, FileResultWithResponseMetadata)
             return response
         else:
             general_api_throw_exception(resp)
 
-    def get_file_versions(self, file_identifier: str = None) -> Dict:
+    def get_file_versions(self, file_identifier: str = None) -> ListFileResult:
         """returns file versions
         """
         if not file_identifier:
@@ -130,7 +137,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def get_file_version_details(self, file_identifier: str = None, version_identifier: str = None) -> Dict:
+    def get_file_version_details(self, file_identifier: str = None, version_identifier: str = None) -> FileResultWithResponseMetadata:
         """returns file version detail
         """
         if not file_identifier:
@@ -142,7 +149,7 @@ class File(object):
             method="GET", url=url, headers=self.request.create_headers(),
         )
         if resp.status_code == 200:
-            response = convert_to_response_object(resp, FileResult)
+            response = convert_to_response_object(resp, FileResultWithResponseMetadata)
             return response
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
@@ -153,7 +160,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def update_file_details(self, file_id: str, options: dict):
+    def update_file_details(self, file_id: str, options: dict) -> FileResultWithResponseMetadata:
         """Update detail of a file(like tags, coordinates)
         update details identified by file_id and options,
         which is already uploaded
@@ -166,12 +173,12 @@ class File(object):
         data = dumps(request_formatter(options))
         resp = self.request.request(method="Patch", url=url, headers=headers, data=data)
         if resp.status_code == 200:
-            response = convert_to_response_object(resp, FileResult)
+            response = convert_to_response_object(resp, FileResultWithResponseMetadata)
             return response
         else:
             general_api_throw_exception(resp)
 
-    def manage_tags(self, file_ids, tags, action):
+    def manage_tags(self, file_ids, tags, action) -> TagsResult:
         """Add or Remove tags of files
         :param file_ids: array of file ids
         :param tags: array of tags
@@ -191,7 +198,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def remove_ai_tags(self, file_ids, a_i_tags):
+    def remove_ai_tags(self, file_ids, a_i_tags) -> TagsResult:
         """Remove AI tags of files
         :param file_ids: array of file ids
         :param a_i_tags: array of AI tags
@@ -209,7 +216,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def delete(self, file_id: str = None) -> Dict:
+    def delete(self, file_id: str = None) -> ResponseMetadataResult:
         """Delete file by file_id
         deletes file from imagekit server
         """
@@ -220,14 +227,12 @@ class File(object):
             method="Delete", url=url, headers=self.request.create_headers()
         )
         if resp.status_code == 204:
-            response = {
-                "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
-            response = {"error": None, "response": response}
+            response = convert_to_response_metadata_result_object(resp)
             return response
         else:
             general_api_throw_exception(resp)
 
-    def delete_file_version(self, file_id, version_id):
+    def delete_file_version(self, file_id, version_id) -> ResponseMetadataResult:
         """Delete file version by file_id and version_id
         """
         url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, file_id, version_id)
@@ -239,9 +244,7 @@ class File(object):
             headers=headers
         )
         if resp.status_code == 204:
-            response = {
-                "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
-            response = {"error": None, "response": response}
+            response = convert_to_response_metadata_result_object(resp)
             return response
         elif resp.status_code == 400 or resp.status_code == 404:
             response = get_response_json(resp)
@@ -255,7 +258,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def batch_delete(self, file_ids: list = None):
+    def batch_delete(self, file_ids: list = None) -> BulkDeleteFileResult:
         """Delete bulk files
         Delete files by batch ids
         """
@@ -279,7 +282,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def copy_file(self, options):
+    def copy_file(self, options) -> ResponseMetadataResult:
         """Copy file by provided sourceFilePath, destinationPath and includeFileVersions as an options
         """
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
@@ -292,10 +295,9 @@ class File(object):
             headers=headers,
             data=formatted_options
         )
+        print("resp:-->", resp)
         if resp.status_code == 204:
-            response = {
-                "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
-            response = {"error": None, "response": response}
+            response = convert_to_response_metadata_result_object(resp)
             return response
         elif resp.status_code == 404:
             response = get_response_json(resp)
@@ -306,7 +308,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def move_file(self, options):
+    def move_file(self, options) -> ResponseMetadataResult:
         """Move file by provided sourceFilePath and destinationPath as an options
         """
         url = "{}/v1/files/move".format(URL.API_BASE_URL)
@@ -320,9 +322,7 @@ class File(object):
             data=formatted_options
         )
         if resp.status_code == 204:
-            response = {
-                "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
-            response = {"error": None, "response": response}
+            response = convert_to_response_metadata_result_object(resp)
             return response
         elif resp.status_code == 404:
             response = get_response_json(resp)
@@ -333,7 +333,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def rename_file(self, options):
+    def rename_file(self, options) -> RenameFileResult:
         """Rename file by provided filePath, newFileName and purgeCache as an options
         """
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
@@ -347,12 +347,7 @@ class File(object):
             data=formatted_options
         )
         if resp.status_code == 200:
-            if resp.text == "{}":
-                response = {
-                    "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
-                response = {"error": None, "response": response}
-            else:
-                response = convert_to_response_object(resp, RenameFileResult)
+            response = convert_to_response_object(resp, RenameFileResult)
             return response
         elif resp.status_code == 207 or resp.status_code == 404:
             throw_other_exception(resp)
@@ -365,7 +360,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def restore_file_version(self, file_id, version_id):
+    def restore_file_version(self, file_id, version_id) -> FileResultWithResponseMetadata:
         """Restore file by provided fileId and versionId
         """
         url = "{}/v1/files/{}/versions/{}/restore".format(URL.API_BASE_URL, file_id, version_id)
@@ -376,7 +371,7 @@ class File(object):
             headers=headers,
         )
         if resp.status_code == 200:
-            response = convert_to_response_object(resp, FileResult)
+            response = convert_to_response_object(resp, FileResultWithResponseMetadata)
             return response
         elif resp.status_code == 404:
             response = get_response_json(resp)
@@ -387,8 +382,8 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def create_folder(self, options):
-        """Create folder by provided folderName and parentFolderPath
+    def create_folder(self, options) -> ResponseMetadataResult:
+        """Create folder by provided folderName and parentFolderPath as an options
         """
         url = "{}/v1/folder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
@@ -400,12 +395,16 @@ class File(object):
             data=formatted_data
         )
         if resp.status_code == 201:
-            response = {
-                "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
-            response = {"error": None, "response": response}
+            response = convert_to_response_metadata_result_object(resp)
             return response
+        else:
+            response = get_response_json(resp)
+            response_meta_data = populate_response_metadata(resp)
+            error_message = response['message'] if type(response) == dict else ""
+            response_help = response['help'] if type(response) == dict else ""
+            raise UnknownException(error_message, response_help, response_meta_data)
 
-    def delete_folder(self, options):
+    def delete_folder(self, options) -> ResponseMetadataResult:
         """Delete folder by provided folderPath as an options
         """
         url = "{}/v1/folder".format(URL.API_BASE_URL)
@@ -418,9 +417,7 @@ class File(object):
             data=formatted_data
         )
         if resp.status_code == 204:
-            response = {
-                "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
-            response = {"error": None, "response": response}
+            response = convert_to_response_metadata_result_object(resp)
             return response
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
@@ -431,7 +428,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def copy_folder(self, options):
+    def copy_folder(self, options) -> FolderResult:
         """Copy folder by provided sourceFolderPath, destinationPath and includeFileVersions as an options
         """
         url = "{}/v1/bulkJobs/copyFolder".format(URL.API_BASE_URL)
@@ -445,7 +442,7 @@ class File(object):
             data=formatted_data
         )
         if resp.status_code == 200:
-            response = convert_to_response_object(resp, CopyFolderResult)
+            response = convert_to_response_object(resp, FolderResult)
             return response
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
@@ -456,7 +453,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def move_folder(self, options):
+    def move_folder(self, options) -> FolderResult:
         """Move folder by provided sourceFolderPath and destinationPath as an options
         """
         url = "{}/v1/bulkJobs/moveFolder".format(URL.API_BASE_URL)
@@ -471,7 +468,7 @@ class File(object):
         )
 
         if resp.status_code == 200:
-            response = convert_to_response_object(resp, CopyFolderResult)
+            response = convert_to_response_object(resp, FolderResult)
             return response
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
@@ -482,7 +479,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def get_bulk_job_status(self, job_id):
+    def get_bulk_job_status(self, job_id) -> GetBulkJobStatusResult:
         """Get bulk job status by provided only jobId
         """
         url = "{}/v1/bulkJobs/{}".format(URL.API_BASE_URL, job_id)
@@ -498,7 +495,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def purge_cache(self, file_url: str = None) -> Dict[str, Any]:
+    def purge_cache(self, file_url: str = None) -> PurgeCacheResult:
         """Use from child class to purge cache
         """
         if not file_url:
@@ -516,9 +513,9 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def get_purge_cache_status(self, cache_request_id: str = None) -> Dict[str, Any]:
+    def get_purge_cache_status(self, cache_request_id: str = None) -> PurgeCacheStatusResult:
         """Get purge cache status by cache_request_id
-        :return: cache_request_id
+        :return: PurgeCacheStatusResult
         """
         if not cache_request_id:
             raise TypeError(ERRORS.CACHE_PURGE_STATUS_ID_MISSING.value)
@@ -532,7 +529,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def get_metadata(self, file_id: str = None):
+    def get_metadata(self, file_id: str = None) -> GetMetadataResult:
         """Get metadata by file_id
         """
         if not file_id:
@@ -546,7 +543,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def get_metadata_from_remote_url(self, remote_file_url: str):
+    def get_metadata_from_remote_url(self, remote_file_url: str) -> GetMetadataResult:
         """Get remote metadata by provided remote_file_url
         """
         if not remote_file_url:
@@ -562,7 +559,7 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def create_custom_metadata_fields(self, options):
+    def create_custom_metadata_fields(self, options) -> CustomMetadataFieldsResultWithResponseMetadata:
         """creates custom metadata fields by passing name, label and schema as an options
         """
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
@@ -573,18 +570,21 @@ class File(object):
         resp = self.request.request(
             method="Post", url=url, headers=headers, data=formatted_options
         )
+        print("resp:--")
         if resp.status_code == 201:
-            response = convert_to_response_object(resp, CustomMetadataFieldsResult)
+            response = convert_to_response_object(resp, CustomMetadataFieldsResultWithResponseMetadata)
             return response
         else:
+            response_json = get_response_json(resp)
+            response_meta_data = populate_response_metadata(resp)
+            error_message = response_json['message'] if type(response_json) == dict else ""
+            response_help = response_json['help'] if type(response_json) == dict else ""
             if resp.status_code == 400:
-                response_json = get_response_json(resp)
-                response_meta_data = populate_response_metadata(resp)
-                error_message = response_json['message'] if type(response_json) == dict else ""
-                response_help = response_json['help'] if type(response_json) == dict else ""
                 raise BadRequestException(error_message, response_help, response_meta_data)
+            else:
+                raise UnknownException(error_message, response_help, response_meta_data)
 
-    def get_custom_metadata_fields(self, include_deleted: bool = False):
+    def get_custom_metadata_fields(self, include_deleted: bool = False) -> ListCustomMetadataFieldsResult:
         """get custom metadata fields
         """
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
@@ -595,8 +595,14 @@ class File(object):
         if resp.status_code == 200:
             response = convert_to_list_response_object(resp, CustomMetadataFieldsResult, ListCustomMetadataFieldsResult)
             return response
+        else:
+            response = get_response_json(resp)
+            response_meta_data = populate_response_metadata(resp)
+            error_message = response['message'] if type(response) == dict else ""
+            response_help = response['help'] if type(response) == dict else ""
+            raise UnknownException(error_message, response_help, response_meta_data)
 
-    def update_custom_metadata_fields(self, custom_metadata_field_identifier, options):
+    def update_custom_metadata_fields(self, custom_metadata_field_identifier, options) -> CustomMetadataFieldsResultWithResponseMetadata:
         """updates custom metadata fields by passing id of custom metadata field and params as an options
         """
         if not custom_metadata_field_identifier:
@@ -611,20 +617,21 @@ class File(object):
             method="Patch", url=url, headers=headers, data=formatted_options
         )
         if resp.status_code == 200:
-            response = convert_to_response_object(resp, CustomMetadataFieldsResult)
+            response = convert_to_response_object(resp, CustomMetadataFieldsResultWithResponseMetadata)
             return response
         else:
-            if resp.status_code == 400 or resp.status_code == 404:
-                response_json = get_response_json(resp)
-                response_meta_data = populate_response_metadata(resp)
-                error_message = response_json['message'] if type(response_json) == dict else ""
-                response_help = response_json['help'] if type(response_json) == dict else ""
-                if resp.status_code == 400:
-                    raise BadRequestException(error_message, response_help, response_meta_data)
-                else:
-                    raise NotFoundException(error_message, response_help, response_meta_data)
+            response_json = get_response_json(resp)
+            response_meta_data = populate_response_metadata(resp)
+            error_message = response_json['message'] if type(response_json) == dict else ""
+            response_help = response_json['help'] if type(response_json) == dict else ""
+            if resp.status_code == 400:
+                raise BadRequestException(error_message, response_help, response_meta_data)
+            elif resp.status_code == 404:
+                raise NotFoundException(error_message, response_help, response_meta_data)
+            else:
+                raise UnknownException(error_message, response_help, response_meta_data)
 
-    def delete_custom_metadata_field(self, custom_metadata_field_identifier: str):
+    def delete_custom_metadata_field(self, custom_metadata_field_identifier: str) -> ResponseMetadataResult:
         """Deletes custom metadata fields by passing custom_metadata_field_identifier
         """
         url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, custom_metadata_field_identifier)
@@ -632,17 +639,17 @@ class File(object):
             "Delete", url, headers=self.request.create_headers()
         )
         if resp.status_code == 204:
-            response = {
-                "_response_metadata": {"raw": None, "httpStatusCode": resp.status_code, "headers": resp.headers}}
-            response = {"error": None, "response": response}
+            response = convert_to_response_metadata_result_object(resp)
             return response
         else:
+            response_json = get_response_json(resp)
+            response_meta_data = populate_response_metadata(resp)
+            error_message = response_json['message'] if type(response_json) == dict else ""
+            response_help = response_json['help'] if type(response_json) == dict else ""
             if resp.status_code == 404:
-                response_json = get_response_json(resp)
-                response_meta_data = populate_response_metadata(resp)
-                error_message = response_json['message'] if type(response_json) == dict else ""
-                response_help = response_json['help'] if type(response_json) == dict else ""
                 raise NotFoundException(error_message, response_help, response_meta_data)
+            else:
+                raise UnknownException(error_message, response_help, response_meta_data)
 
     def is_valid_list_options(self, options: Dict[str, Any]) -> bool:
         """Returns if options are valid

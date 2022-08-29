@@ -7,6 +7,8 @@ from imagekitio.constants.url import URL
 from imagekitio.exceptions.BadRequestException import BadRequestException
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
 from imagekitio.exceptions.NotFoundException import NotFoundException
+from imagekitio.exceptions.UnknownException import UnknownException
+from imagekitio.utils.formatter import camel_dict_to_snake_dict
 from tests.helpers import ClientTestCase, create_headers_for_test
 
 
@@ -34,9 +36,9 @@ class TestCustomMetadataFields(ClientTestCase):
             )
             self.client.get_custom_metadata_fields(True)
             self.assertRaises(ForbiddenException)
-        except ForbiddenException as e:
+        except UnknownException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
-            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
+            self.assertEqual(403, e.response_metadata.http_status_code)
 
     @responses.activate
     def test_get_custom_metadata_fields_succeeds(self):
@@ -75,33 +77,7 @@ class TestCustomMetadataFields(ClientTestCase):
         )
         resp = self.client.get_custom_metadata_fields()
 
-        mock_resp = {
-            'error': None,
-            'response': {
-                'list': [{
-                    'id': '62a9d5f6db485107347bb7f2',
-                    'name': 'test10',
-                    'label': 'test10',
-                    'schema': {
-                        'type': 'Number',
-                        'isValueRequired': False,
-                        'minValue': 10,
-                        'maxValue': 1000
-                    },
-                    '_response_metadata': {}
-                }, {
-                    'id': '62aab2cfdb4851833b8f5e64',
-                    'name': 'test11',
-                    'label': 'test11',
-                    'schema': {
-                        'type': 'Number',
-                        'isValueRequired': False,
-                        'minValue': 10,
-                        'maxValue': 1000
-                    },
-                    '_response_metadata': {}
-                }],
-                '_response_metadata': {
+        mock_response_metadata = {
                     'raw': [{
                         'id': '62a9d5f6db485107347bb7f2',
                         'name': 'test10',
@@ -130,10 +106,10 @@ class TestCustomMetadataFields(ClientTestCase):
                         'Authorization': 'Basic ZmFrZTEyMjo='
                     }
                 }
-            }
-        }
 
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
+        self.assertEqual('62a9d5f6db485107347bb7f2', resp.list[0].id)
+        self.assertEqual('62aab2cfdb4851833b8f5e64', resp.list[1].id)
         self.assertEqual("http://test.com/v1/customMetadataFields?includeDeleted=False", responses.calls[0].request.url)
 
     @responses.activate
@@ -148,14 +124,12 @@ class TestCustomMetadataFields(ClientTestCase):
             responses.DELETE,
             url,
             status=204,
-            headers=headers
+            headers=headers,
+            body=json.dumps({})
         )
         resp = self.client.delete_custom_metadata_field(self.custom_metadata_field_identifier)
 
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'raw': None,
                     'httpStatusCode': 204,
                     'headers': {
@@ -164,9 +138,7 @@ class TestCustomMetadataFields(ClientTestCase):
                         'Authorization': 'Basic ZmFrZTEyMjo='
                     }
                 }
-            }
-        }
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/customMetadataFields/fake_custom_metadata_field_id",
                          responses.calls[0].request.url)
 
@@ -191,7 +163,7 @@ class TestCustomMetadataFields(ClientTestCase):
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("No such custom metadata field exists", e.message)
-            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+            self.assertEqual(404, e.response_metadata.http_status_code)
 
     @responses.activate
     def test_create_custom_metadata_fields_fails_with_400(self):
@@ -219,7 +191,7 @@ class TestCustomMetadataFields(ClientTestCase):
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
             self.assertEqual("A custom metadata field with this name already exists", e.message)
-            self.assertEqual(400, e.response_metadata['httpStatusCode'])
+            self.assertEqual(400, e.response_metadata.http_status_code)
 
     @responses.activate
     def test_create_custom_metadata_fields_succeeds_with_type_number(self):
@@ -255,18 +227,7 @@ class TestCustomMetadataFields(ClientTestCase):
                                                                   }
                                                          )
 
-        mock_resp = {
-            'error': None,
-            'response': {
-                'id': '62dfc03b1b02a58936efca37',
-                'name': 'test',
-                'label': 'test',
-                'schema': {
-                    'type': 'Number',
-                    'minValue': 100,
-                    'maxValue': 200
-                },
-                '_response_metadata': {
+        mock_response_metadata = {
                     'raw': {
                         'id': '62dfc03b1b02a58936efca37',
                         'name': 'test',
@@ -284,8 +245,6 @@ class TestCustomMetadataFields(ClientTestCase):
                         'Authorization': 'Basic ZmFrZTEyMjo='
                     }
                 }
-            }
-        }
 
         request_body = json.dumps({
             "name": "test",
@@ -296,7 +255,7 @@ class TestCustomMetadataFields(ClientTestCase):
                 "maxValue": 200
             }
         })
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/customMetadataFields",
                          responses.calls[0].request.url)
         self.assertEqual(request_body, responses.calls[0].request.body)
@@ -340,10 +299,7 @@ class TestCustomMetadataFields(ClientTestCase):
                                                                   }
                                                          )
 
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain, application/json',
                         'Accept-Encoding': 'gzip, deflate',
@@ -362,19 +318,7 @@ class TestCustomMetadataFields(ClientTestCase):
                             'type': 'Textarea'
                         }
                     }
-                },
-                'id': '62e0d7ae1b02a589360dc1fd',
-                'label': 'test',
-                'name': 'test',
-                'schema': {
-                    'defaultValue': 'The',
-                    'isValueRequired': True,
-                    'maxLength': 200,
-                    'minLength': 3,
-                    'type': 'Textarea'
                 }
-            }
-        }
 
         request_body = json.dumps({
             "name": "test",
@@ -387,7 +331,7 @@ class TestCustomMetadataFields(ClientTestCase):
                 "maxLength": 200
             }
         })
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/customMetadataFields",
                          responses.calls[0].request.url)
         self.assertEqual(request_body, responses.calls[0].request.body)
@@ -427,10 +371,7 @@ class TestCustomMetadataFields(ClientTestCase):
                                                                   }
                                                          )
 
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain, application/json',
                         'Accept-Encoding': 'gzip, deflate',
@@ -447,17 +388,7 @@ class TestCustomMetadataFields(ClientTestCase):
                             'type': 'Date'
                         }
                     }
-                },
-                'id': '62dfc9f41b02a58936f0d284',
-                'label': 'test-date',
-                'name': 'test-date',
-                'schema': {
-                    'maxValue': '2022-11-30T10:11:10+00:00',
-                    'minValue': '2022-11-29T10:11:10+00:00',
-                    'type': 'Date'
                 }
-            }
-        }
 
         request_body = json.dumps({
             "name": "test-date",
@@ -468,7 +399,7 @@ class TestCustomMetadataFields(ClientTestCase):
                 "maxValue": "2022-11-30T10:11:10+00:00"
             }
         })
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/customMetadataFields",
                          responses.calls[0].request.url)
         self.assertEqual(request_body, responses.calls[0].request.body)
@@ -509,10 +440,7 @@ class TestCustomMetadataFields(ClientTestCase):
                                                                   }
                                                          )
 
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain, application/json',
                         'Accept-Encoding': 'gzip, deflate',
@@ -529,17 +457,7 @@ class TestCustomMetadataFields(ClientTestCase):
                             'type': 'Boolean'
                         }
                     }
-                },
-                'id': '62dfcb801b02a58936f0fc39',
-                'label': 'test-boolean',
-                'name': 'test-boolean',
-                'schema': {
-                    'defaultValue': True,
-                    'isValueRequired': True,
-                    'type': 'Boolean'
                 }
-            }
-        }
 
         request_body = json.dumps({"name": "test-boolean",
                                    "label": "test-boolean",
@@ -550,7 +468,7 @@ class TestCustomMetadataFields(ClientTestCase):
                                            "defaultValue": True,
                                        }
                                    })
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/customMetadataFields",
                          responses.calls[0].request.url)
         self.assertEqual(request_body, responses.calls[0].request.body)
@@ -591,10 +509,7 @@ class TestCustomMetadataFields(ClientTestCase):
                                                                   }
                                                          )
 
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain, application/json',
                         'Accept-Encoding': 'gzip, deflate',
@@ -616,22 +531,7 @@ class TestCustomMetadataFields(ClientTestCase):
                             'type': 'SingleSelect'
                         }
                     }
-                },
-                'id': '62dfcdb21b02a58936f14c97',
-                'label': 'test',
-                'name': 'test',
-                'schema': {
-                    'selectOptions': ['small',
-                                      'medium',
-                                      'large',
-                                      30,
-                                      40,
-                                      True
-                                      ],
-                    'type': 'SingleSelect'
                 }
-            }
-        }
 
         request_body = json.dumps({"name": "test",
                                    "label": "test",
@@ -642,7 +542,7 @@ class TestCustomMetadataFields(ClientTestCase):
                                                              True]
                                        }
                                    })
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/customMetadataFields",
                          responses.calls[0].request.url)
         self.assertEqual(request_body, responses.calls[0].request.body)
@@ -687,10 +587,7 @@ class TestCustomMetadataFields(ClientTestCase):
                                                                   }
                                                          )
 
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain, application/json',
                         'Accept-Encoding': 'gzip, deflate',
@@ -717,24 +614,7 @@ class TestCustomMetadataFields(ClientTestCase):
                             'type': 'MultiSelect'
                         }
                     }
-                },
-                'id': '62dfcf001b02a58936f17808',
-                'label': 'test',
-                'name': 'test',
-                'schema': {
-                    'defaultValue': ['small', 30, True],
-                    'isValueRequired': True,
-                    'selectOptions': ['small',
-                                      'medium',
-                                      'large',
-                                      30,
-                                      40,
-                                      True
-                                      ],
-                    'type': 'MultiSelect'
                 }
-            }
-        }
 
         request_body = json.dumps({"name": "test",
                                    "label": "test",
@@ -748,7 +628,7 @@ class TestCustomMetadataFields(ClientTestCase):
                                                              True]
                                        }
                                    })
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/customMetadataFields",
                          responses.calls[0].request.url)
         self.assertEqual(request_body, responses.calls[0].request.body)
@@ -788,18 +668,7 @@ class TestCustomMetadataFields(ClientTestCase):
                                                                   }
                                                          )
 
-        mock_resp = {
-            'error': None,
-            'response': {
-                'id': '62a9d5f6db485107347bb7f2',
-                'name': 'test',
-                'label': 'test-update',
-                'schema': {
-                    'minValue': 100,
-                    'maxValue': 200,
-                    'type': 'Number'
-                },
-                '_response_metadata': {
+        mock_response_metadata = {
                     'raw': {
                         'id': '62a9d5f6db485107347bb7f2',
                         'name': 'test',
@@ -817,8 +686,6 @@ class TestCustomMetadataFields(ClientTestCase):
                         'Authorization': 'Basic ZmFrZTEyMjo='
                     }
                 }
-            }
-        }
 
         request_body = json.dumps({
             "label": "test-update",
@@ -828,7 +695,8 @@ class TestCustomMetadataFields(ClientTestCase):
             }
         })
 
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
+        self.assertEqual('62a9d5f6db485107347bb7f2', resp.id)
         self.assertEqual("http://test.com/v1/customMetadataFields/fake_custom_metadata_field_id",
                          responses.calls[0].request.url)
         self.assertEqual(request_body, responses.calls[0].request.body)
@@ -863,7 +731,7 @@ class TestCustomMetadataFields(ClientTestCase):
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("No such custom metadata field exists", e.message)
-            self.assertEqual(404, e.response_metadata['httpStatusCode'])
+            self.assertEqual(404, e.response_metadata.http_status_code)
 
     @responses.activate
     def test_update_custom_metadata_fields_fails_with_400(self):
@@ -895,4 +763,4 @@ class TestCustomMetadataFields(ClientTestCase):
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
             self.assertEqual("Your request contains invalid ID parameter.", e.message)
-            self.assertEqual(400, e.response_metadata['httpStatusCode'])
+            self.assertEqual(400, e.response_metadata.http_status_code)

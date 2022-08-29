@@ -8,6 +8,8 @@ from imagekitio.exceptions.BadRequestException import BadRequestException
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
 from imagekitio.exceptions.InternalServerException import InternalServerException
 from imagekitio.exceptions.NotFoundException import NotFoundException
+from imagekitio.exceptions.UnknownException import UnknownException
+from imagekitio.utils.formatter import camel_dict_to_snake_dict
 from tests.helpers import ClientTestCase, create_headers_for_test
 
 imagekit_obj = ImageKit(
@@ -37,9 +39,9 @@ class TestFolders(ClientTestCase):
             )
             self.client.create_folder(options={"folder_name": "folder_name", "parent_folder_path": "/test"})
             self.assertRaises(ForbiddenException)
-        except ForbiddenException as e:
+        except UnknownException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
-            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
+            self.assertEqual(e.response_metadata.http_status_code, 403)
 
     @responses.activate
     def test_create_folder_succeeds(self):
@@ -58,22 +60,17 @@ class TestFolders(ClientTestCase):
         )
         resp = self.client.create_folder(options={"folder_name": "folder_name", "parent_folder_path": "/test"})
 
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain',
                         'Accept-Encoding': 'gzip, deflate',
                         'Authorization': 'Basic ZmFrZTEyMjo='
                     },
                     'httpStatusCode': 201,
-                    'raw': None
+                    'raw': {}
                 }
-            }
-        }
 
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/folder", responses.calls[0].request.url)
         self.assertEqual("folderName=folder_name&parentFolderPath=%2Ftest", responses.calls[0].request.body)
 
@@ -94,9 +91,9 @@ class TestFolders(ClientTestCase):
             )
             self.client.create_folder(options={"folder_name": "/folder_name", "parent_folder_path": "/test"})
             self.assertRaises(BadRequestException)
-        except BadRequestException as e:
+        except UnknownException as e:
             self.assertEqual(e.message, "folderName parameter cannot have a slash.")
-            self.assertEqual(e.response_metadata['httpStatusCode'], 400)
+            self.assertEqual(e.response_metadata.http_status_code, 400)
 
     @responses.activate
     def test_delete_folder_fails_with_400(self):
@@ -120,8 +117,8 @@ class TestFolders(ClientTestCase):
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("No folder found with folderPath test", e.message)
-            self.assertEqual(404, e.response_metadata['httpStatusCode'])
-            self.assertEqual("FOLDER_NOT_FOUND", e.response_metadata['raw']['reason'])
+            self.assertEqual(404, e.response_metadata.http_status_code)
+            self.assertEqual("FOLDER_NOT_FOUND", e.response_metadata.raw['reason'])
 
     @responses.activate
     def test_delete_folder_succeeds(self):
@@ -137,19 +134,14 @@ class TestFolders(ClientTestCase):
             body=json.dumps({}),
         )
         resp = self.client.delete_folder(options={"folder_path": "/folderName"})
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'raw': None,
                     'httpStatusCode': 204,
                     'headers': {
                         'Content-Type': 'text/plain'
                     }
                 }
-            }
-        }
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/folder", responses.calls[0].request.url)
         self.assertEqual("folderPath=%2FfolderName", responses.calls[0].request.body)
 
@@ -182,7 +174,7 @@ class TestCopyFolder(ClientTestCase):
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
             self.assertEqual("sourceFolderPath and destinationPath cannot be same.", e.message)
-            self.assertEqual(400, e.response_metadata['httpStatusCode'])
+            self.assertEqual(400, e.response_metadata.http_status_code)
 
     @responses.activate
     def test_copy_folder_fails_with_404(self):
@@ -208,8 +200,8 @@ class TestCopyFolder(ClientTestCase):
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("No files & folder found at sourceFolderPath /test", e.message)
-            self.assertEqual(404, e.response_metadata['httpStatusCode'])
-            self.assertEqual("NO_FILES_FOLDER", e.response_metadata['raw']['reason'])
+            self.assertEqual(404, e.response_metadata.http_status_code)
+            self.assertEqual("NO_FILES_FOLDER", e.response_metadata.raw['reason'])
 
     @responses.activate
     def test_copy_folder_succeeds(self):
@@ -226,10 +218,7 @@ class TestCopyFolder(ClientTestCase):
         resp = self.client.copy_folder(options={"source_folder_path": "/test",
                                                 "destination_path": "/test1",
                                                 "include_file_versions": True})
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain'
                     },
@@ -237,16 +226,14 @@ class TestCopyFolder(ClientTestCase):
                     'raw': {
                         'jobId': '62de84fb1b02a58936cc740c'
                     }
-                },
-                'job_id': '62de84fb1b02a58936cc740c'
-            }
-        }
+                }
         request_body = json.dumps({
             "sourceFolderPath": "/test",
             "destinationPath": "/test1",
             "includeFileVersions": True
         })
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual('62de84fb1b02a58936cc740c', resp.job_id)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/bulkJobs/copyFolder", responses.calls[0].request.url)
         self.assertEqual(request_body, responses.calls[0].request.body)
 
@@ -276,7 +263,7 @@ class TestMoveFolder(ClientTestCase):
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
-            self.assertEqual(e.response_metadata['httpStatusCode'], 403)
+            self.assertEqual(403, e.response_metadata.http_status_code)
 
     @responses.activate
     def test_move_folder_fails_with_400(self):
@@ -300,7 +287,7 @@ class TestMoveFolder(ClientTestCase):
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
             self.assertEqual("sourceFolderPath and destinationPath cannot be same.", e.message)
-            self.assertEqual(400, e.response_metadata['httpStatusCode'])
+            self.assertEqual(400, e.response_metadata.http_status_code)
 
     @responses.activate
     def test_move_folder_fails_with_404(self):
@@ -325,8 +312,8 @@ class TestMoveFolder(ClientTestCase):
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("No files & folder found at sourceFolderPath /test", e.message)
-            self.assertEqual(404, e.response_metadata['httpStatusCode'])
-            self.assertEqual("NO_FILES_FOLDER", e.response_metadata['raw']['reason'])
+            self.assertEqual(404, e.response_metadata.http_status_code)
+            self.assertEqual("NO_FILES_FOLDER", e.response_metadata.raw['reason'])
 
     @responses.activate
     def test_move_folder_succeeds(self):
@@ -342,10 +329,7 @@ class TestMoveFolder(ClientTestCase):
         )
         resp = self.client.move_folder(options={"source_folder_path": "/test",
                                                 "destination_path": "/test1"})
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain'
                     },
@@ -353,15 +337,13 @@ class TestMoveFolder(ClientTestCase):
                     'raw': {
                         'jobId': '62de84fb1b02a58936cc740c'
                     }
-                },
-                'job_id': '62de84fb1b02a58936cc740c'
-            }
-        }
+                }
         request_body = json.dumps({
             "sourceFolderPath": "/test",
             "destinationPath": "/test1"
         })
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual('62de84fb1b02a58936cc740c', resp.job_id)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/bulkJobs/moveFolder", responses.calls[0].request.url)
         self.assertEqual(request_body, responses.calls[0].request.body)
 
@@ -392,7 +374,7 @@ class TestGetBulkJobStatus(ClientTestCase):
             self.assertRaises(InternalServerException)
         except InternalServerException as e:
             self.assertEqual("We have experienced an internal error while processing your request.", e.message)
-            self.assertEqual(500, e.response_metadata['httpStatusCode'])
+            self.assertEqual(500, e.response_metadata.http_status_code)
 
     @responses.activate
     def test_get_bulk_job_status_succeeds(self):
@@ -414,10 +396,7 @@ class TestGetBulkJobStatus(ClientTestCase):
         )
         resp = self.client.get_bulk_job_status(self.job_id)
 
-        mock_resp = {
-            'error': None,
-            'response': {
-                '_response_metadata': {
+        mock_response_metadata = {
                     'headers': {
                         'Content-Type': 'text/plain',
                         'Accept-Encoding': 'gzip, deflate',
@@ -429,12 +408,10 @@ class TestGetBulkJobStatus(ClientTestCase):
                         'status': 'Completed',
                         'type': 'COPY_FOLDER'
                     }
-                },
-                'job_id': 'mock_job_id',
-                'status': 'Completed',
-                'type': 'COPY_FOLDER'
-            }
-        }
+                }
 
-        self.assertEqual(mock_resp, resp)
+        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
+        self.assertEqual('mock_job_id', resp.job_id)
+        self.assertEqual('Completed', resp.status)
+        self.assertEqual('COPY_FOLDER', resp.type)
         self.assertEqual("http://test.com/v1/bulkJobs/mock_job_id", responses.calls[0].request.url)
