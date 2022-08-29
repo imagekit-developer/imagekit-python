@@ -8,30 +8,29 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
 
-ImageKit Python SDK allows you to use [image resizing](https://docs.imagekit.io/features/image-transformations)
-, [optimization](https://docs.imagekit.io/features/image-optimization)
-, [file uploading](https://docs.imagekit.io/api-reference/upload-file-api) and
-other [ImageKit APIs](https://docs.imagekit.io/api-reference/api-introduction) from applications written in the Python
+ImageKit Python SDK allows you to use [Image Resizing](https://docs.imagekit.io/features/image-transformations), [Optimization](https://docs.imagekit.io/features/image-optimization), [File Uploading](https://docs.imagekit.io/api-reference/upload-file-api) and
+other [ImageKit APIs](https://docs.imagekit.io/api-reference/api-introduction) from software written in the Python
 language.
 
 Supported Python Versions: >=3.6
 
 Table of contents -
 
-* [Installation](#Installation)
-* [Initialization](#Initialization)
-* [Change log](#Change log)
-* [URL Generation](#URL-generation)
-* [File Upload](#File-Upload)
-* [File Management](#File-Management)
-* [Utility Functions](#Utility-functions)
+* [Installation](#installation)
+* [Initialization](#initialization)
+* [Change Log](#change-log)
+* [Usage](#usage)
+    * [URL Generation](#url-generation)
+    * [File Upload](#file-upload)
+    * [File Management](#file-management)
+    * [Utility Functions](#utility-functions)
 * [Handling errors](#handling-errors)
-* [Support](#Support)
-* [Links](#Links)
+* [Support](#support)
+* [Links](#links)
 
 ## Installation
 
-Go to your terminal and type the following command
+Go to your terminal and type the following command.
 
 ```bash
 pip install imagekitio
@@ -49,48 +48,48 @@ imagekit = ImageKit(
 )
 ```
 
-## Usage
-
-You can use this Python SDK for 3 different kinds of methods:
-
-- URL generation
-- file upload
-- file management
-
-The usage of the SDK has been explained below.
-
 ## Change log
 
-This document presents a list of changes that break existing functionality of previous versions. We try our best to minimize these disruptions, but sometimes they are unavoidable and they will be in major versions.
+This document presents a list of changes that break the existing functionality of previous versions. We try to minimize these disruptions, but they are sometimes unavoidable, especially in significant updates. Therefore, versions are marked semantically and tagged as major upgrades whenever such breaking changes occur.
 
 ### Breaking History:
 
-Changes from 2.2.8 -> 3.0.0 are listed below
+Changes from `2.2.8 -> 3.0.0` are listed below
 
 1. Throw an Error:
 
 **What changed**
 
-- In case of failure, the API would throw an exception.
+- Before the upgrade, an `error` dict was coming in the return object of any function call. Now, SDK throws an exception in case of an error.
 
 **Who is affected?**
 
-- This affects any development in your application that calls APIs from imagekit IO.
+- This affects any development in your software that calls APIs from ImageKit IO and handles errors based on what's returned.
 
 **How should I update my code?**
 
 - To avoid failures in an application, you could handle errors as [documented here](#handling-errors)
 
-## URL generation
 
-**1. Using Image path and image hostname or endpoint**
+# Usage
 
-This method allows you to create an URL using the relative file path where the image exists and the URL
+You can use this Python SDK for three different kinds of methods:
+
+* [URL Generation](#url-generation)
+* [File Upload](#file-upload)
+* [File Management](#file-management)
+* [Utility Functions](#utility-functions)
+
+## URL Generation
+
+**1. Using Image path and endpoint (hostname)**
+
+This method allows you to create a URL using the relative file path where the image exists and the URL
 endpoint(url_endpoint) you want to use to access the image. You can refer to the documentation
 [here](https://docs.imagekit.io/integration/url-endpoints) to read more about URL endpoints
 in ImageKit and the section about [image origins](https://docs.imagekit.io/integration/configure-origin) to understand
 about paths with different kinds of origins.
-The file can be an image, video, or any other static file supported by ImageKit.
+The File can be an image, video, or any other static file supported by ImageKit.
 
 ```python
 imagekit_url = imagekit.url({
@@ -101,7 +100,7 @@ imagekit_url = imagekit.url({
 )
 ```
 
-The result in a URL like
+Sample Result URL -
 
 ```
 https://ik.imagekit.io/your_imagekit_id/endpoint/tr:h-300,w-400,raw-ar-4-3,q-40/default-image.jpg
@@ -109,7 +108,7 @@ https://ik.imagekit.io/your_imagekit_id/endpoint/tr:h-300,w-400,raw-ar-4-3,q-40/
 
 **2. Using full image URL**
 
-This method allows you to add transformation parameters to an absolute URL using `src` parameter. This method should be
+This method allows you to add transformation parameters to an absolute URL using the `src` parameter. This method should be
 used if you have the complete image URL stored in your database.
 
 ```python
@@ -123,7 +122,7 @@ image_url = imagekit.url({
 })
 ```
 
-The results in a URL like
+Sample Result URL -
 
 ```
 https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cw-400%2Craw-ar-4-3%2Cq-40
@@ -133,21 +132,21 @@ The ```.url()``` method accepts the following parameters.
 
 | Option                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | :---------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| url_endpoint            | Optional. The base URL to be appended before the path of the image. If not specified, the URL Endpoint specified at the time of SDK initialization is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                                                                                                                                |
-| path                    | Conditional. This is the path at which the image exists. For example, `/path/to/image.jpg`. Either the `path` or `src` parameter needs to be specified for URL generation.                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| src                     | Conditional. This is the complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Either the `path` or `src` parameter needs to be specified for URL generation.                                                                                                                                                                                                                                                                                                                                            |
-| transformation          | Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name and the value should be specified as a key-value pair in the object. Different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations) can be specified as different objects of the array. The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it gets applied as it is in the URL. |
-| transformation_position | Optional. The default value is `path` that places the transformation string as a path parameter in the URL. It can also be specified as `query`, which adds the transformation string as the query parameter `tr` in the URL. If you use the `src` parameter to create the URL, then the transformation string is always added as a query parameter.                                                                                                                                                                                                                                                  |
-| query_parameters        | Optional. These are the other query parameters that you want to add to the final URL. These can be any query parameters and not necessarily related to ImageKit. Especially useful if you want to add some versioning parameter to your URLs.                                                                                                                                                                                                                                                                                                                                            |
-| signed                  | Optional. Boolean. Default is `false`. If set to `true`, the SDK generates a signed image URL adding the image signature to the image URL. This can only be used if you are creating the URL with the `url_endpoint` and `path` parameters and not with the `src` parameter.                                                                                                                                                                                                                                                                                                             |
-| expire_seconds          | Optional. Integer. Meant to be used along with the `signed` parameter to specify the time in seconds from now when the URL should expire. If specified, the URL contains the expiry timestamp in the URL, and the image signature is modified accordingly.                                                                                                                                                                                                                                                                                                                                 |
+| url_endpoint            | Optional. The prepended base URL before the path of the image. If not specified, the URL Endpoint specified during SDK initialization gets used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                                                                                                                         |
+| path                    | Conditional. A path at which the image exists. For example, `/path/to/image.jpg`. Specify a `path` or `src` parameter for URL generation.                                                                                                                                                                                                                                                                                                                                                                                                           |
+| src                     | Conditional. Complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Specify a `path` or `src` parameter for URL generation.                                                                                                                                                                                                                                                                                                                                   |
+| transformation          | Optional. Specify an array of objects with name and the value in key-value pair to apply transformation params in the URL. Append different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations)  as different objects of the array. This document includes a complete list of supported transformations in the SDK with some examples. If one uses an unspecified transformation name, it gets applied as it is in the URL.|
+| transformation_position | Optional. The default value is `path`, which places the transformation string as a path parameter in the URL. One can also specify it as a query, which adds the transformation string as the query parameter `tr` in the URL. Suppose one uses the `src` parameter to create the URL. In that case, the transformation string is always a query parameter.                                                                                                                                                                                                              |
+| query_parameters        | Optional. These are the other query parameters that one wants to add to the final URL. These can be any query parameters and are not necessarily related to ImageKit. Especially useful if one wants to add some versioning parameter to their URLs.                                                                                                                                                                                                                                                                                                                                  |
+| signed                  | Optional. Boolean. The default is `false`. If set to `true`, the SDK generates a signed image URL adding the image signature to the image URL. One can only use this if they create the URL with the `url_endpoint` and `path` parameters, not the `src` parameter.                                                                                                                                                                                                                                                                                                            |
+| expire_seconds          | Optional. Integer. Used along with the `signed` parameter to specify the time in seconds from `now` when the URL should expire. If specified, the URL contains the expiry timestamp, and the image signature is modified accordingly.                                                                                                                                                                                                                                                                                                                       |
 
 ## Examples of generating URLs
 
 **1. Chained Transformations as a query parameter**
 
 ```python
-    image_url = imagekit.url({
+image_url = imagekit.url({
     "path": "/default-image.jpg",
     "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
     "transformation": [{
@@ -167,16 +166,12 @@ Sample Result URL -
 https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cw-400%3Art-90
 ```
 
-**2. Sharpening and contrast transforms and a progressive JPG image**
+**2. Sharpening and contrast transform and a progressive JPG image**
 
-There are some transforms
-like [Sharpening](https://docs.imagekit.io/features/image-transformations/image-enhancement-and-color-manipulation)
-that can be added to the URL with or without any other value. To use such transforms without specifying a value, specify
-the value as "-" in the transformation object. Otherwise, specify the value that you want to be added to this
-transformation.
+Add transformations like [Sharpening](https://docs.imagekit.io/features/image-transformations/image-enhancement-and-color-manipulation) to the URL with or without any other value. To use such transforms without specifying a value, set it as "-" in the transformation object. Otherwise, use the value that one wants to add to this transformation.
 
 ```python
-    image_url = imagekit.url({
+image_url = imagekit.url({
     "src": "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg",
     "transformation": [{
         "format": "jpg",
@@ -187,16 +182,18 @@ transformation.
 })
 ```
 
-Note that because `src` parameter was used, the transformation string gets added as a query parameter.
+Sample Result URL -
 
 ```
+# Note that because `src` parameter is in effect, the transformation string gets added as a query parameter `tr`
+
 https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=f-jpg%2Cpr-true%2Ce-sharpen%2Ce-contrast-1
 ```
 
 **3. Signed URL that expires in 300 seconds with the default URL endpoint and other query parameters**
 
 ```python
-    image_url = imagekit.url({
+image_url = imagekit.url({
     "path": "/default-image.jpg",
     "query_parameters": {
         "p1": "123",
@@ -211,7 +208,7 @@ https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=f-jpg%2Cpr
 })
 ```
 
-**Sample Result URL**
+Sample Result URL -
 
 ```
 https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400/default-image.jpg?p1=123&p2=345&ik-t=1658899345&ik-s=8f03aca28432d4e87f697a48143efb4497bbed9e
@@ -219,13 +216,8 @@ https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400/default-image.jpg?p1=123&
 
 **List of transformations**
 
-The complete list of transformations supported and their usage in ImageKit can be
-found [here](https://docs.imagekit.io/features/image-transformations/resize-crop-and-other-transformations).
-The SDK gives a name to each transformation parameter, see the complete list of image and video transformations
-supported in ImageKit. The SDK gives a name to each transformation parameter e.g. height for h and width for w
-parameter. It makes your code simpler and readable.
-If a transformation is supported in ImageKit, If the property does not match any of the following supported options, it
-is added as it is.
+The complete list of transformations supported and their usage in ImageKit is available [here](https://docs.imagekit.io/features/image-transformations/resize-crop-and-other-transformations).
+The SDK gives a name to each transformation parameter, making the code simpler, more straightforward, and readable. If a transformation is supported in ImageKit, though it cannot be found in the table below, then use the transformation code from ImageKit docs as the name when using the `URL` function.
 
 If you want to generate transformations in your application and add them to the URL as it is, use the raw parameter.
 
@@ -296,7 +288,7 @@ accepts all the parameters supported by
 the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload).
 
 The `upload_file()` method requires at least the `file` as (URL/Base64/Binary) and the `file_name` parameter to upload a
-file. The method returns a Dict data in case of success, or it will throw a custom exception in case of failure.
+file. The method returns a dict data in case of success, or it will throw a custom exception in case of failure.
 Use the `options` parameter to pass other parameters supported by
 the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload). Use the same
 parameter name as specified in the upload API documentation.
@@ -348,20 +340,20 @@ If the upload fails, the custom exception will be thrown with:
 
 The SDK provides a simple interface for all
 the [media APIs mentioned here](https://docs.imagekit.io/api-reference/media-api)
-to manage your files. This also returns `error` and `result`. The error will be `None` if API succeeds.
+to manage your files. This also returns `result`.
 
 **1. List & Search Files**
 
-Accepts an object specifying the parameters to be used to list and search files. All parameters specified
+Accepts an object specifying the parameters used to list and search files. All parameters specified
 in
 the [documentation here](https://docs.imagekit.io/api-reference/media-api/list-and-search-files#list-and-search-file-api)
 can be passed with the correct values to get the results.
 
-```python
+```Python
 result = imagekit.list_files({"type": "file", "sort": "ASC_CREATED", "path": "/",
-                                      "search_query": "created_at >= '2d' OR size < '2mb' OR format='png'",
-                                      "file_type": "all", "limit": 5, "skip": 0,
-                                      "tags": "Software, Developer, Engineer"})
+                              "search_query": "created_at >= '2d' OR size < '2mb' OR format='png'",
+                              "file_type": "all", "limit": 5, "skip": 0,
+                              "tags": "Software, Developer, Engineer"})
 print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
@@ -407,7 +399,7 @@ print(result.list[0].version_info.id)
 
 **4. Get File Version details**
 
-Accepts the file ID and version ID and fetches the details as per
+Accepts the `file_id` and `version_id` and fetches the details as per
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/get-file-version-details)
 
 ```python
@@ -416,7 +408,7 @@ result = imagekit.get_file_version_details("file_id"  # required
 print("======FINAL RESULT=======")
 print("-------------------------------------")
 print(result)
-print("Raw Response:")
+	print("Raw Response:")
 print(result.response_metadata.raw)
 # print that file's id
 print(result.file_id)
@@ -428,7 +420,7 @@ print(result.version_info.id)
 
 Accepts all the parameters as per
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/update-file-details).
-The first argument to the `update_file_details()` method is the file ID, and the second argument is an object with the
+The first argument to the `update_file_details()` method is the file ID, and a second argument is an object with the
 parameters to be
 updated.
 
@@ -467,7 +459,7 @@ print(result.file_id)
 
 **6. Add tags**
 
-Accepts list of File Ids and Tags as a parameters to be used to add tags. All parameters specified in
+Accepts a list of `file_ids` and `tags` as a parameter to be used to add tags. All parameters specified in
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/add-tags-bulk) can be passed to
 the `.add_tags()` functions to get the results.
 
@@ -486,7 +478,7 @@ print(result.successfully_updated_file_ids[0])
 
 **7. Remove tags**
 
-Accepts list of File Ids and Tags as a parameters to be used to remove tags. All parameters specified in
+Accepts a list of `file_ids` and `tags` as a parameter to be used to remove tags. All parameters specified in
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/remove-tags-bulk) can be passed to
 the `.remove_tags()` functions to get the results.
 
@@ -505,7 +497,7 @@ print(result.successfully_updated_file_ids[0])
 
 **8. Remove AI tags**
 
-Accepts list of File Ids and AITags as a parameters to be used to remove AI tags. All parameters specified in
+Accepts a list of `file_ids` and `a_i_tags` as a parameter to remove AI tags. All parameters specified in
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/remove-aitags-bulk) can be passed to
 the `.remove_ai_tags()` functions to get the results.
 
@@ -524,8 +516,7 @@ print(result.successfully_updated_file_ids[0])
 
 **9. Delete File**
 
-Delete a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-file). The
-method accepts the file ID of the file that has to be
+Delete a file according to the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-file). It accepts the file ID of the File that has to be
 deleted.
 
 ```python
@@ -542,7 +533,7 @@ print(result.response_metadata.raw)
 
 Delete a file version as per
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-file-version).
-The method accepts file ID of file and particular version id of that file that has to be deleted.
+The method accepts the `file_id` and particular version id of the File that has to be deleted.
 
 ```python
 result = imagekit.delete_file_version("file_id", "version_id")
@@ -556,7 +547,7 @@ print(result.response_metadata.raw)
 **11. Bulk File Delete by IDs**
 
 Delete a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-files-bulk).
-The method accepts list of file IDs of files that has to be deleted.
+The method accepts a list of file IDs that have to be deleted.
 
 ```python
 result = imagekit.bulk_file_delete(["file_id1", "file_id2"])
@@ -573,8 +564,8 @@ print(result.successfully_deleted_file_ids[0])
 
 **12. Copy file**
 
-Copy a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/copy-file).
-The method accepts sourceFilePath, destinationPath and includeFileVersions of file that has to be copied.
+Copy a file according to the [API documentation here](https://docs.imagekit.io/api-reference/media-api/copy-file).
+The method accepts `source_file_path`, `destination_path`, and `include_file_versions` of the File that has to be copied.
 
 ```python
 result = imagekit.copy_file(options={"source_file_path": "/source_file_path.jpg",
@@ -587,10 +578,10 @@ print("Raw Response:")
 print(result.response_metadata.raw)
 ```
 
-**13. Move file**
+**13. Move File**
 
 Move a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/move-file).
-The method accepts sourceFilePath and destinationPath of file that has to be moved.
+The method accepts `source_file_path` and `destination_path` of the File that has to be moved.
 
 ```python
 result = imagekit.move_file(options={"source_file_path": "/source_file_path.jpg",
@@ -602,10 +593,10 @@ print("Raw Response:")
 print(result.response_metadata.raw)
 ```
 
-**14. Rename file**
+**14. Rename File**
 
-Rename a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/rename-file).
-The method accepts filePath and newFileName for file and purgeCache boolean that has to be renamed.
+Rename a file per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/rename-file).
+The method accepts the `file_path`, `new_file_name`, and `purge_cache` boolean that has to be renamed.
 
 ```python
 result = imagekit.rename_file(options={"file_path": "/file_path.jpg",
@@ -624,7 +615,7 @@ print(result.purge_request_id)
 
 Restore a file as per
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/restore-file-version).
-The method accepts fileId and versionId of file that has to be restored.
+The method accepts `file_id` and `version_id` of the File that has to be restored.
 
 ```python
 result = imagekit.restore_file_version("file_id", "version_id")
@@ -639,10 +630,10 @@ print(result.file_id)
 
 **16. Create Folder**
 
-Create a folder as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/create-folder).
-The method accepts folderName and parentFolderPath as an options that has to be created.
+Create a folder per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/create-folder).
+The method accepts `folder_name` and `parent_folder_path` as options that must be created.
 
-```python
+```Python
 result = imagekit.create_folder(options={"folder_name": "/test", "parent_folder_path": "/"})
 print("======FINAL RESULT=======")
 print("-------------------------------------")
@@ -654,7 +645,7 @@ print(result.response_metadata.raw)
 **17. Delete Folder**
 
 Delete a folder as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-folder).
-The method accepts folderPath as an options that has to be deleted.
+The method accepts `folder_path` as an option that must be deleted.
 
 ```python
 result = imagekit.delete_folder(options={"folder_path": "/test/demo"})
@@ -668,8 +659,8 @@ print(result.response_metadata.raw)
 **18. Copy Folder**
 
 Copy a folder as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/copy-folder).
-The method accepts sourceFolderPath, destinationPath of a folder and includeFileVersions boolean as an options that
-has to be copied.
+The method accepts the `source_folder_path`, `destination_path`, and `include_file_versions` boolean as options that
+have to be copied.
 
 ```python
 result = imagekit.copy_folder(options={"source_folder_path": "/source_folder_path",
@@ -687,7 +678,7 @@ print(result.job_id)
 **19. Move Folder**
 
 Move a folder as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/move-folder).
-The method accepts sourceFolderPath and destinationPath of a folder as an options that has to be moved.
+The method accepts the `source_folder_path` and `destination_path` of a folder as options that must be moved.
 
 ```python
 result = imagekit.move_folder(options={"source_folder_path": "/source_folder_path",
@@ -703,9 +694,9 @@ print(result.job_id)
 
 **20. Get Bulk Job Status**
 
-Accepts the jobId to get bulk job status as per
+Accepts the `job_id` to get bulk job status as per
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/copy-move-folder-status).
-The method accepts only jobId.
+The method takes only jobId.
 
 ```python
 result = imagekit.get_bulk_job_status("job_id")
@@ -722,9 +713,9 @@ print(result.status)
 
 **21. Purge Cache**
 
-Programmatically issue a cache clear request as per
+Programmatically issue an explicit cache request as per
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/purge-cache).
-Accepts the full URL of the file for which the cache has to be cleared.
+Accepts the full URL of the File for which the cache has to be cleared.
 
 ```python
 result = imagekit.purge_file_cache("full_url")
@@ -739,7 +730,7 @@ print(result.request_id)
 
 **22. Purge Cache Status**
 
-Get the purge cache request status using the request ID returned when a purge cache request gets submitted as per the
+Get the purge cache request status using the `cache_request_id` returned when a purge cache request gets submitted as per the
 [API documentation here](https://docs.imagekit.io/api-reference/media-api/purge-cache-status)
 
 ```python
@@ -755,7 +746,7 @@ print(result.status)
 
 **23. Get File Metadata**
 
-Accepts the file ID and fetches the metadata as per
+Accepts the `file_id` and fetches the metadata as per
 the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api/get-image-metadata-for-uploaded-media-files)
 
 ```python
@@ -770,9 +761,9 @@ print(result.width)
 print(result.exif.image.x_resolution)
 ```
 
-**24. Get File Metadata from remote url**
+**24. Get File Metadata from remote URL**
 
-Accepts the remote file url and fetches the metadata as per
+Accepts the `remote_file_url` and fetches the metadata as per
 the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api/get-image-metadata-from-remote-url)
 
 ```python
@@ -789,7 +780,7 @@ print(result.exif.image.x_resolution)
 
 **25. Create CustomMetaDataFields**
 
-Accepts an options specifying the parameters to be used to create cusomMetaDataFields. All parameters specified in
+Accepts an option specifying the parameters used to create custom metadata fields. All parameters specified in
 the [API documentation here](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/create-custom-metadata-field)
 can be passed as it is with the correct values to get the results.
 
@@ -797,9 +788,11 @@ Check for
 the [Allowed Values In The Schema](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/create-custom-metadata-field#allowed-values-in-the-schema-object)
 .
 
-**Example:**
+**example:**
 
 ```python
+# Example for type number
+
 result = imagekit.create_custom_metadata_fields(options={"name": "test",
                                                          "label": "test",
                                                          "schema":
@@ -819,9 +812,10 @@ print(result.id)
 print(result.schema.type)
 ```
 
-**MultiSelect type Example:**
 
 ```python
+# MultiSelect type Example
+
 result = imagekit.create_custom_metadata_fields(options={"name": "test-MultiSelect",
                                                          "label": "test-MultiSelect",
                                                          "schema":
@@ -845,9 +839,9 @@ print(result.name)
 print(result.schema.select_options)
 ```
 
-**Date type Example:**
-
 ```python
+# Date type Example
+
 result = imagekit.create_custom_metadata_fields(options={"name": "test-date",
                                                          "label": "test-date",
                                                          "schema":
@@ -870,7 +864,7 @@ print(result.schema.min_value)
 
 **26. Get CustomMetaDataFields**
 
-Accepts the includeDeleted boolean and fetches the metadata as per
+Accepts the `include_deleted` boolean as initial parameter and fetches the metadata as per
 the [API documentation here](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/get-custom-metadata-field)
 .
 
@@ -902,7 +896,7 @@ print(result.list[0].schema.default_value)
 
 **27. Update CustomMetaDataFields**
 
-Accepts an ID of customMetaDataField and options for specifying the parameters to be used to edit customMetaDataFields
+Accepts an `id_of_custom_metadata_field` and options for specifying the parameters to be used to edit custom metadata fields
 as per
 the [API documentation here](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/update-custom-metadata-field)
 .
@@ -929,7 +923,7 @@ print(result.schema.min_value)
 
 **28. Delete CustomMetaDataFields**
 
-Accepts the id to delete the customMetaDataFields as per
+Accepts the id to delete the custom metadata fields as per
 the [API documentation here](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/delete-custom-metadata-field)
 .
 
@@ -948,13 +942,9 @@ We have included the following commonly used utility functions in this package.
 
 **Authentication parameter generation**
 
-In case you are looking to implement client-side file upload, you are going to need a token, expiry timestamp
-, and a valid signature for that upload. The SDK provides a simple method that you can use in your code to generate
-these
-authentication parameters for you.
+Suppose one wants to implement client-side file upload. In that case, one will need a token, expiry timestamp, and a valid signature for that upload. The SDK provides a simple method that one can use in their code to generate these authentication parameters.
 
-<em>Note: The Private API Key should never be exposed in any client-side code. You must always generate these
-authentications parameters on the server-side</em>
+<em>Note: Any client-side code should never expose The Private API Key. One must always generate these authentications parameters on the server-side</em>
 
 authentication
 
@@ -970,23 +960,21 @@ Returns
 }
 ```
 
-Both the `token` and `expire` parameters are optional. If not specified, the SDK uses the UUID to generate a random
-token and also generates a valid expiry timestamp internally. The value of the token and expire used to generate the
-signature are always returned in the response, no matter if they are provided as an input to this method or not.
+Both the `token` and `expire` parameters are optional. If not specified, the SDK uses the UUID to generate a random token and internally generates a valid expiry timestamp. The `token` and `expire` used to generate `signature` is part of a response returned by the server.
 
-**Distance calculation between two pHash values**
+**Distance calculation between two `pHash` values**
 
 Perceptual hashing allows you to construct a has value that uniquely identifies an input image based on the contents
-of an image. [imagekit.io metadata API](https://docs.imagekit.io/api-reference/metadata-api) returns the pHash
+of an image. [imagekit.io metadata API](https://docs.imagekit.io/api-reference/metadata-api) returns the `pHash`
 value of an image in the response. You can use this value
 to [find a duplicate or similar image](https://docs.imagekit.io/api-reference/metadata-api#using-phash-to-find-similar-or-duplicate-images)
 by calculating the distance between the two images.
 
-This SDK exposes phash_distance function to calculate the distance between two pHash value. It accepts two pHash
+This SDK exposes `phash_distance` function to calculate the distance between two `pHash` values. It accepts two `pHash`
 hexadecimal
-strings and returns a numeric value indicative of the level of difference between the two images.
+strings and returns a numeric value indicative of the difference between the two images.
 
-```python
+```Python
 def calculate_distance():
     # fetch metadata of two uploaded image files
     ...
@@ -1001,7 +989,7 @@ def calculate_distance():
 
 **Distance calculation examples**
 
-```python
+```Python
 imagekit.phash_distance('f06830ca9f1e3e90', 'f06830ca9f1e3e90')
 # output: 0 (ame image)
 
@@ -1014,10 +1002,10 @@ imagekit.phash_distance('a4a65595ac94518b', '7838873e791f8400')
 
 **HTTP response metadata of Internal API**
 
-HTTP response metadata of the internal API call can be accessed using the response_metadata on the Result object.
+HTTP response metadata of the internal API call can be accessed using the _response_metadata on the Result object.
 Example:
 
-```python
+```Python
 result = imagekit.upload_file(
     file="<url|base_64|binary>",
     file_name="my_file_name.jpg",
@@ -1041,12 +1029,12 @@ python sample.py
 
 Catch and respond to invalid data, internal problems, and more.
 
-Imagekit Python SDK raise exceptions for many reasons, such as not found, invalid parameters, authentication errors, and
-internal server error. We recommend writing code that gracefully handles all possible API exceptions.
+ImageKit Python SDK raises exceptions for many reasons, such as not found, invalid parameters, authentication, and
+internal server errors. Therefore, we recommend writing code that gracefully handles all possible API exceptions.
 
 #### Example:
 
-```python
+```Python
 from imagekitio.exceptions.BadRequestException import BadRequestException
 from imagekitio.exceptions.UnauthorizedException import UnauthorizedException
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
@@ -1071,7 +1059,7 @@ except ForbiddenException as e:
 # ImageKit could not authenticate your account with the keys provided.
 # An expired key (public or private) was used with the request.
 # The account is disabled.
-# If you are using the upload API, the total storage limit (or upload limit) is exceeded.
+# If you use the upload API, the total storage limit (or upload limit) is exceeded.
 except TooManyRequestsException as e:
 # Too many requests made to the API too quickly
 except InternalServerException as e:
@@ -1079,9 +1067,9 @@ except InternalServerException as e:
 except PartialSuccessException as e:
 # Error cases on partial success.
 except NotFoundException as e:
-# If any of the field or parameter is not found in data
+# If any of the field or parameter is not found in the data
 except UnknownException as e:
-# Something else happened, which can be unrelated to imagekit, reason will be indicated in the message field
+# Something else happened, which can be unrelated to ImageKit; the reason will be indicated in the message field
 ```
 
 ## Support
