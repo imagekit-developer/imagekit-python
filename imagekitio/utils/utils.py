@@ -74,7 +74,7 @@ def convert_to_response_object(resp: Response, response_object):
 
 def convert_to_response_metadata_result_object(resp: Response = None):
     u = ResponseMetadataResult()
-    u.response_metadata = ResponseMetadata(resp.json() if resp.status_code is not 204 else None, resp.status_code, resp.headers)
+    u.response_metadata = ResponseMetadata(resp.json() if resp.status_code != 204 else None, resp.status_code, resp.headers)
     return u
 
 
