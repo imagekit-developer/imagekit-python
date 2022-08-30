@@ -1,4 +1,4 @@
-from json import dumps, loads
+from json import dumps
 from typing import Any, Dict
 
 from requests_toolbelt import MultipartEncoder
@@ -10,13 +10,25 @@ from .exceptions.BadRequestException import BadRequestException
 from .exceptions.ConflictException import ConflictException
 from .exceptions.NotFoundException import NotFoundException
 from .exceptions.UnknownException import UnknownException
-from .models.results.CustomMetadataFieldsResultWithResponseMetadata import CustomMetadataFieldsResultWithResponseMetadata
-from .models.results.FileResultWithResponseMetadata import FileResultWithResponseMetadata
-from .models.results.CustomMetadataFieldsResult import CustomMetadataFieldsResult
+from .models.CopyFileRequestOptions import CopyFileRequestOptions
+from .models.CopyFolderRequestOptions import CopyFolderRequestOptions
+from .models.CreateCustomMetadataFieldsRequestOptions import CreateCustomMetadataFieldsRequestOptions
+from .models.CreateFolderRequestOptions import CreateFolderRequestOptions
+from .models.DeleteFolderRequestOptions import DeleteFolderRequestOptions
+from .models.ListAndSearchFileRequestOptions import ListAndSearchFileRequestOptions
+from .models.MoveFileRequestOptions import MoveFileRequestOptions
+from .models.MoveFolderRequestOptions import MoveFolderRequestOptions
+from .models.RenameFileRequestOptions import RenameFileRequestOptions
+from .models.UpdateCustomMetadataFieldsRequestOptions import UpdateCustomMetadataFieldsRequestOptions
+from .models.UpdateFileRequestOptions import UpdateFileRequestOptions
+from .models.UploadFileRequestOptions import UploadFileRequestOptions
 from .models.results.BulkDeleteFileResult import BulkDeleteFileResult
-from .models.results.FolderResult import FolderResult
-
+from .models.results.CustomMetadataFieldsResult import CustomMetadataFieldsResult
+from .models.results.CustomMetadataFieldsResultWithResponseMetadata import \
+    CustomMetadataFieldsResultWithResponseMetadata
 from .models.results.FileResult import FileResult
+from .models.results.FileResultWithResponseMetadata import FileResultWithResponseMetadata
+from .models.results.FolderResult import FolderResult
 from .models.results.GetBulkJobStatusResult import GetBulkJobStatusResult
 from .models.results.GetMetadataResult import GetMetadataResult
 from .models.results.ListCustomMetadataFieldsResult import ListCustomMetadataFieldsResult
@@ -24,14 +36,12 @@ from .models.results.ListFileResult import ListFileResult
 from .models.results.PurgeCacheResult import PurgeCacheResult
 from .models.results.PurgeCacheStatusResult import PurgeCacheStatusResult
 from .models.results.RenameFileResult import RenameFileResult
-from .models.results.ResponseMetadata import ResponseMetadata
 from .models.results.ResponseMetadataResult import ResponseMetadataResult
 from .models.results.TagsResult import TagsResult
 from .models.results.UploadFileResult import UploadFileResult
 from .utils.formatter import (
     request_formatter,
-    snake_to_lower_camel, camel_dict_to_snake_dict,
-)
+    snake_to_lower_camel, )
 from .utils.utils import (
     general_api_throw_exception, get_response_json, populate_response_metadata, convert_to_response_object,
     convert_to_list_response_object, throw_other_exception, convert_to_response_metadata_result_object
@@ -42,7 +52,7 @@ class File(object):
     def __init__(self, request_obj):
         self.request = request_obj
 
-    def upload(self, file, file_name, options) -> UploadFileResult:
+    def upload(self, file, file_name, options: UploadFileRequestOptions = None) -> UploadFileResult:
         """Upload file to server using local image or url
         :param file: either local file path or network file path
         :param file_name: intended file name
@@ -62,7 +72,7 @@ class File(object):
         if not options:
             options = dict()
         else:
-            options = self.validate_upload(options)
+            options = self.validate_upload(options.__dict__)
         if options is False:
             raise ValueError("Invalid upload options")
         if isinstance(file, str) or isinstance(file, bytes):
@@ -79,22 +89,20 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def list(self, options: dict) -> ListFileResult:
+    def list(self, options: ListAndSearchFileRequestOptions = None) -> ListFileResult:
         """Returns list files on ImageKit Server
         :param: options dictionary of options
         :return: ListFileResult
         """
 
-        formatted_options = request_formatter(options)
+        formatted_options = request_formatter(options.__dict__)
         if not self.is_valid_list_options(formatted_options):
             raise ValueError("Invalid option for list_files")
         url = "{}/v1/files".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
-
         resp = self.request.request(
-            method="GET", url=url, headers=headers, params=options
+            method="GET", url=url, headers=headers, params=options.__dict__
         )
-        print("resp in list:-->", resp.text)
         if resp.status_code == 200:
             response = convert_to_list_response_object(resp, FileResult, ListFileResult)
             return response
@@ -137,7 +145,8 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def get_file_version_details(self, file_identifier: str = None, version_identifier: str = None) -> FileResultWithResponseMetadata:
+    def get_file_version_details(self, file_identifier: str = None,
+                                 version_identifier: str = None) -> FileResultWithResponseMetadata:
         """returns file version detail
         """
         if not file_identifier:
@@ -160,7 +169,8 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def update_file_details(self, file_id: str, options: dict) -> FileResultWithResponseMetadata:
+    def update_file_details(self, file_id: str,
+                            options: UpdateFileRequestOptions = None) -> FileResultWithResponseMetadata:
         """Update detail of a file(like tags, coordinates)
         update details identified by file_id and options,
         which is already uploaded
@@ -170,7 +180,7 @@ class File(object):
         url = "{}/v1/files/{}/details/".format(URL.API_BASE_URL, file_id)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
-        data = dumps(request_formatter(options))
+        data = dumps(request_formatter(options.__dict__))
         resp = self.request.request(method="Patch", url=url, headers=headers, data=data)
         if resp.status_code == 200:
             response = convert_to_response_object(resp, FileResultWithResponseMetadata)
@@ -282,20 +292,19 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def copy_file(self, options) -> ResponseMetadataResult:
+    def copy_file(self, options: CopyFileRequestOptions = None) -> ResponseMetadataResult:
         """Copy file by provided sourceFilePath, destinationPath and includeFileVersions as an options
         """
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        formatted_options = dumps(request_formatter(options))
+        formatted_options = dumps(request_formatter(options.__dict__))
         resp = self.request.request(
             method="Post",
             url=url,
             headers=headers,
             data=formatted_options
         )
-        print("resp:-->", resp)
         if resp.status_code == 204:
             response = convert_to_response_metadata_result_object(resp)
             return response
@@ -308,13 +317,13 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def move_file(self, options) -> ResponseMetadataResult:
+    def move_file(self, options: MoveFileRequestOptions = None) -> ResponseMetadataResult:
         """Move file by provided sourceFilePath and destinationPath as an options
         """
         url = "{}/v1/files/move".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        formatted_options = dumps(request_formatter(options))
+        formatted_options = dumps(request_formatter(options.__dict__))
         resp = self.request.request(
             method="Post",
             url=url,
@@ -333,13 +342,13 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def rename_file(self, options) -> RenameFileResult:
+    def rename_file(self, options: RenameFileRequestOptions = None) -> RenameFileResult:
         """Rename file by provided filePath, newFileName and purgeCache as an options
         """
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        formatted_options = dumps(request_formatter(options))
+        formatted_options = dumps(request_formatter(options.__dict__))
         resp = self.request.request(
             method="Put",
             url=url,
@@ -382,12 +391,12 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def create_folder(self, options) -> ResponseMetadataResult:
+    def create_folder(self, options: CreateFolderRequestOptions = None) -> ResponseMetadataResult:
         """Create folder by provided folderName and parentFolderPath as an options
         """
         url = "{}/v1/folder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
-        formatted_data = request_formatter(options)
+        formatted_data = request_formatter(options.__dict__)
         resp = self.request.request(
             method="Post",
             url=url,
@@ -404,12 +413,12 @@ class File(object):
             response_help = response['help'] if type(response) == dict else ""
             raise UnknownException(error_message, response_help, response_meta_data)
 
-    def delete_folder(self, options) -> ResponseMetadataResult:
+    def delete_folder(self, options: DeleteFolderRequestOptions = None) -> ResponseMetadataResult:
         """Delete folder by provided folderPath as an options
         """
         url = "{}/v1/folder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
-        formatted_data = request_formatter(options)
+        formatted_data = request_formatter(options.__dict__)
         resp = self.request.request(
             method="Delete",
             url=url,
@@ -428,13 +437,13 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def copy_folder(self, options) -> FolderResult:
+    def copy_folder(self, options: CopyFolderRequestOptions = None) -> FolderResult:
         """Copy folder by provided sourceFolderPath, destinationPath and includeFileVersions as an options
         """
         url = "{}/v1/bulkJobs/copyFolder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
         headers.update({"Content-Type": "application/json"})
-        formatted_data = dumps(request_formatter(options))
+        formatted_data = dumps(request_formatter(options.__dict__))
         resp = self.request.request(
             method="Post",
             url=url,
@@ -453,13 +462,13 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def move_folder(self, options) -> FolderResult:
+    def move_folder(self, options: MoveFolderRequestOptions = None) -> FolderResult:
         """Move folder by provided sourceFolderPath and destinationPath as an options
         """
         url = "{}/v1/bulkJobs/moveFolder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
         headers.update({"Content-Type": "application/json"})
-        formatted_data = dumps(request_formatter(options))
+        formatted_data = dumps(request_formatter(options.__dict__))
         resp = self.request.request(
             method="Post",
             url=url,
@@ -559,18 +568,20 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def create_custom_metadata_fields(self, options) -> CustomMetadataFieldsResultWithResponseMetadata:
+    def create_custom_metadata_fields(self,
+                                      options: CreateCustomMetadataFieldsRequestOptions = None) -> CustomMetadataFieldsResultWithResponseMetadata:
         """creates custom metadata fields by passing name, label and schema as an options
         """
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
-        options['schema'] = request_formatter(options['schema'])
-        formatted_options = dumps(request_formatter(options))
+        options.schema.__dict__ = request_formatter(options.schema.__dict__)
+        options_dict = options.__dict__
+        options_dict['schema'] = options.schema.__dict__
+        formatted_options = dumps(options_dict)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
         resp = self.request.request(
             method="Post", url=url, headers=headers, data=formatted_options
         )
-        print("resp:--")
         if resp.status_code == 201:
             response = convert_to_response_object(resp, CustomMetadataFieldsResultWithResponseMetadata)
             return response
@@ -602,15 +613,19 @@ class File(object):
             response_help = response['help'] if type(response) == dict else ""
             raise UnknownException(error_message, response_help, response_meta_data)
 
-    def update_custom_metadata_fields(self, custom_metadata_field_identifier, options) -> CustomMetadataFieldsResultWithResponseMetadata:
+    def update_custom_metadata_fields(self, custom_metadata_field_identifier,
+                                      options: UpdateCustomMetadataFieldsRequestOptions = None) -> CustomMetadataFieldsResultWithResponseMetadata:
         """updates custom metadata fields by passing id of custom metadata field and params as an options
         """
         if not custom_metadata_field_identifier:
             raise ValueError(ERRORS.MISSING_CUSTOM_METADATA_FIELD_ID)
         url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, custom_metadata_field_identifier)
-        if 'schema' in options:
-            options['schema'] = request_formatter(options['schema'])
-        formatted_options = dumps(request_formatter(options))
+        if 'schema' in options.__dict__:
+            options.schema.__dict__ = request_formatter(options.schema.__dict__)
+        options_dict = options.__dict__
+        if 'schema' in options_dict:
+            options_dict['schema'] = options.schema.__dict__
+        formatted_options = dumps(request_formatter(options_dict))
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
         resp = self.request.request(
@@ -676,6 +691,9 @@ class File(object):
         for key, val in options.items():
             if key not in VALID_UPLOAD_OPTIONS:
                 return False
+            if type(val) == dict or type(val) == tuple:
+                options[key] = dumps(val)
+                continue
             if key == "response_fields":
                 for i, j in enumerate(options[key]):
                     if j not in VALID_UPLOAD_OPTIONS:
