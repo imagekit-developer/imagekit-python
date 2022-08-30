@@ -2,13 +2,23 @@ from typing import Any, Dict
 
 from .constants.errors import ERRORS
 from .file import File
+from .models.CopyFileRequestOptions import CopyFileRequestOptions
+from .models.CopyFolderRequestOptions import CopyFolderRequestOptions
+from .models.CreateCustomMetadataFieldsRequestOptions import CreateCustomMetadataFieldsRequestOptions
+from .models.CreateFolderRequestOptions import CreateFolderRequestOptions
+from .models.DeleteFolderRequestOptions import DeleteFolderRequestOptions
+from .models.ListAndSearchFileRequestOptions import ListAndSearchFileRequestOptions
+from .models.MoveFileRequestOptions import MoveFileRequestOptions
+from .models.MoveFolderRequestOptions import MoveFolderRequestOptions
+from .models.RenameFileRequestOptions import RenameFileRequestOptions
+from .models.UpdateCustomMetadataFieldsRequestOptions import UpdateCustomMetadataFieldsRequestOptions
+from .models.UpdateFileRequestOptions import UpdateFileRequestOptions
+from .models.UploadFileRequestOptions import UploadFileRequestOptions
+from .models.results.BulkDeleteFileResult import BulkDeleteFileResult
 from .models.results.CustomMetadataFieldsResultWithResponseMetadata import \
     CustomMetadataFieldsResultWithResponseMetadata
 from .models.results.FileResultWithResponseMetadata import FileResultWithResponseMetadata
-from .models.results.BulkDeleteFileResult import BulkDeleteFileResult
 from .models.results.FolderResult import FolderResult
-from .models.results.CustomMetadataFieldsResult import CustomMetadataFieldsResult
-from .models.results.FileResult import FileResult
 from .models.results.GetBulkJobStatusResult import GetBulkJobStatusResult
 from .models.results.GetMetadataResult import GetMetadataResult
 from .models.results.ListCustomMetadataFieldsResult import ListCustomMetadataFieldsResult
@@ -49,12 +59,12 @@ class ImageKit(object):
         """
         return self.file.upload(file, file_name, options)
 
-    def upload_file(self, file=None, file_name=None, options=None) -> UploadFileResult:
+    def upload_file(self, file=None, file_name=None, options: UploadFileRequestOptions = None) -> UploadFileResult:
         """Provides upload functionality
         """
-        return self.file.upload(file, file_name, options)
+        return self.file.upload(file, file_name, options if options is not None else None)
 
-    def list_files(self, options: Dict) -> ListFileResult:
+    def list_files(self, options: ListAndSearchFileRequestOptions = None) -> ListFileResult:
         """Get list(filtered if given param) of images of client
         """
         return self.file.list(options)
@@ -69,12 +79,13 @@ class ImageKit(object):
         """
         return self.file.get_file_versions(file_identifier)
 
-    def get_file_version_details(self, file_identifier: str = None, version_identifier: str = None) -> FileResultWithResponseMetadata:
+    def get_file_version_details(self, file_identifier: str = None,
+                                 version_identifier: str = None) -> FileResultWithResponseMetadata:
         """Get file_version details by file_id and version_id
         """
         return self.file.get_file_version_details(file_identifier, version_identifier)
 
-    def update_file_details(self, file_id: str, options: dict = None) -> FileResultWithResponseMetadata:
+    def update_file_details(self, file_id: str, options: UpdateFileRequestOptions = None) -> FileResultWithResponseMetadata:
         """Update file details by file id and options
         """
         return self.file.update_file_details(file_id, options)
@@ -114,17 +125,17 @@ class ImageKit(object):
         """
         return self.file.batch_delete(file_ids)
 
-    def copy_file(self, options) -> ResponseMetadataResult:
+    def copy_file(self, options: CopyFileRequestOptions = None) -> ResponseMetadataResult:
         """Copy file by provided sourceFilePath, destinationPath and includeFileVersions as an options
         """
         return self.file.copy_file(options)
 
-    def move_file(self, options) -> ResponseMetadataResult:
+    def move_file(self, options: MoveFileRequestOptions = None) -> ResponseMetadataResult:
         """Move file by provided sourceFilePath and destinationPath as an options
         """
         return self.file.move_file(options)
 
-    def rename_file(self, options) -> RenameFileResult:
+    def rename_file(self, options: RenameFileRequestOptions = None) -> RenameFileResult:
         """Rename file by provided filePath, newFileName and purgeCache as an options
         """
         return self.file.rename_file(options)
@@ -134,22 +145,22 @@ class ImageKit(object):
         """
         return self.file.restore_file_version(file_id, version_id)
 
-    def create_folder(self, options) -> ResponseMetadataResult:
+    def create_folder(self, options: CreateFolderRequestOptions = None) -> ResponseMetadataResult:
         """Create folder by provided folderName and parentFolderPath as an options
         """
         return self.file.create_folder(options)
 
-    def delete_folder(self, options) -> ResponseMetadataResult:
+    def delete_folder(self, options: DeleteFolderRequestOptions = None) -> ResponseMetadataResult:
         """Delete folder by provided folderPath as an options
         """
         return self.file.delete_folder(options)
 
-    def copy_folder(self, options) -> FolderResult:
+    def copy_folder(self, options: CopyFolderRequestOptions = None) -> FolderResult:
         """Copy folder by provided sourceFolderPath, destinationPath and includeFileVersions as an options
         """
         return self.file.copy_folder(options)
 
-    def move_folder(self, options) -> FolderResult:
+    def move_folder(self, options: MoveFolderRequestOptions = None) -> FolderResult:
         """Move folder by provided sourceFolderPath and destinationPath as an options
         """
         return self.file.move_folder(options)
@@ -197,7 +208,7 @@ class ImageKit(object):
         """
         return self.file.get_metadata_from_remote_url(remote_file_url)
 
-    def create_custom_metadata_fields(self, options) -> CustomMetadataFieldsResultWithResponseMetadata:
+    def create_custom_metadata_fields(self, options: CreateCustomMetadataFieldsRequestOptions = None) -> CustomMetadataFieldsResultWithResponseMetadata:
         """creates custom metadata fields by passing name, label and schema as an options
         """
         return self.file.create_custom_metadata_fields(options)
@@ -207,7 +218,8 @@ class ImageKit(object):
         """
         return self.file.get_custom_metadata_fields(include_deleted)
 
-    def update_custom_metadata_fields(self, custom_metadata_field_identifier, options) -> CustomMetadataFieldsResultWithResponseMetadata:
+    def update_custom_metadata_fields(self, custom_metadata_field_identifier,
+                                      options: UpdateCustomMetadataFieldsRequestOptions = None) -> CustomMetadataFieldsResultWithResponseMetadata:
         """updates custom metadata fields by passing id of custom metadata field and params as an options
         """
         return self.file.update_custom_metadata_fields(custom_metadata_field_identifier, options)

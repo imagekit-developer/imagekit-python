@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import patch
 
 from imagekitio.client import ImageKit
+from imagekitio.models.ListAndSearchFileRequestOptions import ListAndSearchFileRequestOptions
 
 
 class ClientTestCase(unittest.TestCase):
@@ -17,16 +18,10 @@ class ClientTestCase(unittest.TestCase):
         """
         Tests if list_files work with skip and limit
         """
-        self.options = {
-            "type": "file",
-            "sort": "ASC_CREATED",
-            "path": "/",
-            "searchQuery": "createdAt >= '2d' OR size < '2mb' OR format='png'",
-            "fileType": "all",
-            "limit": 1,
-            "skip": 0,
-            "tags": "Tag-1, Tag-2, Tag-3"
-        }
+        self.options = ListAndSearchFileRequestOptions(type="file", sort="ASC_CREATED", path="/",
+                                                       search_query="created_at >= '2d' OR size < '2mb' OR format='png'",
+                                                       file_type="all", limit=1, skip=0,
+                                                       tags="Tag-1, Tag-2, Tag-3")
         self.client = ImageKit(
             public_key="fake122", private_key=ClientTestCase.private_key, url_endpoint="fake122",
         )
