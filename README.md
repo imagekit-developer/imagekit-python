@@ -298,30 +298,38 @@ Simple usage
 ```python
 from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 
-result = imagekit.upload_file(
-        file="<url|base_64|binary>",  # required
-        file_name="my_file_name.jpg",  # required
-        options=UploadFileRequestOptions(use_unique_file_name=False, tags=["abc", "def"],
-                                         folder="/testing-python-folder/", is_private_file=False,
-                                         custom_coordinates="10,10,20,20",
-                                         response_fields=["tags", "custom_coordinates", "is_private_file",
-                                                          "embedded_metadata",
-                                                          "custom_metadata"],
-                                         extensions=(
-                                             {"name": "remove-bg", "options": {"add_shadow": True, "bg_color": "pink"}},
-                                             {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10}),
-                                         webhook_url="https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
-                                         overwrite_file=True, overwrite_a_i_tags=False,
-                                         overwrite_tags=False, overwrite_custom_metadata=True,
-                                         custom_metadata={"testss": 12})
-)
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+options = UploadFileRequestOptions(
+    use_unique_file_name=False,
+    tags=['abc', 'def'],
+    folder='/testing-python-folder/',
+    is_private_file=False,
+    custom_coordinates='10,10,20,20',
+    response_fields=['tags', 'custom_coordinates', 'is_private_file',
+                     'embedded_metadata', 'custom_metadata'],
+    extensions=({'name': 'remove-bg', 'options': {'add_shadow': True,
+                'bg_color': 'pink'}}, {'name': 'google-auto-tagging',
+                'minConfidence': 80, 'maxTags': 10}),
+    webhook_url='https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e'
+        ,
+    overwrite_file=True,
+    overwrite_a_i_tags=False,
+    overwrite_tags=False,
+    overwrite_custom_metadata=True,
+    custom_metadata={'testss': 12},
+    )
+result = imagekit.upload_file(file='<url|base_64|binary>', # required
+                              file_name='my_file_name.jpg', # required
+                              options=options)  
+                                                
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
+
 # print that uploaded file's ID
-print(result.file_id)
+
+print result.file_id
 ```
 
 If the upload succeeds, the `result` will be the `UploadFileResult` class.
@@ -348,21 +356,27 @@ can be passed with the correct values to get the results.
 ```Python
 from imagekitio.models.ListAndSearchFileRequestOptions import ListAndSearchFileRequestOptions
 
-result = imagekit.list_files(options=ListAndSearchFileRequestOptions(type="file",
-                                                                     sort="ASC_CREATED",
-                                                                     path="/",
-                                                                     search_query="created_at >= '2d' OR size < '2mb' OR format='png'",
-                                                                     file_type="all",
-                                                                     limit=5,
-                                                                     skip=0,
-                                                                     tags="Software, Developer, Engineer"))
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+options = ListAndSearchFileRequestOptions(
+    type='file',
+    sort='ASC_CREATED',
+    path='/',
+    search_query="created_at >= '2d' OR size < '2mb' OR format='png'",
+    file_type='all',
+    limit=5,
+    skip=0,
+    tags='Software, Developer, Engineer',
+    )
+result = imagekit.list_files(options=options)
+
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
+
 # print the first file's ID
-print(result.list[0].file_id)
+
+print result.list[0].file_id
 ```
 
 **2. Get File Details**
@@ -373,11 +387,13 @@ the [API documentation here](https://docs.imagekit.io/api-reference/media-api/ge
 ```python
 file_id = "your_file_id"
 result = imagekit.get_file_details(file_identifier=file_id)  # fileId required
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # print that file's id
 print(result.file_id)
 ```
@@ -390,11 +406,13 @@ the [API documentation here](https://docs.imagekit.io/api-reference/media-api/ge
 ```python
 file_id = "your_file_id"
 result = imagekit.get_file_versions(file_identifier=file_id)  # fileId required
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # print that file's version id
 print(result.list[0].version_info.id)
 ```
@@ -405,17 +423,20 @@ Accepts the `file_id` and `version_id` and fetches the details as per
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/get-file-version-details)
 
 ```python
-result = imagekit.get_file_version_details(file_identifier="file_id"  # required
-                                           , version_identifier="version_id")  # required
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-	print("Raw Response:")
-print(result.response_metadata.raw)
+result = imagekit.get_file_version_details(file_identifier='file_id',
+        version_identifier='version_id')
+
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
+
 # print that file's id
-print(result.file_id)
+print result.file_id
+
 # print that file's version id
-print(result.version_info.id)
+print result.version_info.id
 ```
 
 **5. Update File Details**
@@ -429,34 +450,28 @@ updated.
 ```python
 from imagekitio.models.UpdateFileRequestOptions import UpdateFileRequestOptions
 
-result = imagekit.update_file_details(
-    file_id="62cfd39819ca454d82a07182",  # required
-    options=UpdateFileRequestOptions(remove_a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'],
-                                     webhook_url="url",
-                                     extensions=[
-                                         {
-                                             "name": "remove-bg",
-                                              "options": {
-                                                  "add_shadow": True,
-                                                  "bg_color": "red"
-                                              }
-                                          },
-                                         {
-                                             "name": "google-auto-tagging",
-                                             "minConfidence": 80,
-                                             "maxTags": 10
-                                         }],
-                                     tags=["tag-1", "tag-2"],
-                                     custom_coordinates="10,10,100,100",
-                                     custom_metadata={"test": 11})
-)
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+options = UpdateFileRequestOptions(
+    remove_a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'],
+    webhook_url='url',
+    extensions=[{'name': 'remove-bg', 'options': {'add_shadow': True,
+                'bg_color': 'red'}}, {'name': 'google-auto-tagging',
+                'minConfidence': 80, 'maxTags': 10}],
+    tags=['tag-1', 'tag-2'],
+    custom_coordinates='10,10,100,100',
+    custom_metadata={'test': 11},
+    )
+
+result = imagekit.update_file_details(file_id='62cfd39819ca454d82a07182'
+        , options=options)  # required
+
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
+
 # print that file's id
-print(result.file_id)
+print result.file_id
 ```
 
 **6. Add tags**
@@ -467,13 +482,16 @@ the `.add_tags()` functions to get the results.
 
 ```python
 result = imagekit.add_tags(file_ids=['file-id-1', 'file-id-2'], tags=['add-tag-1', 'add-tag-2'])
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # list successfully updated file ids
 print(result.successfully_updated_file_ids)
+
 # print the first file's id
 print(result.successfully_updated_file_ids[0])
 ```
@@ -486,13 +504,16 @@ the `.remove_tags()` functions to get the results.
 
 ```python
 result = imagekit.remove_tags(file_ids=['file-id-1', 'file-id-2'], tags=['remove-tag-1', 'remove-tag-2'])
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # list successfully updated file ids
 print(result.successfully_updated_file_ids)
+
 # print the first file's id
 print(result.successfully_updated_file_ids[0])
 ```
@@ -505,13 +526,16 @@ the `.remove_ai_tags()` functions to get the results.
 
 ```python
 result = imagekit.remove_ai_tags(file_ids=['file-id-1', 'file-id-2'], a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # list successfully updated file ids
 print(result.successfully_updated_file_ids)
+
 # print the first file's id
 print(result.successfully_updated_file_ids[0])
 ```
@@ -524,10 +548,11 @@ deleted.
 ```python
 file_id = "file_id"
 result = imagekit.delete_file(file_id=file_id)
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
 ```
 
@@ -539,10 +564,11 @@ The method accepts the `file_id` and particular version id of the File that has 
 
 ```python
 result = imagekit.delete_file_version(file_id="file_id", version_id="version_id")
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
 ```
 
@@ -553,13 +579,16 @@ The method accepts a list of file IDs that have to be deleted.
 
 ```python
 result = imagekit.bulk_file_delete(file_ids=["file_id1", "file_id2"])
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # list successfully deleted file ids
 print(result.successfully_deleted_file_ids)
+
 # print the first file's id
 print(result.successfully_deleted_file_ids[0])
 ```
@@ -572,15 +601,17 @@ The method accepts `source_file_path`, `destination_path`, and `include_file_ver
 ```python
 from imagekitio.models.CopyFileRequestOptions import CopyFileRequestOptions
 
-result = imagekit.copy_file(options=CopyFileRequestOptions(source_file_path="/source_file_path.jpg",
-                                                           destination_path="/destination_path",
-                                                            include_file_versions=True)
-)
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+options = \
+    CopyFileRequestOptions(source_file_path='/source_file_path.jpg',
+                           destination_path='/destination_path',
+                           include_file_versions=True)
+result = imagekit.copy_file(options=options)
+
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
 ```
 
 **13. Move File**
@@ -591,14 +622,16 @@ The method accepts `source_file_path` and `destination_path` of the File that ha
 ```python
 from imagekitio.models.MoveFileRequestOptions import MoveFileRequestOptions
 
-result = imagekit.move_file(options=MoveFileRequestOptions(source_file_path="/source_file_path.jpg",
-                                                           destination_path="/destination_path")
-)
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+options = \
+    MoveFileRequestOptions(source_file_path='/source_file_path.jpg',
+                           destination_path='/destination_path')
+result = imagekit.move_file(options=options)
+
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
 ```
 
 **14. Rename File**
@@ -609,16 +642,19 @@ The method accepts the `file_path`, `new_file_name`, and `purge_cache` boolean t
 ```python
 from imagekitio.models.RenameFileRequestOptions import RenameFileRequestOptions
 
-result = imagekit.rename_file(options=RenameFileRequestOptions(file_path="/file_path.jpg",
-                                     new_file_name="new_file_name.jpg",
-                                     purge_cache=True))
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+options = RenameFileRequestOptions(file_path='/file_path.jpg',
+                                   new_file_name='new_file_name.jpg',
+                                   purge_cache=True)
+result = imagekit.rename_file(options=options)
+
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
+
 # print the purge request id
-print(result.purge_request_id)
+print result.purge_request_id
 ```
 
 **15. Restore file Version**
@@ -629,11 +665,13 @@ The method accepts `file_id` and `version_id` of the File that has to be restore
 
 ```python
 result = imagekit.restore_file_version(file_id="file_id", version_id="version_id")
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # print that file's id
 print(result.file_id)
 ```
@@ -646,13 +684,15 @@ The method accepts `folder_name` and `parent_folder_path` as options that must b
 ```Python
 from imagekitio.models.CreateFolderRequestOptions import CreateFolderRequestOptions
 
-result = imagekit.create_folder(options=CreateFolderRequestOptions(folder_name="test",
-                                                                   parent_folder_path="/"))
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+options = CreateFolderRequestOptions(folder_name='test',
+        parent_folder_path='/')
+result = imagekit.create_folder(options=options)
+
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
 ```
 
 **17. Delete Folder**
@@ -663,12 +703,14 @@ The method accepts `folder_path` as an option that must be deleted.
 ```python
 from imagekitio.models.DeleteFolderRequestOptions import DeleteFolderRequestOptions
 
-result = imagekit.delete_folder(options=DeleteFolderRequestOptions(folder_path="/test/demo"))
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+options = DeleteFolderRequestOptions(folder_path='/test/demo')
+result = imagekit.delete_folder(options=options)
+
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
 ```
 
 **18. Copy Folder**
@@ -679,18 +721,20 @@ have to be copied.
 
 ```python
 from imagekitio.models.CopyFolderRequestOptions import CopyFolderRequestOptions
+options = \
+    CopyFolderRequestOptions(source_folder_path='/source_folder_path',
+                             destination_path='/destination/path',
+                             include_file_versions=True)
+result = imagekit.copy_folder(options=options)
 
-result = imagekit.copy_folder(options=CopyFolderRequestOptions(source_folder_path='/source_folder_path',
-                                                               destination_path='/destination/path',
-                                                               include_file_versions=True)
-)
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
+
 # print the job's id
-print(result.job_id)
+print result.job_id
 ```
 
 **19. Move Folder**
@@ -700,16 +744,18 @@ The method accepts the `source_folder_path` and `destination_path` of a folder a
 
 ```python
 from imagekitio.models.MoveFolderRequestOptions import MoveFolderRequestOptions
+options = \
+    MoveFolderRequestOptions(source_folder_path='/source_folder_path',
+                             destination_path='/destination_path')
+result = imagekit.move_folder(options=options)
+# Final Result
+print result
 
-result = imagekit.move_folder(options=MoveFolderRequestOptions(source_folder_path="/source_folder_path",
-                                                               destination_path="/destination_path"))
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+# Raw Response
+print result.response_metadata.raw
+
 # print the job's id
-print(result.job_id)
+print result.job_id
 ```
 
 **20. Get Bulk Job Status**
@@ -720,13 +766,16 @@ The method takes only jobId.
 
 ```python
 result = imagekit.get_bulk_job_status(job_id="job_id")
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # print the job's id
 print(result.job_id)
+
 # print the status
 print(result.status)
 ```
@@ -739,11 +788,13 @@ Accepts the full URL of the File for which the cache has to be cleared.
 
 ```python
 result = imagekit.purge_file_cache(file_url="full_url_of_file")
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # print the purge file cache request id
 print(result.request_id)
 ```
@@ -755,11 +806,13 @@ Get the purge cache request status using the `cache_request_id` returned when a 
 
 ```python
 result = imagekit.get_purge_file_cache_status(purge_cache_id="cache_request_id")
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # print the purge file cache status
 print(result.status)
 ```
@@ -771,11 +824,13 @@ the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api
 
 ```python
 result = imagekit.get_file_metadata(file_id="file_id")
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # print the file metadata fields
 print(result.width)
 print(result.exif.image.x_resolution)
@@ -788,11 +843,13 @@ the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api
 
 ```python
 result = imagekit.get_remote_file_url_metadata(remote_file_url="remote_file_url")
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # print the file metadata fields
 print(result.width)
 print(result.exif.image.x_resolution)
@@ -816,23 +873,24 @@ the [Allowed Values In The Schema](https://docs.imagekit.io/api-reference/custom
 from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import CreateCustomMetadataFieldsRequestOptions
 from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
 from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
+schema = CustomMetadataFieldsSchema(type=CustomMetaDataTypeEnum.Number,
+                                    min_value=100, max_value=200)
+options = CreateCustomMetadataFieldsRequestOptions(name='test',
+        label='test', schema=schema)
+result = imagekit.create_custom_metadata_fields(options=options)
 
-result = imagekit.create_custom_metadata_fields(options=CreateCustomMetadataFieldsRequestOptions(name="test",
-                                                     label="test",
-                                                     schema=CustomMetadataFieldsSchema(
-                                                         type=CustomMetaDataTypeEnum.Number,
-                                                         min_value=100,
-                                                         max_value=200))
-)
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
+
 # print the id of created custom metadata fields
-print(result.id)
+print result.id
+
 # print the schema's type of created custom metadata fields
-print(result.schema.type)
+print result.schema.type
+
 ```
 
 
@@ -843,28 +901,35 @@ from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import CreateCus
 from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
 from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
 
-result = imagekit.create_custom_metadata_fields(options=CreateCustomMetadataFieldsRequestOptions(name="test-MultiSelect",
-                                                                                              label="test-MultiSelect",
-                                                                                              schema=CustomMetadataFieldsSchema(
-                                                                                                  type=CustomMetaDataTypeEnum.MultiSelect,
-                                                                                                  is_value_required=True,
-                                                                                                  default_value=[
-                                                                                                      "small", 30,
-                                                                                                      True],
-                                                                                                  select_options=[
-                                                                                                      "small", "medium",
-                                                                                                      "large", 30, 40,
-                                                                                                      True]))
-                                                )
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+schema = \
+    CustomMetadataFieldsSchema(type=CustomMetaDataTypeEnum.MultiSelect,
+                               is_value_required=True,
+                               default_value=['small', 30, True],
+                               select_options=[
+    'small',
+    'medium',
+    'large',
+    30,
+    40,
+    True,
+    ])
+options = \
+    CreateCustomMetadataFieldsRequestOptions(name='test-MultiSelect',
+        label='test-MultiSelect', schema=schema)
+result = imagekit.create_custom_metadata_fields(options=options)
+
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
+
 # print the name of created custom metadata fields
-print(result.name)
+print result.name
+
 # print the schema's select options of created custom metadata fields
-print(result.schema.select_options)
+print result.schema.select_options
+
 ```
 
 ```python
@@ -874,22 +939,27 @@ from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import CreateCus
 from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
 from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
 
-result = imagekit.create_custom_metadata_fields(options=CreateCustomMetadataFieldsRequestOptions(name="test-date",
-                                                                                                 label="test-date",
-                                                                                                 schema=CustomMetadataFieldsSchema(
-                                                                                                     type=CustomMetaDataTypeEnum.Date,
-                                                                                                     min_value="2022-11-29T10:11:10+00:00",
-                                                                                                     max_value="2022-11-30T10:11:10+00:00"))
-                                                )
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+schema = CustomMetadataFieldsSchema(type=CustomMetaDataTypeEnum.Date,
+                                    min_value='2022-11-29T10:11:10+00:00'
+                                    ,
+                                    max_value='2022-11-30T10:11:10+00:00'
+                                    )
+options = CreateCustomMetadataFieldsRequestOptions(name='test-date',
+        label='test-date', schema=schema)
+result = imagekit.create_custom_metadata_fields(options=options)
+
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
+
 # print the label of created custom metadata fields
-print(result.label)
+print result.label
+
 # print the schema's min value of created custom metadata fields
-print(result.schema.min_value)
+print result.schema.min_value
+
 ```
 
 **26. Get CustomMetaDataFields**
@@ -900,26 +970,32 @@ the [API documentation here](https://docs.imagekit.io/api-reference/custom-metad
 
 ```python
 result = imagekit.get_custom_metadata_fields()  # in this case, it will consider includeDeleted as a False
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # print the first customMetadataField's id
 print(result.list[0].id)
+
 # print the first customMetadataField schema's type
 print(result.list[0].schema.type)
 ```
 
 ```python
 result = imagekit.get_custom_metadata_fields(include_deleted=True)
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
+
 # print the first customMetadataField's name
 print(result.list[0].name)
+
 # print the first customMetadataField schema's default value
 print(result.list[0].schema.default_value)
 ```
@@ -936,19 +1012,24 @@ the [API documentation here](https://docs.imagekit.io/api-reference/custom-metad
 from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
 from imagekitio.models.UpdateCustomMetadataFieldsRequestOptions import UpdateCustomMetadataFieldsRequestOptions
 
-result = imagekit.update_custom_metadata_fields(custom_metadata_field_identifier="id_of_custom_metadata_field",
-                                                options=UpdateCustomMetadataFieldsRequestOptions(label="test-update",
-                                                                                                 schema=CustomMetadataFieldsSchema(min_value=100, max_value=200))
-)
-print("======FINAL RESULT=======")
-print("-------------------------------------")
-print(result)
-print("Raw Response:")
-print(result.response_metadata.raw)
+schema = CustomMetadataFieldsSchema(min_value=100, max_value=200)
+options = UpdateCustomMetadataFieldsRequestOptions(label='test-update',
+        schema=schema)
+result = \
+    imagekit.update_custom_metadata_fields(custom_metadata_field_identifier='id_of_custom_metadata_field'
+        , options=options)
+
+# Final Result
+print result
+
+# Raw Response
+print result.response_metadata.raw
+
 # print the label of updated custom metadata fields
-print(result.label)
+print result.label
+
 # print the schema's min value of updated custom metadata fields
-print(result.schema.min_value)
+print result.schema.min_value
 ```
 
 **28. Delete CustomMetaDataFields**
@@ -959,10 +1040,11 @@ the [API documentation here](https://docs.imagekit.io/api-reference/custom-metad
 
 ```python
 result = imagekit.delete_custom_metadata_field(custom_metadata_field_identifier="id_of_custom_metadata_field")
-print("======FINAL RESULT=======")
-print("-------------------------------------")
+
+# Final Result
 print(result)
-print("Raw Response:")
+
+# Raw Response
 print(result.response_metadata.raw)
 ```
 
@@ -1040,7 +1122,8 @@ result = imagekit.upload_file(
     file="<url|base_64|binary>",
     file_name="my_file_name.jpg",
 )
-print("======FINAL RESULT=======")
+
+# Final Result
 print(result)
 print(result.response_metadata.raw)
 print(result.response_metadata.http_status_code)
@@ -1075,30 +1158,40 @@ from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.exceptions.UnknownException import UnknownException
 
 try:
-# Use ImageKit's SDK to make requests...
-except BadRequestException as e:
+
+    # Use ImageKit's SDK to make requests...
+    print 'Run image kit api'
+except BadRequestException, e:
     # Missing or Invalid parameters were supplied to Imagekit.io's API
-    print("Status is: " + e.response_metadata.http_status_code)
-    print("Message is: " + e.message)
-    print("Headers are: " + e.response_metadata.headers)
-    print("Raw body is: " + e.response_metadata.raw)
-except UnauthorizedException as e:
-# No valid API key was provided.
-except ForbiddenException as e:
-# Can be for the following reasons:
-# ImageKit could not authenticate your account with the keys provided.
-# An expired key (public or private) was used with the request.
-# The account is disabled.
-# If you use the upload API, the total storage limit (or upload limit) is exceeded.
-except TooManyRequestsException as e:
-# Too many requests made to the API too quickly
-except InternalServerException as e:
-# Something went wrong with ImageKit.io API.
-except PartialSuccessException as e:
-# Error cases on partial success.
-except NotFoundException as e:
-# If any of the field or parameter is not found in the data
-except UnknownException as e:
+    print 'Status is: ' + e.response_metadata.http_status_code
+    print 'Message is: ' + e.message
+    print 'Headers are: ' + e.response_metadata.headers
+    print 'Raw body is: ' + e.response_metadata.raw
+except UnauthorizedException, e:
+    print e
+except ForbiddenException, e:
+    # No valid API key was provided.
+    print e
+except TooManyRequestsException, e:
+    # Can be for the following reasons:
+    # ImageKit could not authenticate your account with the keys provided.
+    # An expired key (public or private) was used with the request.
+    # The account is disabled.
+    # If you use the upload API, the total storage limit (or upload limit) is exceeded.
+    print e
+except InternalServerException, e:
+    # Too many requests made to the API too quickly
+    print e
+except PartialSuccessException, e:
+    # Something went wrong with ImageKit.io API.
+    print e
+except NotFoundException, e:
+    # Error cases on partial success.
+    print e
+except UnknownException, e:
+    # If any of the field or parameter is not found in the data
+    print e
+
 # Something else happened, which can be unrelated to ImageKit; the reason will be indicated in the message field
 ```
 
