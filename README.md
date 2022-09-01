@@ -319,17 +319,16 @@ options = UploadFileRequestOptions(
     )
 result = imagekit.upload_file(file='<url|base_64|binary>', # required
                               file_name='my_file_name.jpg', # required
-                              options=options)  
-                                                
+                              options=options)
+
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 
 # print that uploaded file's ID
-
-print result.file_id
+print(result.file_id)
 ```
 
 If the upload succeeds, the `result` will be the `UploadFileResult` class.
@@ -369,14 +368,13 @@ options = ListAndSearchFileRequestOptions(
 result = imagekit.list_files(options=options)
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 
 # print the first file's ID
-
-print result.list[0].file_id
+print(result.list[0].file_id)
 ```
 
 **2. Get File Details**
@@ -427,16 +425,16 @@ result = imagekit.get_file_version_details(file_identifier='file_id',
         version_identifier='version_id')
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 
 # print that file's id
-print result.file_id
+print(result.file_id)
 
 # print that file's version id
-print result.version_info.id
+print(result.version_info.id)
 ```
 
 **5. Update File Details**
@@ -465,13 +463,13 @@ result = imagekit.update_file_details(file_id='62cfd39819ca454d82a07182'
         , options=options)  # required
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 
 # print that file's id
-print result.file_id
+print(result.file_id)
 ```
 
 **6. Add tags**
@@ -608,10 +606,10 @@ options = \
 result = imagekit.copy_file(options=options)
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 ```
 
 **13. Move File**
@@ -628,10 +626,10 @@ options = \
 result = imagekit.move_file(options=options)
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 ```
 
 **14. Rename File**
@@ -648,13 +646,13 @@ options = RenameFileRequestOptions(file_path='/file_path.jpg',
 result = imagekit.rename_file(options=options)
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 
 # print the purge request id
-print result.purge_request_id
+print(result.purge_request_id)
 ```
 
 **15. Restore file Version**
@@ -689,10 +687,10 @@ options = CreateFolderRequestOptions(folder_name='test',
 result = imagekit.create_folder(options=options)
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 ```
 
 **17. Delete Folder**
@@ -707,10 +705,10 @@ options = DeleteFolderRequestOptions(folder_path='/test/demo')
 result = imagekit.delete_folder(options=options)
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 ```
 
 **18. Copy Folder**
@@ -728,13 +726,13 @@ options = \
 result = imagekit.copy_folder(options=options)
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 
 # print the job's id
-print result.job_id
+print(result.job_id)
 ```
 
 **19. Move Folder**
@@ -749,13 +747,13 @@ options = \
                              destination_path='/destination_path')
 result = imagekit.move_folder(options=options)
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 
 # print the job's id
-print result.job_id
+print(result.job_id)
 ```
 
 **20. Get Bulk Job Status**
@@ -880,16 +878,16 @@ options = CreateCustomMetadataFieldsRequestOptions(name='test',
 result = imagekit.create_custom_metadata_fields(options=options)
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 
 # print the id of created custom metadata fields
-print result.id
+print(result.id)
 
 # print the schema's type of created custom metadata fields
-print result.schema.type
+print(result.schema.type)
 
 ```
 
@@ -919,16 +917,16 @@ options = \
 result = imagekit.create_custom_metadata_fields(options=options)
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 
 # print the name of created custom metadata fields
-print result.name
+print(result.name)
 
 # print the schema's select options of created custom metadata fields
-print result.schema.select_options
+print(result.schema.select_options)
 
 ```
 
@@ -949,16 +947,16 @@ options = CreateCustomMetadataFieldsRequestOptions(name='test-date',
 result = imagekit.create_custom_metadata_fields(options=options)
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 
 # print the label of created custom metadata fields
-print result.label
+print(result.label)
 
 # print the schema's min value of created custom metadata fields
-print result.schema.min_value
+print(result.schema.min_value)
 
 ```
 
@@ -1020,16 +1018,16 @@ result = \
         , options=options)
 
 # Final Result
-print result
+print(result)
 
 # Raw Response
-print result.response_metadata.raw
+print(result.response_metadata.raw)
 
 # print the label of updated custom metadata fields
-print result.label
+print(result.label)
 
 # print the schema's min value of updated custom metadata fields
-print result.schema.min_value
+print(result.schema.min_value)
 ```
 
 **28. Delete CustomMetaDataFields**
@@ -1160,37 +1158,37 @@ from imagekitio.exceptions.UnknownException import UnknownException
 try:
 
     # Use ImageKit's SDK to make requests...
-    print 'Run image kit api'
+    print('Run image kit api')
 except BadRequestException, e:
     # Missing or Invalid parameters were supplied to Imagekit.io's API
-    print 'Status is: ' + e.response_metadata.http_status_code
-    print 'Message is: ' + e.message
-    print 'Headers are: ' + e.response_metadata.headers
-    print 'Raw body is: ' + e.response_metadata.raw
+    print('Status is: ' + e.response_metadata.http_status_code)
+    print('Message is: ' + e.message)
+    print('Headers are: ' + e.response_metadata.headers)
+    print('Raw body is: ' + e.response_metadata.raw)
 except UnauthorizedException, e:
-    print e
+    print(e)
 except ForbiddenException, e:
     # No valid API key was provided.
-    print e
+    print(e)
 except TooManyRequestsException, e:
     # Can be for the following reasons:
     # ImageKit could not authenticate your account with the keys provided.
     # An expired key (public or private) was used with the request.
     # The account is disabled.
     # If you use the upload API, the total storage limit (or upload limit) is exceeded.
-    print e
+    print(e)
 except InternalServerException, e:
     # Too many requests made to the API too quickly
-    print e
+    print(e)
 except PartialSuccessException, e:
     # Something went wrong with ImageKit.io API.
-    print e
+    print(e)
 except NotFoundException, e:
     # Error cases on partial success.
-    print e
+    print(e)
 except UnknownException, e:
     # If any of the field or parameter is not found in the data
-    print e
+    print(e)
 
 # Something else happened, which can be unrelated to ImageKit; the reason will be indicated in the message field
 ```
