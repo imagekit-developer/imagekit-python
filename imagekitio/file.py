@@ -94,14 +94,14 @@ class File(object):
         :param: options dictionary of options
         :return: ListFileResult
         """
-
-        formatted_options = request_formatter(options.__dict__)
-        if not self.is_valid_list_options(formatted_options):
-            raise ValueError("Invalid option for list_files")
+        if options is not None:
+            formatted_options = request_formatter(options.__dict__)
+            if not self.is_valid_list_options(formatted_options):
+                raise ValueError("Invalid option for list_files")
         url = "{}/v1/files".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
         resp = self.request.request(
-            method="GET", url=url, headers=headers, params=options.__dict__
+            method="GET", url=url, headers=headers, params=options.__dict__ if options is not None else None
         )
         if resp.status_code == 200:
             response = convert_to_list_response_object(resp, FileResult, ListFileResult)
@@ -180,7 +180,7 @@ class File(object):
         url = "{}/v1/files/{}/details/".format(URL.API_BASE_URL, file_id)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
-        data = dumps(request_formatter(options.__dict__))
+        data = dumps(request_formatter(options.__dict__)) if options is not None else dict()
         resp = self.request.request(method="Patch", url=url, headers=headers, data=data)
         if resp.status_code == 200:
             response = convert_to_response_object(resp, FileResultWithResponseMetadata)
@@ -298,7 +298,7 @@ class File(object):
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        formatted_options = dumps(request_formatter(options.__dict__))
+        formatted_options = dumps(request_formatter(options.__dict__)) if options is not None else dict()
         resp = self.request.request(
             method="Post",
             url=url,
@@ -323,7 +323,7 @@ class File(object):
         url = "{}/v1/files/move".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        formatted_options = dumps(request_formatter(options.__dict__))
+        formatted_options = dumps(request_formatter(options.__dict__)) if options is not  None else dict()
         resp = self.request.request(
             method="Post",
             url=url,
@@ -348,7 +348,7 @@ class File(object):
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        formatted_options = dumps(request_formatter(options.__dict__))
+        formatted_options = dumps(request_formatter(options.__dict__)) if options is not None else dict()
         resp = self.request.request(
             method="Put",
             url=url,
@@ -396,7 +396,7 @@ class File(object):
         """
         url = "{}/v1/folder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
-        formatted_data = request_formatter(options.__dict__)
+        formatted_data = request_formatter(options.__dict__) if options is not None else dict()
         resp = self.request.request(
             method="Post",
             url=url,
@@ -418,7 +418,7 @@ class File(object):
         """
         url = "{}/v1/folder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
-        formatted_data = request_formatter(options.__dict__)
+        formatted_data = request_formatter(options.__dict__) if options is not None else dict()
         resp = self.request.request(
             method="Delete",
             url=url,
@@ -443,7 +443,7 @@ class File(object):
         url = "{}/v1/bulkJobs/copyFolder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
         headers.update({"Content-Type": "application/json"})
-        formatted_data = dumps(request_formatter(options.__dict__))
+        formatted_data = dumps(request_formatter(options.__dict__)) if options is not None else dict()
         resp = self.request.request(
             method="Post",
             url=url,
@@ -468,7 +468,7 @@ class File(object):
         url = "{}/v1/bulkJobs/moveFolder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
         headers.update({"Content-Type": "application/json"})
-        formatted_data = dumps(request_formatter(options.__dict__))
+        formatted_data = dumps(request_formatter(options.__dict__)) if options is not None else dict()
         resp = self.request.request(
             method="Post",
             url=url,
@@ -573,10 +573,15 @@ class File(object):
         """creates custom metadata fields by passing name, label and schema as an options
         """
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
-        options.schema.__dict__ = request_formatter(options.schema.__dict__)
-        options_dict = options.__dict__
-        options_dict['schema'] = options.schema.__dict__
-        formatted_options = dumps(options_dict)
+        if options is not None:
+            if 'schema' in options.__dict__:
+                options.schema.__dict__ = request_formatter(options.schema.__dict__)
+            options_dict = options.__dict__
+            if 'schema' in options_dict:
+                options_dict['schema'] = options.schema.__dict__
+            formatted_options = dumps(options_dict)
+        else:
+            formatted_options = dict()
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
         resp = self.request.request(
@@ -620,12 +625,15 @@ class File(object):
         if not custom_metadata_field_identifier:
             raise ValueError(ERRORS.MISSING_CUSTOM_METADATA_FIELD_ID)
         url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, custom_metadata_field_identifier)
-        if 'schema' in options.__dict__:
-            options.schema.__dict__ = request_formatter(options.schema.__dict__)
-        options_dict = options.__dict__
-        if 'schema' in options_dict:
-            options_dict['schema'] = options.schema.__dict__
-        formatted_options = dumps(request_formatter(options_dict))
+        if options is not None:
+            if 'schema' in options.__dict__:
+                options.schema.__dict__ = request_formatter(options.schema.__dict__)
+            options_dict = options.__dict__
+            if 'schema' in options_dict:
+                options_dict['schema'] = options.schema.__dict__
+            formatted_options = dumps(request_formatter(options_dict))
+        else:
+            formatted_options = dict()
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
         resp = self.request.request(
