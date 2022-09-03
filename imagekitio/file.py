@@ -98,10 +98,12 @@ class File(object):
             formatted_options = request_formatter(options.__dict__)
             if not self.is_valid_list_options(formatted_options):
                 raise ValueError("Invalid option for list_files")
+        else:
+            formatted_options = dict()
         url = "{}/v1/files".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
         resp = self.request.request(
-            method="GET", url=url, headers=headers, params=options.__dict__ if options is not None else None
+            method="GET", url=url, headers=headers, params=dumps(formatted_options)
         )
         if resp.status_code == 200:
             response = convert_to_list_response_object(resp, FileResult, ListFileResult)
@@ -699,7 +701,10 @@ class File(object):
         for key, val in options.items():
             if key not in VALID_UPLOAD_OPTIONS:
                 return False
-            if type(val) == dict or type(val) == tuple or key == 'extensions':
+            if type(val) == dict or type(val) == tuple:
+                options[key] = dumps(val)
+                continue
+            if key == 'extensions':
                 options[key] = dumps(val)
                 continue
             if key == "response_fields":
