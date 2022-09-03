@@ -95,9 +95,12 @@ The File can be an image, video, or any other static file supported by ImageKit.
 imagekit_url = imagekit.url({
     "path": "/default-image.jpg",
     "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-    "transformation": [{"height": "300", "width": "400", "raw": "ar-4-3,q-40"}],
-}
-)
+    "transformation": [{
+        "height": "300",
+        "width": "400",
+        "raw": "ar-4-3,q-40"
+    }]
+})
 ```
 
 Sample Result URL -
@@ -152,8 +155,7 @@ image_url = imagekit.url({
     "transformation": [{
         "height": "300",
         "width": "400"
-    },
-    {
+    }, {
         "rotation": 90
     }],
     "transformation_position": "query"
@@ -299,24 +301,34 @@ Simple usage
 from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 
 options = UploadFileRequestOptions(
-    use_unique_file_name=False,
-    tags=['abc', 'def'],
-    folder='/testing-python-folder/',
-    is_private_file=False,
-    custom_coordinates='10,10,20,20',
-    response_fields=['tags', 'custom_coordinates', 'is_private_file',
-                     'embedded_metadata', 'custom_metadata'],
-    extensions=({'name': 'remove-bg', 'options': {'add_shadow': True,
-                'bg_color': 'pink'}}, {'name': 'google-auto-tagging',
-                'minConfidence': 80, 'maxTags': 10}),
-    webhook_url='https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e'
-        ,
-    overwrite_file=True,
-    overwrite_a_i_tags=False,
-    overwrite_tags=False,
-    overwrite_custom_metadata=True,
-    custom_metadata={'testss': 12},
-    )
+    use_unique_file_name = False,
+    tags = ['abc', 'def'],
+    folder = '/testing-python-folder/',
+    is_private_file = False,
+    custom_coordinates = '10,10,20,20',
+    response_fields = ['tags', 'custom_coordinates', 'is_private_file',
+        'embedded_metadata', 'custom_metadata'
+    ],
+    extensions = [{
+        'name': 'remove-bg',
+        'options': {
+            'add_shadow': True,
+            'bg_color': 'pink'
+        }
+    }, {
+        'name': 'google-auto-tagging',
+        'minConfidence': 80,
+        'maxTags': 10
+    }],
+    webhook_url = 'https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e',
+    overwrite_file = True,
+    overwrite_a_i_tags = False,
+    overwrite_tags = False,
+    overwrite_custom_metadata = True,
+    custom_metadata = {
+        'testss': 12
+    },
+)
 result = imagekit.upload_file(file='<url|base_64|binary>', # required
                               file_name='my_file_name.jpg', # required
                               options=options)
@@ -356,16 +368,16 @@ can be passed with the correct values to get the results.
 from imagekitio.models.ListAndSearchFileRequestOptions import ListAndSearchFileRequestOptions
 
 options = ListAndSearchFileRequestOptions(
-    type='file',
-    sort='ASC_CREATED',
-    path='/',
-    search_query="created_at >= '2d' OR size < '2mb' OR format='png'",
-    file_type='all',
-    limit=5,
-    skip=0,
-    tags='Software, Developer, Engineer',
-    )
-result = imagekit.list_files(options=options)
+    type = 'file',
+    sort = 'ASC_CREATED',
+    path = '/',
+    search_query = "created_at >= '2d' OR size < '2mb' OR format='png'",
+    file_type = 'all',
+    limit = 5,
+    skip = 0,
+    tags = 'Software, Developer, Engineer',
+)
+result = imagekit.list_files(options = options)
 
 # Final Result
 print(result)
@@ -384,7 +396,7 @@ the [API documentation here](https://docs.imagekit.io/api-reference/media-api/ge
 
 ```python
 file_id = "your_file_id"
-result = imagekit.get_file_details(file_identifier=file_id)  # fileId required
+result = imagekit.get_file_details(file_id=file_id)  # file_id required
 
 # Final Result
 print(result)
@@ -403,7 +415,7 @@ the [API documentation here](https://docs.imagekit.io/api-reference/media-api/ge
 
 ```python
 file_id = "your_file_id"
-result = imagekit.get_file_versions(file_identifier=file_id)  # fileId required
+result = imagekit.get_file_versions(file_id=file_id)  # file_id required
 
 # Final Result
 print(result)
@@ -421,8 +433,8 @@ Accepts the `file_id` and `version_id` and fetches the details as per
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/get-file-version-details)
 
 ```python
-result = imagekit.get_file_version_details(file_identifier='file_id',
-        version_identifier='version_id')
+result = imagekit.get_file_version_details(file_id='file_id',
+                                           version_id='version_id')
 
 # Final Result
 print(result)
@@ -449,18 +461,28 @@ updated.
 from imagekitio.models.UpdateFileRequestOptions import UpdateFileRequestOptions
 
 options = UpdateFileRequestOptions(
-    remove_a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'],
-    webhook_url='url',
-    extensions=[{'name': 'remove-bg', 'options': {'add_shadow': True,
-                'bg_color': 'red'}}, {'name': 'google-auto-tagging',
-                'minConfidence': 80, 'maxTags': 10}],
-    tags=['tag-1', 'tag-2'],
-    custom_coordinates='10,10,100,100',
-    custom_metadata={'test': 11},
-    )
+    remove_a_i_tags = ['remove-ai-tag-1', 'remove-ai-tag-2'],
+    webhook_url = 'url',
+    extensions = [{
+        'name': 'remove-bg',
+        'options': {
+            'add_shadow': True,
+            'bg_color': 'red'
+        }
+    }, {
+        'name': 'google-auto-tagging',
+        'minConfidence': 80,
+        'maxTags': 10
+    }],
+    tags = ['tag-1', 'tag-2'],
+    custom_coordinates = '10,10,100,100',
+    custom_metadata = {
+        'test': 11
+    },
+)
 
-result = imagekit.update_file_details(file_id='62cfd39819ca454d82a07182'
-        , options=options)  # required
+result = imagekit.update_file_details(file_id='62cfd39819ca454d82a07182',
+                                      options=options)  # required
 
 # Final Result
 print(result)
@@ -518,12 +540,12 @@ print(result.successfully_updated_file_ids[0])
 
 **8. Remove AI tags**
 
-Accepts a list of `file_ids` and `a_i_tags` as a parameter to remove AI tags. All parameters specified in
+Accepts a list of `file_ids` and `ai_tags` as a parameter to remove AI tags. All parameters specified in
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/remove-aitags-bulk) can be passed to
 the `.remove_ai_tags()` functions to get the results.
 
 ```python
-result = imagekit.remove_ai_tags(file_ids=['file-id-1', 'file-id-2'], a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
+result = imagekit.remove_ai_tags(file_ids=['file-id-1', 'file-id-2'], ai_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
 
 # Final Result
 print(result)
@@ -683,7 +705,7 @@ The method accepts `folder_name` and `parent_folder_path` as options that must b
 from imagekitio.models.CreateFolderRequestOptions import CreateFolderRequestOptions
 
 options = CreateFolderRequestOptions(folder_name='test',
-        parent_folder_path='/')
+                                     parent_folder_path='/')
 result = imagekit.create_folder(options=options)
 
 # Final Result
@@ -860,7 +882,7 @@ the [API documentation here](https://docs.imagekit.io/api-reference/custom-metad
 can be passed as it is with the correct values to get the results.
 
 Check for
-the [Allowed Values In The Schema](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/create-custom-metadata-field#allowed-values-in-the-schema-object)
+the [allowed values in the schema](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/create-custom-metadata-field#allowed-values-in-the-schema-object)
 .
 
 **example:**
@@ -872,9 +894,11 @@ from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import CreateCus
 from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
 from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
 schema = CustomMetadataFieldsSchema(type=CustomMetaDataTypeEnum.Number,
-                                    min_value=100, max_value=200)
+                                    min_value=100,
+                                    max_value=200)
 options = CreateCustomMetadataFieldsRequestOptions(name='test',
-        label='test', schema=schema)
+                                                   label='test',
+                                                   schema=schema)
 result = imagekit.create_custom_metadata_fields(options=options)
 
 # Final Result
@@ -904,13 +928,13 @@ schema = \
                                is_value_required=True,
                                default_value=['small', 30, True],
                                select_options=[
-    'small',
-    'medium',
-    'large',
-    30,
-    40,
-    True,
-    ])
+                                    'small',
+                                    'medium',
+                                    'large',
+                                    30,
+                                    40,
+                                    True,
+                                ])
 options = \
     CreateCustomMetadataFieldsRequestOptions(name='test-MultiSelect',
         label='test-MultiSelect', schema=schema)
@@ -938,12 +962,11 @@ from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSch
 from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
 
 schema = CustomMetadataFieldsSchema(type=CustomMetaDataTypeEnum.Date,
-                                    min_value='2022-11-29T10:11:10+00:00'
-                                    ,
-                                    max_value='2022-11-30T10:11:10+00:00'
-                                    )
+                                    min_value='2022-11-29T10:11:10+00:00',
+                                    max_value='2022-11-30T10:11:10+00:00')
 options = CreateCustomMetadataFieldsRequestOptions(name='test-date',
-        label='test-date', schema=schema)
+                                                   label='test-date',
+                                                   schema=schema)
 result = imagekit.create_custom_metadata_fields(options=options)
 
 # Final Result
@@ -1000,7 +1023,7 @@ print(result.list[0].schema.default_value)
 
 **27. Update CustomMetaDataFields**
 
-Accepts an `id_of_custom_metadata_field` and options for specifying the parameters to be used to edit custom metadata fields
+Accepts an `field_id` and options for specifying the parameters to be used to edit custom metadata fields
 as per
 the [API documentation here](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/update-custom-metadata-field)
 .
@@ -1012,10 +1035,9 @@ from imagekitio.models.UpdateCustomMetadataFieldsRequestOptions import UpdateCus
 
 schema = CustomMetadataFieldsSchema(min_value=100, max_value=200)
 options = UpdateCustomMetadataFieldsRequestOptions(label='test-update',
-        schema=schema)
-result = \
-    imagekit.update_custom_metadata_fields(custom_metadata_field_identifier='id_of_custom_metadata_field'
-        , options=options)
+                                                   schema=schema)
+result = imagekit.update_custom_metadata_fields(field_id='field_id',
+                                                options=options)
 
 # Final Result
 print(result)
@@ -1037,7 +1059,7 @@ the [API documentation here](https://docs.imagekit.io/api-reference/custom-metad
 .
 
 ```python
-result = imagekit.delete_custom_metadata_field(custom_metadata_field_identifier="id_of_custom_metadata_field")
+result = imagekit.delete_custom_metadata_field(field_id="field_id")
 
 # Final Result
 print(result)

@@ -69,21 +69,21 @@ class ImageKit(object):
         """
         return self.file.list(options)
 
-    def get_file_details(self, file_identifier: str = None) -> FileResultWithResponseMetadata:
+    def get_file_details(self, file_id: str = None) -> FileResultWithResponseMetadata:
         """Get file_detail by file_id or file_url
         """
-        return self.file.details(file_identifier)
+        return self.file.details(file_id)
 
-    def get_file_versions(self, file_identifier: str = None) -> ListFileResult:
+    def get_file_versions(self, file_id: str = None) -> ListFileResult:
         """Get file_version by file_id or file_url
         """
-        return self.file.get_file_versions(file_identifier)
+        return self.file.get_file_versions(file_id)
 
-    def get_file_version_details(self, file_identifier: str = None,
-                                 version_identifier: str = None) -> FileResultWithResponseMetadata:
+    def get_file_version_details(self, file_id: str = None,
+                                 version_id: str = None) -> FileResultWithResponseMetadata:
         """Get file_version details by file_id and version_id
         """
-        return self.file.get_file_version_details(file_identifier, version_identifier)
+        return self.file.get_file_version_details(file_id, version_id)
 
     def update_file_details(self, file_id: str, options: UpdateFileRequestOptions = None) -> FileResultWithResponseMetadata:
         """Update file details by file id and options
@@ -218,16 +218,16 @@ class ImageKit(object):
         """
         return self.file.get_custom_metadata_fields(include_deleted)
 
-    def update_custom_metadata_fields(self, custom_metadata_field_identifier,
+    def update_custom_metadata_fields(self, field_id,
                                       options: UpdateCustomMetadataFieldsRequestOptions = None) -> CustomMetadataFieldsResultWithResponseMetadata:
         """updates custom metadata fields by passing id of custom metadata field and params as an options
         """
-        return self.file.update_custom_metadata_fields(custom_metadata_field_identifier, options)
+        return self.file.update_custom_metadata_fields(field_id, options)
 
-    def delete_custom_metadata_field(self, custom_metadata_field_identifier: str = "") -> ResponseMetadataResult:
-        """Deletes custom metadata fields by passing custom_metadata_field_identifier
+    def delete_custom_metadata_field(self, field_id: str = "") -> ResponseMetadataResult:
+        """Deletes custom metadata fields by passing field_id
         """
-        return self.file.delete_custom_metadata_field(custom_metadata_field_identifier)
+        return self.file.delete_custom_metadata_field(field_id)
 
     def url(self, options: Dict[str, Any]) -> str:
         """Get generated Url from options parameter

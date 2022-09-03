@@ -66,12 +66,12 @@ class TestUpload(ClientTestCase):
                                                                                       "is_private_file",
                                                                                       "embedded_metadata",
                                                                                       "custom_metadata"],
-                                                                     extensions=(
+                                                                     extensions=[
                                                                          {"name": "remove-bg",
                                                                           "options": {"add_shadow": True,
                                                                                       "bg_color": "pink"}},
                                                                          {"name": "google-auto-tagging",
-                                                                          "minConfidence": 80, "maxTags": 10}),
+                                                                          "minConfidence": 80, "maxTags": 10}],
                                                                      webhook_url="https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
                                                                      overwrite_file=True, overwrite_a_i_tags=False,
                                                                      overwrite_tags=False,
@@ -136,12 +136,12 @@ class TestUpload(ClientTestCase):
                                                                         folder="/testing-python-folder/",
                                                                         is_private_file=True,
                                                                         response_fields=["is_private_file", "tags"],
-                                                                        extensions=(
+                                                                        extensions=[
                                                                             {"name": "remove-bg",
                                                                              "options": {"add_shadow": True,
                                                                                          "bg_color": "pink"}},
                                                                             {"name": "google-auto-tagging",
-                                                                             "minConfidence": 80, "maxTags": 10}),
+                                                                             "minConfidence": 80, "maxTags": 10}],
                                                                         webhook_url="url",
                                                                         overwrite_file=True, overwrite_a_i_tags=False,
                                                                         overwrite_tags=False,
@@ -252,12 +252,12 @@ class TestUpload(ClientTestCase):
                                                                                       "is_private_file",
                                                                                       "embedded_metadata",
                                                                                       "custom_metadata"],
-                                                                     extensions=(
+                                                                     extensions=[
                                                                          {"name": "remove-bg",
                                                                           "options": {"add_shadow": True,
                                                                                       "bg_color": "pink"}},
                                                                          {"name": "google-auto-tagging",
-                                                                          "minConfidence": 80, "maxTags": 10}),
+                                                                          "minConfidence": 80, "maxTags": 10}],
                                                                      webhook_url="https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
                                                                      overwrite_file=True, overwrite_a_i_tags=False,
                                                                      overwrite_tags=False,
