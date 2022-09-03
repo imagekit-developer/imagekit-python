@@ -211,7 +211,7 @@ class File(object):
     def remove_ai_tags(self, file_ids, a_i_tags) -> TagsResult:
         """Remove AI tags of files
         :param file_ids: array of file ids
-        :param ai_tags: array of AI tags
+        :param a_i_tags: array of AI tags
         """
         url = "{}/v1/files/removeAITags".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}

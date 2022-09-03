@@ -540,12 +540,12 @@ print(result.successfully_updated_file_ids[0])
 
 **8. Remove AI tags**
 
-Accepts a list of `file_ids` and `ai_tags` as a parameter to remove AI tags. All parameters specified in
+Accepts a list of `file_ids` and `a_i_tags` as a parameter to remove AI tags. All parameters specified in
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/remove-aitags-bulk) can be passed to
 the `.remove_ai_tags()` functions to get the results.
 
 ```python
-result = imagekit.remove_ai_tags(file_ids=['file-id-1', 'file-id-2'], ai_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
+result = imagekit.remove_ai_tags(file_ids=['file-id-1', 'file-id-2'], a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
 
 # Final Result
 print(result)
