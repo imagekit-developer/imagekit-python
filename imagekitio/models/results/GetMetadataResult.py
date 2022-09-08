@@ -19,45 +19,7 @@ class GetMetadataResult:
         density,
         has_transparency,
         p_hash,
-        exif: MetadataExif = MetadataExif(
-            MetadataExifImage(
-                None, None, None, None, None, None, None, None, None, None, None
-            ),
-            MetadataExifThumbnail(None, None, None, None, None, None),
-            MetadataExifExif(
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                None,
-            ),
-            MetadataExifGPS(None),
-            MetadataExifInteroperability(None, None),
-            {},
-        ),
+        exif: dict = {},
     ):
         self.height = height
         self.width = width
@@ -68,7 +30,14 @@ class GetMetadataResult:
         self.density = density
         self.has_transparency = has_transparency
         self.p_hash = p_hash
-        self.exif = exif
+        self.exif: MetadataExif = MetadataExif(
+            exif["image"] if "image" in exif else None,
+            exif["thumbnail"] if "thumbnail" in exif else None,
+            exif["exif"] if "exif" in exif else None,
+            exif["gps"] if "gps" in exif else None,
+            exif["interoperability"] if "interoperability" in exif else None,
+            exif["makernote"] if "makernote" in exif else None,
+        )
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")
 
     @property

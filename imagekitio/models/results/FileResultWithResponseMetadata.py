@@ -32,7 +32,7 @@ class FileResultWithResponseMetadata(FileResult):
         mime: str = None,
         extension_status=None,
     ):
-        super(FileResultWithResponseMetadata, self).__init__(
+        super().__init__(
             type,
             name,
             created_at,
