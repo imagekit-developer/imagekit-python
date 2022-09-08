@@ -2,7 +2,6 @@ from .ResponseMetadata import ResponseMetadata
 
 
 class GetBulkJobStatusResult:
-
     def __init__(self, job_id, type, status):
         self.job_id = job_id
         self.type = type

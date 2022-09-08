@@ -2,7 +2,6 @@ from .ResponseMetadata import ResponseMetadata
 
 
 class BulkDeleteFileResult:
-
     def __init__(self, successfully_deleted_file_ids):
         self.successfully_deleted_file_ids = successfully_deleted_file_ids
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")

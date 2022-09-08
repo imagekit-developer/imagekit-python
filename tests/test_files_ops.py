@@ -1278,7 +1278,7 @@ class TestUpdateFileDetails(ClientTestCase):
         resp = self.client.update_file_details(
             file_id=self.file_id,
             options=UpdateFileRequestOptions(
-                remove_ai_tags=["ai-tag1", "ai-tag2"],
+                remove_a_i_tags=["ai-tag1", "ai-tag2"],
                 webhook_url="url",
                 extensions=[
                     {
@@ -1388,7 +1388,7 @@ class TestUpdateFileDetails(ClientTestCase):
             self.client.update_file_details(
                 file_id=self.file_id,
                 options=UpdateFileRequestOptions(
-                    remove_ai_tags=["ai-tag1", "ai-tag2"],
+                    remove_a_i_tags=["ai-tag1", "ai-tag2"],
                     webhook_url="url",
                     extensions=[
                         {

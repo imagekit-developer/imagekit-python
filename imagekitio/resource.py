@@ -30,8 +30,7 @@ class ImageKitRequest(object):
             raise ValueError(ERRORS.MANDATORY_INITIALIZATION_MISSING.value)
 
     def create_headers(self):
-        """Create headers dict and sets Authorization header
-        """
+        """Create headers dict and sets Authorization header"""
         headers = {"Accept-Encoding": "gzip, deflate"}
         headers.update(self.get_auth_headers())
         return headers
@@ -42,15 +41,14 @@ class ImageKitRequest(object):
 
         :return: dictionary of encoded private key
         """
-        encoded_private_key = base64.b64encode((self.private_key + ":").encode()).decode(
-            "utf-8"
-        )
+        encoded_private_key = base64.b64encode(
+            (self.private_key + ":").encode()
+        ).decode("utf-8")
         return {"Authorization": "Basic {}".format(encoded_private_key)}
 
     @staticmethod
     def request(method, url, headers, params=None, files=None, data=None) -> Response:
-        """Requests from ImageKit server used,by internal methods
-        """
+        """Requests from ImageKit server used,by internal methods"""
         resp = requests.request(
             method=method,
             url=url,

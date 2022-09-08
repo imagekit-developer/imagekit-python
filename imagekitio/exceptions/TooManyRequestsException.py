@@ -2,7 +2,6 @@ from ..models.results.ResponseMetadata import ResponseMetadata
 
 
 class TooManyRequestsException(Exception):
-
     def __init__(self, message, response_help, response_metadata: ResponseMetadata):
         self.message = message
         self.response_help = response_help

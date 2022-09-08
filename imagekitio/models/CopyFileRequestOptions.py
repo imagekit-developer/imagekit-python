@@ -1,6 +1,10 @@
 class CopyFileRequestOptions:
-
-    def __init__(self, source_file_path: str = None, destination_path: str = None, include_file_versions: bool = None):
+    def __init__(
+        self,
+        source_file_path: str = None,
+        destination_path: str = None,
+        include_file_versions: bool = None,
+    ):
         if source_file_path is not None:
             self.source_file_path = source_file_path
         if destination_path is not None:
