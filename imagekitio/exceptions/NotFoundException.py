@@ -1,4 +1,4 @@
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from ..models.results.ResponseMetadata import ResponseMetadata
 
 
 class NotFoundException(Exception):

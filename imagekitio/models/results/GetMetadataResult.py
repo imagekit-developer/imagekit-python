@@ -1,10 +1,10 @@
-from imagekitio.models.results.MetadataExifExif import MetadataExifExif
-from imagekitio.models.results.MetadataExifGPS import MetadataExifGPS
-from imagekitio.models.results.MetadataExifInteroperability import MetadataExifInteroperability
-from imagekitio.models.results.MetadataExifThumbnail import MetadataExifThumbnail
-from imagekitio.models.results.MetadataExif import MetadataExif
-from imagekitio.models.results.MetadataExifImage import MetadataExifImage
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from .MetadataExifExif import MetadataExifExif
+from .MetadataExifGPS import MetadataExifGPS
+from .MetadataExifInteroperability import MetadataExifInteroperability
+from .MetadataExifThumbnail import MetadataExifThumbnail
+from .MetadataExif import MetadataExif
+from .MetadataExifImage import MetadataExifImage
+from .ResponseMetadata import ResponseMetadata
 
 
 class GetMetadataResult:

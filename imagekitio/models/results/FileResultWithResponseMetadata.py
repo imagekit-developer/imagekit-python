@@ -1,9 +1,9 @@
 from typing import List
 
-from imagekitio.models.results.AITags import AITags
-from imagekitio.models.results.FileResult import FileResult
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
-from imagekitio.models.results.VersionInfo import VersionInfo
+from .AITags import AITags
+from .FileResult import FileResult
+from .ResponseMetadata import ResponseMetadata
+from .VersionInfo import VersionInfo
 
 
 class FileResultWithResponseMetadata(FileResult):

@@ -1,6 +1,6 @@
-from imagekitio.models.results.CustomMetadataFieldsResult import CustomMetadataFieldsResult
-from imagekitio.models.results.CustomMetadataSchema import CustomMetadataSchema
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from .CustomMetadataFieldsResult import CustomMetadataFieldsResult
+from .CustomMetadataSchema import CustomMetadataSchema
+from .ResponseMetadata import ResponseMetadata
 
 
 class CustomMetadataFieldsResultWithResponseMetadata(CustomMetadataFieldsResult):
