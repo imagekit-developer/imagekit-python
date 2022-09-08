@@ -1,8 +1,8 @@
-from imagekitio.models.results.MetadataExifExif import MetadataExifExif
-from imagekitio.models.results.MetadataExifGPS import MetadataExifGPS
-from imagekitio.models.results.MetadataExifInteroperability import MetadataExifInteroperability
-from imagekitio.models.results.MetadataExifThumbnail import MetadataExifThumbnail
-from imagekitio.models.results.MetadataExifImage import MetadataExifImage
+from .MetadataExifExif import MetadataExifExif
+from .MetadataExifGPS import MetadataExifGPS
+from .MetadataExifInteroperability import MetadataExifInteroperability
+from .MetadataExifThumbnail import MetadataExifThumbnail
+from .MetadataExifImage import MetadataExifImage
 
 
 class MetadataExif:

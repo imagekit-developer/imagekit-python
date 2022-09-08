@@ -1,17 +1,17 @@
 from json import loads, dumps
 from requests.models import Response
 
-from imagekitio.exceptions.BadRequestException import BadRequestException
-from imagekitio.exceptions.ForbiddenException import ForbiddenException
-from imagekitio.exceptions.InternalServerException import InternalServerException
-from imagekitio.exceptions.NotFoundException import NotFoundException
-from imagekitio.exceptions.PartialSuccessException import PartialSuccessException
-from imagekitio.exceptions.TooManyRequestsException import TooManyRequestsException
-from imagekitio.exceptions.UnauthorizedException import UnauthorizedException
-from imagekitio.exceptions.UnknownException import UnknownException
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
-from imagekitio.models.results.ResponseMetadataResult import ResponseMetadataResult
-from imagekitio.utils.formatter import camel_dict_to_snake_dict
+from ..exceptions.BadRequestException import BadRequestException
+from ..exceptions.ForbiddenException import ForbiddenException
+from ..exceptions.InternalServerException import InternalServerException
+from ..exceptions.NotFoundException import NotFoundException
+from ..exceptions.PartialSuccessException import PartialSuccessException
+from ..exceptions.TooManyRequestsException import TooManyRequestsException
+from ..exceptions.UnauthorizedException import UnauthorizedException
+from ..exceptions.UnknownException import UnknownException
+from ..models.results.ResponseMetadata import ResponseMetadata
+from ..models.results.ResponseMetadataResult import ResponseMetadataResult
+from ..utils.formatter import camel_dict_to_snake_dict
 
 try:
     from simplejson.errors import JSONDecodeError

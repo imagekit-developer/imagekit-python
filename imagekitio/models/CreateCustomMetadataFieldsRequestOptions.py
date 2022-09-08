@@ -1,4 +1,4 @@
-from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
+from ..models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
 
 
 class CreateCustomMetadataFieldsRequestOptions:
