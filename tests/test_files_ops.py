@@ -1371,20 +1371,20 @@ class TestUpdateFileDetails(ClientTestCase):
                 ),
             )
 
-            request_body = {
-                "removeAITags": ["ai-tag1", "ai-tag2"],
-                "webhookUrl": "url",
-                "extensions": [
-                    {
-                        "name": "remove-bg",
-                        "options": {"add_shadow": True, "bg_color": "red"},
-                    },
-                    {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10},
-                ],
-                "tags": ["tag1", "tag2"],
-                "customCoordinates": "10,10,100,100",
-                "customMetadata": {"test": 11},
-            }
+            # request_body = {
+            #     "removeAITags": ["ai-tag1", "ai-tag2"],
+            #     "webhookUrl": "url",
+            #     "extensions": [
+            #         {
+            #             "name": "remove-bg",
+            #             "options": {"add_shadow": True, "bg_color": "red"},
+            #         },
+            #         {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10},
+            #     ],
+            #     "tags": ["tag1", "tag2"],
+            #     "customCoordinates": "10,10,100,100",
+            #     "customMetadata": {"test": 11},
+            # }
             self.client.update_file_details(
                 file_id=self.file_id,
                 options=UpdateFileRequestOptions(
