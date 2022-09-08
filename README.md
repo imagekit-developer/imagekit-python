@@ -106,7 +106,7 @@ imagekit_url = imagekit.url({
 Sample Result URL -
 
 ```
-https://ik.imagekit.io/your_imagekit_id/endpoint/tr:h-300,w-400,raw-ar-4-3,q-40/default-image.jpg
+https://ik.imagekit.io/your_imagekit_id/endpoint/tr:h-300,w-400,ar-4-3,q-40/default-image.jpg
 ```
 
 **2. Using full image URL**
@@ -128,7 +128,7 @@ image_url = imagekit.url({
 Sample Result URL -
 
 ```
-https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cw-400%2Craw-ar-4-3%2Cq-40
+https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cw-400%2Car-4-3%2Cq-40
 ```
 
 The ```.url()``` method accepts the following parameters.

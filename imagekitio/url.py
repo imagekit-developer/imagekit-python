@@ -182,7 +182,6 @@ class Url:
                 transform_key = SUPPORTED_TRANS.get(key, "")
                 if not transform_key:
                     transform_key = key
-
                 if transformation[i][key] == "-":
                     parsed_transform_step.append(transform_key)
                 else:
@@ -192,13 +191,17 @@ class Url:
                     if transform_key == "oi" or transform_key == "di":
                         value = value.strip("/")
                         value = value.replace("/", "@@")
-                    parsed_transform_step.append(
-                        "{}{}{}".format(
-                            transform_key,
-                            Default.TRANSFORM_KEY_VALUE_DELIMITER.value,
-                            value,
+                    if transform_key == 'raw':
+                        for i in value.split(","):
+                            parsed_transform_step.append(i)
+                    else:
+                        parsed_transform_step.append(
+                            "{}{}{}".format(
+                                transform_key,
+                                Default.TRANSFORM_KEY_VALUE_DELIMITER.value,
+                                value,
+                            )
                         )
-                    )
 
             parsed_transforms.append(
                 Default.TRANSFORM_DELIMITER.value.join(parsed_transform_step)

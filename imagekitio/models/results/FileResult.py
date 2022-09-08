@@ -39,8 +39,6 @@ class FileResult:
         if ai_tags is not None:
             for i in ai_tags:
                 self.ai_tags.append(AITags(i["name"], i["confidence"], i["source"]))
-        else:
-            self.ai_tags.append(AITags(None, None, None))
         self.version_info = VersionInfo(version_info["id"], version_info["name"])
         self.embedded_metadata = embedded_metadata
         self.custom_coordinates = custom_coordinates
