@@ -79,4 +79,4 @@ class ERRORS(enum.Enum):
         "help": "",
     }
     MISSING_CUSTOM_METADATA_FIELD_ID = {
-        "message": "Missing custom_metadata_field_identifier for update_custom_metadata_fields", "help": ""}
+        "message": "Missing field_id for update_custom_metadata_fields", "help": ""}

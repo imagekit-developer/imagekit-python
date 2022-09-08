@@ -109,12 +109,12 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def details(self, file_identifier: str = None) -> FileResultWithResponseMetadata:
+    def details(self, file_id: str = None) -> FileResultWithResponseMetadata:
         """returns file detail
         """
-        if not file_identifier:
+        if not file_id:
             raise TypeError(ERRORS.FILE_ID_MISSING.value)
-        url = "{}/v1/files/{}/details".format(URL.API_BASE_URL, file_identifier)
+        url = "{}/v1/files/{}/details".format(URL.API_BASE_URL, file_id)
         resp = self.request.request(
             method="GET", url=url, headers=self.request.create_headers(),
         )
@@ -124,12 +124,12 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def get_file_versions(self, file_identifier: str = None) -> ListFileResult:
+    def get_file_versions(self, file_id: str = None) -> ListFileResult:
         """returns file versions
         """
-        if not file_identifier:
+        if not file_id:
             raise TypeError(ERRORS.FILE_ID_MISSING.value)
-        url = "{}/v1/files/{}/versions".format(URL.API_BASE_URL, file_identifier)
+        url = "{}/v1/files/{}/versions".format(URL.API_BASE_URL, file_id)
         resp = self.request.request(
             method="GET", url=url, headers=self.request.create_headers(),
         )
@@ -145,15 +145,15 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def get_file_version_details(self, file_identifier: str = None,
-                                 version_identifier: str = None) -> FileResultWithResponseMetadata:
+    def get_file_version_details(self, file_id: str = None,
+                                 version_id: str = None) -> FileResultWithResponseMetadata:
         """returns file version detail
         """
-        if not file_identifier:
+        if not file_id:
             raise TypeError(ERRORS.FILE_ID_MISSING.value)
-        if not version_identifier:
+        if not version_id:
             raise TypeError(ERRORS.VERSION_ID_MISSING.value)
-        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, file_identifier, version_identifier)
+        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, file_id, version_id)
         resp = self.request.request(
             method="GET", url=url, headers=self.request.create_headers(),
         )
@@ -613,13 +613,13 @@ class File(object):
             response_help = response['help'] if type(response) == dict else ""
             raise UnknownException(error_message, response_help, response_meta_data)
 
-    def update_custom_metadata_fields(self, custom_metadata_field_identifier,
+    def update_custom_metadata_fields(self, field_id,
                                       options: UpdateCustomMetadataFieldsRequestOptions = None) -> CustomMetadataFieldsResultWithResponseMetadata:
         """updates custom metadata fields by passing id of custom metadata field and params as an options
         """
-        if not custom_metadata_field_identifier:
+        if not field_id:
             raise ValueError(ERRORS.MISSING_CUSTOM_METADATA_FIELD_ID)
-        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, custom_metadata_field_identifier)
+        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, field_id)
         if 'schema' in options.__dict__:
             options.schema.__dict__ = request_formatter(options.schema.__dict__)
         options_dict = options.__dict__
@@ -646,10 +646,10 @@ class File(object):
             else:
                 raise UnknownException(error_message, response_help, response_meta_data)
 
-    def delete_custom_metadata_field(self, custom_metadata_field_identifier: str) -> ResponseMetadataResult:
-        """Deletes custom metadata fields by passing custom_metadata_field_identifier
+    def delete_custom_metadata_field(self, field_id: str) -> ResponseMetadataResult:
+        """Deletes custom metadata fields by passing field_id
         """
-        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, custom_metadata_field_identifier)
+        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, field_id)
         resp = self.request.request(
             "Delete", url, headers=self.request.create_headers()
         )

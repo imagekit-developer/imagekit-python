@@ -21,7 +21,7 @@ class TestCustomMetadataFields(ClientTestCase):
     TestCustomMetadataFields class used to test CRUD methods of custom metadata fields
     """
 
-    custom_metadata_field_identifier = "fake_custom_metadata_field_id"
+    field_id = "fake_custom_metadata_field_id"
 
     @responses.activate
     def test_get_custom_metadata_fields_fails_on_unauthenticated_request(self):
@@ -122,7 +122,7 @@ class TestCustomMetadataFields(ClientTestCase):
         Tests if delete_custom_metadata_fields succeeds
         """
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.custom_metadata_field_identifier)
+        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.field_id)
         headers = create_headers_for_test()
         responses.add(
             responses.DELETE,
@@ -131,7 +131,7 @@ class TestCustomMetadataFields(ClientTestCase):
             headers=headers,
             body=json.dumps({})
         )
-        resp = self.client.delete_custom_metadata_field(self.custom_metadata_field_identifier)
+        resp = self.client.delete_custom_metadata_field(self.field_id)
 
         mock_response_metadata = {
             'raw': None,
@@ -152,7 +152,7 @@ class TestCustomMetadataFields(ClientTestCase):
         Tests if delete_custom_metadata_fields succeeds
         """
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.custom_metadata_field_identifier)
+        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.field_id)
         try:
             headers = create_headers_for_test()
             responses.add(
@@ -163,7 +163,7 @@ class TestCustomMetadataFields(ClientTestCase):
                 body=json.dumps({"message": "No such custom metadata field exists",
                                  "help": "For support kindly contact us at support@imagekit.io ."})
             )
-            self.client.delete_custom_metadata_field(self.custom_metadata_field_identifier)
+            self.client.delete_custom_metadata_field(self.field_id)
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("No such custom metadata field exists", e.message)
@@ -643,7 +643,7 @@ class TestCustomMetadataFields(ClientTestCase):
         Tests if update_custom_metadata_fields succeeds
         """
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.custom_metadata_field_identifier)
+        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.field_id)
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
         responses.add(
@@ -662,7 +662,7 @@ class TestCustomMetadataFields(ClientTestCase):
             })
         )
 
-        resp = self.client.update_custom_metadata_fields(self.custom_metadata_field_identifier,
+        resp = self.client.update_custom_metadata_fields(self.field_id,
                                                          options=UpdateCustomMetadataFieldsRequestOptions(
                                                              label="test-update",
                                                              schema=CustomMetadataFieldsSchema(min_value=100,
@@ -708,7 +708,7 @@ class TestCustomMetadataFields(ClientTestCase):
         Tests if update_custom_metadata_fields fails with 404
         """
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.custom_metadata_field_identifier)
+        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.field_id)
         try:
             responses.add(
                 responses.PATCH,
@@ -720,7 +720,7 @@ class TestCustomMetadataFields(ClientTestCase):
                 })
             )
 
-            self.client.update_custom_metadata_fields(self.custom_metadata_field_identifier,
+            self.client.update_custom_metadata_fields(self.field_id,
                                                       options=UpdateCustomMetadataFieldsRequestOptions(
                                                           label="test-update",
                                                           schema=CustomMetadataFieldsSchema(min_value=100,
@@ -737,7 +737,7 @@ class TestCustomMetadataFields(ClientTestCase):
         Tests if update_custom_metadata_fields fails with 400
         """
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.custom_metadata_field_identifier)
+        url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.field_id)
         try:
             responses.add(
                 responses.PATCH,
@@ -749,7 +749,7 @@ class TestCustomMetadataFields(ClientTestCase):
                 })
             )
 
-            self.client.update_custom_metadata_fields(self.custom_metadata_field_identifier,
+            self.client.update_custom_metadata_fields(self.field_id,
                                                       options=UpdateCustomMetadataFieldsRequestOptions(
                                                           label="test-update",
                                                           schema=CustomMetadataFieldsSchema(min_value=100,
