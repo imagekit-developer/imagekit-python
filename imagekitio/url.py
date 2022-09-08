@@ -9,7 +9,7 @@ from imagekitio.constants.defaults import Default
 from imagekitio.constants.supported_transform import SUPPORTED_TRANS
 from imagekitio.utils.formatter import camel_dict_to_snake_dict, flatten_dict
 
-from .constants import ERRORS
+from .constants.errors import ERRORS
 
 
 class Url:

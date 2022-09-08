@@ -1,14 +1,34 @@
 from typing import List
-from imagekitio.models.results.AITags import AITags
-from imagekitio.models.results.VersionInfo import VersionInfo
+from .AITags import AITags
+from .VersionInfo import VersionInfo
 
 
 class FileResult:
-
-    def __init__(self, type, name, created_at, updated_at, file_id, tags, ai_tags: List[AITags] = AITags(None, None, None), version_info: VersionInfo = VersionInfo(None, None), embedded_metadata=None,
-                 custom_coordinates: str = '', custom_metadata=None, is_private_file = False, url: str = '', thumbnail: str = '', file_type: str = '', file_path: str = '',
-                 height: int = None, width: int = None, size: int = None, has_alpha=False, mime: str = None,
-                 extension_status=None):
+    def __init__(
+        self,
+        type,
+        name,
+        created_at,
+        updated_at,
+        file_id,
+        tags,
+        ai_tags: List[AITags] = AITags(None, None, None),
+        version_info: VersionInfo = VersionInfo(None, None),
+        embedded_metadata=None,
+        custom_coordinates: str = "",
+        custom_metadata=None,
+        is_private_file=False,
+        url: str = "",
+        thumbnail: str = "",
+        file_type: str = "",
+        file_path: str = "",
+        height: int = None,
+        width: int = None,
+        size: int = None,
+        has_alpha=False,
+        mime: str = None,
+        extension_status=None,
+    ):
         if extension_status is None:
             extension_status = {}
         if embedded_metadata is None:
@@ -24,10 +44,10 @@ class FileResult:
         self.ai_tags: List[AITags] = []
         if ai_tags is not None:
             for i in ai_tags:
-                self.ai_tags.append(AITags(i['name'], i['confidence'], i['source']))
+                self.ai_tags.append(AITags(i["name"], i["confidence"], i["source"]))
         else:
             self.ai_tags.append(AITags(None, None, None))
-        self.version_info = VersionInfo(version_info['id'], version_info['name'])
+        self.version_info = VersionInfo(version_info["id"], version_info["name"])
         self.embedded_metadata = embedded_metadata
         self.custom_coordinates = custom_coordinates
         self.custom_metadata = custom_metadata
