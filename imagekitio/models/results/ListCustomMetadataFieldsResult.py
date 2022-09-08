@@ -1,7 +1,7 @@
 from typing import List
 
-from imagekitio.models.results.CustomMetadataFieldsResult import CustomMetadataFieldsResult
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from .CustomMetadataFieldsResult import CustomMetadataFieldsResult
+from .ResponseMetadata import ResponseMetadata
 
 
 class ListCustomMetadataFieldsResult:

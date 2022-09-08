@@ -5,9 +5,9 @@ from datetime import datetime as dt
 from typing import Any, Dict, List
 from urllib.parse import ParseResult, urlparse, urlunparse, parse_qsl, urlencode
 
-from imagekitio.constants.defaults import Default
-from imagekitio.constants.supported_transform import SUPPORTED_TRANS
-from imagekitio.utils.formatter import camel_dict_to_snake_dict, flatten_dict
+from .constants.defaults import Default
+from .constants.supported_transform import SUPPORTED_TRANS
+from .utils.formatter import camel_dict_to_snake_dict, flatten_dict
 
 from .constants.errors import ERRORS
 

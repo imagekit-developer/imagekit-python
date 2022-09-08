@@ -1,4 +1,4 @@
-from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
+from ..models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
 
 
 class CustomMetadataFieldsSchema:

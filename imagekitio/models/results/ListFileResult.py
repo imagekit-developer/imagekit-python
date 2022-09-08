@@ -1,6 +1,6 @@
 from typing import List
-from imagekitio.models.results.FileResult import FileResult
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from .FileResult import FileResult
+from .ResponseMetadata import ResponseMetadata
 
 
 class ListFileResult:
