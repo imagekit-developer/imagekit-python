@@ -59,7 +59,6 @@ class ERRORS(enum.Enum):
         "message": "Missing fileName parameter for upload",
         "help": "",
     }
-
     INVALID_PHASH_VALUE = (
         {
             "message": "Invalid pHash value",

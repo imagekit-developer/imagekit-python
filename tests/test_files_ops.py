@@ -208,7 +208,6 @@ class TestUpload(ClientTestCase):
                 "isPrivateFile": True,
                 "extensionStatus": {
                     "remove-bg": "pending",
-                    "google-auto-tagging": "success",
                 },
             },
             "httpStatusCode": 200,
