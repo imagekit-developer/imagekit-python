@@ -13,7 +13,6 @@ from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.exceptions.UnknownException import UnknownException
 from imagekitio.models.CopyFileRequestOptions import CopyFileRequestOptions
 from imagekitio.models.MoveFileRequestOptions import MoveFileRequestOptions
-from imagekitio.models.RenameFileRequestOptions import RenameFileRequestOptions
 from imagekitio.models.UpdateFileRequestOptions import UpdateFileRequestOptions
 from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
@@ -214,13 +213,11 @@ class TestUpload(ClientTestCase):
                 responses.POST,
                 url,
                 status=400,
-                body=json.dumps(
-                    {
+                body='''{
                         "message": "A file with the same name already exists at the exact location. We "
                         "could not overwrite it because both overwriteFile and "
                         "useUniqueFileName are set to false."
-                    }
-                ),
+                    }'''
             )
             self.client.upload_file(
                 file=self.image,
@@ -1970,7 +1967,7 @@ class TestRenameFile(ClientTestCase):
             "filePath": "/file_path.jpg",
             "newFileName": "new_file.jpg",
             "purgeCache": true
-        }"""
+            }"""
         )
 
         self.assertEqual(request_body, responses.calls[0].request.body)
@@ -2081,9 +2078,9 @@ class TestRestoreFileVersion(ClientTestCase):
                 "url": "https://ik.imagekit.io/your_imagekit_id/images/products/file1.jpg",
                 "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-media_library_thumbnail/images/products/file1.jpg",
                 "fileType": "image",
-                "hasAlpha": False,
+                "hasAlpha": false,
                 "height": 100,
-                "isPrivateFile": False,
+                "isPrivateFile": false,
                 "mime": "image/jpeg",
                 "name": "file1.jpg",
                 "size": 100,
@@ -2099,40 +2096,42 @@ class TestRestoreFileVersion(ClientTestCase):
         resp = self.client.restore_file_version(self.file_id, self.version_id)
 
         mock_response_metadata = {
-            "headers": {
-                "Content-Type": "text/plain, application/json",
-                "Accept-Encoding": "gzip, deflate",
-                "Authorization": "Basic ZmFrZTEyMjo=",
+            'headers': {
+                'Content-Type': 'text/plain, application/json',
+                'Accept-Encoding': 'gzip, deflate',
+                'Authorization': 'Basic ZmFrZTEyMjo='
             },
-            "httpStatusCode": 200,
-            "raw": {
-                "AITags": [
-                    {
-                        "confidence": 90.12,
-                        "name": "Shirt",
-                        "source": "google-auto-tagging",
-                    }
-                ],
-                "createdAt": "2019-08-24T06:14:41.313Z",
-                "customCoordinates": "",
-                "customMetadata": {"brand": "Nike", "color": "red"},
-                "fileId": "fileId",
-                "filePath": "/images/file.jpg",
-                "fileType": "image",
-                "hasAlpha": False,
-                "height": 100,
-                "isPrivateFile": False,
-                "mime": "image/jpeg",
-                "name": "file1.jpg",
-                "size": 100,
-                "tags": ["t-shirt", "round-neck", "sale2019"],
-                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-media_library_thumbnail/images/products/file1.jpg",
-                "type": "file",
-                "updatedAt": "2019-09-24T06:14:41.313Z",
-                "url": "https://ik.imagekit.io/your_imagekit_id/images/products/file1.jpg",
-                "versionInfo": {"id": "versionId", "name": "Version " "2"},
-                "width": 100,
-            },
+            'http_status_code': 200,
+            'raw': {
+                'AITags': [{
+                    'confidence': 90.12,
+                    'source': 'google-auto-tagging'
+                }],
+                'createdAt': '2019-08-24T06:14:41.313Z',
+                'customCoordinates': '',
+                'customMetadata': {
+                    'brand': 'Nike',
+                    'color': 'red'
+                },
+                'fileId': 'fileId',
+                'filePath': '/images/file.jpg',
+                'fileType': 'image',
+                'hasAlpha': False,
+                'height': 100,
+                'isPrivateFile': False,
+                'mime': 'image/jpeg',
+                'name': 'file1.jpg',
+                'size': 100,
+                'tags': ['t-shirt', 'round-neck', 'sale2019'],
+                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-media_library_thumbnail/images/products/file1.jpg',
+                'type': 'file',
+                'updatedAt': '2019-09-24T06:14:41.313Z',
+                'url': 'https://ik.imagekit.io/your_imagekit_id/images/products/file1.jpg',
+                'versionInfo': {
+                    'id': 'versionId',
+                    'name': 'Version 2'
+                }
+            }
         }
 
         self.assertEqual(
