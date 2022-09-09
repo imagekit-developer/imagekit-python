@@ -1,8 +1,7 @@
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from .ResponseMetadata import ResponseMetadata
 
 
 class PurgeCacheResult:
-
     def __init__(self, request_id):
         self.request_id = request_id
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")

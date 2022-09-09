@@ -1,11 +1,35 @@
 class MetadataExifExif:
-
-    def __init__(self, exposure_time, f_number, exposure_program, iso, exif_version, date_time_original, create_date,
-                 shutter_speed_value, aperture_value, exposure_compensation, metering_mode, flash, focal_length,
-                 sub_sec_time, sub_sec_time_original, sub_sec_time_digitized, flashpix_version, color_space,
-                 exif_image_width, exif_image_height, interop_offset, focal_plane_x_resolution,
-                 focal_plane_y_resolution, focal_plane_resolution_unit, custom_rendered, exposure_mode, white_balance,
-                 scene_capture_type):
+    def __init__(
+        self,
+        exposure_time,
+        f_number,
+        exposure_program,
+        iso,
+        exif_version,
+        date_time_original,
+        create_date,
+        shutter_speed_value,
+        aperture_value,
+        exposure_compensation,
+        metering_mode,
+        flash,
+        focal_length,
+        sub_sec_time,
+        sub_sec_time_original,
+        sub_sec_time_digitized,
+        flashpix_version,
+        color_space,
+        exif_image_width,
+        exif_image_height,
+        interop_offset,
+        focal_plane_x_resolution,
+        focal_plane_y_resolution,
+        focal_plane_resolution_unit,
+        custom_rendered,
+        exposure_mode,
+        white_balance,
+        scene_capture_type,
+    ):
         self.exposure_time = exposure_time
         self.f_number = f_number
         self.exposure_program = exposure_program

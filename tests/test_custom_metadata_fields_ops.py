@@ -23,6 +23,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
     field_id = "field_id"
 
+
     @responses.activate
     def test_get_custom_metadata_fields_fails_on_unauthenticated_request(self):
         """

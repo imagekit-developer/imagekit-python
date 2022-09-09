@@ -3,14 +3,22 @@ from typing import List
 
 
 class UploadFileRequestOptions:
-
-    def __init__(self, use_unique_file_name: bool = None, tags: List[str] = None, folder: str = None,
-                 is_private_file: bool = None,
-                 custom_coordinates: str = None, response_fields: List[str] = None,
-                 extensions: json = None, webhook_url: str = None, overwrite_file: bool = None,
-                 overwrite_a_i_tags: bool = None,
-                 overwrite_tags: bool = None, overwrite_custom_metadata: bool = None,
-                 custom_metadata: json = None):
+    def __init__(
+        self,
+        use_unique_file_name: bool = None,
+        tags: List[str] = None,
+        folder: str = None,
+        is_private_file: bool = None,
+        custom_coordinates: str = None,
+        response_fields: List[str] = None,
+        extensions: json = None,
+        webhook_url: str = None,
+        overwrite_file: bool = None,
+        overwrite_a_i_tags: bool = None,
+        overwrite_tags: bool = None,
+        overwrite_custom_metadata: bool = None,
+        custom_metadata: json = None,
+    ):
         if use_unique_file_name is not None:
             self.use_unique_file_name = use_unique_file_name
         if tags is not None:

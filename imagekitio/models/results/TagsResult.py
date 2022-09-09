@@ -1,8 +1,7 @@
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from .ResponseMetadata import ResponseMetadata
 
 
 class TagsResult:
-
     def __init__(self, successfully_updated_file_ids):
         self.successfully_updated_file_ids = successfully_updated_file_ids
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")

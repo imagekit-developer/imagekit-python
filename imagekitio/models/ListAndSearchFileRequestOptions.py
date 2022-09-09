@@ -1,7 +1,15 @@
 class ListAndSearchFileRequestOptions:
-
-    def __init__(self, type: str = None, sort: str = None, path: str = None, search_query: str = None,
-                 file_type: str = None, limit: int = None, skip: int = None, tags: str = None):
+    def __init__(
+        self,
+        type: str = None,
+        sort: str = None,
+        path: str = None,
+        search_query: str = None,
+        file_type: str = None,
+        limit: int = None,
+        skip: int = None,
+        tags: str = None,
+    ):
         if type is not None:
             self.type = type
         if sort is not None:

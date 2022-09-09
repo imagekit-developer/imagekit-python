@@ -1,8 +1,7 @@
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from .ResponseMetadata import ResponseMetadata
 
 
 class ResponseMetadataResult:
-
     def __init__(self):
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")
 

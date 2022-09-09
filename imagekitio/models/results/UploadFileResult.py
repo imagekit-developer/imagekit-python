@@ -1,19 +1,32 @@
 from typing import List
 
-from imagekitio.models.results.AITags import AITags
-from imagekitio.models.results.EmbeddedMetadata import EmbeddedMetadata
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
-from imagekitio.models.results.VersionInfo import VersionInfo
+from .AITags import AITags
+from .EmbeddedMetadata import EmbeddedMetadata
+from .ResponseMetadata import ResponseMetadata
+from .VersionInfo import VersionInfo
 
 
 class UploadFileResult:
-
-    def __init__(self, file_id, name, url, thumbnail_url: str = None, height: int = None, width: int = None,
-                 size: int = None, file_path: str = None, tags: {} = None,
-                 ai_tags: List[AITags] = AITags(None, None, None), version_info: VersionInfo = VersionInfo(None, None),
-                 is_private_file=False, custom_coordinates: {} = None, custom_metadata: {} = None,
-                 embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(None, None, None, None),
-                 extension_status: {} = None, file_type: str = None):
+    def __init__(
+        self,
+        file_id,
+        name,
+        url,
+        thumbnail_url: str = None,
+        height: int = None,
+        width: int = None,
+        size: int = None,
+        file_path: str = None,
+        tags: dict = None,
+        ai_tags: List[AITags] = AITags(None, None, None),
+        version_info: VersionInfo = VersionInfo(None, None),
+        is_private_file=False,
+        custom_coordinates: dict = None,
+        custom_metadata: dict = None,
+        embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(None, None, None, None),
+        extension_status: dict = None,
+        file_type: str = None,
+    ):
         self.file_id = file_id
         self.name = name
         self.url = url
@@ -26,10 +39,10 @@ class UploadFileResult:
         self.ai_tags: List[AITags] = []
         if ai_tags is not None:
             for i in ai_tags:
-                self.ai_tags.append(AITags(i['name'], i['confidence'], i['source']))
+                self.ai_tags.append(AITags(i["name"], i["confidence"], i["source"]))
         else:
             self.ai_tags.append(AITags(None, None, None))
-        self.version_info = VersionInfo(version_info['id'], version_info['name'])
+        self.version_info = VersionInfo(version_info["id"], version_info["name"])
         self.is_private_file = is_private_file
         self.custom_coordinates = custom_coordinates
         self.custom_metadata = custom_metadata
@@ -39,10 +52,12 @@ class UploadFileResult:
             if type(embedded_metadata) == EmbeddedMetadata:
                 self.embedded_metadata = embedded_metadata
             else:
-                self.embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(embedded_metadata['XResolution'],
-                                                                            embedded_metadata['YResolution'],
-                                                                            embedded_metadata['YResolution'],
-                                                                            embedded_metadata['DateTimeCreated'])
+                self.embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(
+                    embedded_metadata["x_resolution"],
+                    embedded_metadata["y_resolution"],
+                    embedded_metadata["date_created"],
+                    embedded_metadata["date_timecreated"],
+                )
         self.extension_status = extension_status
         self.file_type = file_type
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")

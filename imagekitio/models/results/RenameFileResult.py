@@ -1,8 +1,7 @@
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from .ResponseMetadata import ResponseMetadata
 
 
 class RenameFileResult:
-
     def __init__(self, purge_request_id: str = None):
         self.purge_request_id = purge_request_id
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")
