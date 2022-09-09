@@ -1,5 +1,4 @@
 import base64
-import json
 import os
 
 import responses
@@ -20,7 +19,7 @@ from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
 from tests.helpers import (
     ClientTestCase,
-    create_headers_for_test, get_auth_headers_for_test,
+    create_headers_for_test, get_auth_headers_for_test, make_string_to_single_line,
 )
 
 imagekit_obj = ImageKit(
@@ -54,8 +53,8 @@ class TestUpload(ClientTestCase):
                 responses.POST,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body='''{"message": "Your account cannot be authenticated."
+                                    , "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
             self.client.upload_file(file=self.image, file_name=self.filename,
                                     options=UploadFileRequestOptions(use_unique_file_name=False, tags=["abc", "def"],
@@ -93,37 +92,42 @@ class TestUpload(ClientTestCase):
         responses.add(
             responses.POST,
             url,
-            body=json.dumps({
-                "fileId": "fake_file_id1234",
-                "name": "file_name.jpg",
-                "size": 102117,
-                "versionInfo": {
-                    "id": "62d670648cdb697522602b45",
-                    "name": "Version 11"
-                },
-                "filePath": "/testing-python-folder/file_name.jpg",
-                "url": "https://ik.imagekit.io/your_imagekit_id/testing-python-folder/file_name.jpg",
-                "fileType": "image",
-                "height": 700,
-                "width": 1050,
-                "thumbnailUrl": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/testing-python-folder"
-                                "/file_name.jpg",
-                "tags": ["abc", "def"],
-                "AITags": [{
-                    "name": "Computer",
-                    "confidence": 97.66,
-                    "source": "google-auto-tagging"
-                }, {
-                    "name": "Personal computer",
-                    "confidence": 94.96,
-                    "source": "google-auto-tagging"
-                }],
-                "isPrivateFile": True,
-                "extensionStatus": {
-                    "remove-bg": "pending",
-                    "google-auto-tagging": "success"
-                }
-            }),
+            body='''{
+                        "fileId": "fake_file_id1234",
+                        "name": "file_name.jpg",
+                        "size": 102117,
+                        "versionInfo": {
+                            "id": "62d670648cdb697522602b45",
+                            "name": "Version 11"
+                        },
+                        "filePath": "/testing-python-folder/file_name.jpg",
+                        "url": "https://ik.imagekit.io/your_imagekit_id/testing-python-folder/file_name.jpg",
+                        "fileType": "image",
+                        "height": 700,
+                        "width": 1050,
+                        "thumbnailUrl": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/testing-python-folder/file_name.jpg",
+                        "tags": [
+                            "abc",
+                            "def"
+                        ],
+                        "AITags": [
+                            {
+                                "name": "Computer",
+                                "confidence": 97.66,
+                                "source": "google-auto-tagging"
+                            },
+                            {
+                                "name": "Personal computer",
+                                "confidence": 94.96,
+                                "source": "google-auto-tagging"
+                            }
+                        ],
+                        "isPrivateFile": true,
+                        "extensionStatus": {
+                            "remove-bg": "pending",
+                            "google-auto-tagging": "success"
+                        }
+                    }''',
             headers=headers
         )
 
@@ -185,23 +189,22 @@ class TestUpload(ClientTestCase):
                 'Authorization': 'Basic ZmFrZTEyMjo='
             }
         }
-        request_body = json.loads(json.dumps({
-            'file': "<_io.BufferedReader name='sample.jpg'>",
-            'fileName': 'file_name.jpg',
-            'useUniqueFileName': 'false',
-            'responseFields': 'isPrivateFile,tags',
-            'isPrivateFile': 'true',
-            'folder': '/testing-python-folder/',
-            'tags': 'abc,def',
-            'extensions': '[{"name": "remove-bg", "options": {"add_shadow": true, "bg_color": "pink"}}, {"name": '
-                          '"google-auto-tagging", "minConfidence": 80, "maxTags": 10}]',
-            'webhookUrl': 'url',
-            'overwriteFile': 'true',
-            'overwriteAITags': 'false',
-            'overwriteTags': 'false',
-            'overwriteCustomMetadata': 'true',
-            'customMetadata': '{"test100": 11}'
-        }))
+        request_body = make_string_to_single_line('''{'customMetadata': '{"test100": 11}',
+ 'extensions': '[{"name": "remove-bg", "options": {"add_shadow": true, '
+               '"bg_color": "pink"}}, {"name": "google-auto-tagging", '
+               '"minConfidence": 80, "maxTags": 10}]',
+ 'file': "<_io.BufferedReader name='sample.jpg'>",
+ 'fileName': 'file_name.jpg',
+ 'folder': '/testing-python-folder/',
+ 'isPrivateFile': 'true',
+ 'overwriteAITags': 'false',
+ 'overwriteCustomMetadata': 'true',
+ 'overwriteFile': 'true',
+ 'overwriteTags': 'false',
+ 'responseFields': 'isPrivateFile,tags',
+ 'tags': 'abc,def',
+ 'useUniqueFileName': 'false',
+ 'webhookUrl': 'url'}''')
         actual_body = responses.calls[0].request.body.__dict__.__getitem__("fields")
         actual_body['file'] = "<_io.BufferedReader name='sample.jpg'>"
         self.assertEqual(request_body, actual_body)
@@ -237,11 +240,10 @@ class TestUpload(ClientTestCase):
                 responses.POST,
                 url,
                 status=400,
-                body=json.dumps({
-                    'message': 'A file with the same name already exists at the exact location. We '
-                               'could not overwrite it because both overwriteFile and '
-                               'useUniqueFileName are set to false.'
-                }),
+                body='''{
+                    "message": "A file with the same name already exists at the exact location.
+                     We could not overwrite it because both overwriteFile and useUniqueFileName are set to false."
+                }''',
             )
             self.client.upload_file(file=self.image, file_name=self.filename,
                                     options=UploadFileRequestOptions(use_unique_file_name=False, tags=["abc", "def"],
@@ -265,6 +267,7 @@ class TestUpload(ClientTestCase):
                                                                      custom_metadata={"testss": 12}))
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
+            print("e:==>", e)
             self.assertEqual("A file with the same name already exists at the exact location. We could not overwrite "
                              "it because both overwriteFile and useUniqueFileName are set to false.", e.message)
             self.assertEqual(400, e.response_metadata.http_status_code)
@@ -287,13 +290,13 @@ class TestListFiles(ClientTestCase):
                 responses.GET,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.list_files(self.options)
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
-            self.assertEqual(e.message, "Your account cannot be authenticated.")
+            self.assertEqual("Your account cannot be authenticated.", e.message)
             self.assertEqual(403, e.response_metadata.http_status_code)
 
     @responses.activate
@@ -309,14 +312,14 @@ class TestListFiles(ClientTestCase):
         responses.add(
             responses.GET,
             url,
-            body=json.dumps([{
+            body='''[{
                 "type": "file",
                 "name": "sample-cat-image_gr64HPlJS.jpg",
                 "createdAt": "2022-06-15T08:19:00.843Z",
                 "updatedAt": "2022-06-15T08:19:45.169Z",
                 "fileId": "62a995f4d875ec08dc587b72",
                 "tags": ["{Tag_1", " Tag_2", " Tag_3}", "tag-to-add-2"],
-                "AITags": None,
+                "AITags": "",
                 "versionInfo": {
                     "id": "62a995f4d875ec08dc587b72",
                     "name": "Version 1"
@@ -331,7 +334,7 @@ class TestListFiles(ClientTestCase):
                 "customMetadata": {
                     "test100": 10
                 },
-                "isPrivateFile": False,
+                "isPrivateFile": false,
                 "url": "https://ik.imagekit.io/your_imagekit_id/sample-cat-image_gr64HPlJS.jpg",
                 "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/sample-cat-image_gr64HPlJS.jpg",
                 "fileType": "image",
@@ -339,9 +342,9 @@ class TestListFiles(ClientTestCase):
                 "height": 354,
                 "width": 236,
                 "size": 23023,
-                "hasAlpha": False,
+                "hasAlpha": false,
                 "mime": "image/jpeg"
-            }]),
+            }]''',
             headers=headers,
             match=[matchers.query_string_matcher(
                 "type=file&sort=ASC_CREATED&path=%2F&search_query=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&file_type=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3")],
@@ -357,7 +360,7 @@ class TestListFiles(ClientTestCase):
             },
             'httpStatusCode': 200,
             'raw': [{
-                'AITags': None,
+                'AITags': '',
                 'createdAt': '2022-06-15T08:19:00.843Z',
                 'customCoordinates': '10,10,20,20',
                 'customMetadata': {
@@ -411,10 +414,10 @@ class TestListFiles(ClientTestCase):
                 responses.GET,
                 url,
                 status=400,
-                body=json.dumps({"message": "Invalid search query - createdAt field must have a valid date value. Make "
+                body='''{"message": "Invalid search query - createdAt field must have a valid date value. Make "
                                             "sure the value is enclosed within quotes. Please refer to the "
                                             "documentation for syntax specification.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
                 match=[matchers.query_string_matcher(
                     "type=file&sort=ASC_CREATED&path=%2F&search_query=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&file_type=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3")],
             )
@@ -447,8 +450,8 @@ class TestGetFileDetails(ClientTestCase):
                 responses.GET,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.get_file_details(self.file_id)
             self.assertRaises(ForbiddenException)
@@ -465,7 +468,7 @@ class TestGetFileDetails(ClientTestCase):
         responses.add(
             responses.GET,
             url,
-            body=json.dumps({
+            body='''{
                 "type": "file",
                 "name": "new_car.jpg",
                 "createdAt": "2022-06-15T11:34:36.294Z",
@@ -494,7 +497,7 @@ class TestGetFileDetails(ClientTestCase):
                     "test100": 10,
                     "test10": 11
                 },
-                "isPrivateFile": False,
+                "isPrivateFile": false,
                 "url": "https://ik.imagekit.io/your-imagekit-id/new_car.jpg",
                 "thumbnail": "https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg",
                 "fileType": "image",
@@ -502,9 +505,9 @@ class TestGetFileDetails(ClientTestCase):
                 "height": 354,
                 "width": 236,
                 "size": 7390,
-                "hasAlpha": False,
+                "hasAlpha": false,
                 "mime": "image/jpeg"
-            }),
+            }''',
             headers=headers
         )
         resp = self.client.get_file_details(self.file_id)
@@ -577,8 +580,8 @@ class TestGetFileDetails(ClientTestCase):
                 responses.GET,
                 url,
                 status=400,
-                body=json.dumps({"message": "Your request contains invalid fileId parameter.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                body='''{"message": "Your request contains invalid fileId parameter.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
             self.client.get_file_details(self.file_id)
             self.assertRaises(BadRequestException)
@@ -607,8 +610,8 @@ class TestDeleteFile(ClientTestCase):
                 responses.POST,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.bulk_file_delete(self.bulk_delete_ids)
             self.assertRaises(ForbiddenException)
@@ -630,9 +633,7 @@ class TestDeleteFile(ClientTestCase):
         responses.add(
             responses.POST,
             url,
-            body=json.dumps({
-                "successfullyDeletedFileIds": ["fake_123", "fake_222"]
-            }),
+            body='{"successfullyDeletedFileIds": ["fake_123", "fake_222"]}',
             headers=headers
         )
 
@@ -648,7 +649,7 @@ class TestDeleteFile(ClientTestCase):
                 'Authorization': 'Basic ZmFrZTEyMjo='
             }
         }
-        self.assertEqual(json.dumps({"fileIds": ["fake_123", "fake_222"]}), responses.calls[0].request.body)
+        self.assertEqual('{"fileIds": ["fake_123", "fake_222"]}', responses.calls[0].request.body)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual(['fake_123', 'fake_222'], resp.successfully_deleted_file_ids)
         self.assertEqual("http://test.com/v1/files/batch/deleteByFileIds", responses.calls[0].request.url)
@@ -666,11 +667,11 @@ class TestDeleteFile(ClientTestCase):
                 responses.POST,
                 url,
                 status=404,
-                body=json.dumps({
+                body='''{
                     "message": "The requested file(s) does not exist.",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "missingFileIds": ["fake_123", "fake_222"]
-                }),
+                }''',
                 headers=headers
             )
             self.client.bulk_file_delete(self.bulk_delete_ids)
@@ -696,10 +697,10 @@ class TestDeleteFile(ClientTestCase):
                 responses.DELETE,
                 url,
                 status=400,
-                body=json.dumps({
+                body='''{
                     "message": "Your request contains invalid fileId parameter.",
                     "help": "For support kindly contact us at support@imagekit.io ."
-                }),
+                }''',
                 headers=headers
             )
             self.client.delete_file(self.file_id)
@@ -721,7 +722,7 @@ class TestDeleteFile(ClientTestCase):
         responses.add(
             responses.DELETE,
             url,
-            body=json.dumps({}),
+            body="{}",
             status=204,
             headers=headers
         )
@@ -755,8 +756,8 @@ class TestPurgeCache(ClientTestCase):
                 responses.POST,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.purge_file_cache(self.fake_image_url)
             self.assertRaises(ForbiddenException)
@@ -776,7 +777,7 @@ class TestPurgeCache(ClientTestCase):
                 responses.POST,
                 url,
                 status=400,
-                body=json.dumps({"message": "Invalid url"}),
+                body='{"message": "Invalid url"}',
             )
             self.client.purge_file_cache("url")
             self.assertRaises(BadRequestException)
@@ -795,7 +796,7 @@ class TestPurgeCache(ClientTestCase):
             responses.POST,
             url,
             status=201,
-            body=json.dumps({"requestId": "requestId"}),
+            body='{"requestId": "requestId"}',
         )
         resp = self.client.purge_file_cache(self.fake_image_url)
         mock_response_metadata = {
@@ -810,7 +811,7 @@ class TestPurgeCache(ClientTestCase):
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual('requestId', resp.request_id)
         self.assertEqual("http://test.com/v1/files/purge", responses.calls[0].request.url)
-        self.assertEqual(json.dumps({"url": "https://example.com/fakeid/fakeimage.jpg"}),
+        self.assertEqual('{"url": "https://example.com/fakeid/fakeimage.jpg"}',
                          responses.calls[0].request.body)
 
 
@@ -829,8 +830,8 @@ class TestPurgeCacheStatus(ClientTestCase):
                 responses.GET,
                 url,
                 status=400,
-                body=json.dumps({"message": "No request found for this requestId.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                body='''{"message": "No request found for this requestId.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
             self.client.get_purge_file_cache_status(self.cache_request_id)
             self.assertRaises(BadRequestException)
@@ -848,7 +849,7 @@ class TestPurgeCacheStatus(ClientTestCase):
         responses.add(
             responses.GET,
             url,
-            body=json.dumps({"status": "Completed"}),
+            body='''{"status": "Completed"}''',
         )
         resp = self.client.get_purge_file_cache_status(self.cache_request_id)
         mock_response_metadata = {
@@ -882,9 +883,9 @@ class TestGetMetaData(ClientTestCase):
                 responses.GET,
                 url,
                 status=400,
-                body=json.dumps({"message": "Your request contains invalid fileId parameter.",
+                body='''{"message": "Your request contains invalid fileId parameter.",
                                  "help": "For support kindly contact us at support@imagekit.io .",
-                                 "type": "INVALID_PARAM_ERROR"}),
+                                 "type": "INVALID_PARAM_ERROR"}''',
             )
             self.client.get_file_metadata(self.file_id)
             self.assertRaises(BadRequestException)
@@ -903,18 +904,18 @@ class TestGetMetaData(ClientTestCase):
         responses.add(
             responses.GET,
             url,
-            body=json.dumps({
+            body='''{
                 "height": 354,
                 "width": 236,
                 "size": 7390,
                 "format": "jpg",
-                "hasColorProfile": False,
+                "hasColorProfile": false,
                 "quality": 0,
                 "density": 250,
-                "hasTransparency": False,
+                "hasTransparency": false,
                 "exif": {},
                 "pHash": "2e0ed1f12eda9525"
-            }),
+            }''',
         )
         resp = self.client.get_file_metadata(self.file_id)
         mock_response_metadata = {
@@ -950,10 +951,10 @@ class TestGetMetaData(ClientTestCase):
                 responses.GET,
                 url,
                 status=400,
-                body=json.dumps({
+                body='''{
                     "message": "https://example.com/fakeid/fakeimage.jpg should be accessible using your ImageKit.io account.",
                     "help": "For support kindly contact us at support@imagekit.io ."
-                }),
+                }''',
                 match=[matchers.query_string_matcher("url=https://example.com/fakeid/fakeimage.jpg")]
             )
             self.client.get_remote_file_url_metadata(self.fake_image_url)
@@ -974,18 +975,18 @@ class TestGetMetaData(ClientTestCase):
         responses.add(
             responses.GET,
             url,
-            body=json.dumps({
+            body='''{
                 "height": 354,
                 "width": 236,
                 "size": 7390,
                 "format": "jpg",
-                "hasColorProfile": False,
+                "hasColorProfile": false,
                 "quality": 0,
                 "density": 250,
-                "hasTransparency": False,
+                "hasTransparency": false,
                 "exif": {},
                 "pHash": "2e0ed1f12eda9525"
-            }),
+            }''',
             match=[matchers.query_string_matcher("url=https://example.com/fakeid/fakeimage.jpg")]
         )
         resp = self.client.get_remote_file_url_metadata(self.fake_image_url)
@@ -1033,8 +1034,8 @@ class TestUpdateFileDetails(ClientTestCase):
                 responses.PATCH,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.update_file_details(
                 file_id=self.file_id, options=self.valid_options
@@ -1056,7 +1057,7 @@ class TestUpdateFileDetails(ClientTestCase):
         responses.add(
             responses.PATCH,
             url,
-            body=json.dumps({
+            body='''{
                 "type": "file",
                 "name": "default-image.jpg",
                 "createdAt": "2022-07-21T10:31:22.529Z",
@@ -1086,7 +1087,7 @@ class TestUpdateFileDetails(ClientTestCase):
                 "customMetadata": {
                     "test": 11
                 },
-                "isPrivateFile": False,
+                "isPrivateFile": false,
                 "url": "https://ik.imagekit.io/your_imagekit_id/default-image.jpg",
                 "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/default-image.jpg",
                 "fileType": "image",
@@ -1094,23 +1095,23 @@ class TestUpdateFileDetails(ClientTestCase):
                 "height": 1000,
                 "width": 1000,
                 "size": 184425,
-                "hasAlpha": False,
+                "hasAlpha": false,
                 "mime": "image/jpeg",
                 "extensionStatus": {
                     "remove-bg": "pending",
                     "google-auto-tagging": "success"
                 }
-            }),
+            }''',
             headers=headers
         )
 
-        request_body = {
+        request_body = make_string_to_single_line('''{
             "removeAITags": ["ai-tag1", "ai-tag2"],
             "webhookUrl": "url",
             "extensions": [{
                 "name": "remove-bg",
                 "options": {
-                    "add_shadow": True,
+                    "add_shadow": true,
                     "bg_color": "red"
                 }
             }, {
@@ -1123,7 +1124,7 @@ class TestUpdateFileDetails(ClientTestCase):
             "customMetadata": {
                 "test": 11
             }
-        }
+        }''')
         resp = self.client.update_file_details(file_id=self.file_id,
                                                options=UpdateFileRequestOptions(remove_a_i_tags=['ai-tag1', 'ai-tag2'],
                                                                                 webhook_url="url",
@@ -1195,7 +1196,7 @@ class TestUpdateFileDetails(ClientTestCase):
                 'Authorization': 'Basic ZmFrZTEyMjo='
             }
         }
-        self.assertEqual(json.dumps(request_body), responses.calls[0].request.body)
+        self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual('fake_123', resp.file_id)
         self.assertEqual("http://test.com/v1/files/fake_123/details/", responses.calls[0].request.url)
@@ -1211,8 +1212,8 @@ class TestUpdateFileDetails(ClientTestCase):
                 responses.PATCH,
                 url,
                 status=404,
-                body=json.dumps({"message": "The requested file does not exist.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                body='''{"message": "The requested file does not exist.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
 
             request_body = {
@@ -1283,8 +1284,8 @@ class TestGetFileVersions(ClientTestCase):
                 responses.GET,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.get_file_versions(self.file_id)
             self.assertRaises(ForbiddenException)
@@ -1305,7 +1306,7 @@ class TestGetFileVersions(ClientTestCase):
         responses.add(
             responses.GET,
             url,
-            body=json.dumps([{
+            body='''[{
                 "type": "file",
                 "name": "new_car.jpg",
                 "createdAt": "2022-06-15T11:34:36.294Z",
@@ -1333,12 +1334,12 @@ class TestGetFileVersions(ClientTestCase):
                     "DateCreated": "2022-07-04T10:15:50.066Z",
                     "DateTimeCreated": "2022-07-04T10:15:50.066Z"
                 },
-                "customCoordinates": None,
+                "customCoordinates": "",
                 "customMetadata": {
                     "test100": 10,
                     "test10": 11
                 },
-                "isPrivateFile": False,
+                "isPrivateFile": false,
                 "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg",
                 "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg",
                 "fileType": "image",
@@ -1346,7 +1347,7 @@ class TestGetFileVersions(ClientTestCase):
                 "height": 354,
                 "width": 236,
                 "size": 7390,
-                "hasAlpha": False,
+                "hasAlpha": false,
                 "mime": "image/jpeg"
             }, {
                 "type": "file-version",
@@ -1387,19 +1388,19 @@ class TestGetFileVersions(ClientTestCase):
                     "test100": 10,
                     "test10": 11
                 },
-                "isPrivateFile": False,
-                "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version"
-                       "=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
-                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version"
-                             "=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                "isPrivateFile": false,
+                "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version
+                       =dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version
+                             =dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
                 "fileType": "image",
                 "filePath": "/new_car.jpg",
                 "height": 354,
                 "width": 236,
                 "size": 23023,
-                "hasAlpha": False,
+                "hasAlpha": false,
                 "mime": "image/jpeg"
-            }]),
+            }]''',
             headers=headers
         )
         resp = self.client.get_file_versions(self.file_id)
@@ -1520,8 +1521,8 @@ class TestGetFileVersions(ClientTestCase):
                 responses.GET,
                 url,
                 status=404,
-                body=json.dumps({"message": "The requested asset does not exist.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                body='''{"message": "The requested asset does not exist.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
             self.client.get_file_versions(self.file_id)
             self.assertRaises(NotFoundException)
@@ -1541,8 +1542,8 @@ class TestGetFileVersions(ClientTestCase):
                 responses.GET,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.get_file_version_details(self.file_id, self.version_id)
             self.assertRaises(ForbiddenException)
@@ -1563,14 +1564,14 @@ class TestGetFileVersions(ClientTestCase):
         responses.add(
             responses.GET,
             url,
-            body=json.dumps({
+            body='''{
                 "type": "file-version",
                 "name": "new_car.jpg",
                 "createdAt": "2022-06-27T09:24:25.251Z",
                 "updatedAt": "2022-06-27T12:11:11.247Z",
                 "fileId": "fake_123",
                 "tags": ["tagg", "tagg1"],
-                "AITags": None,
+                "AITags": "",
                 "versionInfo": {
                     "id": "fake_version_123",
                     "name": "Version 1"
@@ -1585,7 +1586,7 @@ class TestGetFileVersions(ClientTestCase):
                 "customMetadata": {
                     "test100": 10
                 },
-                "isPrivateFile": False,
+                "isPrivateFile": false,
                 "url": "https://ik.imagekit.io/your-imagekit-id/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH",
                 "thumbnail": "https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH",
                 "fileType": "image",
@@ -1593,9 +1594,9 @@ class TestGetFileVersions(ClientTestCase):
                 "height": 354,
                 "width": 236,
                 "size": 23023,
-                "hasAlpha": False,
+                "hasAlpha": false,
                 "mime": "image/jpeg"
-            }),
+            }''',
             headers=headers
         )
         resp = self.client.get_file_version_details(self.file_id, self.version_id)
@@ -1607,7 +1608,7 @@ class TestGetFileVersions(ClientTestCase):
                 'updatedAt': '2022-06-27T12:11:11.247Z',
                 'fileId': 'fake_123',
                 'tags': ['tagg', 'tagg1'],
-                'AITags': None,
+                'AITags': '',
                 'versionInfo': {
                     'id': 'fake_version_123',
                     'name': 'Version 1'
@@ -1656,8 +1657,8 @@ class TestGetFileVersions(ClientTestCase):
                 responses.GET,
                 url,
                 status=404,
-                body=json.dumps({"message": "The requested asset does not exist.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                body='''{"message": "The requested asset does not exist.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
             self.client.get_file_version_details(self.file_id, self.version_id)
             self.assertRaises(NotFoundException)
@@ -1676,8 +1677,8 @@ class TestGetFileVersions(ClientTestCase):
                 responses.GET,
                 url,
                 status=400,
-                body=json.dumps({"message": "Your request contains invalid fileId parameter.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                body='''{"message": "Your request contains invalid fileId parameter.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
             self.client.get_file_version_details(self.file_id, self.version_id)
             self.assertRaises(BadRequestException)
@@ -1701,8 +1702,8 @@ class TestDeleteFileVersion(ClientTestCase):
                 responses.DELETE,
                 url,
                 status=404,
-                body=json.dumps({"message": "The requested file version does not exist.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                body='''{"message": "The requested file version does not exist.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
             self.client.delete_file_version(self.file_id, self.version_id)
             self.assertRaises(NotFoundException)
@@ -1723,7 +1724,7 @@ class TestDeleteFileVersion(ClientTestCase):
             url,
             status=204,
             headers=headers,
-            body=json.dumps({})
+            body='{}'
         )
         resp = self.client.delete_file_version(self.file_id, self.version_id)
 
@@ -1760,11 +1761,11 @@ class TestCopyFile(ClientTestCase):
             url,
             status=404,
             headers=headers,
-            body=json.dumps({
+            body='''{
                 "message": "No file found with filePath /source_file.jpg",
                 "help": "For support kindly contact us at support@imagekit.io .",
                 "reason": "SOURCE_FILE_MISSING"
-            })
+            }'''
         )
         try:
             self.client.copy_file(options=CopyFileRequestOptions(source_file_path=self.source_file_path,
@@ -1788,7 +1789,7 @@ class TestCopyFile(ClientTestCase):
             url,
             status=204,
             headers=headers,
-            body=json.dumps({})
+            body='{}'
         )
         resp = self.client.copy_file(options=CopyFileRequestOptions(source_file_path=self.source_file_path,
                                                                     destination_path=self.destination_path,
@@ -1804,11 +1805,11 @@ class TestCopyFile(ClientTestCase):
             'raw': None
         }
 
-        request_body = json.dumps({
+        request_body = make_string_to_single_line('''{
             "sourceFilePath": "/source_file.jpg",
             "destinationPath": "/destination_path",
-            "includeFileVersions": True
-        })
+            "includeFileVersions": true
+        }''')
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
@@ -1833,11 +1834,11 @@ class TestMoveFile(ClientTestCase):
             url,
             status=404,
             headers=headers,
-            body=json.dumps({
+            body='''{
                 "message": "No file found with filePath /source_file.jpg",
                 "help": "For support kindly contact us at support@imagekit.io .",
                 "reason": "SOURCE_FILE_MISSING"
-            })
+            }'''
         )
         try:
             self.client.move_file(options=
@@ -1861,7 +1862,7 @@ class TestMoveFile(ClientTestCase):
             url,
             status=204,
             headers=headers,
-            body=json.dumps({})
+            body='{}'
         )
         resp = self.client.move_file(options=
                                      MoveFileRequestOptions(source_file_path=self.source_file_path,
@@ -1877,10 +1878,10 @@ class TestMoveFile(ClientTestCase):
             'raw': None
         }
 
-        request_body = json.dumps({
+        request_body = make_string_to_single_line('''{
             "sourceFilePath": "/source_file.jpg",
-            "destinationPath": "/destination_path",
-        })
+            "destinationPath": "/destination_path"
+        }''')
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
@@ -1906,11 +1907,11 @@ class TestRenameFile(ClientTestCase):
                 url,
                 status=409,
                 headers=headers,
-                body=json.dumps({
+                body='''{
                     "message": "File with name testing-binary.jpg already exists at the same location.",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "reason": "FILE_ALREADY_EXISTS"
-                })
+                }'''
             )
             self.client.rename_file(options=RenameFileRequestOptions(file_path=self.file_path,
                                                                      new_file_name=self.new_file_name))
@@ -1932,7 +1933,7 @@ class TestRenameFile(ClientTestCase):
             responses.PUT,
             url,
             headers=headers,
-            body=json.dumps({"purgeRequestId": "62de3e986f68334a5a3339fb"})
+            body='{"purgeRequestId": "62de3e986f68334a5a3339fb"}'
         )
         resp = self.client.rename_file(options=RenameFileRequestOptions(file_path=self.file_path,
                                                                         new_file_name=self.new_file_name,
@@ -1950,11 +1951,11 @@ class TestRenameFile(ClientTestCase):
             }
         }
 
-        request_body = json.dumps({
+        request_body = make_string_to_single_line('''{
             "filePath": "/file_path.jpg",
             "newFileName": "new_file.jpg",
-            "purgeCache": True
-        })
+            "purgeCache": true
+        }''')
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
@@ -1973,7 +1974,7 @@ class TestRenameFile(ClientTestCase):
             responses.PUT,
             url,
             headers=headers,
-            body=json.dumps({})
+            body="{}"
         )
         resp = self.client.rename_file(options=RenameFileRequestOptions(file_path=self.file_path,
                                                                         new_file_name=self.new_file_name))
@@ -1988,10 +1989,10 @@ class TestRenameFile(ClientTestCase):
             'raw': {}
         }
 
-        request_body = json.dumps({
+        request_body = make_string_to_single_line('''{
             "filePath": "/file_path.jpg",
             "newFileName": "new_file.jpg"
-        })
+        }''')
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
@@ -2014,8 +2015,8 @@ class TestRestoreFileVersion(ClientTestCase):
                 responses.PUT,
                 url,
                 status=404,
-                body=json.dumps({"message": "The requested file version does not exist.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                body='''{"message": "The requested file version does not exist.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
             self.client.restore_file_version(self.file_id, self.version_id)
             self.assertRaises(NotFoundException)
@@ -2035,7 +2036,7 @@ class TestRestoreFileVersion(ClientTestCase):
             responses.PUT,
             url,
             headers=headers,
-            body=json.dumps({
+            body='''{
                 "fileId": "fileId",
                 "type": "file",
                 "name": "file1.jpg",
@@ -2046,14 +2047,13 @@ class TestRestoreFileVersion(ClientTestCase):
                         "name": "Shirt",
                         "confidence": 90.12,
                         "source": "google-auto-tagging"
-                    },
-                ],
+                    }],
                 "versionInfo": {
                     "id": "versionId",
                     "name": "Version 2"
                 },
-                "isPrivateFile": False,
-                "customCoordinates": None,
+                "isPrivateFile": false,
+                "customCoordinates": "",
                 "url": "https://ik.imagekit.io/your_imagekit_id/images/products/file1.jpg",
                 "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-media_library_thumbnail/images/products/file1.jpg",
                 "fileType": "image",
@@ -2061,14 +2061,14 @@ class TestRestoreFileVersion(ClientTestCase):
                 "width": 100,
                 "height": 100,
                 "size": 100,
-                "hasAlpha": False,
+                "hasAlpha": false,
                 "customMetadata": {
                     "brand": "Nike",
                     "color": "red"
                 },
                 "createdAt": "2019-08-24T06:14:41.313Z",
                 "updatedAt": "2019-09-24T06:14:41.313Z"
-            })
+            }'''
         )
         resp = self.client.restore_file_version(self.file_id, self.version_id)
 
@@ -2086,7 +2086,7 @@ class TestRestoreFileVersion(ClientTestCase):
                     'source': 'google-auto-tagging'
                 }],
                 'createdAt': '2019-08-24T06:14:41.313Z',
-                'customCoordinates': None,
+                'customCoordinates': '',
                 'customMetadata': {
                     'brand': 'Nike',
                     'color': 'red'

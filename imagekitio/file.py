@@ -1,3 +1,4 @@
+import ast
 from json import dumps
 from typing import Any, Dict
 
@@ -139,6 +140,8 @@ class File(object):
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response_json) == str:
+                response_json = ast.literal_eval(response_json)
             error_message = response_json['message'] if type(response_json) == dict else ""
             response_help = response_json['help'] if type(response_json) == dict else ""
             raise NotFoundException(error_message, response_help, response_meta_data)
@@ -163,6 +166,8 @@ class File(object):
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response_json) == str:
+                response_json = ast.literal_eval(response_json)
             error_message = response_json['message'] if type(response_json) == dict else ""
             response_help = response_json['help'] if type(response_json) == dict else ""
             raise NotFoundException(error_message, response_help, response_meta_data)
@@ -259,6 +264,8 @@ class File(object):
         elif resp.status_code == 400 or resp.status_code == 404:
             response = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response) == str:
+                response = ast.literal_eval(response)
             error_message = response['message'] if type(response) == dict else ""
             response_help = response['help'] if type(response) == dict else ""
             if resp.status_code == 400:
@@ -299,6 +306,7 @@ class File(object):
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
         formatted_options = dumps(request_formatter(options.__dict__))
+        print("here formatted options:--->", formatted_options)
         resp = self.request.request(
             method="Post",
             url=url,
@@ -311,6 +319,8 @@ class File(object):
         elif resp.status_code == 404:
             response = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response) == str:
+                response = ast.literal_eval(response)
             error_message = response['message'] if type(response) == dict else ""
             response_help = response['help'] if type(response) == dict else ""
             raise NotFoundException(error_message, response_help, response_meta_data)
@@ -336,6 +346,8 @@ class File(object):
         elif resp.status_code == 404:
             response = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response) == str:
+                response = ast.literal_eval(response)
             error_message = response['message'] if type(response) == dict else ""
             response_help = response['help'] if type(response) == dict else ""
             raise NotFoundException(error_message, response_help, response_meta_data)
@@ -363,6 +375,8 @@ class File(object):
         elif resp.status_code == 409:
             response = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response) == str:
+                response = ast.literal_eval(response)
             error_message = response['message'] if type(response) == dict else ""
             response_help = response['help'] if type(response) == dict else ""
             raise ConflictException(error_message, response_help, response_meta_data)
@@ -385,6 +399,8 @@ class File(object):
         elif resp.status_code == 404:
             response = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response) == str:
+                response = ast.literal_eval(response)
             error_message = response['message'] if type(response) == dict else ""
             response_help = response['help'] if type(response) == dict else ""
             raise NotFoundException(error_message, response_help, response_meta_data)
@@ -409,6 +425,8 @@ class File(object):
         else:
             response = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response) == str:
+                response = ast.literal_eval(response)
             error_message = response['message'] if type(response) == dict else ""
             response_help = response['help'] if type(response) == dict else ""
             raise UnknownException(error_message, response_help, response_meta_data)
@@ -431,6 +449,8 @@ class File(object):
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response_json) == str:
+                response_json = ast.literal_eval(response_json)
             error_message = response_json['message'] if type(response_json) == dict else ""
             response_help = response_json['help'] if type(response_json) == dict else ""
             raise NotFoundException(error_message, response_help, response_meta_data)
@@ -456,6 +476,8 @@ class File(object):
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response_json) == str:
+                response_json = ast.literal_eval(response_json)
             error_message = response_json['message'] if type(response_json) == dict else ""
             response_help = response_json['help'] if type(response_json) == dict else ""
             raise NotFoundException(error_message, response_help, response_meta_data)
@@ -482,6 +504,8 @@ class File(object):
         elif resp.status_code == 404:
             response_json = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response_json) == str:
+                response_json = ast.literal_eval(response_json)
             error_message = response_json['message'] if type(response_json) == dict else ""
             response_help = response_json['help'] if type(response_json) == dict else ""
             raise NotFoundException(error_message, response_help, response_meta_data)
@@ -588,6 +612,8 @@ class File(object):
         else:
             response_json = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response_json) == str:
+                response_json = ast.literal_eval(response_json)
             error_message = response_json['message'] if type(response_json) == dict else ""
             response_help = response_json['help'] if type(response_json) == dict else ""
             if resp.status_code == 400:
@@ -599,7 +625,7 @@ class File(object):
         """get custom metadata fields
         """
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
-        param = {"includeDeleted": include_deleted}
+        param = {"includeDeleted": str(include_deleted).lower()}
         resp = self.request.request(
             method="GET", url=url, headers=self.request.create_headers(), params=param
         )
@@ -609,6 +635,8 @@ class File(object):
         else:
             response = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response) == str:
+                response = ast.literal_eval(response)
             error_message = response['message'] if type(response) == dict else ""
             response_help = response['help'] if type(response) == dict else ""
             raise UnknownException(error_message, response_help, response_meta_data)
@@ -637,6 +665,8 @@ class File(object):
         else:
             response_json = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response_json) == str:
+                response_json = ast.literal_eval(response_json)
             error_message = response_json['message'] if type(response_json) == dict else ""
             response_help = response_json['help'] if type(response_json) == dict else ""
             if resp.status_code == 400:
@@ -659,6 +689,8 @@ class File(object):
         else:
             response_json = get_response_json(resp)
             response_meta_data = populate_response_metadata(resp)
+            if type(response_json) == str:
+                response_json = ast.literal_eval(response_json)
             error_message = response_json['message'] if type(response_json) == dict else ""
             response_help = response_json['help'] if type(response_json) == dict else ""
             if resp.status_code == 404:

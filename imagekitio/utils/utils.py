@@ -1,3 +1,4 @@
+import ast
 from json import loads, dumps
 from requests.models import Response
 
@@ -36,6 +37,8 @@ def populate_response_metadata(response: Response):
 def general_api_throw_exception(response: Response):
     resp = get_response_json(response)
     response_meta_data = populate_response_metadata(response)
+    if type(resp) == str:
+        resp = ast.literal_eval(resp)
     error_message = resp['message'] if type(resp) == dict else ""
     response_help = resp['help'] if type(resp) == dict and 'help' in resp else ""
     if response.status_code == 400:
@@ -55,6 +58,8 @@ def general_api_throw_exception(response: Response):
 def throw_other_exception(response: Response):
     resp = get_response_json(response)
     response_meta_data = populate_response_metadata(response)
+    if type(resp) == str:
+        resp = ast.literal_eval(resp)
     error_message = resp['message'] if type(resp) == dict else ""
     response_help = resp['help'] if type(resp) == dict else ""
     if response.status_code == 207:
