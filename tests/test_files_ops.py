@@ -19,11 +19,15 @@ from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
 from tests.helpers import (
     ClientTestCase,
-    create_headers_for_test, get_auth_headers_for_test, make_string_to_single_line,
+    create_headers_for_test,
+    get_auth_headers_for_test,
+    make_string_to_single_line,
 )
 
 imagekit_obj = ImageKit(
-    private_key="private_fake:", public_key="public_fake123:", url_endpoint="fake.com",
+    private_key="private_fake:",
+    public_key="public_fake123:",
+    url_endpoint="fake.com",
 )
 
 
@@ -56,26 +60,6 @@ class TestUpload(ClientTestCase):
                 body='''{"message": "Your account cannot be authenticated."
                                     , "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
-            self.client.upload_file(file=self.image, file_name=self.filename,
-                                    options=UploadFileRequestOptions(use_unique_file_name=False, tags=["abc", "def"],
-                                                                     folder="/testing-python-folder/",
-                                                                     is_private_file=False,
-                                                                     custom_coordinates="10,10,20,20",
-                                                                     response_fields=["tags", "custom_coordinates",
-                                                                                      "is_private_file",
-                                                                                      "embedded_metadata",
-                                                                                      "custom_metadata"],
-                                                                     extensions=(
-                                                                         {"name": "remove-bg",
-                                                                          "options": {"add_shadow": True,
-                                                                                      "bg_color": "pink"}},
-                                                                         {"name": "google-auto-tagging",
-                                                                          "minConfidence": 80, "maxTags": 10}),
-                                                                     webhook_url="https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
-                                                                     overwrite_file=True, overwrite_a_i_tags=False,
-                                                                     overwrite_tags=False,
-                                                                     overwrite_custom_metadata=True,
-                                                                     custom_metadata={"testss": 12}))
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
@@ -160,34 +144,13 @@ class TestUpload(ClientTestCase):
                     'id': '62d670648cdb697522602b45',
                     'name': 'Version 11'
                 },
-                'filePath': '/testing-python-folder/file_name.jpg',
-                'url': 'https://ik.imagekit.io/your_imagekit_id/testing-python-folder/file_name.jpg',
-                'fileType': 'image',
-                'height': 700,
-                'width': 1050,
-                'thumbnailUrl': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/testing-python-folder/file_name.jpg',
-                'tags': ['abc', 'def'],
-                'AITags': [{
-                    'name': 'Computer',
-                    'confidence': 97.66,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Personal computer',
-                    'confidence': 94.96,
-                    'source': 'google-auto-tagging'
-                }],
-                'isPrivateFile': True,
-                'extensionStatus': {
-                    'remove-bg': 'pending',
-                    'google-auto-tagging': 'success'
-                }
             },
-            'httpStatusCode': 200,
-            'headers': {
-                'Content-Type': 'text/plain',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
-            }
+            "httpStatusCode": 200,
+            "headers": {
+                "Content-Type": "text/plain",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
         }
         request_body = make_string_to_single_line('''{'customMetadata': '{"test100": 11}',
  'extensions': '[{"name": "remove-bg", "options": {"add_shadow": true, '
@@ -206,28 +169,34 @@ class TestUpload(ClientTestCase):
  'useUniqueFileName': 'false',
  'webhookUrl': 'url'}''')
         actual_body = responses.calls[0].request.body.__dict__.__getitem__("fields")
-        actual_body['file'] = "<_io.BufferedReader name='sample.jpg'>"
+        actual_body["file"] = "<_io.BufferedReader name='sample.jpg'>"
         self.assertEqual(request_body, actual_body)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
         self.assertEqual(url, responses.calls[0].request.url)
 
     def test_upload_fails_without_file_name(self) -> None:
-        """Test upload raises error on missing required params
-        """
+        """Test upload raises error on missing required params"""
         try:
             with open(self.sample_image, mode="rb") as img:
                 imgstr = base64.b64encode(img.read())
             self.client.upload_file(file=imgstr)
         except TypeError as e:
-            self.assertEqual({'message': 'Missing fileName parameter for upload', 'help': ''}, e.args[0])
+            self.assertEqual(
+                {"message": "Missing fileName parameter for upload", "help": ""},
+                e.args[0],
+            )
 
     def test_upload_fails_without_file(self) -> None:
-        """Test upload raises error on missing required params
-        """
+        """Test upload raises error on missing required params"""
         try:
             self.client.upload_file(file_name="file_name.jpg")
         except TypeError as e:
-            self.assertEqual({'message': 'Missing file parameter for upload', 'help': ''}, e.args[0])
+            self.assertEqual(
+                {"message": "Missing file parameter for upload", "help": ""}, e.args[0]
+            )
 
     @responses.activate
     def test_upload_fails_with_400_exception(self) -> None:
@@ -240,34 +209,51 @@ class TestUpload(ClientTestCase):
                 responses.POST,
                 url,
                 status=400,
-                body='''{
-                    "message": "A file with the same name already exists at the exact location.
-                     We could not overwrite it because both overwriteFile and useUniqueFileName are set to false."
-                }''',
+                body=json.dumps(
+                    {
+                        "message": "A file with the same name already exists at the exact location. We "
+                        "could not overwrite it because both overwriteFile and "
+                        "useUniqueFileName are set to false."
+                    }
+                ),
             )
-            self.client.upload_file(file=self.image, file_name=self.filename,
-                                    options=UploadFileRequestOptions(use_unique_file_name=False, tags=["abc", "def"],
-                                                                     folder="/testing-python-folder/",
-                                                                     is_private_file=False,
-                                                                     custom_coordinates="10,10,20,20",
-                                                                     response_fields=["tags", "custom_coordinates",
-                                                                                      "is_private_file",
-                                                                                      "embedded_metadata",
-                                                                                      "custom_metadata"],
-                                                                     extensions=(
-                                                                         {"name": "remove-bg",
-                                                                          "options": {"add_shadow": True,
-                                                                                      "bg_color": "pink"}},
-                                                                         {"name": "google-auto-tagging",
-                                                                          "minConfidence": 80, "maxTags": 10}),
-                                                                     webhook_url="https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
-                                                                     overwrite_file=True, overwrite_a_i_tags=False,
-                                                                     overwrite_tags=False,
-                                                                     overwrite_custom_metadata=True,
-                                                                     custom_metadata={"testss": 12}))
+            self.client.upload_file(
+                file=self.image,
+                file_name=self.filename,
+                options=UploadFileRequestOptions(
+                    use_unique_file_name=False,
+                    tags=["abc", "def"],
+                    folder="/testing-python-folder/",
+                    is_private_file=False,
+                    custom_coordinates="10,10,20,20",
+                    response_fields=[
+                        "tags",
+                        "custom_coordinates",
+                        "is_private_file",
+                        "embedded_metadata",
+                        "custom_metadata",
+                    ],
+                    extensions=(
+                        {
+                            "name": "remove-bg",
+                            "options": {"add_shadow": True, "bg_color": "pink"},
+                        },
+                        {
+                            "name": "google-auto-tagging",
+                            "minConfidence": 80,
+                            "maxTags": 10,
+                        },
+                    ),
+                    webhook_url="https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+                    overwrite_file=True,
+                    overwrite_a_i_tags=False,
+                    overwrite_tags=False,
+                    overwrite_custom_metadata=True,
+                    custom_metadata={"testss": 12},
+                ),
+            )
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            print("e:==>", e)
             self.assertEqual("A file with the same name already exists at the exact location. We could not overwrite "
                              "it because both overwriteFile and useUniqueFileName are set to false.", e.message)
             self.assertEqual(400, e.response_metadata.http_status_code)
@@ -280,8 +266,7 @@ class TestListFiles(ClientTestCase):
 
     @responses.activate
     def test_list_files_fails_on_unauthenticated_request(self) -> None:
-        """ Tests unauthenticated request restricted for list_files method
-        """
+        """Tests unauthenticated request restricted for list_files method"""
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files".format(URL.API_BASE_URL)
@@ -346,17 +331,20 @@ class TestListFiles(ClientTestCase):
                 "mime": "image/jpeg"
             }]''',
             headers=headers,
-            match=[matchers.query_string_matcher(
-                "type=file&sort=ASC_CREATED&path=%2F&search_query=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&file_type=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3")],
+            match=[
+                matchers.query_string_matcher(
+                    "type=file&sort=ASC_CREATED&path=%2F&search_query=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&file_type=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3"
+                )
+            ],
         )
 
         resp = self.client.list_files(self.options)
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
             'httpStatusCode': 200,
             'raw': [{
@@ -400,8 +388,12 @@ class TestListFiles(ClientTestCase):
         }
         self.assertEqual(
             "http://test.com/v1/files?type=file&sort=ASC_CREATED&path=%2F&search_query=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&file_type=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3",
-            responses.calls[0].request.url)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
+            responses.calls[0].request.url,
+        )
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
 
     @responses.activate
     def test_list_files_fails_with_400_exception(self) -> None:
@@ -424,9 +416,12 @@ class TestListFiles(ClientTestCase):
             self.client.list_files(self.options)
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            self.assertEqual("Invalid search query - createdAt field must have a valid date value. Make "
-                             "sure the value is enclosed within quotes. Please refer to the "
-                             "documentation for syntax specification.", e.message)
+            self.assertEqual(
+                "Invalid search query - createdAt field must have a valid date value. Make "
+                "sure the value is enclosed within quotes. Please refer to the "
+                "documentation for syntax specification.",
+                e.message,
+            )
             self.assertEqual(400, e.response_metadata.http_status_code)
 
 
@@ -440,8 +435,7 @@ class TestGetFileDetails(ClientTestCase):
 
     @responses.activate
     def test_get_file_details_fails_on_unauthenticated_request(self) -> None:
-        """Tests of get_file_details raise error on unauthenticated request
-        """
+        """Tests of get_file_details raise error on unauthenticated request"""
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}/details".format(URL.API_BASE_URL, self.file_id)
@@ -472,38 +466,23 @@ class TestGetFileDetails(ClientTestCase):
                 "type": "file",
                 "name": "new_car.jpg",
                 "createdAt": "2022-06-15T11:34:36.294Z",
-                "updatedAt": "2022-07-04T10:15:50.067Z",
-                "fileId": "fake_file_id1234",
-                "tags": ["Tag_1", "Tag_2", "Tag_3"],
-                "AITags": [{
-                    "name": "Clothing",
-                    "confidence": 98.77,
-                    "source": "google-auto-tagging"
-                }, {
-                    "name": "Smile",
-                    "confidence": 95.31,
-                    "source": "google-auto-tagging"
-                }],
-                "versionInfo": {
-                    "id": "62b97749f63122840530fda9",
-                    "name": "Version 4"
-                },
+                "customCoordinates": "null",
+                "customMetadata": {"test10": 11, "test100": 10},
                 "embeddedMetadata": {
                     "DateCreated": "2022-07-04T10:15:50.066Z",
-                    "DateTimeCreated": "2022-07-04T10:15:50.066Z"
-                },
-                "customCoordinates": "null",
-                "customMetadata": {
-                    "test100": 10,
-                    "test10": 11
+                    "DateTimeCreated": "2022-07-04T10:15:50.066Z",
                 },
                 "isPrivateFile": false,
                 "url": "https://ik.imagekit.io/your-imagekit-id/new_car.jpg",
                 "thumbnail": "https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg",
                 "fileType": "image",
                 "filePath": "/new_car.jpg",
+                "fileType": "image",
+                "hasAlpha": False,
                 "height": 354,
-                "width": 236,
+                "isPrivateFile": False,
+                "mime": "image/jpeg",
+                "name": "new_car.jpg",
                 "size": 7390,
                 "hasAlpha": false,
                 "mime": "image/jpeg"
@@ -561,13 +540,19 @@ class TestGetFileDetails(ClientTestCase):
                     'name': 'Version '
                             '4'
                 },
-                'width': 236
-            }
+                "width": 236,
+            },
         }
 
-        self.assertEqual("http://test.com/v1/files/fake_file_id1234/details", responses.calls[0].request.url)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual('fake_file_id1234', resp.file_id)
+        self.assertEqual(
+            "http://test.com/v1/files/fake_file_id1234/details",
+            responses.calls[0].request.url,
+        )
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual("fake_file_id1234", resp.file_id)
 
     @responses.activate
     def test_file_details_fails_with_400_exception(self) -> None:
@@ -586,7 +571,9 @@ class TestGetFileDetails(ClientTestCase):
             self.client.get_file_details(self.file_id)
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            self.assertEqual("Your request contains invalid fileId parameter.", e.message)
+            self.assertEqual(
+                "Your request contains invalid fileId parameter.", e.message
+            )
             self.assertEqual(400, e.response_metadata.http_status_code)
 
 
@@ -613,14 +600,6 @@ class TestDeleteFile(ClientTestCase):
                 body="""{'message': 'Your account cannot be authenticated.'
                                     , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
-            self.client.bulk_file_delete(self.bulk_delete_ids)
-            self.assertRaises(ForbiddenException)
-        except ForbiddenException as e:
-            self.assertEqual(e.message, "Your account cannot be authenticated.")
-            self.assertEqual(e.response_metadata.http_status_code, 403)
-
-    @responses.activate
-    def test_bulk_file_delete_succeeds(self):
         """Test bulk_delete  on authenticated request
         this function tests if bulk_file_delete working properly
         """
@@ -636,18 +615,11 @@ class TestDeleteFile(ClientTestCase):
             body='{"successfullyDeletedFileIds": ["fake_123", "fake_222"]}',
             headers=headers
         )
-
         resp = self.client.bulk_file_delete(self.bulk_delete_ids)
 
-        mock_response_metadata = {
-            'raw': {
-                'successfullyDeletedFileIds': ['fake_123', 'fake_222']
+                "Content-Type": "text/plain, application/json",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 200,
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Authorization': 'Basic ZmFrZTEyMjo='
-            }
         }
         self.assertEqual('{"fileIds": ["fake_123", "fake_222"]}', responses.calls[0].request.body)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
@@ -679,7 +651,9 @@ class TestDeleteFile(ClientTestCase):
         except NotFoundException as e:
             self.assertEqual("The requested file(s) does not exist.", e.message)
             self.assertEqual(404, e.response_metadata.http_status_code)
-            self.assertEqual(["fake_123", "fake_222"], e.response_metadata.raw['missingFileIds'])
+            self.assertEqual(
+                ["fake_123", "fake_222"], e.response_metadata.raw["missingFileIds"]
+            )
 
     @responses.activate
     def test_file_delete_fails_with_400_exception(self):
@@ -706,7 +680,9 @@ class TestDeleteFile(ClientTestCase):
             self.client.delete_file(self.file_id)
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            self.assertEqual("Your request contains invalid fileId parameter.", e.message)
+            self.assertEqual(
+                "Your request contains invalid fileId parameter.", e.message
+            )
             self.assertEqual(400, e.response_metadata.http_status_code)
 
     @responses.activate
@@ -730,15 +706,20 @@ class TestDeleteFile(ClientTestCase):
         resp = self.client.delete_file(self.file_id)
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 204,
-            'raw': None
+            "httpStatusCode": 204,
+            "raw": None,
         }
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/files/fax_abx1223", responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/files/fax_abx1223", responses.calls[0].request.url
+        )
 
 
 class TestPurgeCache(ClientTestCase):
@@ -800,13 +781,9 @@ class TestPurgeCache(ClientTestCase):
         )
         resp = self.client.purge_file_cache(self.fake_image_url)
         mock_response_metadata = {
-            'raw': {
-                'requestId': 'requestId'
-            },
-            'httpStatusCode': 201,
-            'headers': {
-                'Content-Type': 'text/plain'
-            }
+            "raw": {"requestId": "requestId"},
+            "httpStatusCode": 201,
+            "headers": {"Content-Type": "text/plain"},
         }
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual('requestId', resp.request_id)
@@ -853,17 +830,18 @@ class TestPurgeCacheStatus(ClientTestCase):
         )
         resp = self.client.get_purge_file_cache_status(self.cache_request_id)
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain'
-            },
-            'httpStatusCode': 200,
-            'raw': {
-                'status': 'Completed'
-            }
+            "headers": {"Content-Type": "text/plain"},
+            "httpStatusCode": 200,
+            "raw": {"status": "Completed"},
         }
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual('Completed', resp.status)
-        self.assertEqual("http://test.com/v1/files/purge/fake1234", responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual("Completed", resp.status)
+        self.assertEqual(
+            "http://test.com/v1/files/purge/fake1234", responses.calls[0].request.url
+        )
 
 
 class TestGetMetaData(ClientTestCase):
@@ -890,9 +868,11 @@ class TestGetMetaData(ClientTestCase):
             self.client.get_file_metadata(self.file_id)
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            self.assertEqual("Your request contains invalid fileId parameter.", e.message)
+            self.assertEqual(
+                "Your request contains invalid fileId parameter.", e.message
+            )
             self.assertEqual(400, e.response_metadata.http_status_code)
-            self.assertEqual("INVALID_PARAM_ERROR", e.response_metadata.raw['type'])
+            self.assertEqual("INVALID_PARAM_ERROR", e.response_metadata.raw["type"])
 
     @responses.activate
     def test_get_file_metadata_succeeds(self):
@@ -919,25 +899,29 @@ class TestGetMetaData(ClientTestCase):
         )
         resp = self.client.get_file_metadata(self.file_id)
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain'
+            "headers": {"Content-Type": "text/plain"},
+            "httpStatusCode": 200,
+            "raw": {
+                "density": 250,
+                "exif": {},
+                "format": "jpg",
+                "hasColorProfile": False,
+                "hasTransparency": False,
+                "height": 354,
+                "pHash": "2e0ed1f12eda9525",
+                "quality": 0,
+                "size": 7390,
+                "width": 236,
             },
-            'httpStatusCode': 200,
-            'raw': {
-                'density': 250,
-                'exif': {},
-                'format': 'jpg',
-                'hasColorProfile': False,
-                'hasTransparency': False,
-                'height': 354,
-                'pHash': '2e0ed1f12eda9525',
-                'quality': 0,
-                'size': 7390,
-                'width': 236
-            }
         }
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/files/fake_file_xbc/metadata", responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/files/fake_file_xbc/metadata",
+            responses.calls[0].request.url,
+        )
 
     @responses.activate
     def test_get_remote_file_url_metadata_fails_with_400(self):
@@ -962,7 +946,8 @@ class TestGetMetaData(ClientTestCase):
         except BadRequestException as e:
             self.assertEqual(
                 "https://example.com/fakeid/fakeimage.jpg should be accessible using your ImageKit.io account.",
-                e.message)
+                e.message,
+            )
             self.assertEqual(400, e.response_metadata.http_status_code)
 
     @responses.activate
@@ -991,26 +976,29 @@ class TestGetMetaData(ClientTestCase):
         )
         resp = self.client.get_remote_file_url_metadata(self.fake_image_url)
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain'
+            "headers": {"Content-Type": "text/plain"},
+            "httpStatusCode": 200,
+            "raw": {
+                "density": 250,
+                "exif": {},
+                "format": "jpg",
+                "hasColorProfile": False,
+                "hasTransparency": False,
+                "height": 354,
+                "pHash": "2e0ed1f12eda9525",
+                "quality": 0,
+                "size": 7390,
+                "width": 236,
             },
-            'httpStatusCode': 200,
-            'raw': {
-                'density': 250,
-                'exif': {},
-                'format': 'jpg',
-                'hasColorProfile': False,
-                'hasTransparency': False,
-                'height': 354,
-                'pHash': '2e0ed1f12eda9525',
-                'quality': 0,
-                'size': 7390,
-                'width': 236
-            }
         }
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/metadata?url=https%3A%2F%2Fexample.com%2Ffakeid%2Ffakeimage.jpg",
-                         responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/metadata?url=https%3A%2F%2Fexample.com%2Ffakeid%2Ffakeimage.jpg",
+            responses.calls[0].request.url,
+        )
 
 
 class TestUpdateFileDetails(ClientTestCase):
@@ -1020,7 +1008,9 @@ class TestUpdateFileDetails(ClientTestCase):
 
     file_id = "fake_123"
 
-    valid_options = UpdateFileRequestOptions(tags=["tag1", "tag2"], custom_coordinates="10,10,100,100")
+    valid_options = UpdateFileRequestOptions(
+        tags=["tag1", "tag2"], custom_coordinates="10,10,100,100"
+    )
 
     @responses.activate
     def test_update_file_details_fails_on_unauthenticated_request(self):
@@ -1064,24 +1054,24 @@ class TestUpdateFileDetails(ClientTestCase):
                 "updatedAt": "2022-07-21T10:37:11.848Z",
                 "fileId": "fake_123",
                 "tags": ["tag1", "tag2"],
-                "AITags": [{
-                    "name": "Corridor",
-                    "confidence": 99.39,
-                    "source": "aws-auto-tagging"
-                }, {
-                    "name": "Floor",
-                    "confidence": 97.59,
-                    "source": "aws-auto-tagging"
-                }],
-                "versionInfo": {
-                    "id": "versionId",
-                    "name": "Version 2"
-                },
+                "AITags": [
+                    {
+                        "name": "Corridor",
+                        "confidence": 99.39,
+                        "source": "aws-auto-tagging",
+                    },
+                    {
+                        "name": "Floor",
+                        "confidence": 97.59,
+                        "source": "aws-auto-tagging",
+                    },
+                ],
+                "versionInfo": {"id": "versionId", "name": "Version 2"},
                 "embeddedMetadata": {
                     "XResolution": 1,
                     "YResolution": 1,
                     "DateCreated": "2022-07-21T10:35:34.497Z",
-                    "DateTimeCreated": "2022-07-21T10:35:34.500Z"
+                    "DateTimeCreated": "2022-07-21T10:35:34.500Z",
                 },
                 "customCoordinates": "10,10,100,100",
                 "customMetadata": {
@@ -1165,36 +1155,12 @@ class TestUpdateFileDetails(ClientTestCase):
                     'id': 'versionId',
                     'name': 'Version 2'
                 },
-                'embeddedMetadata': {
-                    'XResolution': 1,
-                    'YResolution': 1,
-                    'DateCreated': '2022-07-21T10:35:34.497Z',
-                    'DateTimeCreated': '2022-07-21T10:35:34.500Z'
-                },
-                'customCoordinates': '10,10,100,100',
-                'customMetadata': {
-                    'test': 11
-                },
-                'isPrivateFile': False,
-                'url': 'https://ik.imagekit.io/your_imagekit_id/default-image.jpg',
-                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/default-image.jpg',
-                'fileType': 'image',
-                'filePath': '/default-image.jpg',
-                'height': 1000,
-                'width': 1000,
-                'size': 184425,
-                'hasAlpha': False,
-                'mime': 'image/jpeg',
-                'extensionStatus': {
-                    'remove-bg': 'pending',
-                    'google-auto-tagging': 'success'
-                }
             },
-            'httpStatusCode': 200,
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Authorization': 'Basic ZmFrZTEyMjo='
-            }
+            "httpStatusCode": 200,
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
         }
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
@@ -1216,45 +1182,41 @@ class TestUpdateFileDetails(ClientTestCase):
                                  "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
 
-            request_body = {
-                "removeAITags": ["ai-tag1", "ai-tag2"],
-                "webhookUrl": "url",
-                "extensions": [{
-                    "name": "remove-bg",
-                    "options": {
-                        "add_shadow": True,
-                        "bg_color": "red"
-                    }
-                }, {
-                    "name": "google-auto-tagging",
-                    "minConfidence": 80,
-                    "maxTags": 10
-                }],
-                "tags": ["tag1", "tag2"],
-                "customCoordinates": "10,10,100,100",
-                "customMetadata": {
-                    "test": 11
-                }
-            }
-            self.client.update_file_details(file_id=self.file_id,
-                                            options=UpdateFileRequestOptions(remove_a_i_tags=['ai-tag1', 'ai-tag2'],
-                                                                             webhook_url="url",
-                                                                             extensions=[
-                                                                                 {
-                                                                                     "name": "remove-bg",
-                                                                                     "options": {
-                                                                                         "add_shadow": True,
-                                                                                         "bg_color": "red"
-                                                                                     }
-                                                                                 },
-                                                                                 {
-                                                                                     "name": "google-auto-tagging",
-                                                                                     "minConfidence": 80,
-                                                                                     "maxTags": 10
-                                                                                 }],
-                                                                             tags=["tag1", "tag2"],
-                                                                             custom_coordinates="10,10,100,100",
-                                                                             custom_metadata={"test": 11}))
+            # request_body = {
+            #     "removeAITags": ["ai-tag1", "ai-tag2"],
+            #     "webhookUrl": "url",
+            #     "extensions": [
+            #         {
+            #             "name": "remove-bg",
+            #             "options": {"add_shadow": True, "bg_color": "red"},
+            #         },
+            #         {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10},
+            #     ],
+            #     "tags": ["tag1", "tag2"],
+            #     "customCoordinates": "10,10,100,100",
+            #     "customMetadata": {"test": 11},
+            # }
+            self.client.update_file_details(
+                file_id=self.file_id,
+                options=UpdateFileRequestOptions(
+                    remove_a_i_tags=["ai-tag1", "ai-tag2"],
+                    webhook_url="url",
+                    extensions=[
+                        {
+                            "name": "remove-bg",
+                            "options": {"add_shadow": True, "bg_color": "red"},
+                        },
+                        {
+                            "name": "google-auto-tagging",
+                            "minConfidence": 80,
+                            "maxTags": 10,
+                        },
+                    ],
+                    tags=["tag1", "tag2"],
+                    custom_coordinates="10,10,100,100",
+                    custom_metadata={"test": 11},
+                ),
+            )
             self.assertRaises(UnknownException)
         except UnknownException as e:
             self.assertEqual("The requested file does not exist.", e.message)
@@ -1405,110 +1367,118 @@ class TestGetFileVersions(ClientTestCase):
         )
         resp = self.client.get_file_versions(self.file_id)
         mock_response_metadata = {
-            'raw': [{
-                'type': 'file',
-                'name': 'new_car.jpg',
-                'createdAt': '2022-06-15T11:34:36.294Z',
-                'updatedAt': '2022-07-04T10:15:50.067Z',
-                'fileId': 'fake_123',
-                'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
-                'AITags': [{
-                    'name': 'Clothing',
-                    'confidence': 98.77,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Smile',
-                    'confidence': 95.31,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Shoe',
-                    'confidence': 95.2,
-                    'source': 'google-auto-tagging'
-                }],
-                'versionInfo': {
-                    'id': 'versionId',
-                    'name': 'Version 4'
+            "raw": [
+                {
+                    "type": "file",
+                    "name": "new_car.jpg",
+                    "createdAt": "2022-06-15T11:34:36.294Z",
+                    "updatedAt": "2022-07-04T10:15:50.067Z",
+                    "fileId": "fake_123",
+                    "tags": ["Tag_1", "Tag_2", "Tag_3"],
+                    "AITags": [
+                        {
+                            "name": "Clothing",
+                            "confidence": 98.77,
+                            "source": "google-auto-tagging",
+                        },
+                        {
+                            "name": "Smile",
+                            "confidence": 95.31,
+                            "source": "google-auto-tagging",
+                        },
+                        {
+                            "name": "Shoe",
+                            "confidence": 95.2,
+                            "source": "google-auto-tagging",
+                        },
+                    ],
+                    "versionInfo": {"id": "versionId", "name": "Version 4"},
+                    "embeddedMetadata": {
+                        "DateCreated": "2022-07-04T10:15:50.066Z",
+                        "DateTimeCreated": "2022-07-04T10:15:50.066Z",
+                    },
+                    "customCoordinates": None,
+                    "customMetadata": {"test100": 10, "test10": 11},
+                    "isPrivateFile": False,
+                    "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg",
+                    "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg",
+                    "fileType": "image",
+                    "filePath": "/new_car.jpg",
+                    "height": 354,
+                    "width": 236,
+                    "size": 7390,
+                    "hasAlpha": False,
+                    "mime": "image/jpeg",
                 },
-                'embeddedMetadata': {
-                    'DateCreated': '2022-07-04T10:15:50.066Z',
-                    'DateTimeCreated': '2022-07-04T10:15:50.066Z'
+                {
+                    "type": "file-version",
+                    "name": "new_car.jpg",
+                    "createdAt": "2022-07-04T10:15:49.698Z",
+                    "updatedAt": "2022-07-04T10:15:49.734Z",
+                    "fileId": "fileId",
+                    "tags": ["Tag_1", "Tag_2", "Tag_3"],
+                    "AITags": [
+                        {
+                            "name": "Clothing",
+                            "confidence": 98.77,
+                            "source": "google-auto-tagging",
+                        },
+                        {
+                            "name": "Smile",
+                            "confidence": 95.31,
+                            "source": "google-auto-tagging",
+                        },
+                        {
+                            "name": "Shoe",
+                            "confidence": 95.2,
+                            "source": "google-auto-tagging",
+                        },
+                        {
+                            "name": "Street light",
+                            "confidence": 91.05,
+                            "source": "google-auto-tagging",
+                        },
+                    ],
+                    "versionInfo": {
+                        "id": "62c2bdd5872375c6b8f40fd4",
+                        "name": "Version 1",
+                    },
+                    "embeddedMetadata": {
+                        "XResolution": 250,
+                        "YResolution": 250,
+                        "DateCreated": "2022-06-15T11:34:36.702Z",
+                        "DateTimeCreated": "2022-06-15T11:34:36.702Z",
+                    },
+                    "customCoordinates": "10,10,40,40",
+                    "customMetadata": {"test100": 10, "test10": 11},
+                    "isPrivateFile": False,
+                    "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                    "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                    "fileType": "image",
+                    "filePath": "/new_car.jpg",
+                    "height": 354,
+                    "width": 236,
+                    "size": 23023,
+                    "hasAlpha": False,
+                    "mime": "image/jpeg",
                 },
-                'customCoordinates': None,
-                'customMetadata': {
-                    'test100': 10,
-                    'test10': 11
-                },
-                'isPrivateFile': False,
-                'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg',
-                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg',
-                'fileType': 'image',
-                'filePath': '/new_car.jpg',
-                'height': 354,
-                'width': 236,
-                'size': 7390,
-                'hasAlpha': False,
-                'mime': 'image/jpeg'
-            }, {
-                'type': 'file-version',
-                'name': 'new_car.jpg',
-                'createdAt': '2022-07-04T10:15:49.698Z',
-                'updatedAt': '2022-07-04T10:15:49.734Z',
-                'fileId': 'fileId',
-                'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
-                'AITags': [{
-                    'name': 'Clothing',
-                    'confidence': 98.77,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Smile',
-                    'confidence': 95.31,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Shoe',
-                    'confidence': 95.2,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Street light',
-                    'confidence': 91.05,
-                    'source': 'google-auto-tagging'
-                }],
-                'versionInfo': {
-                    'id': '62c2bdd5872375c6b8f40fd4',
-                    'name': 'Version 1'
-                },
-                'embeddedMetadata': {
-                    'XResolution': 250,
-                    'YResolution': 250,
-                    'DateCreated': '2022-06-15T11:34:36.702Z',
-                    'DateTimeCreated': '2022-06-15T11:34:36.702Z'
-                },
-                'customCoordinates': '10,10,40,40',
-                'customMetadata': {
-                    'test100': 10,
-                    'test10': 11
-                },
-                'isPrivateFile': False,
-                'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
-                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
-                'fileType': 'image',
-                'filePath': '/new_car.jpg',
-                'height': 354,
-                'width': 236,
-                'size': 23023,
-                'hasAlpha': False,
-                'mime': 'image/jpeg'
-            }],
-            'httpStatusCode': 200,
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Authorization': 'Basic ZmFrZTEyMjo='
-            }
+            ],
+            "httpStatusCode": 200,
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
         }
 
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual('fake_123', resp.list[0].file_id)
-        self.assertEqual('fileId', resp.list[1].file_id)
-        self.assertEqual("http://test.com/v1/files/fake_123/versions", responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual("fake_123", resp.list[0].file_id)
+        self.assertEqual("fileId", resp.list[1].file_id)
+        self.assertEqual(
+            "http://test.com/v1/files/fake_123/versions", responses.calls[0].request.url
+        )
 
     @responses.activate
     def test_get_file_versions_fails_with_404_exception(self) -> None:
@@ -1536,7 +1506,9 @@ class TestGetFileVersions(ClientTestCase):
         Tests if the unauthenticated request restricted
         """
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        url = "{}/v1/files/{}/versions/{}".format(
+            URL.API_BASE_URL, self.file_id, self.version_id
+        )
         try:
             responses.add(
                 responses.GET,
@@ -1557,7 +1529,9 @@ class TestGetFileVersions(ClientTestCase):
         Tests if get file version details succeeds with file id
         """
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        url = "{}/v1/files/{}/versions/{}".format(
+            URL.API_BASE_URL, self.file_id, self.version_id
+        )
 
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
@@ -1580,7 +1554,7 @@ class TestGetFileVersions(ClientTestCase):
                     "XResolution": 250,
                     "YResolution": 250,
                     "DateCreated": "2022-06-15T11:34:36.702Z",
-                    "DateTimeCreated": "2022-06-15T11:34:36.702Z"
+                    "DateTimeCreated": "2022-06-15T11:34:36.702Z",
                 },
                 "customCoordinates": "10,10,20,20",
                 "customMetadata": {
@@ -1634,24 +1608,27 @@ class TestGetFileVersions(ClientTestCase):
                 'hasAlpha': False,
                 'mime': 'image/jpeg'
             },
-            'httpStatusCode': 200,
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Authorization': 'Basic ZmFrZTEyMjo='
-            }
         }
 
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual('fake_123', resp.file_id)
-        self.assertEqual('fake_version_123', resp.version_info.id)
-        self.assertEqual("http://test.com/v1/files/fake_123/versions/fake_version_123", responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual("fake_123", resp.file_id)
+        self.assertEqual("fake_version_123", resp.version_info.id)
+        self.assertEqual(
+            "http://test.com/v1/files/fake_123/versions/fake_version_123",
+            responses.calls[0].request.url,
+        )
 
     @responses.activate
     def test_get_file_version_details_fails_with_404_exception(self) -> None:
         """Test get file version details raises 404 error"""
 
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        url = "{}/v1/files/{}/versions/{}".format(
+            URL.API_BASE_URL, self.file_id, self.version_id
+        )
         try:
             responses.add(
                 responses.GET,
@@ -1671,7 +1648,9 @@ class TestGetFileVersions(ClientTestCase):
         """Test get file version details raises 400 error"""
 
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        url = "{}/v1/files/{}/versions/{}".format(
+            URL.API_BASE_URL, self.file_id, self.version_id
+        )
         try:
             responses.add(
                 responses.GET,
@@ -1683,7 +1662,9 @@ class TestGetFileVersions(ClientTestCase):
             self.client.get_file_version_details(self.file_id, self.version_id)
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            self.assertEqual("Your request contains invalid fileId parameter.", e.message)
+            self.assertEqual(
+                "Your request contains invalid fileId parameter.", e.message
+            )
             self.assertEqual(400, e.response_metadata.http_status_code)
 
 
@@ -1696,7 +1677,9 @@ class TestDeleteFileVersion(ClientTestCase):
         """Test delete_file_version raises 404 error"""
 
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        url = "{}/v1/files/{}/versions/{}".format(
+            URL.API_BASE_URL, self.file_id, self.version_id
+        )
         try:
             responses.add(
                 responses.DELETE,
@@ -1716,7 +1699,9 @@ class TestDeleteFileVersion(ClientTestCase):
         """Test delete_file_version succeeds with file and version Id"""
 
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/files/{}/versions/{}".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        url = "{}/v1/files/{}/versions/{}".format(
+            URL.API_BASE_URL, self.file_id, self.version_id
+        )
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
         responses.add(
@@ -1729,18 +1714,23 @@ class TestDeleteFileVersion(ClientTestCase):
         resp = self.client.delete_file_version(self.file_id, self.version_id)
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 204,
-            'raw': None
+            "httpStatusCode": 204,
+            "raw": None,
         }
 
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/files/fax_abx1223/versions/fake_123_version_id",
-                         responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/files/fax_abx1223/versions/fake_123_version_id",
+            responses.calls[0].request.url,
+        )
 
 
 class TestCopyFile(ClientTestCase):
@@ -1768,9 +1758,13 @@ class TestCopyFile(ClientTestCase):
             }'''
         )
         try:
-            self.client.copy_file(options=CopyFileRequestOptions(source_file_path=self.source_file_path,
-                                                                 destination_path=self.destination_path,
-                                                                 include_file_versions=False))
+            self.client.copy_file(
+                options=CopyFileRequestOptions(
+                    source_file_path=self.source_file_path,
+                    destination_path=self.destination_path,
+                    include_file_versions=False,
+                )
+            )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("No file found with filePath /source_file.jpg", e.message)
@@ -1791,18 +1785,15 @@ class TestCopyFile(ClientTestCase):
             headers=headers,
             body='{}'
         )
-        resp = self.client.copy_file(options=CopyFileRequestOptions(source_file_path=self.source_file_path,
-                                                                    destination_path=self.destination_path,
-                                                                    include_file_versions=True))
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 204,
-            'raw': None
+            "httpStatusCode": 204,
+            "raw": None,
         }
 
         request_body = make_string_to_single_line('''{
@@ -1812,8 +1803,13 @@ class TestCopyFile(ClientTestCase):
         }''')
 
         self.assertEqual(request_body, responses.calls[0].request.body)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/files/copy", responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/files/copy", responses.calls[0].request.url
+        )
 
 
 class TestMoveFile(ClientTestCase):
@@ -1841,9 +1837,12 @@ class TestMoveFile(ClientTestCase):
             }'''
         )
         try:
-            self.client.move_file(options=
-                                  MoveFileRequestOptions(source_file_path=self.source_file_path,
-                                                         destination_path=self.destination_path))
+            self.client.move_file(
+                options=MoveFileRequestOptions(
+                    source_file_path=self.source_file_path,
+                    destination_path=self.destination_path,
+                )
+            )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("No file found with filePath /source_file.jpg", e.message)
@@ -1864,18 +1863,15 @@ class TestMoveFile(ClientTestCase):
             headers=headers,
             body='{}'
         )
-        resp = self.client.move_file(options=
-                                     MoveFileRequestOptions(source_file_path=self.source_file_path,
-                                                            destination_path=self.destination_path))
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 204,
-            'raw': None
+            "httpStatusCode": 204,
+            "raw": None,
         }
 
         request_body = make_string_to_single_line('''{
@@ -1884,8 +1880,13 @@ class TestMoveFile(ClientTestCase):
         }''')
 
         self.assertEqual(request_body, responses.calls[0].request.body)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/files/move", responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/files/move", responses.calls[0].request.url
+        )
 
 
 class TestRenameFile(ClientTestCase):
@@ -1913,13 +1914,14 @@ class TestRenameFile(ClientTestCase):
                     "reason": "FILE_ALREADY_EXISTS"
                 }'''
             )
-            self.client.rename_file(options=RenameFileRequestOptions(file_path=self.file_path,
-                                                                     new_file_name=self.new_file_name))
             self.assertRaises(ConflictException)
         except ConflictException as e:
-            self.assertEqual("File with name testing-binary.jpg already exists at the same location.", e.message)
+            self.assertEqual(
+                "File with name testing-binary.jpg already exists at the same location.",
+                e.message,
+            )
             self.assertEqual(409, e.response_metadata.http_status_code)
-            self.assertEqual("FILE_ALREADY_EXISTS", e.response_metadata.raw['reason'])
+            self.assertEqual("FILE_ALREADY_EXISTS", e.response_metadata.raw["reason"])
 
     @responses.activate
     def test_rename_file_succeeds_with_purge_cache(self) -> None:
@@ -1935,20 +1937,15 @@ class TestRenameFile(ClientTestCase):
             headers=headers,
             body='{"purgeRequestId": "62de3e986f68334a5a3339fb"}'
         )
-        resp = self.client.rename_file(options=RenameFileRequestOptions(file_path=self.file_path,
-                                                                        new_file_name=self.new_file_name,
-                                                                        purge_cache=True))
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 200,
-            'raw': {
-                'purgeRequestId': '62de3e986f68334a5a3339fb'
-            }
+            "httpStatusCode": 200,
+            "raw": {"purgeRequestId": "62de3e986f68334a5a3339fb"},
         }
 
         request_body = make_string_to_single_line('''{
@@ -1958,9 +1955,14 @@ class TestRenameFile(ClientTestCase):
         }''')
 
         self.assertEqual(request_body, responses.calls[0].request.body)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual('62de3e986f68334a5a3339fb', resp.purge_request_id)
-        self.assertEqual("http://test.com/v1/files/rename", responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual("62de3e986f68334a5a3339fb", resp.purge_request_id)
+        self.assertEqual(
+            "http://test.com/v1/files/rename", responses.calls[0].request.url
+        )
 
     @responses.activate
     def test_rename_file_succeeds(self) -> None:
@@ -1976,17 +1978,15 @@ class TestRenameFile(ClientTestCase):
             headers=headers,
             body="{}"
         )
-        resp = self.client.rename_file(options=RenameFileRequestOptions(file_path=self.file_path,
-                                                                        new_file_name=self.new_file_name))
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 200,
-            'raw': {}
+            "httpStatusCode": 200,
+            "raw": {},
         }
 
         request_body = make_string_to_single_line('''{
@@ -1995,9 +1995,14 @@ class TestRenameFile(ClientTestCase):
         }''')
 
         self.assertEqual(request_body, responses.calls[0].request.body)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
         self.assertEqual(None, resp.purge_request_id)
-        self.assertEqual("http://test.com/v1/files/rename", responses.calls[0].request.url)
+        self.assertEqual(
+            "http://test.com/v1/files/rename", responses.calls[0].request.url
+        )
 
 
 class TestRestoreFileVersion(ClientTestCase):
@@ -2009,7 +2014,9 @@ class TestRestoreFileVersion(ClientTestCase):
         """Test restore_file_version raises 404 error"""
 
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/files/{}/versions/{}/restore".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        url = "{}/v1/files/{}/versions/{}/restore".format(
+            URL.API_BASE_URL, self.file_id, self.version_id
+        )
         try:
             responses.add(
                 responses.PUT,
@@ -2029,7 +2036,9 @@ class TestRestoreFileVersion(ClientTestCase):
         """Test restore_file_version succeeds with file and version Id"""
 
         URL.API_BASE_URL = "http://test.com"
-        url = "{}/v1/files/{}/versions/{}/restore".format(URL.API_BASE_URL, self.file_id, self.version_id)
+        url = "{}/v1/files/{}/versions/{}/restore".format(
+            URL.API_BASE_URL, self.file_id, self.version_id
+        )
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
         responses.add(
@@ -2044,7 +2053,6 @@ class TestRestoreFileVersion(ClientTestCase):
                 "tags": ["t-shirt", "round-neck", "sale2019"],
                 "AITags": [
                     {
-                        "name": "Shirt",
                         "confidence": 90.12,
                         "source": "google-auto-tagging"
                     }],
@@ -2057,9 +2065,11 @@ class TestRestoreFileVersion(ClientTestCase):
                 "url": "https://ik.imagekit.io/your_imagekit_id/images/products/file1.jpg",
                 "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-media_library_thumbnail/images/products/file1.jpg",
                 "fileType": "image",
-                "mime": "image/jpeg",
-                "width": 100,
+                "hasAlpha": False,
                 "height": 100,
+                "isPrivateFile": False,
+                "mime": "image/jpeg",
+                "name": "file1.jpg",
                 "size": 100,
                 "hasAlpha": false,
                 "customMetadata": {
@@ -2117,8 +2127,13 @@ class TestRestoreFileVersion(ClientTestCase):
             }
         }
 
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual('fileId', resp.file_id)
-        self.assertEqual('versionId', resp.version_info.id)
-        self.assertEqual("http://test.com/v1/files/fax_abx1223/versions/fake_123_version_id/restore",
-                         responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual("fileId", resp.file_id)
+        self.assertEqual("versionId", resp.version_info.id)
+        self.assertEqual(
+            "http://test.com/v1/files/fax_abx1223/versions/fake_123_version_id/restore",
+            responses.calls[0].request.url,
+        )

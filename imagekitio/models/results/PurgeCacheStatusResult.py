@@ -1,8 +1,7 @@
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from .ResponseMetadata import ResponseMetadata
 
 
 class PurgeCacheStatusResult:
-
     def __init__(self, status):
         self.status = status
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")

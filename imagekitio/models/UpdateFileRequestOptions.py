@@ -3,9 +3,15 @@ from typing import List
 
 
 class UpdateFileRequestOptions:
-
-    def __init__(self, remove_a_i_tags: List[str] = None, webhook_url: str = None, extensions: json = None,
-                 tags: List[str] = None, custom_coordinates: str = None, custom_metadata: json = None):
+    def __init__(
+        self,
+        remove_a_i_tags: List[str] = None,
+        webhook_url: str = None,
+        extensions: json = None,
+        tags: List[str] = None,
+        custom_coordinates: str = None,
+        custom_metadata: json = None,
+    ):
         if remove_a_i_tags is not None:
             self.remove_a_i_tags = remove_a_i_tags
         if webhook_url is not None:

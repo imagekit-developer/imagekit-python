@@ -1,11 +1,18 @@
-from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
+from ..models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
 
 
 class CustomMetadataFieldsSchema:
-
-    def __init__(self, type: CustomMetaDataTypeEnum = None, select_options=None, default_value=None,
-                 is_value_required: bool = None, min_value=None, max_value=None, min_length: int = None,
-                 max_length: int = None):
+    def __init__(
+        self,
+        type: CustomMetaDataTypeEnum = None,
+        select_options=None,
+        default_value=None,
+        is_value_required: bool = None,
+        min_value=None,
+        max_value=None,
+        min_length: int = None,
+        max_length: int = None,
+    ):
         if type is not None:
             self.type = type.name
         if select_options is not None:

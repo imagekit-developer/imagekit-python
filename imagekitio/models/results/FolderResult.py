@@ -1,8 +1,7 @@
-from imagekitio.models.results.ResponseMetadata import ResponseMetadata
+from .ResponseMetadata import ResponseMetadata
 
 
 class FolderResult:
-
     def __init__(self, job_id):
         self.job_id = job_id
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")

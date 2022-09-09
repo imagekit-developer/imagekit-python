@@ -19,7 +19,8 @@ class TestCustomMetadataFields(ClientTestCase):
     TestCustomMetadataFields class used to test CRUD methods of custom metadata fields
     """
 
-    field_id = "fake_custom_metadata_field_id"
+    field_id = "field_id"
+
 
     @responses.activate
     def test_get_custom_metadata_fields_fails_on_unauthenticated_request(self):
@@ -141,7 +142,7 @@ class TestCustomMetadataFields(ClientTestCase):
             }
         }
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/customMetadataFields/fake_custom_metadata_field_id",
+        self.assertEqual("http://test.com/v1/customMetadataFields/field_id",
                          responses.calls[0].request.url)
 
     @responses.activate
@@ -696,7 +697,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual('62a9d5f6db485107347bb7f2', resp.id)
-        self.assertEqual("http://test.com/v1/customMetadataFields/fake_custom_metadata_field_id",
+        self.assertEqual("http://test.com/v1/customMetadataFields/field_id",
                          responses.calls[0].request.url)
         self.assertEqual(request_body, responses.calls[0].request.body)
 

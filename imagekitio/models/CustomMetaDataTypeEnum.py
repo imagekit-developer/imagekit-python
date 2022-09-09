@@ -9,5 +9,3 @@ class CustomMetaDataTypeEnum(Enum):
     Boolean = 5
     SingleSelect = 6
     MultiSelect = 7
-
-

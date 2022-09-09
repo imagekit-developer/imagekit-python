@@ -80,7 +80,7 @@ class TestGenerateURL(unittest.TestCase):
         self.assertEqual(
             url,
             "https://ik.imagekit.io/ldt7znpgpjs/test_YhNhoRxWt.jpg?tr=h-300%2Cw-400%2Cf-jpg%2Cpr-true%2Ce-contrast-1"
-            "%2Craw-ar-4-3%2Cq-40%3Art-90"
+            "%2Car-4-3%2Cq-40%3Art-90"
         )
 
     def test_generate_url_with_src_with_query_params_double(self):
@@ -397,7 +397,7 @@ class TestGenerateURL(unittest.TestCase):
             "oidpr-2,oiq-50,oic-force,oit-false,ox-35,oy-35,ofo-bottom,oh-20,ow-20,ot-two words,ots-20,otf-Open Sans,"
             "otc-00FFFF,oa-5,ott-b,obg-00AAFF55,ote-b3ZlcmxheSBtYWRlIGVhc3k%3D,otw-50,otbg-00AAFF55,otp-40,otia-left,"
             "or-10,pr-true,lo-true,t-5,md-true,cp-true,di-folder@@file.jpg,dpr-3,e-sharpen-10,e-usm-2-2-0.8-0.024,"
-            "e-contrast-true,e-grayscale-true,orig-true,raw-w-200,h-200/test_path.jpg"
+            "e-contrast-true,e-grayscale-true,orig-true,w-200,h-200/test_path.jpg"
         )
 
     def test_get_signature_with_100_expire_seconds(self):

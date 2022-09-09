@@ -3,14 +3,13 @@ import hmac
 import uuid
 from datetime import datetime as dt
 
-from imagekitio.constants import ERRORS
+from ..constants.errors import ERRORS
 
 DEFAULT_TIME_DIFF = 60 * 30
 
 
 def hamming_distance(first: str, second: str) -> int:
-    """Calculate Hamming Distance between to hex string
-    """
+    """Calculate Hamming Distance between to hex string"""
     try:
         a = bin(int(first, 16))[2:].zfill(64)
         b = bin(int(second, 16))[2:].zfill(64)
