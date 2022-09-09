@@ -1,5 +1,3 @@
-import json
-
 import responses
 
 from imagekitio import ImageKit
@@ -14,7 +12,7 @@ from imagekitio.models.CreateFolderRequestOptions import CreateFolderRequestOpti
 from imagekitio.models.DeleteFolderRequestOptions import DeleteFolderRequestOptions
 from imagekitio.models.MoveFolderRequestOptions import MoveFolderRequestOptions
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
-from tests.helpers import ClientTestCase, create_headers_for_test
+from tests.helpers import ClientTestCase, create_headers_for_test, make_string_to_single_line
 
 imagekit_obj = ImageKit(
     private_key="private_fake:", public_key="public_fake123:", url_endpoint="fake.com",
@@ -38,8 +36,8 @@ class TestFolders(ClientTestCase):
                 responses.POST,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.create_folder(
                 options=CreateFolderRequestOptions(folder_name="folder_name", parent_folder_path="/test"))
@@ -60,7 +58,7 @@ class TestFolders(ClientTestCase):
             responses.POST,
             url,
             status=201,
-            body=json.dumps({}),
+            body="{}",
             headers=headers
         )
         resp = self.client.create_folder(
@@ -92,8 +90,8 @@ class TestFolders(ClientTestCase):
                 responses.POST,
                 url,
                 status=400,
-                body=json.dumps({"message": "folderName parameter cannot have a slash.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                body='''{"message": "folderName parameter cannot have a slash.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
             self.client.create_folder(
                 options=CreateFolderRequestOptions(folder_name="folder_name", parent_folder_path="/test"))
@@ -114,11 +112,11 @@ class TestFolders(ClientTestCase):
                 responses.DELETE,
                 url,
                 status=404,
-                body=json.dumps({
+                body='''{
                     "message": "No folder found with folderPath test",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "reason": "FOLDER_NOT_FOUND"
-                }),
+                }''',
             )
             self.client.delete_folder(options=DeleteFolderRequestOptions(folder_path="/test"))
             self.assertRaises(NotFoundException)
@@ -138,7 +136,7 @@ class TestFolders(ClientTestCase):
             responses.DELETE,
             url,
             status=204,
-            body=json.dumps({}),
+            body="{}",
         )
         resp = self.client.delete_folder(options=DeleteFolderRequestOptions(folder_path="/folderName"))
         mock_response_metadata = {
@@ -170,10 +168,10 @@ class TestCopyFolder(ClientTestCase):
                 responses.POST,
                 url,
                 status=400,
-                body=json.dumps({
+                body='''{
                     "message": "sourceFolderPath and destinationPath cannot be same.",
                     "help": "For support kindly contact us at support@imagekit.io ."
-                }),
+                }''',
             )
             self.client.copy_folder(options=CopyFolderRequestOptions(source_folder_path="/test",
                                                                      destination_path="/test",
@@ -195,11 +193,11 @@ class TestCopyFolder(ClientTestCase):
                 responses.POST,
                 url,
                 status=404,
-                body=json.dumps({
+                body='''{
                     "message": "No files & folder found at sourceFolderPath /test",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "reason": "NO_FILES_FOLDER"
-                }),
+                }''',
             )
             self.client.copy_folder(options=CopyFolderRequestOptions(source_folder_path="/test",
                                                                      destination_path="/test1",
@@ -220,7 +218,7 @@ class TestCopyFolder(ClientTestCase):
         responses.add(
             responses.POST,
             url,
-            body=json.dumps({"jobId": "62de84fb1b02a58936cc740c"}),
+            body='{"jobId": "62de84fb1b02a58936cc740c"}',
         )
         resp = self.client.copy_folder(
             options=CopyFolderRequestOptions(source_folder_path="/test",
@@ -235,11 +233,11 @@ class TestCopyFolder(ClientTestCase):
                 'jobId': '62de84fb1b02a58936cc740c'
             }
         }
-        request_body = json.dumps({
+        request_body = make_string_to_single_line('''{
             "sourceFolderPath": "/test",
             "destinationPath": "/test1",
-            "includeFileVersions": True
-        })
+            "includeFileVersions": true
+        }''')
         self.assertEqual('62de84fb1b02a58936cc740c', resp.job_id)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/bulkJobs/copyFolder", responses.calls[0].request.url)
@@ -263,8 +261,8 @@ class TestMoveFolder(ClientTestCase):
                 responses.POST,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.move_folder(options=MoveFolderRequestOptions(source_folder_path="/test",
                                                                      destination_path="/test1"))
@@ -285,10 +283,10 @@ class TestMoveFolder(ClientTestCase):
                 responses.POST,
                 url,
                 status=400,
-                body=json.dumps({
+                body='''{
                     "message": "sourceFolderPath and destinationPath cannot be same.",
                     "help": "For support kindly contact us at support@imagekit.io ."
-                }),
+                }''',
             )
             self.client.move_folder(options=MoveFolderRequestOptions(source_folder_path="/test",
                                                                      destination_path="/test"))
@@ -309,11 +307,11 @@ class TestMoveFolder(ClientTestCase):
                 responses.POST,
                 url,
                 status=404,
-                body=json.dumps({
+                body='''{
                     "message": "No files & folder found at sourceFolderPath /test",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "reason": "NO_FILES_FOLDER"
-                }),
+                }''',
             )
             self.client.move_folder(options=MoveFolderRequestOptions(source_folder_path="/test",
                                                                      destination_path="/test1"))
@@ -333,7 +331,7 @@ class TestMoveFolder(ClientTestCase):
         responses.add(
             responses.POST,
             url,
-            body=json.dumps({"jobId": "62de84fb1b02a58936cc740c"}),
+            body='{"jobId": "62de84fb1b02a58936cc740c"}',
         )
         resp = self.client.move_folder(options=MoveFolderRequestOptions(source_folder_path="/test",
                                                                         destination_path="/test1"))
@@ -346,10 +344,10 @@ class TestMoveFolder(ClientTestCase):
                 'jobId': '62de84fb1b02a58936cc740c'
             }
         }
-        request_body = json.dumps({
+        request_body = make_string_to_single_line('''{
             "sourceFolderPath": "/test",
             "destinationPath": "/test1"
-        })
+        }''')
         self.assertEqual('62de84fb1b02a58936cc740c', resp.job_id)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
         self.assertEqual("http://test.com/v1/bulkJobs/moveFolder", responses.calls[0].request.url)
@@ -375,8 +373,8 @@ class TestGetBulkJobStatus(ClientTestCase):
                 responses.GET,
                 url,
                 status=500,
-                body=json.dumps({"message": "We have experienced an internal error while processing your request.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}),
+                body='''{"message": "We have experienced an internal error while processing your request.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
             )
             self.client.get_bulk_job_status(self.job_id)
             self.assertRaises(InternalServerException)
@@ -395,11 +393,11 @@ class TestGetBulkJobStatus(ClientTestCase):
         responses.add(
             responses.GET,
             url,
-            body=json.dumps({
+            body='''{
                 "jobId": "mock_job_id",
                 "type": "COPY_FOLDER",
                 "status": "Completed"
-            }),
+            }''',
             headers=headers
         )
         resp = self.client.get_bulk_job_status(self.job_id)

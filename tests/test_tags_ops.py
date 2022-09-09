@@ -1,4 +1,3 @@
-import json
 import os
 
 import responses
@@ -9,7 +8,7 @@ from imagekitio.exceptions.ForbiddenException import ForbiddenException
 from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
 from tests.helpers import (
-    ClientTestCase, get_auth_headers_for_test,
+    ClientTestCase, get_auth_headers_for_test, make_string_to_single_line,
 )
 
 imagekit_obj = ImageKit(
@@ -38,8 +37,8 @@ class TestTags(ClientTestCase):
                 responses.POST,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.add_tags(file_ids=[self.file_id], tags=['add-tag-1', 'add-tag-2'])
             self.assertRaises(ForbiddenException)
@@ -59,27 +58,25 @@ class TestTags(ClientTestCase):
         responses.add(
             responses.POST,
             url,
-            body=json.dumps({
-                "successfullyUpdatedFileIds": ["fake_123"]
-            }),
+            body='{"successfullyUpdatedFileIds": ["fake_123"]}',
             headers=headers
         )
 
         resp = self.client.add_tags(file_ids=[self.file_id], tags=['add-tag-1', 'add-tag-2'])
         mock_response_metadata = {
-                    'headers': {
-                        'Content-Type': 'text/plain, application/json',
-                        'Authorization': 'Basic ZmFrZTEyMjo='
-                    },
-                    'httpStatusCode': 200,
-                    'raw': {
-                        'successfullyUpdatedFileIds': ['fake_123']
-                    }
-                }
-        request_body = json.dumps({
+            'headers': {
+                'Content-Type': 'text/plain, application/json',
+                'Authorization': 'Basic ZmFrZTEyMjo='
+            },
+            'httpStatusCode': 200,
+            'raw': {
+                'successfullyUpdatedFileIds': ['fake_123']
+            }
+        }
+        request_body = make_string_to_single_line('''{
             "fileIds": ["fake_123"],
             "tags": ["add-tag-1", "add-tag-2"]
-        })
+        }''')
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(['fake_123'], resp.successfully_updated_file_ids)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
@@ -98,11 +95,11 @@ class TestTags(ClientTestCase):
                 responses.POST,
                 url,
                 status=404,
-                body=json.dumps({
+                body='''{
                     "message": "The requested file(s) does not exist.",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "missingFileIds": ["fake_123"]
-                }),
+                }''',
                 headers=headers
             )
             self.client.add_tags(file_ids=[self.file_id], tags=['add-tag-1', 'add-tag-2'])
@@ -124,8 +121,8 @@ class TestTags(ClientTestCase):
                 responses.POST,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                    , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.remove_tags(file_ids=[self.file_id], tags=['remove-tag-1', 'remove-tag-2'])
             self.assertRaises(ForbiddenException)
@@ -145,27 +142,25 @@ class TestTags(ClientTestCase):
         responses.add(
             responses.POST,
             url,
-            body=json.dumps({
-                "successfullyUpdatedFileIds": ["fake_123"]
-            }),
+            body='{"successfullyUpdatedFileIds": ["fake_123"]}',
             headers=headers
         )
 
         resp = self.client.remove_tags(file_ids=[self.file_id], tags=['remove-tag-1', 'remove-tag-2'])
         mock_response_metadata = {
-                    'headers': {
-                        'Content-Type': 'text/plain, application/json',
-                        'Authorization': 'Basic ZmFrZTEyMjo='
-                    },
-                    'httpStatusCode': 200,
-                    'raw': {
-                        'successfullyUpdatedFileIds': ['fake_123']
-                    }
-                }
-        request_body = json.dumps({
+            'headers': {
+                'Content-Type': 'text/plain, application/json',
+                'Authorization': 'Basic ZmFrZTEyMjo='
+            },
+            'httpStatusCode': 200,
+            'raw': {
+                'successfullyUpdatedFileIds': ['fake_123']
+            }
+        }
+        request_body = make_string_to_single_line('''{
             "fileIds": ["fake_123"],
             "tags": ["remove-tag-1", "remove-tag-2"]
-        })
+        }''')
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(['fake_123'], resp.successfully_updated_file_ids)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
@@ -184,11 +179,11 @@ class TestTags(ClientTestCase):
                 responses.POST,
                 url,
                 status=404,
-                body=json.dumps({
+                body='''{
                     "message": "The requested file(s) does not exist.",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "missingFileIds": ["fake_123"]
-                }),
+                }''',
                 headers=headers
             )
             self.client.remove_tags(file_ids=[self.file_id], tags=['remove-tag-1', 'remove-tag-2'])
@@ -223,8 +218,8 @@ class TestAITags(ClientTestCase):
                 responses.POST,
                 url,
                 status=403,
-                body=json.dumps({'message': 'Your account cannot be authenticated.'
-                                , 'help': 'For support kindly contact us at support@imagekit.io .'}),
+                body="""{'message': 'Your account cannot be authenticated.'
+                                , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.remove_ai_tags(file_ids=[self.file_id], a_i_tags=['remove-ai-tag1', 'remove-ai-tag2'])
             self.assertRaises(ForbiddenException)
@@ -244,27 +239,25 @@ class TestAITags(ClientTestCase):
         responses.add(
             responses.POST,
             url,
-            body=json.dumps({
-                "successfullyUpdatedFileIds": ["fake_123"]
-            }),
+            body='{"successfullyUpdatedFileIds": ["fake_123"]}',
             headers=headers
         )
 
         resp = self.client.remove_ai_tags(file_ids=[self.file_id], a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
         mock_response_metadata = {
-                    'headers': {
-                        'Content-Type': 'text/plain, application/json',
-                        'Authorization': 'Basic ZmFrZTEyMjo='
-                    },
-                    'httpStatusCode': 200,
-                    'raw': {
-                        'successfullyUpdatedFileIds': ['fake_123']
-                    }
-                }
-        request_body = json.dumps({
+            'headers': {
+                'Content-Type': 'text/plain, application/json',
+                'Authorization': 'Basic ZmFrZTEyMjo='
+            },
+            'httpStatusCode': 200,
+            'raw': {
+                'successfullyUpdatedFileIds': ['fake_123']
+            }
+        }
+        request_body = make_string_to_single_line('''{
             "fileIds": ["fake_123"],
-            "AITags": ['remove-ai-tag-1', 'remove-ai-tag-2']
-        })
+            "AITags": ["remove-ai-tag-1", "remove-ai-tag-2"]
+        }''')
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(['fake_123'], resp.successfully_updated_file_ids)
         self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
@@ -283,11 +276,11 @@ class TestAITags(ClientTestCase):
                 responses.POST,
                 url,
                 status=404,
-                body=json.dumps({
+                body='''{
                     "message": "The requested file(s) does not exist.",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "missingFileIds": ["fake_123"]
-                }),
+                }''',
                 headers=headers
             )
             self.client.remove_ai_tags(file_ids=[self.file_id], a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
