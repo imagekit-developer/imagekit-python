@@ -25,11 +25,7 @@ Table of contents -
     * [File Management](#file-management)
     * [Utility Functions](#utility-functions)
 * [Handling errors](#handling-errors)
-<<<<<<< HEAD
 * [Sample](#sample)
-=======
-* [Development](#development)
->>>>>>> e4ab6c21b8eab0a3dd2cddb179907bce3f8d5221
 * [Support](#support)
 * [Links](#links)
 
