@@ -25,6 +25,7 @@ Table of contents -
     * [File Management](#file-management)
     * [Utility Functions](#utility-functions)
 * [Handling errors](#handling-errors)
+* [Development](#development)
 * [Support](#support)
 * [Links](#links)
 
@@ -1230,6 +1231,43 @@ except UnknownException, e:
 # Something else happened, which can be unrelated to ImageKit; the reason will be indicated in the message field
 ```
 
+## Development
+
+To integrate ImageKit in the Python, the code samples covered here are hosted on Github - https://github.com/imagekit-samples/quickstart/tree/master/python.
+## How to run locally
+
+You will find `sample.py` in root folder. 
+
+Open `python/sample.py` file and replace placeholder credentials with actual values. You can get the value of [URL-endpoint](https://imagekit.io/dashboard#url-endpoints) from your ImageKit dashboard. API keys can be obtained from the [developer](https://imagekit.io/dashboard/developer/api-keys) section in your ImageKit dashboard.
+
+In `sample.py` file, set the following parameters for authentication:
+
+```python
+from imagekitio import ImageKit
+imagekit = ImageKit(
+    private_key='your private_key',
+    public_key='your public_key',
+    url_endpoint = 'your url_endpoint'
+)
+```
+
+- You will find the dependencies in `python/requirements.txt` file.
+
+## Install dependencies
+
+To install dependencies that are in the `requirements.txt` file can fire this command to install them:
+
+```shell
+pip install -r requirements.txt
+```
+
+Now run `sample.py`. If you are using CLI Tool (Terminal/Command prompt), open the project in CLI and execute it.
+
+```shell
+cd project-name
+pip install imagekitio  # if not installed already
+python sample.py        # to run sample.py file
+```
 ## Support
 
 For any feedback or to report any issues or general implementation support, please reach out
