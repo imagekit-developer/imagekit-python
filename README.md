@@ -1258,11 +1258,9 @@ $ pip install -e .
 
 To integrate ImageKit Samples in the Python, the code samples covered here are hosted on Github - https://github.com/imagekit-samples/quickstart/tree/master/python.
 
-You will find `sample.py` in root folder. 
-
 Open `python/sample.py` file and replace placeholder credentials with actual values. You can get the value of [URL-endpoint](https://imagekit.io/dashboard#url-endpoints) from your ImageKit dashboard. API keys can be obtained from the [developer](https://imagekit.io/dashboard/developer/api-keys) section in your ImageKit dashboard.
 
-In `sample.py` file, set the following parameters for authentication:
+In `python/sample.py` file, set the following parameters for authentication:
 
 ```python
 from imagekitio import ImageKit
@@ -1273,14 +1271,13 @@ imagekit = ImageKit(
 )
 ```
  
-To install dependencies that are in the `requirements.txt` file can fire this command to install them:
+To install dependencies that are in the `python/requirements.txt` file can fire this command to install them:
 
 ```shell
-# You will find the dependencies in `python/requirements.txt` file.
 pip install -r python/requirements.txt
 ```
 
-Now run `sample.py`. If you are using CLI Tool (Terminal/Command prompt), open the project in CLI and execute it.
+Now run `python/sample.py`. If you are using CLI Tool (Terminal/Command prompt), open the project in CLI and execute it.
 
 ```shell
 # if not installed already
