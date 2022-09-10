@@ -12,7 +12,7 @@ class FileResult:
         updated_at,
         file_id,
         tags,
-        ai_tags: List[dict] = [],
+        ai_tags: List[AITags] = [],
         version_info: dict = {},
         embedded_metadata: dict = {},
         custom_coordinates: str = "",
@@ -38,7 +38,9 @@ class FileResult:
         self.ai_tags: List[AITags] = []
         if ai_tags is not None:
             for i in ai_tags:
-                self.ai_tags.append(AITags(i["name"], i["confidence"], i["source"]))
+                self.ai_tags.append(AITags(i["name"] if "name" in i else None,
+                                           i["confidence"] if "confidence" in i else None,
+                                           i["source"] if 'source' in i else None))
         self.version_info = VersionInfo(version_info["id"], version_info["name"])
         self.embedded_metadata = embedded_metadata
         self.custom_coordinates = custom_coordinates
