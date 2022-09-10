@@ -396,7 +396,7 @@ class TestListFiles(ClientTestCase):
             headers=headers,
             match=[
                 matchers.query_string_matcher(
-                    "type=file&sort=ASC_CREATED&path=%2F&searchQuery=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3")
+                    "%7B%22type%22:%20%22file%22,%20%22sort%22:%20%22ASC_CREATED%22,%20%22path%22:%20%22/%22,%20%22searchQuery%22:%20%22created_at%20%3E=%20'2d'%20OR%20size%20%3C%20'2mb'%20OR%20format='png'%22,%20%22fileType%22:%20%22all%22,%20%22limit%22:%201,%20%22skip%22:%200,%20%22tags%22:%20%22Tag-1,%20Tag-2,%20Tag-3%22%7D")
             ],
         )
 
@@ -444,7 +444,7 @@ class TestListFiles(ClientTestCase):
             ],
         }
         self.assertEqual(
-            "http://test.com/v1/files?type=file&sort=ASC_CREATED&path=%2F&searchQuery=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3",
+            "http://test.com/v1/files?%7B%22type%22:%20%22file%22,%20%22sort%22:%20%22ASC_CREATED%22,%20%22path%22:%20%22/%22,%20%22searchQuery%22:%20%22created_at%20%3E=%20'2d'%20OR%20size%20%3C%20'2mb'%20OR%20format='png'%22,%20%22fileType%22:%20%22all%22,%20%22limit%22:%201,%20%22skip%22:%200,%20%22tags%22:%20%22Tag-1,%20Tag-2,%20Tag-3%22%7D",
             responses.calls[0].request.url,
         )
         self.assertEqual(
@@ -469,7 +469,7 @@ class TestListFiles(ClientTestCase):
                                  "help": "For support kindly contact us at support@imagekit.io ."}""",
                 match=[
                     matchers.query_string_matcher(
-                        "type=file&sort=ASC_CREATED&path=%2F&searchQuery=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3"
+                        "%7B%22type%22:%20%22file%22,%20%22sort%22:%20%22ASC_CREATED%22,%20%22path%22:%20%22/%22,%20%22searchQuery%22:%20%22created_at%20%3E=%20'2d'%20OR%20size%20%3C%20'2mb'%20OR%20format='png'%22,%20%22fileType%22:%20%22all%22,%20%22limit%22:%201,%20%22skip%22:%200,%20%22tags%22:%20%22Tag-1,%20Tag-2,%20Tag-3%22%7D"
                     )
                 ],
             )

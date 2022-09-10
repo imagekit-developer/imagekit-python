@@ -18,7 +18,7 @@ class UploadFileResult:
         size: int = None,
         file_path: str = None,
         tags: dict = None,
-        ai_tags: List[AITags] = [],
+        ai_tags: List[AITags] = AITags(None, None, None),
         version_info: VersionInfo = VersionInfo(None, None),
         is_private_file=False,
         custom_coordinates: dict = None,

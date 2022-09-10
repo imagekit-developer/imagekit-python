@@ -123,7 +123,7 @@ class File(object):
         url = "{}/v1/files".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
         resp = self.request.request(
-            method="GET", url=url, headers=headers, params=formatted_options
+            method="GET", url=url, headers=headers, params=dumps(formatted_options)
         )
         if resp.status_code == 200:
             response = convert_to_list_response_object(resp, FileResult, ListFileResult)

@@ -15,7 +15,7 @@ class FileResultWithResponseMetadata(FileResult):
         updated_at=None,
         file_id=None,
         tags=None,
-        ai_tags: List[AITags] = [],
+        ai_tags: List[AITags] = AITags(None, None, None),
         version_info: VersionInfo = VersionInfo(None, None),
         embedded_metadata=None,
         custom_coordinates: str = "",

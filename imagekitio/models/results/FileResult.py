@@ -12,7 +12,7 @@ class FileResult:
         updated_at,
         file_id,
         tags,
-        ai_tags=None,
+        ai_tags: List[AITags] = [],
         version_info: dict = {},
         embedded_metadata: dict = {},
         custom_coordinates: str = "",
@@ -29,8 +29,6 @@ class FileResult:
         mime: str = None,
         extension_status: dict = {},
     ):
-        if ai_tags is None:
-            ai_tags = []
         self.type = type
         self.name = name
         self.created_at = created_at
