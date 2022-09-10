@@ -122,9 +122,11 @@ class File(object):
             formatted_options = dict()
         url = "{}/v1/files".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
+        print("URL:------>", dumps(formatted_options))
         resp = self.request.request(
-            method="GET", url=url, headers=headers, params=dumps(formatted_options)
+            method="GET", url=url, headers=headers, params=formatted_options
         )
+        print("URL request::------>", resp.request.url)
         if resp.status_code == 200:
             response = convert_to_list_response_object(resp, FileResult, ListFileResult)
             return response
@@ -330,7 +332,7 @@ class File(object):
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        formatted_options = dumps(request_formatter(options.__dict__))
+        formatted_options = dumps(request_formatter(options.__dict__)) if options is not None else dict()
         print("here formatted options:--->", formatted_options)
         resp = self.request.request(
             method="Post", url=url, headers=headers, data=formatted_options

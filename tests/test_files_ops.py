@@ -13,6 +13,7 @@ from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.exceptions.UnknownException import UnknownException
 from imagekitio.models.CopyFileRequestOptions import CopyFileRequestOptions
 from imagekitio.models.MoveFileRequestOptions import MoveFileRequestOptions
+from imagekitio.models.RenameFileRequestOptions import RenameFileRequestOptions
 from imagekitio.models.UpdateFileRequestOptions import UpdateFileRequestOptions
 from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
@@ -59,6 +60,40 @@ class TestUpload(ClientTestCase):
                 body="""{"message": "Your account cannot be authenticated."
                                     , "help": "For support kindly contact us at support@imagekit.io ."}""",
             )
+            self.client.upload_file(
+                file=self.image,
+                file_name=self.filename,
+                options=UploadFileRequestOptions(
+                    use_unique_file_name=False,
+                    tags=["abc", "def"],
+                    folder="/testing-python-folder/",
+                    is_private_file=False,
+                    custom_coordinates="10,10,20,20",
+                    response_fields=[
+                        "tags",
+                        "custom_coordinates",
+                        "is_private_file",
+                        "embedded_metadata",
+                        "custom_metadata",
+                    ],
+                    extensions=(
+                        {
+                            "name": "remove-bg",
+                            "options": {"add_shadow": True, "bg_color": "pink"},
+                        },
+                        {
+                            "name": "google-auto-tagging",
+                            "minConfidence": 80,
+                            "maxTags": 10,
+                        },
+                    ),
+                    webhook_url="https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
+                    overwrite_file=True,
+                    overwrite_a_i_tags=False,
+                    overwrite_tags=False,
+                    overwrite_custom_metadata=True,
+                    custom_metadata={"testss": 12},
+                ))
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
@@ -141,40 +176,63 @@ class TestUpload(ClientTestCase):
             ),
         )
         mock_response_metadata = {
-            "raw": {
-                "fileId": "fake_file_id1234",
-                "name": "file_name.jpg",
-                "size": 102117,
-                "versionInfo": {"id": "62d670648cdb697522602b45", "name": "Version 11"},
+            'headers': {
+                'Content-Type': 'text/plain',
+                'Accept-Encoding': 'gzip, deflate',
+                'Authorization': 'Basic ZmFrZTEyMjo='
             },
-            "httpStatusCode": 200,
-            "headers": {
-                "Content-Type": "text/plain",
-                "Accept-Encoding": "gzip, deflate",
-                "Authorization": "Basic ZmFrZTEyMjo=",
-            },
+            'http_status_code': 200,
+            'raw': {
+                'AITags': [{
+                    'confidence': 97.66,
+                    'name': 'Computer',
+                    'source': 'google-auto-tagging'
+                }, {
+                    'confidence': 94.96,
+                    'name': 'Personal computer',
+                    'source': 'google-auto-tagging'
+                }],
+                'extensionStatus': {
+                    'google-auto-tagging': 'success',
+                    'remove-bg': 'pending'
+                },
+                'fileId': 'fake_file_id1234',
+                'filePath': '/testing-python-folder/file_name.jpg',
+                'fileType': 'image',
+                'height': 700,
+                'isPrivateFile': True,
+                'name': 'file_name.jpg',
+                'size': 102117,
+                'tags': ['abc', 'def'],
+                'thumbnailUrl': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/testing-python-folder/file_name.jpg',
+                'url': 'https://ik.imagekit.io/your_imagekit_id/testing-python-folder/file_name.jpg',
+                'versionInfo': {
+                    'id': '62d670648cdb697522602b45',
+                    'name': 'Version 11'
+                },
+                'width': 1050
+            }
         }
-        request_body = make_string_to_single_line(
-            """{'customMetadata': '{"test100": 11}',
- 'extensions': '[{"name": "remove-bg", "options": {"add_shadow": true, '
-               '"bg_color": "pink"}}, {"name": "google-auto-tagging", '
-               '"minConfidence": 80, "maxTags": 10}]',
- 'file': "<_io.BufferedReader name='sample.jpg'>",
- 'fileName': 'file_name.jpg',
- 'folder': '/testing-python-folder/',
- 'isPrivateFile': 'true',
- 'overwriteAITags': 'false',
- 'overwriteCustomMetadata': 'true',
- 'overwriteFile': 'true',
- 'overwriteTags': 'false',
- 'responseFields': 'isPrivateFile,tags',
- 'tags': 'abc,def',
- 'useUniqueFileName': 'false',
- 'webhookUrl': 'url'}"""
-        )
+        request_body = make_string_to_single_line("""{
+                            \'file\': \"<_io.BufferedReader name=\'sample.jpg\'>\",
+                            \'fileName\': \'file_name.jpg\',
+                            \'useUniqueFileName\': \'false\',
+                            \'tags\': \'abc,def\',
+                            \'folder\': \'/testing-python-folder/\',
+                            \'isPrivateFile\': \'true\',
+                            \'responseFields\': \'isPrivateFile,tags\',
+                            \'extensions\': \'[{\"name\": \"remove-bg\", \"options\": {\"add_shadow\": true, \"bg_color\": \"pink\"}},
+                                               {\"name\": \"google-auto-tagging\", \"minConfidence\": 80, \"maxTags\": 10}]\',
+                            \'webhookUrl\': \'url\',
+                            \'overwriteFile\': \'true\',
+                            \'overwriteAITags\': \'false\',
+                            \'overwriteTags\': \'false\',
+                            \'overwriteCustomMetadata\': \'true\',
+                            \'customMetadata\': \'{\"test100\": 11}\'
+                        }""")
         actual_body = responses.calls[0].request.body.__dict__.__getitem__("fields")
         actual_body["file"] = "<_io.BufferedReader name='sample.jpg'>"
-        self.assertEqual(request_body, actual_body)
+        self.assertEqual(request_body, str(actual_body))
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -338,8 +396,7 @@ class TestListFiles(ClientTestCase):
             headers=headers,
             match=[
                 matchers.query_string_matcher(
-                    "type=file&sort=ASC_CREATED&path=%2F&search_query=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&file_type=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3"
-                )
+                    "type=file&sort=ASC_CREATED&path=%2F&searchQuery=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3")
             ],
         )
 
@@ -387,7 +444,7 @@ class TestListFiles(ClientTestCase):
             ],
         }
         self.assertEqual(
-            "http://test.com/v1/files?type=file&sort=ASC_CREATED&path=%2F&search_query=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&file_type=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3",
+            "http://test.com/v1/files?type=file&sort=ASC_CREATED&path=%2F&searchQuery=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3",
             responses.calls[0].request.url,
         )
         self.assertEqual(
@@ -412,7 +469,7 @@ class TestListFiles(ClientTestCase):
                                  "help": "For support kindly contact us at support@imagekit.io ."}""",
                 match=[
                     matchers.query_string_matcher(
-                        "type=file&sort=ASC_CREATED&path=%2F&search_query=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&file_type=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3"
+                        "type=file&sort=ASC_CREATED&path=%2F&searchQuery=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3"
                     )
                 ],
             )
@@ -466,81 +523,87 @@ class TestGetFileDetails(ClientTestCase):
             responses.GET,
             url,
             body="""{
-                "type": "file",
-                "name": "new_car.jpg",
-                "createdAt": "2022-06-15T11:34:36.294Z",
-                "customCoordinates": "null",
-                "customMetadata": {"test10": 11, "test100": 10},
-                "embeddedMetadata": {
-                    "DateCreated": "2022-07-04T10:15:50.066Z",
-                    "DateTimeCreated": "2022-07-04T10:15:50.066Z",
-                },
-                "isPrivateFile": false,
-                "url": "https://ik.imagekit.io/your-imagekit-id/new_car.jpg",
-                "thumbnail": "https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg",
-                "fileType": "image",
-                "filePath": "/new_car.jpg",
-                "fileType": "image",
-                "hasAlpha": False,
-                "height": 354,
-                "isPrivateFile": False,
-                "mime": "image/jpeg",
-                "name": "new_car.jpg",
-                "size": 7390,
-                "hasAlpha": false,
-                "mime": "image/jpeg"
-            }""",
+                        "type": "file",
+                        "name": "default-image.jpg",
+                        "createdAt": "2022-06-15T08:19:00.843Z",
+                        "updatedAt": "2022-08-19T12:19:22.726Z",
+                        "fileId": "fake_file_id1234",
+                        "tags": [
+                            "{Software",
+                            " Developer",
+                            " Engineer}",
+                            "tag-to-add-2"
+                        ],
+                        "AITags": null,
+                        "versionInfo": {
+                            "id": "62a995f4d875ec08dc587b72",
+                            "name": "Version 1"
+                        },
+                        "embeddedMetadata": {
+                            "XResolution": 250,
+                            "YResolution": 250,
+                            "DateCreated": "2022-06-15T08:19:01.523Z",
+                            "DateTimeCreated": "2022-06-15T08:19:01.524Z"
+                        },
+                        "customCoordinates": "10,10,20,20",
+                        "customMetadata": {
+                            "test100": 10
+                        },
+                        "isPrivateFile": false,
+                        "url": "https://ik.imagekit.io/xyxt2lnil/default-image.jpg",
+                        "thumbnail": "https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/default-image.jpg",
+                        "fileType": "image",
+                        "filePath": "/default-image.jpg",
+                        "height": 354,
+                        "width": 236,
+                        "size": 23023,
+                        "hasAlpha": false,
+                        "mime": "image/jpeg"
+                    }""",
             headers=headers,
         )
         resp = self.client.get_file_details(self.file_id)
 
         mock_response_metadata = {
-            "headers": {
-                "Content-Type": "text/plain",
-                "Accept-Encoding": "gzip, deflate",
-                "Authorization": "Basic ZmFrZTEyMjo=",
+            'headers': {
+                'Content-Type': 'text/plain',
+                'Accept-Encoding': 'gzip, deflate',
+                'Authorization': 'Basic ZmFrZTEyMjo='
             },
-            "httpStatusCode": 200,
-            "raw": {
-                "AITags": [
-                    {
-                        "confidence": 98.77,
-                        "name": "Clothing",
-                        "source": "google-auto-tagging",
-                    },
-                    {
-                        "confidence": 95.31,
-                        "name": "Smile",
-                        "source": "google-auto-tagging",
-                    },
-                ],
-                "createdAt": "2022-06-15T11:34:36.294Z",
-                "customCoordinates": "null",
-                "customMetadata": {"test10": 11, "test100": 10},
-                "embeddedMetadata": {
-                    "DateCreated": "2022-07-04T10:15:50.066Z",
-                    "DateTimeCreated": "2022-07-04T10:15:50.066Z",
+            'http_status_code': 200,
+            'raw': {
+                'AITags': None,
+                'createdAt': '2022-06-15T08:19:00.843Z',
+                'customCoordinates': '10,10,20,20',
+                'customMetadata': {
+                    'test100': 10
                 },
-                "fileId": "fake_file_id1234",
-                "filePath": "/new_car.jpg",
-                "fileType": "image",
-                "hasAlpha": False,
-                "height": 354,
-                "isPrivateFile": False,
-                "mime": "image/jpeg",
-                "name": "new_car.jpg",
-                "size": 7390,
-                "tags": ["Tag_1", "Tag_2", "Tag_3"],
-                "thumbnail": "https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg",
-                "type": "file",
-                "updatedAt": "2022-07-04T10:15:50.067Z",
-                "url": "https://ik.imagekit.io/your-imagekit-id/new_car.jpg",
-                "versionInfo": {
-                    "id": "62b97749f63122840530fda9",
-                    "name": "Version " "4",
+                'embeddedMetadata': {
+                    'DateCreated': '2022-06-15T08:19:01.523Z',
+                    'DateTimeCreated': '2022-06-15T08:19:01.524Z',
+                    'XResolution': 250,
+                    'YResolution': 250
                 },
-                "width": 236,
-            },
+                'fileId': 'fake_file_id1234',
+                'filePath': '/default-image.jpg',
+                'fileType': 'image',
+                'hasAlpha': False,
+                'height': 354,
+                'isPrivateFile': False,
+                'mime': 'image/jpeg',
+                'name': 'default-image.jpg',
+                'size': 23023,
+                'tags': ['{Software', ' Developer', ' Engineer}', 'tag-to-add-2'],
+                'thumbnail': 'https://ik.imagekit.io/xyxt2lnil/tr:n-ik_ml_thumbnail/default-image.jpg',
+                'type': 'file',
+                'updatedAt': '2022-08-19T12:19:22.726Z',
+                'url': 'https://ik.imagekit.io/xyxt2lnil/default-image.jpg',
+                'versionInfo': {
+                    'id': '62a995f4d875ec08dc587b72',
+                    'name': 'Version 1'
+                },
+                'width': 236
+            }
         }
 
         self.assertEqual(
@@ -1076,50 +1139,50 @@ class TestUpdateFileDetails(ClientTestCase):
             responses.PATCH,
             url,
             body="""{
-                "type": "file",
-                "name": "default-image.jpg",
-                "createdAt": "2022-07-21T10:31:22.529Z",
-                "updatedAt": "2022-07-21T10:37:11.848Z",
-                "fileId": "fake_123",
-                "tags": ["tag1", "tag2"],
-                "AITags": [
-                    {
+                    "type": "file",
+                    "name": "default-image.jpg",
+                    "createdAt": "2022-07-21T10:31:22.529Z",
+                    "updatedAt": "2022-07-21T10:37:11.848Z",
+                    "fileId": "fake_123",
+                    "tags": ["tag1", "tag2"],
+                    "AITags": [{
                         "name": "Corridor",
                         "confidence": 99.39,
-                        "source": "aws-auto-tagging",
-                    },
-                    {
+                        "source": "aws-auto-tagging"
+                    }, {
                         "name": "Floor",
                         "confidence": 97.59,
-                        "source": "aws-auto-tagging",
+                        "source": "aws-auto-tagging"
+                    }],
+                    "versionInfo": {
+                        "id": "versionId",
+                        "name": "Version 2"
                     },
-                ],
-                "versionInfo": {"id": "versionId", "name": "Version 2"},
-                "embeddedMetadata": {
-                    "XResolution": 1,
-                    "YResolution": 1,
-                    "DateCreated": "2022-07-21T10:35:34.497Z",
-                    "DateTimeCreated": "2022-07-21T10:35:34.500Z",
-                },
-                "customCoordinates": "10,10,100,100",
-                "customMetadata": {
-                    "test": 11
-                },
-                "isPrivateFile": false,
-                "url": "https://ik.imagekit.io/your_imagekit_id/default-image.jpg",
-                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/default-image.jpg",
-                "fileType": "image",
-                "filePath": "/default-image.jpg",
-                "height": 1000,
-                "width": 1000,
-                "size": 184425,
-                "hasAlpha": false,
-                "mime": "image/jpeg",
-                "extensionStatus": {
-                    "remove-bg": "pending",
-                    "google-auto-tagging": "success"
-                }
-            }""",
+                    "embeddedMetadata": {
+                        "XResolution": 1,
+                        "YResolution": 1,
+                        "DateCreated": "2022-07-21T10:35:34.497Z",
+                        "DateTimeCreated": "2022-07-21T10:35:34.500Z"
+                    },
+                    "customCoordinates": "10,10,100,100",
+                    "customMetadata": {
+                        "test": 11
+                    },
+                    "isPrivateFile": false,
+                    "url": "https://ik.imagekit.io/your_imagekit_id/default-image.jpg",
+                    "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/default-image.jpg",
+                    "fileType": "image",
+                    "filePath": "/default-image.jpg",
+                    "height": 1000,
+                    "width": 1000,
+                    "size": 184425,
+                    "hasAlpha": false,
+                    "mime": "image/jpeg",
+                    "extensionStatus": {
+                        "remove-bg": "pending",
+                        "google-auto-tagging": "success"
+                    }
+                }""",
             headers=headers,
         )
 
@@ -1160,35 +1223,59 @@ class TestUpdateFileDetails(ClientTestCase):
                 tags=["tag1", "tag2"],
                 custom_coordinates="10,10,100,100",
                 custom_metadata={"test": 11},
-            ),
+            )
         )
         mock_response_metadata = {
-            "raw": {
-                "type": "file",
-                "name": "default-image.jpg",
-                "createdAt": "2022-07-21T10:31:22.529Z",
-                "updatedAt": "2022-07-21T10:37:11.848Z",
-                "fileId": "fake_123",
-                "tags": ["tag1", "tag2"],
-                "AITags": [
-                    {
-                        "name": "Corridor",
-                        "confidence": 99.39,
-                        "source": "aws-auto-tagging",
-                    },
-                    {
-                        "name": "Floor",
-                        "confidence": 97.59,
-                        "source": "aws-auto-tagging",
-                    },
-                ],
-                "versionInfo": {"id": "versionId", "name": "Version 2"},
+            'headers': {
+                'Content-Type': 'text/plain, application/json',
+                'Authorization': 'Basic ZmFrZTEyMjo='
             },
-            "httpStatusCode": 200,
-            "headers": {
-                "Content-Type": "text/plain, application/json",
-                "Authorization": "Basic ZmFrZTEyMjo=",
-            },
+            'http_status_code': 200,
+            'raw': {
+                'AITags': [{
+                    'confidence': 99.39,
+                    'name': 'Corridor',
+                    'source': 'aws-auto-tagging'
+                }, {
+                    'confidence': 97.59,
+                    'name': 'Floor',
+                    'source': 'aws-auto-tagging'
+                }],
+                'createdAt': '2022-07-21T10:31:22.529Z',
+                'customCoordinates': '10,10,100,100',
+                'customMetadata': {
+                    'test': 11
+                },
+                'embeddedMetadata': {
+                    'DateCreated': '2022-07-21T10:35:34.497Z',
+                    'DateTimeCreated': '2022-07-21T10:35:34.500Z',
+                    'XResolution': 1,
+                    'YResolution': 1
+                },
+                'extensionStatus': {
+                    'google-auto-tagging': 'success',
+                    'remove-bg': 'pending'
+                },
+                'fileId': 'fake_123',
+                'filePath': '/default-image.jpg',
+                'fileType': 'image',
+                'hasAlpha': False,
+                'height': 1000,
+                'isPrivateFile': False,
+                'mime': 'image/jpeg',
+                'name': 'default-image.jpg',
+                'size': 184425,
+                'tags': ['tag1', 'tag2'],
+                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/default-image.jpg',
+                'type': 'file',
+                'updatedAt': '2022-07-21T10:37:11.848Z',
+                'url': 'https://ik.imagekit.io/your_imagekit_id/default-image.jpg',
+                'versionInfo': {
+                    'id': 'versionId',
+                    'name': 'Version 2'
+                },
+                'width': 1000
+            }
         }
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(
@@ -1214,21 +1301,6 @@ class TestUpdateFileDetails(ClientTestCase):
                 body="""{"message": "The requested file does not exist.",
                                  "help": "For support kindly contact us at support@imagekit.io ."}""",
             )
-
-            # request_body = {
-            #     "removeAITags": ["ai-tag1", "ai-tag2"],
-            #     "webhookUrl": "url",
-            #     "extensions": [
-            #         {
-            #             "name": "remove-bg",
-            #             "options": {"add_shadow": True, "bg_color": "red"},
-            #         },
-            #         {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10},
-            #     ],
-            #     "tags": ["tag1", "tag2"],
-            #     "customCoordinates": "10,10,100,100",
-            #     "customMetadata": {"test": 11},
-            # }
             self.client.update_file_details(
                 file_id=self.file_id,
                 options=UpdateFileRequestOptions(
@@ -1384,10 +1456,8 @@ class TestGetFileVersions(ClientTestCase):
                     "test10": 11
                 },
                 "isPrivateFile": false,
-                "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version
-                       =dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
-                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version
-                             =dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version                       =dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version                         =dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
                 "fileType": "image",
                 "filePath": "/new_car.jpg",
                 "height": 354,
@@ -1400,107 +1470,106 @@ class TestGetFileVersions(ClientTestCase):
         )
         resp = self.client.get_file_versions(self.file_id)
         mock_response_metadata = {
-            "raw": [
-                {
-                    "type": "file",
-                    "name": "new_car.jpg",
-                    "createdAt": "2022-06-15T11:34:36.294Z",
-                    "updatedAt": "2022-07-04T10:15:50.067Z",
-                    "fileId": "fake_123",
-                    "tags": ["Tag_1", "Tag_2", "Tag_3"],
-                    "AITags": [
-                        {
-                            "name": "Clothing",
-                            "confidence": 98.77,
-                            "source": "google-auto-tagging",
-                        },
-                        {
-                            "name": "Smile",
-                            "confidence": 95.31,
-                            "source": "google-auto-tagging",
-                        },
-                        {
-                            "name": "Shoe",
-                            "confidence": 95.2,
-                            "source": "google-auto-tagging",
-                        },
-                    ],
-                    "versionInfo": {"id": "versionId", "name": "Version 4"},
-                    "embeddedMetadata": {
-                        "DateCreated": "2022-07-04T10:15:50.066Z",
-                        "DateTimeCreated": "2022-07-04T10:15:50.066Z",
-                    },
-                    "customCoordinates": None,
-                    "customMetadata": {"test100": 10, "test10": 11},
-                    "isPrivateFile": False,
-                    "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg",
-                    "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg",
-                    "fileType": "image",
-                    "filePath": "/new_car.jpg",
-                    "height": 354,
-                    "width": 236,
-                    "size": 7390,
-                    "hasAlpha": False,
-                    "mime": "image/jpeg",
-                },
-                {
-                    "type": "file-version",
-                    "name": "new_car.jpg",
-                    "createdAt": "2022-07-04T10:15:49.698Z",
-                    "updatedAt": "2022-07-04T10:15:49.734Z",
-                    "fileId": "fileId",
-                    "tags": ["Tag_1", "Tag_2", "Tag_3"],
-                    "AITags": [
-                        {
-                            "name": "Clothing",
-                            "confidence": 98.77,
-                            "source": "google-auto-tagging",
-                        },
-                        {
-                            "name": "Smile",
-                            "confidence": 95.31,
-                            "source": "google-auto-tagging",
-                        },
-                        {
-                            "name": "Shoe",
-                            "confidence": 95.2,
-                            "source": "google-auto-tagging",
-                        },
-                        {
-                            "name": "Street light",
-                            "confidence": 91.05,
-                            "source": "google-auto-tagging",
-                        },
-                    ],
-                    "versionInfo": {
-                        "id": "62c2bdd5872375c6b8f40fd4",
-                        "name": "Version 1",
-                    },
-                    "embeddedMetadata": {
-                        "XResolution": 250,
-                        "YResolution": 250,
-                        "DateCreated": "2022-06-15T11:34:36.702Z",
-                        "DateTimeCreated": "2022-06-15T11:34:36.702Z",
-                    },
-                    "customCoordinates": "10,10,40,40",
-                    "customMetadata": {"test100": 10, "test10": 11},
-                    "isPrivateFile": False,
-                    "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
-                    "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
-                    "fileType": "image",
-                    "filePath": "/new_car.jpg",
-                    "height": 354,
-                    "width": 236,
-                    "size": 23023,
-                    "hasAlpha": False,
-                    "mime": "image/jpeg",
-                },
-            ],
-            "httpStatusCode": 200,
-            "headers": {
-                "Content-Type": "text/plain, application/json",
-                "Authorization": "Basic ZmFrZTEyMjo=",
+            'headers': {
+                'Content-Type': 'text/plain, application/json',
+                'Authorization': 'Basic ZmFrZTEyMjo='
             },
+            'http_status_code': 200,
+            'raw': [{
+                'AITags': [{
+                    'confidence': 98.77,
+                    'name': 'Clothing',
+                    'source': 'google-auto-tagging'
+                }, {
+                    'confidence': 95.31,
+                    'name': 'Smile',
+                    'source': 'google-auto-tagging'
+                }, {
+                    'confidence': 95.2,
+                    'name': 'Shoe',
+                    'source': 'google-auto-tagging'
+                }],
+                'createdAt': '2022-06-15T11:34:36.294Z',
+                'customCoordinates': '',
+                'customMetadata': {
+                    'test10': 11,
+                    'test100': 10
+                },
+                'embeddedMetadata': {
+                    'DateCreated': '2022-07-04T10:15:50.066Z',
+                    'DateTimeCreated': '2022-07-04T10:15:50.066Z'
+                },
+                'fileId': 'fake_123',
+                'filePath': '/new_car.jpg',
+                'fileType': 'image',
+                'hasAlpha': False,
+                'height': 354,
+                'isPrivateFile': False,
+                'mime': 'image/jpeg',
+                'name': 'new_car.jpg',
+                'size': 7390,
+                'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
+                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg',
+                'type': 'file',
+                'updatedAt': '2022-07-04T10:15:50.067Z',
+                'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg',
+                'versionInfo': {
+                    'id': 'versionId',
+                    'name': 'Version 4'
+                },
+                'width': 236
+            }, {
+                'AITags': [{
+                    'confidence': 98.77,
+                    'name': 'Clothing',
+                    'source': 'google-auto-tagging'
+                }, {
+                    'confidence': 95.31,
+                    'name': 'Smile',
+                    'source': 'google-auto-tagging'
+                }, {
+                    'confidence': 95.2,
+                    'name': 'Shoe',
+                    'source': 'google-auto-tagging'
+                }, {
+                    'confidence': 91.05,
+                    'name': 'Street light',
+                    'source': 'google-auto-tagging'
+                }],
+                'createdAt': '2022-07-04T10:15:49.698Z',
+                'customCoordinates': '10,10,40,40',
+                'customMetadata': {
+                    'test10': 11,
+                    'test100': 10
+                },
+                'embeddedMetadata': {
+                    'DateCreated': '2022-06-15T11:34:36.702Z',
+                    'DateTimeCreated': '2022-06-15T11:34:36.702Z',
+                    'XResolution': 250,
+                    'YResolution': 250
+                },
+                'fileId': 'fileId',
+                'filePath': '/new_car.jpg',
+                'fileType': 'image',
+                'hasAlpha': False,
+                'height': 354,
+                'isPrivateFile': False,
+                'mime': 'image/jpeg',
+                'name': 'new_car.jpg',
+                'size': 23023,
+                'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
+                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version                         '
+                             '=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
+                'type': 'file-version',
+                'updatedAt': '2022-07-04T10:15:49.734Z',
+                'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version                       '
+                       '=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
+                'versionInfo': {
+                    'id': '62c2bdd5872375c6b8f40fd4',
+                    'name': 'Version 1'
+                },
+                'width': 236
+            }]
         }
 
         self.assertEqual(
@@ -1572,70 +1641,80 @@ class TestGetFileVersions(ClientTestCase):
             responses.GET,
             url,
             body="""{
-                "type": "file-version",
-                "name": "new_car.jpg",
-                "createdAt": "2022-06-27T09:24:25.251Z",
-                "updatedAt": "2022-06-27T12:11:11.247Z",
-                "fileId": "fake_123",
-                "tags": ["tagg", "tagg1"],
-                "AITags": "",
-                "versionInfo": {
-                    "id": "fake_version_123",
-                    "name": "Version 1"
-                },
-                "embeddedMetadata": {
-                    "XResolution": 250,
-                    "YResolution": 250,
-                    "DateCreated": "2022-06-15T11:34:36.702Z",
-                    "DateTimeCreated": "2022-06-15T11:34:36.702Z",
-                },
-                "customCoordinates": "10,10,20,20",
-                "customMetadata": {
-                    "test100": 10
-                },
-                "isPrivateFile": false,
-                "url": "https://ik.imagekit.io/your-imagekit-id/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH",
-                "thumbnail": "https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH",
-                "fileType": "image",
-                "filePath": "/new_car.jpg",
-                "height": 354,
-                "width": 236,
-                "size": 23023,
-                "hasAlpha": false,
-                "mime": "image/jpeg"
-            }""",
+                        "type": "file-version",
+                        "name": "new_car.jpg",
+                        "createdAt": "2022-06-27T09:24:25.251Z",
+                        "updatedAt": "2022-06-27T12:11:11.247Z",
+                        "fileId": "fake_123",
+                        "tags": ["tagg", "tagg1"],
+                        "AITags": "",
+                        "versionInfo": {
+                            "id": "fake_version_123",
+                            "name": "Version 1"
+                        },
+                        "embeddedMetadata": {
+                            "XResolution": 250,
+                            "YResolution": 250,
+                            "DateCreated": "2022-06-15T11:34:36.702Z",
+                            "DateTimeCreated": "2022-06-15T11:34:36.702Z"
+                        },
+                        "customCoordinates": "10,10,20,20",
+                        "customMetadata": {
+                            "test100": 10
+                        },
+                        "isPrivateFile": false,
+                        "url": "https://ik.imagekit.io/your-imagekit-id/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH",
+                        "thumbnail": "https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH",
+                        "fileType": "image",
+                        "filePath": "/new_car.jpg",
+                        "height": 354,
+                        "width": 236,
+                        "size": 23023,
+                        "hasAlpha": false,
+                        "mime": "image/jpeg"
+                    }""",
             headers=headers,
         )
         resp = self.client.get_file_version_details(self.file_id, self.version_id)
         mock_response_metadata = {
-            "raw": {
-                "type": "file-version",
-                "name": "new_car.jpg",
-                "createdAt": "2022-06-27T09:24:25.251Z",
-                "updatedAt": "2022-06-27T12:11:11.247Z",
-                "fileId": "fake_123",
-                "tags": ["tagg", "tagg1"],
-                "AITags": "",
-                "versionInfo": {"id": "fake_version_123", "name": "Version 1"},
-                "embeddedMetadata": {
-                    "XResolution": 250,
-                    "YResolution": 250,
-                    "DateCreated": "2022-06-15T11:34:36.702Z",
-                    "DateTimeCreated": "2022-06-15T11:34:36.702Z",
-                },
-                "customCoordinates": "10,10,20,20",
-                "customMetadata": {"test100": 10},
-                "isPrivateFile": False,
-                "url": "https://ik.imagekit.io/your-imagekit-id/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH",
-                "thumbnail": "https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH",
-                "fileType": "image",
-                "filePath": "/new_car.jpg",
-                "height": 354,
-                "width": 236,
-                "size": 23023,
-                "hasAlpha": False,
-                "mime": "image/jpeg",
+            'headers': {
+                'Content-Type': 'text/plain, application/json',
+                'Authorization': 'Basic ZmFrZTEyMjo='
             },
+            'http_status_code': 200,
+            'raw': {
+                'AITags': '',
+                'createdAt': '2022-06-27T09:24:25.251Z',
+                'customCoordinates': '10,10,20,20',
+                'customMetadata': {
+                    'test100': 10
+                },
+                'embeddedMetadata': {
+                    'DateCreated': '2022-06-15T11:34:36.702Z',
+                    'DateTimeCreated': '2022-06-15T11:34:36.702Z',
+                    'XResolution': 250,
+                    'YResolution': 250
+                },
+                'fileId': 'fake_123',
+                'filePath': '/new_car.jpg',
+                'fileType': 'image',
+                'hasAlpha': False,
+                'height': 354,
+                'isPrivateFile': False,
+                'mime': 'image/jpeg',
+                'name': 'new_car.jpg',
+                'size': 23023,
+                'tags': ['tagg', 'tagg1'],
+                'thumbnail': 'https://ik.imagekit.io/your-imagekit-id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH',
+                'type': 'file-version',
+                'updatedAt': '2022-06-27T12:11:11.247Z',
+                'url': 'https://ik.imagekit.io/your-imagekit-id/new_car.jpg?ik-obj-version=hzBNRjaJhZYg.JNu75L2nMDfhjJP4tJH',
+                'versionInfo': {
+                    'id': 'fake_version_123',
+                    'name': 'Version 1'
+                },
+                'width': 236
+            }
         }
 
         self.assertEqual(
@@ -1802,6 +1881,13 @@ class TestCopyFile(ClientTestCase):
         headers.update(create_headers_for_test())
         responses.add(responses.POST, url, status=204, headers=headers, body="{}")
 
+        resp = self.client.copy_file(
+            options=CopyFileRequestOptions(
+                source_file_path=self.source_file_path,
+                destination_path=self.destination_path,
+                include_file_versions=True,
+            ))
+
         mock_response_metadata = {
             "headers": {
                 "Content-Type": "text/plain, application/json",
@@ -1876,6 +1962,11 @@ class TestMoveFile(ClientTestCase):
         headers.update(create_headers_for_test())
         responses.add(responses.POST, url, status=204, headers=headers, body="{}")
 
+        resp = self.client.move_file(
+            options=MoveFileRequestOptions(
+                source_file_path=self.source_file_path,
+                destination_path=self.destination_path,
+            ))
         mock_response_metadata = {
             "headers": {
                 "Content-Type": "text/plain, application/json",
@@ -1928,6 +2019,10 @@ class TestRenameFile(ClientTestCase):
                     "reason": "FILE_ALREADY_EXISTS"
                 }""",
             )
+            self.client.rename_file(
+                options=RenameFileRequestOptions(
+                    file_path=self.file_path, new_file_name=self.new_file_name
+                ))
             self.assertRaises(ConflictException)
         except ConflictException as e:
             self.assertEqual(
@@ -1951,6 +2046,12 @@ class TestRenameFile(ClientTestCase):
             headers=headers,
             body='{"purgeRequestId": "62de3e986f68334a5a3339fb"}',
         )
+        resp = self.client.rename_file(
+            options=RenameFileRequestOptions(
+                file_path=self.file_path,
+                new_file_name=self.new_file_name,
+                purge_cache=True,
+            ))
 
         mock_response_metadata = {
             "headers": {
@@ -1989,7 +2090,10 @@ class TestRenameFile(ClientTestCase):
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
         responses.add(responses.PUT, url, headers=headers, body="{}")
-
+        resp = self.client.rename_file(
+            options=RenameFileRequestOptions(
+                file_path=self.file_path, new_file_name=self.new_file_name
+            ))
         mock_response_metadata = {
             "headers": {
                 "Content-Type": "text/plain, application/json",
