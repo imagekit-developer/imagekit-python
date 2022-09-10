@@ -25,7 +25,9 @@ Table of contents -
     * [File Management](#file-management)
     * [Utility Functions](#utility-functions)
 * [Handling errors](#handling-errors)
-* [Sample](#sample)
+* [Development](#development)
+    * [Tests](#tests)
+    * [Sample](#sample)
 * [Support](#support)
 * [Links](#links)
 
@@ -1231,16 +1233,28 @@ except UnknownException, e:
 # Something else happened, which can be unrelated to ImageKit; the reason will be indicated in the message field
 ```
 
-## Sample
+## Development
 
-### Get & Install local ImageKit Python SDK
+### Tests
+
+Tests are powered by [Tox](https://tox.wiki/en/latest/). 
+
+```bash
+$ git clone https://github.com/imagekit-developer/imagekit-python && cd imagekit-python
+$ pip install tox
+$ tox
+```
+
+### Sample
+
+#### Get & Install local ImageKit Python SDK
 
 ```bash
 $ git clone https://github.com/imagekit-developer/imagekit-python && cd imagekit-python
 $ pip install -e .
 ```
 
-### Get samples
+#### Get samples
 
 To integrate ImageKit Samples in the Python, the code samples covered here are hosted on Github - https://github.com/imagekit-samples/quickstart/tree/master/python.
 
