@@ -330,7 +330,8 @@ class File(object):
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.create_headers())
-        formatted_options = dumps(request_formatter(options.__dict__)) if options is not None else dict()
+        formatted_options = dumps(request_formatter(options.__dict__))
+        print("here formatted options:--->", formatted_options)
         resp = self.request.request(
             method="Post", url=url, headers=headers, data=formatted_options
         )

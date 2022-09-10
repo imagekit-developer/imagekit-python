@@ -21,6 +21,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
     field_id = "field_id"
 
+
     @responses.activate
     def test_get_custom_metadata_fields_fails_on_unauthenticated_request(self):
         """
@@ -33,8 +34,8 @@ class TestCustomMetadataFields(ClientTestCase):
                 responses.GET,
                 url,
                 status=403,
-                body='''{"message": "Your account cannot be authenticated."
-                                    , "help": "For support kindly contact us at support@imagekit.io ."}''',
+                body="'message': 'Your account cannot be authenticated.'"
+                     ", 'help': 'For support kindly contact us at support@imagekit.io .'",
             )
             self.client.get_custom_metadata_fields(True)
             self.assertRaises(ForbiddenException)
