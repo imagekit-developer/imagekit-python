@@ -191,7 +191,7 @@ class Url:
                     if transform_key == "oi" or transform_key == "di":
                         value = value.strip("/")
                         value = value.replace("/", "@@")
-                    if transform_key == 'raw':
+                    if transform_key == "raw":
                         for i in value.split(","):
                             parsed_transform_step.append(i)
                     else:
