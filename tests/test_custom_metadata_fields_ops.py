@@ -6,12 +6,20 @@ from imagekitio.exceptions.BadRequestException import BadRequestException
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
 from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.exceptions.UnknownException import UnknownException
-from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import CreateCustomMetadataFieldsRequestOptions
+from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import (
+    CreateCustomMetadataFieldsRequestOptions,
+)
 from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
 from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
-from imagekitio.models.UpdateCustomMetadataFieldsRequestOptions import UpdateCustomMetadataFieldsRequestOptions
+from imagekitio.models.UpdateCustomMetadataFieldsRequestOptions import (
+    UpdateCustomMetadataFieldsRequestOptions,
+)
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
-from tests.helpers import ClientTestCase, create_headers_for_test, make_string_to_single_line
+from tests.helpers import (
+    ClientTestCase,
+    create_headers_for_test,
+    make_string_to_single_line,
+)
 
 
 class TestCustomMetadataFields(ClientTestCase):
@@ -33,8 +41,8 @@ class TestCustomMetadataFields(ClientTestCase):
                 responses.GET,
                 url,
                 status=403,
-                body='''{"message": "Your account cannot be authenticated."
-                                    , "help": "For support kindly contact us at support@imagekit.io ."}''',
+                body="""{"message": "Your account cannot be authenticated."
+                                    , "help": "For support kindly contact us at support@imagekit.io ."}""",
             )
             self.client.get_custom_metadata_fields(True)
             self.assertRaises(ForbiddenException)
@@ -53,7 +61,7 @@ class TestCustomMetadataFields(ClientTestCase):
         responses.add(
             responses.GET,
             url,
-            body='''[{
+            body="""[{
                         "id": "62a9d5f6db485107347bb7f2",
                         "name": "test10",
                         "label": "test10",
@@ -73,46 +81,55 @@ class TestCustomMetadataFields(ClientTestCase):
                             "minValue": 10,
                             "maxValue": 1000
                         }
-                    }]''',
+                    }]""",
             match=[matchers.query_string_matcher("includeDeleted=false")],
-            headers=headers
+            headers=headers,
         )
         resp = self.client.get_custom_metadata_fields()
 
         mock_response_metadata = {
-            'raw': [{
-                'id': '62a9d5f6db485107347bb7f2',
-                'name': 'test10',
-                'label': 'test10',
-                'schema': {
-                    'type': 'Number',
-                    'isValueRequired': False,
-                    'minValue': 10,
-                    'maxValue': 1000
-                }
-            }, {
-                'id': '62aab2cfdb4851833b8f5e64',
-                'name': 'test11',
-                'label': 'test11',
-                'schema': {
-                    'type': 'Number',
-                    'isValueRequired': False,
-                    'minValue': 10,
-                    'maxValue': 1000
-                }
-            }],
-            'httpStatusCode': 200,
-            'headers': {
-                'Content-Type': 'text/plain',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
-            }
+            "raw": [
+                {
+                    "id": "62a9d5f6db485107347bb7f2",
+                    "name": "test10",
+                    "label": "test10",
+                    "schema": {
+                        "type": "Number",
+                        "isValueRequired": False,
+                        "minValue": 10,
+                        "maxValue": 1000,
+                    },
+                },
+                {
+                    "id": "62aab2cfdb4851833b8f5e64",
+                    "name": "test11",
+                    "label": "test11",
+                    "schema": {
+                        "type": "Number",
+                        "isValueRequired": False,
+                        "minValue": 10,
+                        "maxValue": 1000,
+                    },
+                },
+            ],
+            "httpStatusCode": 200,
+            "headers": {
+                "Content-Type": "text/plain",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
         }
 
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual('62a9d5f6db485107347bb7f2', resp.list[0].id)
-        self.assertEqual('62aab2cfdb4851833b8f5e64', resp.list[1].id)
-        self.assertEqual("http://test.com/v1/customMetadataFields?includeDeleted=false", responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual("62a9d5f6db485107347bb7f2", resp.list[0].id)
+        self.assertEqual("62aab2cfdb4851833b8f5e64", resp.list[1].id)
+        self.assertEqual(
+            "http://test.com/v1/customMetadataFields?includeDeleted=false",
+            responses.calls[0].request.url,
+        )
 
     @responses.activate
     def test_delete_custom_metadata_fields_succeeds(self):
@@ -122,27 +139,26 @@ class TestCustomMetadataFields(ClientTestCase):
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.field_id)
         headers = create_headers_for_test()
-        responses.add(
-            responses.DELETE,
-            url,
-            status=204,
-            headers=headers,
-            body="{}"
-        )
+        responses.add(responses.DELETE, url, status=204, headers=headers, body="{}")
         resp = self.client.delete_custom_metadata_field(self.field_id)
 
         mock_response_metadata = {
-            'raw': None,
-            'httpStatusCode': 204,
-            'headers': {
-                'Content-Type': 'text/plain',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
-            }
+            "raw": None,
+            "httpStatusCode": 204,
+            "headers": {
+                "Content-Type": "text/plain",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
         }
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/customMetadataFields/field_id",
-                         responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/customMetadataFields/field_id",
+            responses.calls[0].request.url,
+        )
 
     @responses.activate
     def test_delete_custom_metadata_fields_fails_with_404(self):
@@ -158,8 +174,8 @@ class TestCustomMetadataFields(ClientTestCase):
                 url,
                 status=404,
                 headers=headers,
-                body='''{"message": "No such custom metadata field exists",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}'''
+                body="""{"message": "No such custom metadata field exists",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}""",
             )
             self.client.delete_custom_metadata_field(self.field_id)
             self.assertRaises(NotFoundException)
@@ -179,20 +195,23 @@ class TestCustomMetadataFields(ClientTestCase):
                 responses.POST,
                 url,
                 status=400,
-                body='''{"message": "A custom metadata field with this name already exists"
-                                    , "help": "For support kindly contact us at support@imagekit.io ."}'''
+                body="""{"message": "A custom metadata field with this name already exists"
+                                    , "help": "For support kindly contact us at support@imagekit.io ."}""",
             )
-            self.client.create_custom_metadata_fields(options=CreateCustomMetadataFieldsRequestOptions(name="test",
-                                                                                                       label="test",
-                                                                                                       schema=CustomMetadataFieldsSchema(
-                                                                                                           type=CustomMetaDataTypeEnum.Number,
-                                                                                                           min_value=100,
-                                                                                                           max_value=200
-                                                                                                       ))
-                                                      )
+            self.client.create_custom_metadata_fields(
+                options=CreateCustomMetadataFieldsRequestOptions(
+                    name="test",
+                    label="test",
+                    schema=CustomMetadataFieldsSchema(
+                        type=CustomMetaDataTypeEnum.Number, min_value=100, max_value=200
+                    ),
+                )
+            )
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            self.assertEqual("A custom metadata field with this name already exists", e.message)
+            self.assertEqual(
+                "A custom metadata field with this name already exists", e.message
+            )
             self.assertEqual(400, e.response_metadata.http_status_code)
 
     @responses.activate
@@ -209,7 +228,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
-            body='''{
+            body="""{
                 "id": "62dfc03b1b02a58936efca37",
                 "name": "test",
                 "label": "test",
@@ -218,37 +237,35 @@ class TestCustomMetadataFields(ClientTestCase):
                     "minValue": 100,
                     "maxValue": 200
                 }
-            }'''
+            }""",
         )
-        resp = self.client.create_custom_metadata_fields(options=CreateCustomMetadataFieldsRequestOptions(name="test",
-                                                                                                          label="test",
-                                                                                                          schema=CustomMetadataFieldsSchema(
-                                                                                                              type=CustomMetaDataTypeEnum.Number,
-                                                                                                              min_value=100,
-                                                                                                              max_value=200
-                                                                                                          ))
-                                                         )
+        resp = self.client.create_custom_metadata_fields(
+            options=CreateCustomMetadataFieldsRequestOptions(
+                name="test",
+                label="test",
+                schema=CustomMetadataFieldsSchema(
+                    type=CustomMetaDataTypeEnum.Number, min_value=100, max_value=200
+                ),
+            )
+        )
 
         mock_response_metadata = {
-            'raw': {
-                'id': '62dfc03b1b02a58936efca37',
-                'name': 'test',
-                'label': 'test',
-                'schema': {
-                    'type': 'Number',
-                    'minValue': 100,
-                    'maxValue': 200
-                }
+            "raw": {
+                "id": "62dfc03b1b02a58936efca37",
+                "name": "test",
+                "label": "test",
+                "schema": {"type": "Number", "minValue": 100, "maxValue": 200},
             },
-            'httpStatusCode': 201,
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
-            }
+            "httpStatusCode": 201,
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
         }
 
-        request_body = make_string_to_single_line('''{
+        request_body = make_string_to_single_line(
+            """{
             "name": "test",
             "label": "test",
             "schema": {
@@ -256,10 +273,15 @@ class TestCustomMetadataFields(ClientTestCase):
                 "minValue": 100,
                 "maxValue": 200
             }
-        }''')
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/customMetadataFields",
-                         responses.calls[0].request.url)
+        }"""
+        )
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/customMetadataFields", responses.calls[0].request.url
+        )
         self.assertMultiLineEqual(request_body, responses.calls[0].request.body)
 
     @responses.activate
@@ -276,7 +298,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
-            body='''{
+            body="""{
                 "id": "62e0d7ae1b02a589360dc1fd",
                 "name": "test",
                 "label": "test",
@@ -287,40 +309,45 @@ class TestCustomMetadataFields(ClientTestCase):
                     "minLength": 3,
                     "maxLength": 200
                 }
-            }'''
+            }""",
         )
-        resp = self.client.create_custom_metadata_fields(options=CreateCustomMetadataFieldsRequestOptions(name="test",
-                                                                                                          label="test",
-                                                                                                          schema=CustomMetadataFieldsSchema(
-                                                                                                              is_value_required=True,
-                                                                                                              default_value="The",
-                                                                                                              type=CustomMetaDataTypeEnum.Textarea,
-                                                                                                              min_length=3,
-                                                                                                              max_length=200))
-                                                         )
+        resp = self.client.create_custom_metadata_fields(
+            options=CreateCustomMetadataFieldsRequestOptions(
+                name="test",
+                label="test",
+                schema=CustomMetadataFieldsSchema(
+                    is_value_required=True,
+                    default_value="The",
+                    type=CustomMetaDataTypeEnum.Textarea,
+                    min_length=3,
+                    max_length=200,
+                ),
+            )
+        )
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 201,
-            'raw': {
-                'id': '62e0d7ae1b02a589360dc1fd',
-                'label': 'test',
-                'name': 'test',
-                'schema': {
-                    'defaultValue': 'The',
-                    'isValueRequired': True,
-                    'maxLength': 200,
-                    'minLength': 3,
-                    'type': 'Textarea'
-                }
-            }
+            "httpStatusCode": 201,
+            "raw": {
+                "id": "62e0d7ae1b02a589360dc1fd",
+                "label": "test",
+                "name": "test",
+                "schema": {
+                    "defaultValue": "The",
+                    "isValueRequired": True,
+                    "maxLength": 200,
+                    "minLength": 3,
+                    "type": "Textarea",
+                },
+            },
         }
 
-        request_body = make_string_to_single_line('''{
+        request_body = make_string_to_single_line(
+            """{
             "name": "test",
             "label": "test",
             "schema": {
@@ -330,10 +357,15 @@ class TestCustomMetadataFields(ClientTestCase):
                 "minLength": 3,
                 "maxLength": 200
             }
-        }''')
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/customMetadataFields",
-                         responses.calls[0].request.url)
+        }"""
+        )
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/customMetadataFields", responses.calls[0].request.url
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
 
     @responses.activate
@@ -350,7 +382,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
-            body='''{
+            body="""{
                 "id": "62dfc9f41b02a58936f0d284",
                 "name": "test-date",
                 "label": "test-date",
@@ -359,38 +391,41 @@ class TestCustomMetadataFields(ClientTestCase):
                     "minValue": "2022-11-29T10:11:10+00:00",
                     "maxValue": "2022-11-30T10:11:10+00:00"
                 }
-            }'''
+            }""",
         )
         resp = self.client.create_custom_metadata_fields(
-            options=CreateCustomMetadataFieldsRequestOptions(name="test-date",
-                                                             label="test-date",
-                                                             schema=CustomMetadataFieldsSchema(
-                                                                 type=CustomMetaDataTypeEnum.Date,
-                                                                 min_value="2022-11-29T10:11:10+00:00",
-                                                                 max_value="2022-11-30T10:11:10+00:00"
-                                                             ))
+            options=CreateCustomMetadataFieldsRequestOptions(
+                name="test-date",
+                label="test-date",
+                schema=CustomMetadataFieldsSchema(
+                    type=CustomMetaDataTypeEnum.Date,
+                    min_value="2022-11-29T10:11:10+00:00",
+                    max_value="2022-11-30T10:11:10+00:00",
+                ),
+            )
         )
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 201,
-            'raw': {
-                'id': '62dfc9f41b02a58936f0d284',
-                'label': 'test-date',
-                'name': 'test-date',
-                'schema': {
-                    'maxValue': '2022-11-30T10:11:10+00:00',
-                    'minValue': '2022-11-29T10:11:10+00:00',
-                    'type': 'Date'
-                }
-            }
+            "httpStatusCode": 201,
+            "raw": {
+                "id": "62dfc9f41b02a58936f0d284",
+                "label": "test-date",
+                "name": "test-date",
+                "schema": {
+                    "maxValue": "2022-11-30T10:11:10+00:00",
+                    "minValue": "2022-11-29T10:11:10+00:00",
+                    "type": "Date",
+                },
+            },
         }
 
-        request_body = make_string_to_single_line('''{
+        request_body = make_string_to_single_line(
+            """{
             "name": "test-date",
             "label": "test-date",
             "schema": {
@@ -398,10 +433,15 @@ class TestCustomMetadataFields(ClientTestCase):
                 "minValue": "2022-11-29T10:11:10+00:00",
                 "maxValue": "2022-11-30T10:11:10+00:00"
             }
-        }''')
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/customMetadataFields",
-                         responses.calls[0].request.url)
+        }"""
+        )
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/customMetadataFields", responses.calls[0].request.url
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
 
     @responses.activate
@@ -418,7 +458,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
-            body='''{
+            body="""{
                 "id": "62dfcb801b02a58936f0fc39",
                 "name": "test-boolean",
                 "label": "test-boolean",
@@ -427,38 +467,41 @@ class TestCustomMetadataFields(ClientTestCase):
                     "isValueRequired": true,
                     "defaultValue": true
                 }
-            }'''
+            }""",
         )
         resp = self.client.create_custom_metadata_fields(
-            options=CreateCustomMetadataFieldsRequestOptions(name="test-boolean",
-                                                             label="test-boolean",
-                                                             schema=CustomMetadataFieldsSchema(
-                                                                 type=CustomMetaDataTypeEnum.Boolean,
-                                                                 is_value_required=True,
-                                                                 default_value=True
-                                                             ))
+            options=CreateCustomMetadataFieldsRequestOptions(
+                name="test-boolean",
+                label="test-boolean",
+                schema=CustomMetadataFieldsSchema(
+                    type=CustomMetaDataTypeEnum.Boolean,
+                    is_value_required=True,
+                    default_value=True,
+                ),
+            )
         )
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 201,
-            'raw': {
-                'id': '62dfcb801b02a58936f0fc39',
-                'label': 'test-boolean',
-                'name': 'test-boolean',
-                'schema': {
-                    'defaultValue': True,
-                    'isValueRequired': True,
-                    'type': 'Boolean'
-                }
-            }
+            "httpStatusCode": 201,
+            "raw": {
+                "id": "62dfcb801b02a58936f0fc39",
+                "label": "test-boolean",
+                "name": "test-boolean",
+                "schema": {
+                    "defaultValue": True,
+                    "isValueRequired": True,
+                    "type": "Boolean",
+                },
+            },
         }
 
-        request_body = make_string_to_single_line('''{
+        request_body = make_string_to_single_line(
+            """{
             "name": "test-boolean",
             "label": "test-boolean",
             "schema": {
@@ -466,10 +509,15 @@ class TestCustomMetadataFields(ClientTestCase):
                 "defaultValue": true,
                 "isValueRequired": true
             }
-        }''')
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/customMetadataFields",
-                         responses.calls[0].request.url)
+        }"""
+        )
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/customMetadataFields", responses.calls[0].request.url
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
 
     @responses.activate
@@ -486,7 +534,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
-            body='''{
+            body="""{
                 "id": "62dfcdb21b02a58936f14c97",
                 "name": "test",
                 "label": "test",
@@ -494,46 +542,39 @@ class TestCustomMetadataFields(ClientTestCase):
                     "type": "SingleSelect",
                     "selectOptions": ["small", "medium", "large", 30, 40, true]
                 }
-            }'''
+            }""",
         )
-        resp = self.client.create_custom_metadata_fields(options=CreateCustomMetadataFieldsRequestOptions(name="test",
-                                                                                                          label="test",
-                                                                                                          schema=CustomMetadataFieldsSchema(
-                                                                                                              type=CustomMetaDataTypeEnum.SingleSelect,
-                                                                                                              select_options=[
-                                                                                                                  "small",
-                                                                                                                  "medium",
-                                                                                                                  "large",
-                                                                                                                  30,
-                                                                                                                  40,
-                                                                                                                  True]))
-                                                         )
+        resp = self.client.create_custom_metadata_fields(
+            options=CreateCustomMetadataFieldsRequestOptions(
+                name="test",
+                label="test",
+                schema=CustomMetadataFieldsSchema(
+                    type=CustomMetaDataTypeEnum.SingleSelect,
+                    select_options=["small", "medium", "large", 30, 40, True],
+                ),
+            )
+        )
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 201,
-            'raw': {
-                'id': '62dfcdb21b02a58936f14c97',
-                'label': 'test',
-                'name': 'test',
-                'schema': {
-                    'selectOptions': ['small',
-                                      'medium',
-                                      'large',
-                                      30,
-                                      40,
-                                      True
-                                      ],
-                    'type': 'SingleSelect'
-                }
-            }
+            "httpStatusCode": 201,
+            "raw": {
+                "id": "62dfcdb21b02a58936f14c97",
+                "label": "test",
+                "name": "test",
+                "schema": {
+                    "selectOptions": ["small", "medium", "large", 30, 40, True],
+                    "type": "SingleSelect",
+                },
+            },
         }
 
-        request_body = make_string_to_single_line('''{"name": "test",
+        request_body = make_string_to_single_line(
+            """{"name": "test",
                                    "label": "test",
                                    "schema":
                                        {
@@ -541,10 +582,15 @@ class TestCustomMetadataFields(ClientTestCase):
                                            "selectOptions": ["small", "medium", "large", 30, 40,
                                                              true]
                                        }
-                                   }''')
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/customMetadataFields",
-                         responses.calls[0].request.url)
+                                   }"""
+        )
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/customMetadataFields", responses.calls[0].request.url
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
 
     @responses.activate
@@ -561,7 +607,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
-            body='''{
+            body="""{
                 "id": "62dfcf001b02a58936f17808",
                 "name": "test",
                 "label": "test",
@@ -571,56 +617,43 @@ class TestCustomMetadataFields(ClientTestCase):
                     "defaultValue": ["small", 30, true],
                     "selectOptions": ["small", "medium", "large", 30, 40, true]
                 }
-            }'''
+            }""",
         )
-        resp = self.client.create_custom_metadata_fields(options=CreateCustomMetadataFieldsRequestOptions(name="test",
-                                                                                                          label="test",
-                                                                                                          schema=CustomMetadataFieldsSchema(
-                                                                                                              type=CustomMetaDataTypeEnum.MultiSelect,
-                                                                                                              is_value_required=True,
-                                                                                                              default_value=[
-                                                                                                                  "small",
-                                                                                                                  30,
-                                                                                                                  True],
-                                                                                                              select_options=[
-                                                                                                                  "small",
-                                                                                                                  "medium",
-                                                                                                                  "large",
-                                                                                                                  30,
-                                                                                                                  40,
-                                                                                                                  True]))
-                                                         )
+        resp = self.client.create_custom_metadata_fields(
+            options=CreateCustomMetadataFieldsRequestOptions(
+                name="test",
+                label="test",
+                schema=CustomMetadataFieldsSchema(
+                    type=CustomMetaDataTypeEnum.MultiSelect,
+                    is_value_required=True,
+                    default_value=["small", 30, True],
+                    select_options=["small", "medium", "large", 30, 40, True],
+                ),
+            )
+        )
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 201,
-            'raw': {
-                'id': '62dfcf001b02a58936f17808',
-                'label': 'test',
-                'name': 'test',
-                'schema': {
-                    'defaultValue': ['small',
-                                     30,
-                                     True
-                                     ],
-                    'isValueRequired': True,
-                    'selectOptions': ['small',
-                                      'medium',
-                                      'large',
-                                      30,
-                                      40,
-                                      True
-                                      ],
-                    'type': 'MultiSelect'
-                }
-            }
+            "httpStatusCode": 201,
+            "raw": {
+                "id": "62dfcf001b02a58936f17808",
+                "label": "test",
+                "name": "test",
+                "schema": {
+                    "defaultValue": ["small", 30, True],
+                    "isValueRequired": True,
+                    "selectOptions": ["small", "medium", "large", 30, 40, True],
+                    "type": "MultiSelect",
+                },
+            },
         }
 
-        request_body = make_string_to_single_line('''{
+        request_body = make_string_to_single_line(
+            """{
             "name": "test",
             "label": "test",
             "schema": {
@@ -629,10 +662,15 @@ class TestCustomMetadataFields(ClientTestCase):
                 "defaultValue": ["small", 30, true],
                 "isValueRequired": true
             }
-        }''')
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/customMetadataFields",
-                         responses.calls[0].request.url)
+        }"""
+        )
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/customMetadataFields", responses.calls[0].request.url
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
 
     @responses.activate
@@ -648,7 +686,7 @@ class TestCustomMetadataFields(ClientTestCase):
             responses.PATCH,
             url,
             headers=headers,
-            body='''{
+            body="""{
                 "id": "62a9d5f6db485107347bb7f2",
                 "name": "test",
                 "label": "test-update",
@@ -657,47 +695,51 @@ class TestCustomMetadataFields(ClientTestCase):
                     "maxValue": 200,
                     "type": "Number"
                 }
-            }'''
+            }""",
         )
 
-        resp = self.client.update_custom_metadata_fields(self.field_id,
-                                                         options=UpdateCustomMetadataFieldsRequestOptions(
-                                                             label="test-update",
-                                                             schema=CustomMetadataFieldsSchema(min_value=100,
-                                                                                               max_value=200))
-                                                         )
+        resp = self.client.update_custom_metadata_fields(
+            self.field_id,
+            options=UpdateCustomMetadataFieldsRequestOptions(
+                label="test-update",
+                schema=CustomMetadataFieldsSchema(min_value=100, max_value=200),
+            ),
+        )
 
         mock_response_metadata = {
-            'raw': {
-                'id': '62a9d5f6db485107347bb7f2',
-                'name': 'test',
-                'label': 'test-update',
-                'schema': {
-                    'minValue': 100,
-                    'maxValue': 200,
-                    'type': 'Number'
-                }
+            "raw": {
+                "id": "62a9d5f6db485107347bb7f2",
+                "name": "test",
+                "label": "test-update",
+                "schema": {"minValue": 100, "maxValue": 200, "type": "Number"},
             },
-            'httpStatusCode': 200,
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
-            }
+            "httpStatusCode": 200,
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
         }
 
-        request_body = make_string_to_single_line('''{
+        request_body = make_string_to_single_line(
+            """{
             "label": "test-update",
             "schema": {
                 "minValue": 100,
                 "maxValue": 200
             }
-        }''')
+        }"""
+        )
 
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual('62a9d5f6db485107347bb7f2', resp.id)
-        self.assertEqual("http://test.com/v1/customMetadataFields/field_id",
-                         responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual("62a9d5f6db485107347bb7f2", resp.id)
+        self.assertEqual(
+            "http://test.com/v1/customMetadataFields/field_id",
+            responses.calls[0].request.url,
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
 
     @responses.activate
@@ -712,18 +754,19 @@ class TestCustomMetadataFields(ClientTestCase):
                 responses.PATCH,
                 url,
                 status=404,
-                body='''{
+                body="""{
                     "message": "No such custom metadata field exists",
                     "help": "For support kindly contact us at support@imagekit.io ."
-                }'''
+                }""",
             )
 
-            self.client.update_custom_metadata_fields(self.field_id,
-                                                      options=UpdateCustomMetadataFieldsRequestOptions(
-                                                          label="test-update",
-                                                          schema=CustomMetadataFieldsSchema(min_value=100,
-                                                                                            max_value=200))
-                                                      )
+            self.client.update_custom_metadata_fields(
+                self.field_id,
+                options=UpdateCustomMetadataFieldsRequestOptions(
+                    label="test-update",
+                    schema=CustomMetadataFieldsSchema(min_value=100, max_value=200),
+                ),
+            )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("No such custom metadata field exists", e.message)
@@ -741,18 +784,19 @@ class TestCustomMetadataFields(ClientTestCase):
                 responses.PATCH,
                 url,
                 status=400,
-                body='''{
+                body="""{
                     "message": "Your request contains invalid ID parameter.",
                     "help": "For support kindly contact us at support@imagekit.io ."
-                }'''
+                }""",
             )
 
-            self.client.update_custom_metadata_fields(self.field_id,
-                                                      options=UpdateCustomMetadataFieldsRequestOptions(
-                                                          label="test-update",
-                                                          schema=CustomMetadataFieldsSchema(min_value=100,
-                                                                                            max_value=200))
-                                                      )
+            self.client.update_custom_metadata_fields(
+                self.field_id,
+                options=UpdateCustomMetadataFieldsRequestOptions(
+                    label="test-update",
+                    schema=CustomMetadataFieldsSchema(min_value=100, max_value=200),
+                ),
+            )
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
             self.assertEqual("Your request contains invalid ID parameter.", e.message)

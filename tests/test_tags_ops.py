@@ -8,11 +8,15 @@ from imagekitio.exceptions.ForbiddenException import ForbiddenException
 from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
 from tests.helpers import (
-    ClientTestCase, get_auth_headers_for_test, make_string_to_single_line,
+    ClientTestCase,
+    get_auth_headers_for_test,
+    make_string_to_single_line,
 )
 
 imagekit_obj = ImageKit(
-    private_key="private_fake:", public_key="public_fake123:", url_endpoint="fake.com",
+    private_key="private_fake:",
+    public_key="public_fake123:",
+    url_endpoint="fake.com",
 )
 
 
@@ -40,7 +44,9 @@ class TestTags(ClientTestCase):
                 body="""{'message': 'Your account cannot be authenticated.'
                                     , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
-            self.client.add_tags(file_ids=[self.file_id], tags=['add-tag-1', 'add-tag-2'])
+            self.client.add_tags(
+                file_ids=[self.file_id], tags=["add-tag-1", "add-tag-2"]
+            )
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
@@ -59,28 +65,35 @@ class TestTags(ClientTestCase):
             responses.POST,
             url,
             body='{"successfullyUpdatedFileIds": ["fake_123"]}',
-            headers=headers
+            headers=headers,
         )
 
-        resp = self.client.add_tags(file_ids=[self.file_id], tags=['add-tag-1', 'add-tag-2'])
+        resp = self.client.add_tags(
+            file_ids=[self.file_id], tags=["add-tag-1", "add-tag-2"]
+        )
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 200,
-            'raw': {
-                'successfullyUpdatedFileIds': ['fake_123']
-            }
+            "httpStatusCode": 200,
+            "raw": {"successfullyUpdatedFileIds": ["fake_123"]},
         }
-        request_body = make_string_to_single_line('''{
+        request_body = make_string_to_single_line(
+            """{
             "fileIds": ["fake_123"],
             "tags": ["add-tag-1", "add-tag-2"]
-        }''')
+        }"""
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
-        self.assertEqual(['fake_123'], resp.successfully_updated_file_ids)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/files/addTags", responses.calls[0].request.url)
+        self.assertEqual(["fake_123"], resp.successfully_updated_file_ids)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/files/addTags", responses.calls[0].request.url
+        )
 
     @responses.activate
     def test_add_tags_fails_with_404_exception(self) -> None:
@@ -95,19 +108,21 @@ class TestTags(ClientTestCase):
                 responses.POST,
                 url,
                 status=404,
-                body='''{
+                body="""{
                     "message": "The requested file(s) does not exist.",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "missingFileIds": ["fake_123"]
-                }''',
-                headers=headers
+                }""",
+                headers=headers,
             )
-            self.client.add_tags(file_ids=[self.file_id], tags=['add-tag-1', 'add-tag-2'])
+            self.client.add_tags(
+                file_ids=[self.file_id], tags=["add-tag-1", "add-tag-2"]
+            )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("The requested file(s) does not exist.", e.message)
             self.assertEqual(404, e.response_metadata.http_status_code)
-            self.assertEqual(['fake_123'], e.response_metadata.raw['missingFileIds'])
+            self.assertEqual(["fake_123"], e.response_metadata.raw["missingFileIds"])
 
     @responses.activate
     def test_remove_tags_fails_on_unauthenticated_request(self):
@@ -124,7 +139,9 @@ class TestTags(ClientTestCase):
                 body="""{'message': 'Your account cannot be authenticated.'
                                     , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
-            self.client.remove_tags(file_ids=[self.file_id], tags=['remove-tag-1', 'remove-tag-2'])
+            self.client.remove_tags(
+                file_ids=[self.file_id], tags=["remove-tag-1", "remove-tag-2"]
+            )
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
             self.assertEqual("Your account cannot be authenticated.", e.message)
@@ -143,28 +160,35 @@ class TestTags(ClientTestCase):
             responses.POST,
             url,
             body='{"successfullyUpdatedFileIds": ["fake_123"]}',
-            headers=headers
+            headers=headers,
         )
 
-        resp = self.client.remove_tags(file_ids=[self.file_id], tags=['remove-tag-1', 'remove-tag-2'])
+        resp = self.client.remove_tags(
+            file_ids=[self.file_id], tags=["remove-tag-1", "remove-tag-2"]
+        )
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 200,
-            'raw': {
-                'successfullyUpdatedFileIds': ['fake_123']
-            }
+            "httpStatusCode": 200,
+            "raw": {"successfullyUpdatedFileIds": ["fake_123"]},
         }
-        request_body = make_string_to_single_line('''{
+        request_body = make_string_to_single_line(
+            """{
             "fileIds": ["fake_123"],
             "tags": ["remove-tag-1", "remove-tag-2"]
-        }''')
+        }"""
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
-        self.assertEqual(['fake_123'], resp.successfully_updated_file_ids)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/files/removeTags", responses.calls[0].request.url)
+        self.assertEqual(["fake_123"], resp.successfully_updated_file_ids)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/files/removeTags", responses.calls[0].request.url
+        )
 
     @responses.activate
     def test_remove_tags_fails_with_404_exception(self) -> None:
@@ -179,19 +203,21 @@ class TestTags(ClientTestCase):
                 responses.POST,
                 url,
                 status=404,
-                body='''{
+                body="""{
                     "message": "The requested file(s) does not exist.",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "missingFileIds": ["fake_123"]
-                }''',
-                headers=headers
+                }""",
+                headers=headers,
             )
-            self.client.remove_tags(file_ids=[self.file_id], tags=['remove-tag-1', 'remove-tag-2'])
+            self.client.remove_tags(
+                file_ids=[self.file_id], tags=["remove-tag-1", "remove-tag-2"]
+            )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("The requested file(s) does not exist.", e.message)
             self.assertEqual(404, e.response_metadata.http_status_code)
-            self.assertEqual(['fake_123'], e.response_metadata.raw['missingFileIds'])
+            self.assertEqual(["fake_123"], e.response_metadata.raw["missingFileIds"])
 
 
 class TestAITags(ClientTestCase):
@@ -221,7 +247,9 @@ class TestAITags(ClientTestCase):
                 body="""{'message': 'Your account cannot be authenticated.'
                                 , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
-            self.client.remove_ai_tags(file_ids=[self.file_id], a_i_tags=['remove-ai-tag1', 'remove-ai-tag2'])
+            self.client.remove_ai_tags(
+                file_ids=[self.file_id], a_i_tags=["remove-ai-tag1", "remove-ai-tag2"]
+            )
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
@@ -240,28 +268,35 @@ class TestAITags(ClientTestCase):
             responses.POST,
             url,
             body='{"successfullyUpdatedFileIds": ["fake_123"]}',
-            headers=headers
+            headers=headers,
         )
 
-        resp = self.client.remove_ai_tags(file_ids=[self.file_id], a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
+        resp = self.client.remove_ai_tags(
+            file_ids=[self.file_id], a_i_tags=["remove-ai-tag-1", "remove-ai-tag-2"]
+        )
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 200,
-            'raw': {
-                'successfullyUpdatedFileIds': ['fake_123']
-            }
+            "httpStatusCode": 200,
+            "raw": {"successfullyUpdatedFileIds": ["fake_123"]},
         }
-        request_body = make_string_to_single_line('''{
+        request_body = make_string_to_single_line(
+            """{
             "fileIds": ["fake_123"],
             "AITags": ["remove-ai-tag-1", "remove-ai-tag-2"]
-        }''')
+        }"""
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
-        self.assertEqual(['fake_123'], resp.successfully_updated_file_ids)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/files/removeAITags", responses.calls[0].request.url)
+        self.assertEqual(["fake_123"], resp.successfully_updated_file_ids)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/files/removeAITags", responses.calls[0].request.url
+        )
 
     @responses.activate
     def test_remove_ai_tags_fails_with_404_exception(self) -> None:
@@ -276,16 +311,18 @@ class TestAITags(ClientTestCase):
                 responses.POST,
                 url,
                 status=404,
-                body='''{
+                body="""{
                     "message": "The requested file(s) does not exist.",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "missingFileIds": ["fake_123"]
-                }''',
-                headers=headers
+                }""",
+                headers=headers,
             )
-            self.client.remove_ai_tags(file_ids=[self.file_id], a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
+            self.client.remove_ai_tags(
+                file_ids=[self.file_id], a_i_tags=["remove-ai-tag-1", "remove-ai-tag-2"]
+            )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("The requested file(s) does not exist.", e.message)
             self.assertEqual(404, e.response_metadata.http_status_code)
-            self.assertEqual(['fake_123'], e.response_metadata.raw['missingFileIds'])
+            self.assertEqual(["fake_123"], e.response_metadata.raw["missingFileIds"])

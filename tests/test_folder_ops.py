@@ -12,10 +12,16 @@ from imagekitio.models.CreateFolderRequestOptions import CreateFolderRequestOpti
 from imagekitio.models.DeleteFolderRequestOptions import DeleteFolderRequestOptions
 from imagekitio.models.MoveFolderRequestOptions import MoveFolderRequestOptions
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
-from tests.helpers import ClientTestCase, create_headers_for_test, make_string_to_single_line
+from tests.helpers import (
+    ClientTestCase,
+    create_headers_for_test,
+    make_string_to_single_line,
+)
 
 imagekit_obj = ImageKit(
-    private_key="private_fake:", public_key="public_fake123:", url_endpoint="fake.com",
+    private_key="private_fake:",
+    public_key="public_fake123:",
+    url_endpoint="fake.com",
 )
 
 
@@ -40,7 +46,10 @@ class TestFolders(ClientTestCase):
                                     , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.create_folder(
-                options=CreateFolderRequestOptions(folder_name="folder_name", parent_folder_path="/test"))
+                options=CreateFolderRequestOptions(
+                    folder_name="folder_name", parent_folder_path="/test"
+                )
+            )
             self.assertRaises(ForbiddenException)
         except UnknownException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
@@ -54,29 +63,32 @@ class TestFolders(ClientTestCase):
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/folder".format(URL.API_BASE_URL)
         headers = create_headers_for_test()
-        responses.add(
-            responses.POST,
-            url,
-            status=201,
-            body="{}",
-            headers=headers
-        )
+        responses.add(responses.POST, url, status=201, body="{}", headers=headers)
         resp = self.client.create_folder(
-            options=CreateFolderRequestOptions(folder_name="folder_name", parent_folder_path="/test"))
+            options=CreateFolderRequestOptions(
+                folder_name="folder_name", parent_folder_path="/test"
+            )
+        )
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 201,
-            'raw': {}
+            "httpStatusCode": 201,
+            "raw": {},
         }
 
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
         self.assertEqual("http://test.com/v1/folder", responses.calls[0].request.url)
-        self.assertEqual("folderName=folder_name&parentFolderPath=%2Ftest", responses.calls[0].request.body)
+        self.assertEqual(
+            "folderName=folder_name&parentFolderPath=%2Ftest",
+            responses.calls[0].request.body,
+        )
 
     @responses.activate
     def test_create_folder_fails_with_400(self):
@@ -90,11 +102,14 @@ class TestFolders(ClientTestCase):
                 responses.POST,
                 url,
                 status=400,
-                body='''{"message": "folderName parameter cannot have a slash.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
+                body="""{"message": "folderName parameter cannot have a slash.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}""",
             )
             self.client.create_folder(
-                options=CreateFolderRequestOptions(folder_name="folder_name", parent_folder_path="/test"))
+                options=CreateFolderRequestOptions(
+                    folder_name="folder_name", parent_folder_path="/test"
+                )
+            )
             self.assertRaises(BadRequestException)
         except UnknownException as e:
             self.assertEqual(e.message, "folderName parameter cannot have a slash.")
@@ -112,18 +127,20 @@ class TestFolders(ClientTestCase):
                 responses.DELETE,
                 url,
                 status=404,
-                body='''{
+                body="""{
                     "message": "No folder found with folderPath test",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "reason": "FOLDER_NOT_FOUND"
-                }''',
+                }""",
             )
-            self.client.delete_folder(options=DeleteFolderRequestOptions(folder_path="/test"))
+            self.client.delete_folder(
+                options=DeleteFolderRequestOptions(folder_path="/test")
+            )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
             self.assertEqual("No folder found with folderPath test", e.message)
             self.assertEqual(404, e.response_metadata.http_status_code)
-            self.assertEqual("FOLDER_NOT_FOUND", e.response_metadata.raw['reason'])
+            self.assertEqual("FOLDER_NOT_FOUND", e.response_metadata.raw["reason"])
 
     @responses.activate
     def test_delete_folder_succeeds(self):
@@ -138,15 +155,18 @@ class TestFolders(ClientTestCase):
             status=204,
             body="{}",
         )
-        resp = self.client.delete_folder(options=DeleteFolderRequestOptions(folder_path="/folderName"))
+        resp = self.client.delete_folder(
+            options=DeleteFolderRequestOptions(folder_path="/folderName")
+        )
         mock_response_metadata = {
-            'raw': None,
-            'httpStatusCode': 204,
-            'headers': {
-                'Content-Type': 'text/plain'
-            }
+            "raw": None,
+            "httpStatusCode": 204,
+            "headers": {"Content-Type": "text/plain"},
         }
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
         self.assertEqual("http://test.com/v1/folder", responses.calls[0].request.url)
         self.assertEqual("folderPath=%2FfolderName", responses.calls[0].request.body)
 
@@ -168,17 +188,23 @@ class TestCopyFolder(ClientTestCase):
                 responses.POST,
                 url,
                 status=400,
-                body='''{
+                body="""{
                     "message": "sourceFolderPath and destinationPath cannot be same.",
                     "help": "For support kindly contact us at support@imagekit.io ."
-                }''',
+                }""",
             )
-            self.client.copy_folder(options=CopyFolderRequestOptions(source_folder_path="/test",
-                                                                     destination_path="/test",
-                                                                     include_file_versions=False))
+            self.client.copy_folder(
+                options=CopyFolderRequestOptions(
+                    source_folder_path="/test",
+                    destination_path="/test",
+                    include_file_versions=False,
+                )
+            )
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            self.assertEqual("sourceFolderPath and destinationPath cannot be same.", e.message)
+            self.assertEqual(
+                "sourceFolderPath and destinationPath cannot be same.", e.message
+            )
             self.assertEqual(400, e.response_metadata.http_status_code)
 
     @responses.activate
@@ -193,20 +219,26 @@ class TestCopyFolder(ClientTestCase):
                 responses.POST,
                 url,
                 status=404,
-                body='''{
+                body="""{
                     "message": "No files & folder found at sourceFolderPath /test",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "reason": "NO_FILES_FOLDER"
-                }''',
+                }""",
             )
-            self.client.copy_folder(options=CopyFolderRequestOptions(source_folder_path="/test",
-                                                                     destination_path="/test1",
-                                                                     include_file_versions=False))
+            self.client.copy_folder(
+                options=CopyFolderRequestOptions(
+                    source_folder_path="/test",
+                    destination_path="/test1",
+                    include_file_versions=False,
+                )
+            )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
-            self.assertEqual("No files & folder found at sourceFolderPath /test", e.message)
+            self.assertEqual(
+                "No files & folder found at sourceFolderPath /test", e.message
+            )
             self.assertEqual(404, e.response_metadata.http_status_code)
-            self.assertEqual("NO_FILES_FOLDER", e.response_metadata.raw['reason'])
+            self.assertEqual("NO_FILES_FOLDER", e.response_metadata.raw["reason"])
 
     @responses.activate
     def test_copy_folder_succeeds(self):
@@ -221,26 +253,32 @@ class TestCopyFolder(ClientTestCase):
             body='{"jobId": "62de84fb1b02a58936cc740c"}',
         )
         resp = self.client.copy_folder(
-            options=CopyFolderRequestOptions(source_folder_path="/test",
-                                             destination_path="/test1",
-                                             include_file_versions=True))
+            options=CopyFolderRequestOptions(
+                source_folder_path="/test",
+                destination_path="/test1",
+                include_file_versions=True,
+            )
+        )
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain'
-            },
-            'httpStatusCode': 200,
-            'raw': {
-                'jobId': '62de84fb1b02a58936cc740c'
-            }
+            "headers": {"Content-Type": "text/plain"},
+            "httpStatusCode": 200,
+            "raw": {"jobId": "62de84fb1b02a58936cc740c"},
         }
-        request_body = make_string_to_single_line('''{
+        request_body = make_string_to_single_line(
+            """{
             "sourceFolderPath": "/test",
             "destinationPath": "/test1",
             "includeFileVersions": true
-        }''')
-        self.assertEqual('62de84fb1b02a58936cc740c', resp.job_id)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/bulkJobs/copyFolder", responses.calls[0].request.url)
+        }"""
+        )
+        self.assertEqual("62de84fb1b02a58936cc740c", resp.job_id)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/bulkJobs/copyFolder", responses.calls[0].request.url
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
 
 
@@ -264,8 +302,11 @@ class TestMoveFolder(ClientTestCase):
                 body="""{'message': 'Your account cannot be authenticated.'
                                     , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
-            self.client.move_folder(options=MoveFolderRequestOptions(source_folder_path="/test",
-                                                                     destination_path="/test1"))
+            self.client.move_folder(
+                options=MoveFolderRequestOptions(
+                    source_folder_path="/test", destination_path="/test1"
+                )
+            )
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
             self.assertEqual(e.message, "Your account cannot be authenticated.")
@@ -283,16 +324,21 @@ class TestMoveFolder(ClientTestCase):
                 responses.POST,
                 url,
                 status=400,
-                body='''{
+                body="""{
                     "message": "sourceFolderPath and destinationPath cannot be same.",
                     "help": "For support kindly contact us at support@imagekit.io ."
-                }''',
+                }""",
             )
-            self.client.move_folder(options=MoveFolderRequestOptions(source_folder_path="/test",
-                                                                     destination_path="/test"))
+            self.client.move_folder(
+                options=MoveFolderRequestOptions(
+                    source_folder_path="/test", destination_path="/test"
+                )
+            )
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            self.assertEqual("sourceFolderPath and destinationPath cannot be same.", e.message)
+            self.assertEqual(
+                "sourceFolderPath and destinationPath cannot be same.", e.message
+            )
             self.assertEqual(400, e.response_metadata.http_status_code)
 
     @responses.activate
@@ -307,19 +353,24 @@ class TestMoveFolder(ClientTestCase):
                 responses.POST,
                 url,
                 status=404,
-                body='''{
+                body="""{
                     "message": "No files & folder found at sourceFolderPath /test",
                     "help": "For support kindly contact us at support@imagekit.io .",
                     "reason": "NO_FILES_FOLDER"
-                }''',
+                }""",
             )
-            self.client.move_folder(options=MoveFolderRequestOptions(source_folder_path="/test",
-                                                                     destination_path="/test1"))
+            self.client.move_folder(
+                options=MoveFolderRequestOptions(
+                    source_folder_path="/test", destination_path="/test1"
+                )
+            )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
-            self.assertEqual("No files & folder found at sourceFolderPath /test", e.message)
+            self.assertEqual(
+                "No files & folder found at sourceFolderPath /test", e.message
+            )
             self.assertEqual(404, e.response_metadata.http_status_code)
-            self.assertEqual("NO_FILES_FOLDER", e.response_metadata.raw['reason'])
+            self.assertEqual("NO_FILES_FOLDER", e.response_metadata.raw["reason"])
 
     @responses.activate
     def test_move_folder_succeeds(self):
@@ -333,24 +384,30 @@ class TestMoveFolder(ClientTestCase):
             url,
             body='{"jobId": "62de84fb1b02a58936cc740c"}',
         )
-        resp = self.client.move_folder(options=MoveFolderRequestOptions(source_folder_path="/test",
-                                                                        destination_path="/test1"))
+        resp = self.client.move_folder(
+            options=MoveFolderRequestOptions(
+                source_folder_path="/test", destination_path="/test1"
+            )
+        )
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain'
-            },
-            'httpStatusCode': 200,
-            'raw': {
-                'jobId': '62de84fb1b02a58936cc740c'
-            }
+            "headers": {"Content-Type": "text/plain"},
+            "httpStatusCode": 200,
+            "raw": {"jobId": "62de84fb1b02a58936cc740c"},
         }
-        request_body = make_string_to_single_line('''{
+        request_body = make_string_to_single_line(
+            """{
             "sourceFolderPath": "/test",
             "destinationPath": "/test1"
-        }''')
-        self.assertEqual('62de84fb1b02a58936cc740c', resp.job_id)
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual("http://test.com/v1/bulkJobs/moveFolder", responses.calls[0].request.url)
+        }"""
+        )
+        self.assertEqual("62de84fb1b02a58936cc740c", resp.job_id)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/bulkJobs/moveFolder", responses.calls[0].request.url
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
 
 
@@ -373,13 +430,16 @@ class TestGetBulkJobStatus(ClientTestCase):
                 responses.GET,
                 url,
                 status=500,
-                body='''{"message": "We have experienced an internal error while processing your request.",
-                                 "help": "For support kindly contact us at support@imagekit.io ."}''',
+                body="""{"message": "We have experienced an internal error while processing your request.",
+                                 "help": "For support kindly contact us at support@imagekit.io ."}""",
             )
             self.client.get_bulk_job_status(self.job_id)
             self.assertRaises(InternalServerException)
         except InternalServerException as e:
-            self.assertEqual("We have experienced an internal error while processing your request.", e.message)
+            self.assertEqual(
+                "We have experienced an internal error while processing your request.",
+                e.message,
+            )
             self.assertEqual(500, e.response_metadata.http_status_code)
 
     @responses.activate
@@ -393,31 +453,36 @@ class TestGetBulkJobStatus(ClientTestCase):
         responses.add(
             responses.GET,
             url,
-            body='''{
+            body="""{
                 "jobId": "mock_job_id",
                 "type": "COPY_FOLDER",
                 "status": "Completed"
-            }''',
-            headers=headers
+            }""",
+            headers=headers,
         )
         resp = self.client.get_bulk_job_status(self.job_id)
 
         mock_response_metadata = {
-            'headers': {
-                'Content-Type': 'text/plain',
-                'Accept-Encoding': 'gzip, deflate',
-                'Authorization': 'Basic ZmFrZTEyMjo='
+            "headers": {
+                "Content-Type": "text/plain",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
             },
-            'httpStatusCode': 200,
-            'raw': {
-                'jobId': 'mock_job_id',
-                'status': 'Completed',
-                'type': 'COPY_FOLDER'
-            }
+            "httpStatusCode": 200,
+            "raw": {
+                "jobId": "mock_job_id",
+                "status": "Completed",
+                "type": "COPY_FOLDER",
+            },
         }
 
-        self.assertEqual(camel_dict_to_snake_dict(mock_response_metadata), resp.response_metadata.__dict__)
-        self.assertEqual('mock_job_id', resp.job_id)
-        self.assertEqual('Completed', resp.status)
-        self.assertEqual('COPY_FOLDER', resp.type)
-        self.assertEqual("http://test.com/v1/bulkJobs/mock_job_id", responses.calls[0].request.url)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual("mock_job_id", resp.job_id)
+        self.assertEqual("Completed", resp.status)
+        self.assertEqual("COPY_FOLDER", resp.type)
+        self.assertEqual(
+            "http://test.com/v1/bulkJobs/mock_job_id", responses.calls[0].request.url
+        )
