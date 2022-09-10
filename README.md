@@ -25,7 +25,11 @@ Table of contents -
     * [File Management](#file-management)
     * [Utility Functions](#utility-functions)
 * [Handling errors](#handling-errors)
+<<<<<<< HEAD
+* [Sample](#sample)
+=======
 * [Development](#development)
+>>>>>>> e4ab6c21b8eab0a3dd2cddb179907bce3f8d5221
 * [Support](#support)
 * [Links](#links)
 
@@ -1231,10 +1235,18 @@ except UnknownException, e:
 # Something else happened, which can be unrelated to ImageKit; the reason will be indicated in the message field
 ```
 
-## Development
+## Sample
 
-To integrate ImageKit in the Python, the code samples covered here are hosted on Github - https://github.com/imagekit-samples/quickstart/tree/master/python.
-## How to run locally
+### Get & Install local ImageKit Python SDK
+
+```bash
+$ git clone https://github.com/imagekit-developer/imagekit-python && cd imagekit-python
+$ pip install -e .
+```
+
+### Get samples
+
+To integrate ImageKit Samples in the Python, the code samples covered here are hosted on Github - https://github.com/imagekit-samples/quickstart/tree/master/python.
 
 You will find `sample.py` in root folder. 
 
@@ -1250,24 +1262,27 @@ imagekit = ImageKit(
     url_endpoint = 'your url_endpoint'
 )
 ```
-
-- You will find the dependencies in `python/requirements.txt` file.
-
-## Install dependencies
-
+ 
 To install dependencies that are in the `requirements.txt` file can fire this command to install them:
 
 ```shell
-pip install -r requirements.txt
+# You will find the dependencies in `python/requirements.txt` file.
+pip install -r python/requirements.txt
 ```
 
 Now run `sample.py`. If you are using CLI Tool (Terminal/Command prompt), open the project in CLI and execute it.
 
 ```shell
-cd project-name
-pip install imagekitio  # if not installed already
-python sample.py        # to run sample.py file
+# if not installed already
+pip install imagekitio  
+
+# if installing local sdk
+pip install -e <path_to_local_sdk> 
+
+# to run sample.py file
+python3 python/sample.py        
 ```
+
 ## Support
 
 For any feedback or to report any issues or general implementation support, please reach out
