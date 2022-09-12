@@ -219,9 +219,12 @@ class File(object):
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
         formatted_options = request_formatter(options.__dict__)
-        remove_ai_tags_dict = {'removeAITags': formatted_options['removeAiTags']}
-        del formatted_options['removeAiTags']
-        request_data = {**remove_ai_tags_dict, **formatted_options}
+        if 'removeAiTags' in formatted_options:
+            remove_ai_tags_dict = {'removeAITags': formatted_options['removeAiTags']}
+            del formatted_options['removeAiTags']
+            request_data = {**remove_ai_tags_dict, **formatted_options}
+        else:
+            request_data = formatted_options
         data = (
             dumps(request_data)
             if options is not None
