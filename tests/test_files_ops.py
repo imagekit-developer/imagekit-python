@@ -1911,6 +1911,49 @@ class TestCopyFile(ClientTestCase):
             "http://test.com/v1/files/copy", responses.calls[0].request.url
         )
 
+    @responses.activate
+    def test_copy_file_succeeds_without_include_file_versions(self) -> None:
+        """Test copy_file succeeds"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/copy".format(URL.API_BASE_URL)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        responses.add(responses.POST, url, status=204, headers=headers, body="{}")
+
+        resp = self.client.copy_file(
+            options=CopyFileRequestOptions(
+                source_file_path=self.source_file_path,
+                destination_path=self.destination_path,
+            )
+        )
+
+        mock_response_metadata = {
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
+            "httpStatusCode": 204,
+            "raw": None,
+        }
+
+        request_body = make_string_to_single_line(
+            """{
+            "sourceFilePath": "/source_file.jpg",
+            "destinationPath": "/destination_path"
+                }"""
+        )
+
+        self.assertEqual(request_body, responses.calls[0].request.body)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/files/copy", responses.calls[0].request.url
+        )
+
 
 class TestMoveFile(ClientTestCase):
     source_file_path = "/source_file.jpg"
