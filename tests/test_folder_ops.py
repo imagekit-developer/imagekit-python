@@ -281,6 +281,86 @@ class TestCopyFolder(ClientTestCase):
         )
         self.assertEqual(request_body, responses.calls[0].request.body)
 
+    @responses.activate
+    def test_copy_folder_succeeds_with_include_file_versions_false(self):
+        """
+        Tests if Copy folder succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/bulkJobs/copyFolder".format(URL.API_BASE_URL)
+        responses.add(
+            responses.POST,
+            url,
+            body='{"jobId": "62de84fb1b02a58936cc740c"}',
+        )
+        resp = self.client.copy_folder(
+            options=CopyFolderRequestOptions(
+                source_folder_path="/test",
+                destination_path="/test1",
+                include_file_versions=False,
+            )
+        )
+        mock_response_metadata = {
+            "headers": {"Content-Type": "text/plain"},
+            "httpStatusCode": 200,
+            "raw": {"jobId": "62de84fb1b02a58936cc740c"},
+        }
+        request_body = make_string_to_single_line(
+            """{
+            "sourceFolderPath": "/test",
+            "destinationPath": "/test1",
+            "includeFileVersions": false
+        }"""
+        )
+        self.assertEqual("62de84fb1b02a58936cc740c", resp.job_id)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/bulkJobs/copyFolder", responses.calls[0].request.url
+        )
+        self.assertEqual(request_body, responses.calls[0].request.body)
+
+    @responses.activate
+    def test_copy_folder_succeeds_without_include_file_versions(self):
+        """
+        Tests if Copy folder succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/bulkJobs/copyFolder".format(URL.API_BASE_URL)
+        responses.add(
+            responses.POST,
+            url,
+            body='{"jobId": "62de84fb1b02a58936cc740c"}',
+        )
+        resp = self.client.copy_folder(
+            options=CopyFolderRequestOptions(
+                source_folder_path="/test",
+                destination_path="/test1",
+            )
+        )
+        mock_response_metadata = {
+            "headers": {"Content-Type": "text/plain"},
+            "httpStatusCode": 200,
+            "raw": {"jobId": "62de84fb1b02a58936cc740c"},
+        }
+        request_body = make_string_to_single_line(
+            """{
+            "sourceFolderPath": "/test",
+            "destinationPath": "/test1"
+        }"""
+        )
+        self.assertEqual("62de84fb1b02a58936cc740c", resp.job_id)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(
+            "http://test.com/v1/bulkJobs/copyFolder", responses.calls[0].request.url
+        )
+        self.assertEqual(request_body, responses.calls[0].request.body)
+
 
 class TestMoveFolder(ClientTestCase):
     """
