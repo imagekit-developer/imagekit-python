@@ -2074,6 +2074,56 @@ class TestRenameFile(ClientTestCase):
             self.assertEqual("FILE_ALREADY_EXISTS", e.response_metadata.raw["reason"])
 
     @responses.activate
+    def test_rename_file_succeeds_with_purge_cache_false(self) -> None:
+        """Test rename_file succeeds with Purge cache"""
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/rename".format(URL.API_BASE_URL)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        responses.add(
+            responses.PUT,
+            url,
+            headers=headers,
+            body='{}',
+        )
+        resp = self.client.rename_file(
+            options=RenameFileRequestOptions(
+                file_path=self.file_path,
+                new_file_name=self.new_file_name,
+                purge_cache=False,
+            )
+        )
+
+        mock_response_metadata = {
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
+            "httpStatusCode": 200,
+            "raw": {},
+        }
+
+        request_body = make_string_to_single_line(
+            """{
+            "filePath": "/file_path.jpg",
+            "newFileName": "new_file.jpg",
+            "purgeCache": false
+            }"""
+        )
+
+        self.assertEqual(request_body, responses.calls[0].request.body)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(None, resp.purge_request_id)
+        self.assertEqual(
+            "http://test.com/v1/files/rename", responses.calls[0].request.url
+        )
+
+    @responses.activate
     def test_rename_file_succeeds_with_purge_cache(self) -> None:
         """Test rename_file succeeds with Purge cache"""
 
