@@ -132,6 +132,87 @@ class TestCustomMetadataFields(ClientTestCase):
         )
 
     @responses.activate
+    def test_get_custom_metadata_fields_succeeds_with_include_deleted_true(self):
+        """
+        Tests if get_custom_metadata_fields succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
+        headers = create_headers_for_test()
+        responses.add(
+            responses.GET,
+            url,
+            body="""[{
+                        "id": "62a9d5f6db485107347bb7f2",
+                        "name": "test10",
+                        "label": "test10",
+                        "schema": {
+                            "type": "Number",
+                            "isValueRequired": false,
+                            "minValue": 10,
+                            "maxValue": 1000
+                        }
+                    }, {
+                        "id": "62aab2cfdb4851833b8f5e64",
+                        "name": "test11",
+                        "label": "test11",
+                        "schema": {
+                            "type": "Number",
+                            "isValueRequired": false,
+                            "minValue": 10,
+                            "maxValue": 1000
+                        }
+                    }]""",
+            match=[matchers.query_string_matcher("includeDeleted=true")],
+            headers=headers,
+        )
+        resp = self.client.get_custom_metadata_fields(include_deleted=True)
+
+        mock_response_metadata = {
+            "raw": [
+                {
+                    "id": "62a9d5f6db485107347bb7f2",
+                    "name": "test10",
+                    "label": "test10",
+                    "schema": {
+                        "type": "Number",
+                        "isValueRequired": False,
+                        "minValue": 10,
+                        "maxValue": 1000,
+                    },
+                },
+                {
+                    "id": "62aab2cfdb4851833b8f5e64",
+                    "name": "test11",
+                    "label": "test11",
+                    "schema": {
+                        "type": "Number",
+                        "isValueRequired": False,
+                        "minValue": 10,
+                        "maxValue": 1000,
+                    },
+                },
+            ],
+            "httpStatusCode": 200,
+            "headers": {
+                "Content-Type": "text/plain",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
+        }
+
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual("62a9d5f6db485107347bb7f2", resp.list[0].id)
+        self.assertEqual("62aab2cfdb4851833b8f5e64", resp.list[1].id)
+        self.assertEqual(
+            "http://test.com/v1/customMetadataFields?includeDeleted=true",
+            responses.calls[0].request.url,
+        )
+
+    @responses.activate
     def test_delete_custom_metadata_fields_succeeds(self):
         """
         Tests if delete_custom_metadata_fields succeeds
