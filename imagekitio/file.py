@@ -269,7 +269,6 @@ class File(object):
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
         data = dumps({"fileIds": file_ids, "AITags": ai_tags})
-        print("Data:-->", data)
         resp = self.request.request(method="Post", url=url, headers=headers, data=data)
         if resp.status_code == 200:
             response = convert_to_response_object(resp, TagsResult)
