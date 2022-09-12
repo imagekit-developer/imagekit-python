@@ -99,8 +99,8 @@ imagekit_url = imagekit.url({
     "path": "/default-image.jpg",
     "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
     "transformation": [{
-        "height": "300", 
-        "width": "400", 
+        "height": "300",
+        "width": "400",
         "raw": "ar-4-3,q-40"
     }],
 })
@@ -313,10 +313,10 @@ extensions = [
             'add_shadow': True,
             'bg_color': 'pink'
         }
-    }, 
+    },
     {
         'name': 'google-auto-tagging',
-        'minConfidence': 80, 
+        'minConfidence': 80,
         'maxTags': 10
     }
 ]
@@ -332,7 +332,7 @@ options = UploadFileRequestOptions(
     extensions=extensions,
     webhook_url='https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e',
     overwrite_file=True,
-    overwrite_a_i_tags=False,
+    overwrite_ai_tags=False,
     overwrite_tags=False,
     overwrite_custom_metadata=True,
     custom_metadata={'testss': 12},
@@ -445,7 +445,7 @@ the [API documentation here](https://docs.imagekit.io/api-reference/media-api/ge
 
 ```python
 result = imagekit.get_file_version_details(
-    file_id='file_id', 
+    file_id='file_id',
     version_id='version_id'
 )
 
@@ -475,21 +475,21 @@ from imagekitio.models.UpdateFileRequestOptions import UpdateFileRequestOptions
 
 extensions = [
     {
-        'name': 'remove-bg', 
+        'name': 'remove-bg',
         'options': {
             'add_shadow': True,
             'bg_color': 'red'
         }
-    }, 
+    },
     {
         'name': 'google-auto-tagging',
-        'minConfidence': 80, 
+        'minConfidence': 80,
         'maxTags': 10
     }
 ]
 
 options = UpdateFileRequestOptions(
-    remove_a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'],
+    remove_ai_tags=['remove-ai-tag-1', 'remove-ai-tag-2'],
     webhook_url='url',
     extensions=extensions,
     tags=['tag-1', 'tag-2'],
@@ -556,12 +556,12 @@ print(result.successfully_updated_file_ids[0])
 
 **8. Remove AI tags**
 
-Accepts a list of `file_ids` and `a_i_tags` as a parameter to remove AI tags. All parameters specified in
+Accepts a list of `file_ids` and `ai_tags` as a parameter to remove AI tags. All parameters specified in
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/remove-aitags-bulk) can be passed to
 the `.remove_ai_tags()` functions to get the results.
 
 ```python
-result = imagekit.remove_ai_tags(file_ids=['file-id-1', 'file-id-2'], a_i_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
+result = imagekit.remove_ai_tags(file_ids=['file-id-1', 'file-id-2'], ai_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
 
 # Final Result
 print(result)
@@ -1237,7 +1237,7 @@ except UnknownException, e:
 
 ### Tests
 
-Tests are powered by [Tox](https://tox.wiki/en/latest/). 
+Tests are powered by [Tox](https://tox.wiki/en/latest/).
 
 ```bash
 $ git clone https://github.com/imagekit-developer/imagekit-python && cd imagekit-python
@@ -1270,7 +1270,7 @@ imagekit = ImageKit(
     url_endpoint = 'your url_endpoint'
 )
 ```
- 
+
 To install dependencies that are in the `python/requirements.txt` file can fire this command to install them:
 
 ```shell
@@ -1281,13 +1281,13 @@ Now run `python/sample.py`. If you are using CLI Tool (Terminal/Command prompt),
 
 ```shell
 # if not installed already
-pip install imagekitio  
+pip install imagekitio
 
 # if installing local sdk
-pip install -e <path_to_local_sdk> 
+pip install -e <path_to_local_sdk>
 
 # to run sample.py file
-python3 python/sample.py        
+python3 python/sample.py
 ```
 
 ## Support

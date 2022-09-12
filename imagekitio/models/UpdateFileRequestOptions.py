@@ -5,15 +5,15 @@ from typing import List
 class UpdateFileRequestOptions:
     def __init__(
         self,
-        remove_a_i_tags: List[str] = None,
+        remove_ai_tags: List[str] = None,
         webhook_url: str = None,
         extensions: json = None,
         tags: List[str] = None,
         custom_coordinates: str = None,
         custom_metadata: json = None,
     ):
-        if remove_a_i_tags is not None:
-            self.remove_a_i_tags = remove_a_i_tags
+        if remove_ai_tags is not None:
+            self.remove_ai_tags = remove_ai_tags
         if webhook_url is not None:
             self.webhook_url = webhook_url
         if extensions is not None:

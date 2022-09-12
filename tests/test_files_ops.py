@@ -89,7 +89,7 @@ class TestUpload(ClientTestCase):
                     ),
                     webhook_url="https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
                     overwrite_file=True,
-                    overwrite_a_i_tags=False,
+                    overwrite_ai_tags=False,
                     overwrite_tags=False,
                     overwrite_custom_metadata=True,
                     custom_metadata={"testss": 12},
@@ -170,7 +170,7 @@ class TestUpload(ClientTestCase):
                 ),
                 webhook_url="url",
                 overwrite_file=True,
-                overwrite_a_i_tags=False,
+                overwrite_ai_tags=False,
                 overwrite_tags=False,
                 overwrite_custom_metadata=True,
                 custom_metadata={"test100": 11},
@@ -309,7 +309,7 @@ class TestUpload(ClientTestCase):
                     ),
                     webhook_url="https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e",
                     overwrite_file=True,
-                    overwrite_a_i_tags=False,
+                    overwrite_ai_tags=False,
                     overwrite_tags=False,
                     overwrite_custom_metadata=True,
                     custom_metadata={"testss": 12},
@@ -1210,7 +1210,7 @@ class TestUpdateFileDetails(ClientTestCase):
         resp = self.client.update_file_details(
             file_id=self.file_id,
             options=UpdateFileRequestOptions(
-                remove_a_i_tags=["ai-tag1", "ai-tag2"],
+                remove_ai_tags=["ai-tag1", "ai-tag2"],
                 webhook_url="url",
                 extensions=[
                     {
@@ -1301,7 +1301,7 @@ class TestUpdateFileDetails(ClientTestCase):
             self.client.update_file_details(
                 file_id=self.file_id,
                 options=UpdateFileRequestOptions(
-                    remove_a_i_tags=["ai-tag1", "ai-tag2"],
+                    remove_ai_tags=["ai-tag1", "ai-tag2"],
                     webhook_url="url",
                     extensions=[
                         {

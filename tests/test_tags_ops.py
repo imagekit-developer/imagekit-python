@@ -248,7 +248,7 @@ class TestAITags(ClientTestCase):
                                 , 'help': 'For support kindly contact us at support@imagekit.io .'}""",
             )
             self.client.remove_ai_tags(
-                file_ids=[self.file_id], a_i_tags=["remove-ai-tag1", "remove-ai-tag2"]
+                file_ids=[self.file_id], ai_tags=["remove-ai-tag1", "remove-ai-tag2"]
             )
             self.assertRaises(ForbiddenException)
         except ForbiddenException as e:
@@ -272,7 +272,7 @@ class TestAITags(ClientTestCase):
         )
 
         resp = self.client.remove_ai_tags(
-            file_ids=[self.file_id], a_i_tags=["remove-ai-tag-1", "remove-ai-tag-2"]
+            file_ids=[self.file_id], ai_tags=["remove-ai-tag-1", "remove-ai-tag-2"]
         )
         mock_response_metadata = {
             "headers": {
@@ -319,7 +319,7 @@ class TestAITags(ClientTestCase):
                 headers=headers,
             )
             self.client.remove_ai_tags(
-                file_ids=[self.file_id], a_i_tags=["remove-ai-tag-1", "remove-ai-tag-2"]
+                file_ids=[self.file_id], ai_tags=["remove-ai-tag-1", "remove-ai-tag-2"]
             )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
