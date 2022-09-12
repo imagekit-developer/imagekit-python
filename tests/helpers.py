@@ -32,6 +32,16 @@ class ClientTestCase(unittest.TestCase):
             skip=0,
             tags="Tag-1, Tag-2, Tag-3",
         )
+        self.opt = ListAndSearchFileRequestOptions(
+            type="file",
+            sort="ASC_CREATED",
+            path="/",
+            search_query="created_at >= '2d' OR size < '2mb' OR format='png'",
+            file_type="all",
+            limit=1,
+            skip=0,
+            tags=["Tag-1", "Tag-2", "Tag-3"],
+        )
         self.client = ImageKit(
             public_key="fake122",
             private_key=ClientTestCase.private_key,

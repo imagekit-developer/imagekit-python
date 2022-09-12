@@ -118,6 +118,10 @@ class File(object):
         :return: ListFileResult
         """
         if options is not None:
+            if 'tags' in options.__dict__ and isinstance(options.tags, list):
+                val = ", ".join(options.tags)
+                if val:
+                    options.tags = val
             formatted_options = request_formatter(options.__dict__)
             if not self.is_valid_list_options(formatted_options):
                 raise ValueError("Invalid option for list_files")
@@ -125,6 +129,7 @@ class File(object):
             formatted_options = dict()
         url = "{}/v1/files".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
+        print("Forma:-->", formatted_options)
         resp = self.request.request(
             method="GET", url=url, headers=headers, params=dumps(formatted_options)
         )

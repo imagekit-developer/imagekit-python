@@ -351,6 +351,112 @@ class TestListFiles(ClientTestCase):
             self.assertEqual(403, e.response_metadata.http_status_code)
 
     @responses.activate
+    def test_list_files_succeeds_with_basic_request_tags_with_array(self) -> None:
+        """
+        Tests if list_files work with options which contains type, sort, path, searchQuery, fileType, limit, skip and tags
+        """
+
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files".format(URL.API_BASE_URL)
+
+        headers = create_headers_for_test()
+        responses.add(
+            responses.GET,
+            url,
+            body="""[{
+                "type": "file",
+                "name": "sample-cat-image_gr64HPlJS.jpg",
+                "createdAt": "2022-06-15T08:19:00.843Z",
+                "updatedAt": "2022-06-15T08:19:45.169Z",
+                "fileId": "62a995f4d875ec08dc587b72",
+                "tags": ["{Tag_1", " Tag_2", " Tag_3}", "tag-to-add-2"],
+                "AITags": "",
+                "versionInfo": {
+                    "id": "62a995f4d875ec08dc587b72",
+                    "name": "Version 1"
+                },
+                "embeddedMetadata": {
+                    "XResolution": 250,
+                    "YResolution": 250,
+                    "DateCreated": "2022-06-15T08:19:01.523Z",
+                    "DateTimeCreated": "2022-06-15T08:19:01.524Z"
+                },
+                "customCoordinates": "10,10,20,20",
+                "customMetadata": {
+                    "test100": 10
+                },
+                "isPrivateFile": false,
+                "url": "https://ik.imagekit.io/your_imagekit_id/sample-cat-image_gr64HPlJS.jpg",
+                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/sample-cat-image_gr64HPlJS.jpg",
+                "fileType": "image",
+                "filePath": "/sample-cat-image_gr64HPlJS.jpg",
+                "height": 354,
+                "width": 236,
+                "size": 23023,
+                "hasAlpha": false,
+                "mime": "image/jpeg"
+            }]""",
+            headers=headers,
+            match=[
+                matchers.query_string_matcher(
+                    "%7B%22type%22:%20%22file%22,%20%22sort%22:%20%22ASC_CREATED%22,%20%22path%22:%20%22/%22,%20%22searchQuery%22:%20%22created_at%20%3E=%20'2d'%20OR%20size%20%3C%20'2mb'%20OR%20format='png'%22,%20%22fileType%22:%20%22all%22,%20%22limit%22:%201,%20%22skip%22:%200,%20%22tags%22:%20%22Tag-1,%20Tag-2,%20Tag-3%22%7D"
+                )
+            ],
+        )
+
+        resp = self.client.list_files(self.opt)
+
+        mock_response_metadata = {
+            "headers": {
+                "Content-Type": "text/plain",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
+            "httpStatusCode": 200,
+            "raw": [
+                {
+                    "AITags": "",
+                    "createdAt": "2022-06-15T08:19:00.843Z",
+                    "customCoordinates": "10,10,20,20",
+                    "customMetadata": {"test100": 10},
+                    "embeddedMetadata": {
+                        "DateCreated": "2022-06-15T08:19:01.523Z",
+                        "DateTimeCreated": "2022-06-15T08:19:01.524Z",
+                        "XResolution": 250,
+                        "YResolution": 250,
+                    },
+                    "fileId": "62a995f4d875ec08dc587b72",
+                    "filePath": "/sample-cat-image_gr64HPlJS.jpg",
+                    "fileType": "image",
+                    "hasAlpha": False,
+                    "height": 354,
+                    "isPrivateFile": False,
+                    "mime": "image/jpeg",
+                    "name": "sample-cat-image_gr64HPlJS.jpg",
+                    "size": 23023,
+                    "tags": ["{Tag_1", " Tag_2", " Tag_3}", "tag-to-add-2"],
+                    "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/sample-cat-image_gr64HPlJS.jpg",
+                    "type": "file",
+                    "updatedAt": "2022-06-15T08:19:45.169Z",
+                    "url": "https://ik.imagekit.io/your_imagekit_id/sample-cat-image_gr64HPlJS.jpg",
+                    "versionInfo": {
+                        "id": "62a995f4d875ec08dc587b72",
+                        "name": "Version " "1",
+                    },
+                    "width": 236,
+                }
+            ],
+        }
+        self.assertEqual(
+            "http://test.com/v1/files?%7B%22type%22:%20%22file%22,%20%22sort%22:%20%22ASC_CREATED%22,%20%22path%22:%20%22/%22,%20%22searchQuery%22:%20%22created_at%20%3E=%20'2d'%20OR%20size%20%3C%20'2mb'%20OR%20format='png'%22,%20%22fileType%22:%20%22all%22,%20%22limit%22:%201,%20%22skip%22:%200,%20%22tags%22:%20%22Tag-1,%20Tag-2,%20Tag-3%22%7D",
+            responses.calls[0].request.url,
+        )
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+
+    @responses.activate
     def test_list_files_succeeds_with_basic_request(self) -> None:
         """
         Tests if list_files work with options which contains type, sort, path, searchQuery, fileType, limit, skip and tags
