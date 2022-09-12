@@ -227,10 +227,10 @@ class TestUpload(ClientTestCase):
                                                {\"name\": \"google-auto-tagging\", \"minConfidence\": 80, \"maxTags\": 10}]\',
                             \'webhookUrl\': \'url\',
                             \'overwriteFile\': \'true\',
-                            \'overwriteAITags\': \'false\',
                             \'overwriteTags\': \'false\',
                             \'overwriteCustomMetadata\': \'true\',
-                            \'customMetadata\': \'{\"test100\": 11}\'
+                            \'customMetadata\': \'{\"test100\": 11}\',
+                            \'overwriteAITags\': \'false\'
                         }"""
         )
         actual_body = responses.calls[0].request.body.__dict__.__getitem__("fields")
