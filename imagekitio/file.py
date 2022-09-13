@@ -104,7 +104,7 @@ class File(object):
         )
         headers.update({"Content-Type": multipart_data.content_type})
         resp = self.request.request(
-            "Post", url=url, data=multipart_data, headers=headers
+            "Post", url=url, data=multipart_data.read(), headers=headers
         )
         if resp.status_code == 200:
             response = convert_to_response_object(resp, UploadFileResult)
