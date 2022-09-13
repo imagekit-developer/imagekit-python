@@ -471,7 +471,7 @@ class TestListFiles(ClientTestCase):
                 "createdAt": "2022-06-15T08:19:00.843Z",
                 "updatedAt": "2022-06-15T08:19:45.169Z",
                 "fileId": "62a995f4d875ec08dc587b72",
-                "tags": ["{Tag_1", " Tag_2", " Tag_3}", "tag-to-add-2"],
+                "tags": ["Tag_1", " Tag_2", " Tag_3", "tag-to-add-2"],
                 "AITags": "",
                 "versionInfo": {
                     "id": "62a995f4d875ec08dc587b72",
@@ -536,7 +536,7 @@ class TestListFiles(ClientTestCase):
                     "mime": "image/jpeg",
                     "name": "sample-cat-image_gr64HPlJS.jpg",
                     "size": 23023,
-                    "tags": ["{Tag_1", " Tag_2", " Tag_3}", "tag-to-add-2"],
+                    "tags": ["Tag_1", " Tag_2", " Tag_3", "tag-to-add-2"],
                     "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/sample-cat-image_gr64HPlJS.jpg",
                     "type": "file",
                     "updatedAt": "2022-06-15T08:19:45.169Z",
@@ -577,7 +577,7 @@ class TestListFiles(ClientTestCase):
                 "createdAt": "2022-06-15T08:19:00.843Z",
                 "updatedAt": "2022-06-15T08:19:45.169Z",
                 "fileId": "62a995f4d875ec08dc587b72",
-                "tags": ["{Tag_1", " Tag_2", " Tag_3}", "tag-to-add-2"],
+                "tags": ["Tag_1", " Tag_2", " Tag_3", "tag-to-add-2"],
                 "AITags": "",
                 "versionInfo": {
                     "id": "62a995f4d875ec08dc587b72",
@@ -642,7 +642,7 @@ class TestListFiles(ClientTestCase):
                     "mime": "image/jpeg",
                     "name": "sample-cat-image_gr64HPlJS.jpg",
                     "size": 23023,
-                    "tags": ["{Tag_1", " Tag_2", " Tag_3}", "tag-to-add-2"],
+                    "tags": ["Tag_1", " Tag_2", " Tag_3", "tag-to-add-2"],
                     "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/sample-cat-image_gr64HPlJS.jpg",
                     "type": "file",
                     "updatedAt": "2022-06-15T08:19:45.169Z",
@@ -1661,8 +1661,8 @@ class TestGetFileVersions(ClientTestCase):
                     "test10": 11
                 },
                 "isPrivateFile": false,
-                "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version                       =dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
-                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version                         =dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
                 "fileType": "image",
                 "filePath": "/new_car.jpg",
                 "height": 354,
@@ -1675,111 +1675,105 @@ class TestGetFileVersions(ClientTestCase):
         )
         resp = self.client.get_file_versions(self.file_id)
         mock_response_metadata = {
-            "headers": {
-                "Content-Type": "text/plain, application/json",
-                "Authorization": "Basic ZmFrZTEyMjo=",
-            },
-            "http_status_code": 200,
-            "raw": [
-                {
-                    "AITags": [
-                        {
-                            "confidence": 98.77,
-                            "name": "Clothing",
-                            "source": "google-auto-tagging",
-                        },
-                        {
-                            "confidence": 95.31,
-                            "name": "Smile",
-                            "source": "google-auto-tagging",
-                        },
-                        {
-                            "confidence": 95.2,
-                            "name": "Shoe",
-                            "source": "google-auto-tagging",
-                        },
-                    ],
-                    "createdAt": "2022-06-15T11:34:36.294Z",
-                    "customCoordinates": "",
-                    "customMetadata": {"test10": 11, "test100": 10},
-                    "embeddedMetadata": {
-                        "DateCreated": "2022-07-04T10:15:50.066Z",
-                        "DateTimeCreated": "2022-07-04T10:15:50.066Z",
-                    },
-                    "fileId": "fake_123",
-                    "filePath": "/new_car.jpg",
-                    "fileType": "image",
-                    "hasAlpha": False,
-                    "height": 354,
-                    "isPrivateFile": False,
-                    "mime": "image/jpeg",
-                    "name": "new_car.jpg",
-                    "size": 7390,
-                    "tags": ["Tag_1", "Tag_2", "Tag_3"],
-                    "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg",
-                    "type": "file",
-                    "updatedAt": "2022-07-04T10:15:50.067Z",
-                    "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg",
-                    "versionInfo": {"id": "versionId", "name": "Version 4"},
-                    "width": 236,
+            'raw': [{
+                'type': 'file',
+                'name': 'new_car.jpg',
+                'createdAt': '2022-06-15T11:34:36.294Z',
+                'updatedAt': '2022-07-04T10:15:50.067Z',
+                'fileId': 'fake_123',
+                'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
+                'AITags': [{
+                    'name': 'Clothing',
+                    'confidence': 98.77,
+                    'source': 'google-auto-tagging'
+                }, {
+                    'name': 'Smile',
+                    'confidence': 95.31,
+                    'source': 'google-auto-tagging'
+                }, {
+                    'name': 'Shoe',
+                    'confidence': 95.2,
+                    'source': 'google-auto-tagging'
+                }],
+                'versionInfo': {
+                    'id': 'versionId',
+                    'name': 'Version 4'
                 },
-                {
-                    "AITags": [
-                        {
-                            "confidence": 98.77,
-                            "name": "Clothing",
-                            "source": "google-auto-tagging",
-                        },
-                        {
-                            "confidence": 95.31,
-                            "name": "Smile",
-                            "source": "google-auto-tagging",
-                        },
-                        {
-                            "confidence": 95.2,
-                            "name": "Shoe",
-                            "source": "google-auto-tagging",
-                        },
-                        {
-                            "confidence": 91.05,
-                            "name": "Street light",
-                            "source": "google-auto-tagging",
-                        },
-                    ],
-                    "createdAt": "2022-07-04T10:15:49.698Z",
-                    "customCoordinates": "10,10,40,40",
-                    "customMetadata": {"test10": 11, "test100": 10},
-                    "embeddedMetadata": {
-                        "DateCreated": "2022-06-15T11:34:36.702Z",
-                        "DateTimeCreated": "2022-06-15T11:34:36.702Z",
-                        "XResolution": 250,
-                        "YResolution": 250,
-                    },
-                    "fileId": "fileId",
-                    "filePath": "/new_car.jpg",
-                    "fileType": "image",
-                    "hasAlpha": False,
-                    "height": 354,
-                    "isPrivateFile": False,
-                    "mime": "image/jpeg",
-                    "name": "new_car.jpg",
-                    "size": 23023,
-                    "tags": ["Tag_1", "Tag_2", "Tag_3"],
-                    "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version                         "
-                                 "=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
-                    "type": "file-version",
-                    "updatedAt": "2022-07-04T10:15:49.734Z",
-                    "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version                       "
-                           "=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
-                    "versionInfo": {
-                        "id": "62c2bdd5872375c6b8f40fd4",
-                        "name": "Version 1",
-                    },
-                    "width": 236,
+                'embeddedMetadata': {
+                    'DateCreated': '2022-07-04T10:15:50.066Z',
+                    'DateTimeCreated': '2022-07-04T10:15:50.066Z'
                 },
-            ],
+                'customCoordinates': '',
+                'customMetadata': {
+                    'test100': 10,
+                    'test10': 11
+                },
+                'isPrivateFile': False,
+                'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg',
+                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg',
+                'fileType': 'image',
+                'filePath': '/new_car.jpg',
+                'height': 354,
+                'width': 236,
+                'size': 7390,
+                'hasAlpha': False,
+                'mime': 'image/jpeg'
+            }, {
+                'type': 'file-version',
+                'name': 'new_car.jpg',
+                'createdAt': '2022-07-04T10:15:49.698Z',
+                'updatedAt': '2022-07-04T10:15:49.734Z',
+                'fileId': 'fileId',
+                'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
+                'AITags': [{
+                    'name': 'Clothing',
+                    'confidence': 98.77,
+                    'source': 'google-auto-tagging'
+                }, {
+                    'name': 'Smile',
+                    'confidence': 95.31,
+                    'source': 'google-auto-tagging'
+                }, {
+                    'name': 'Shoe',
+                    'confidence': 95.2,
+                    'source': 'google-auto-tagging'
+                }, {
+                    'name': 'Street light',
+                    'confidence': 91.05,
+                    'source': 'google-auto-tagging'
+                }],
+                'versionInfo': {
+                    'id': '62c2bdd5872375c6b8f40fd4',
+                    'name': 'Version 1'
+                },
+                'embeddedMetadata': {
+                    'XResolution': 250,
+                    'YResolution': 250,
+                    'DateCreated': '2022-06-15T11:34:36.702Z',
+                    'DateTimeCreated': '2022-06-15T11:34:36.702Z'
+                },
+                'customCoordinates': '10,10,40,40',
+                'customMetadata': {
+                    'test100': 10,
+                    'test10': 11
+                },
+                'isPrivateFile': False,
+                'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
+                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
+                'fileType': 'image',
+                'filePath': '/new_car.jpg',
+                'height': 354,
+                'width': 236,
+                'size': 23023,
+                'hasAlpha': False,
+                'mime': 'image/jpeg'
+            }],
+            'http_status_code': 200,
+            'headers': {
+                'Content-Type': 'text/plain, application/json',
+                'Authorization': 'Basic ZmFrZTEyMjo='
+            }
         }
-
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
