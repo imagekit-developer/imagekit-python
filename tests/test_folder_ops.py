@@ -265,13 +265,15 @@ class TestCopyFolder(ClientTestCase):
             "httpStatusCode": 200,
             "raw": {"jobId": "62de84fb1b02a58936cc740c"},
         }
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "sourceFolderPath": "/test",
                 "destinationPath": "/test1",
                 "includeFileVersions": true
             }"""
-        ))
+            )
+        )
         self.assertEqual("62de84fb1b02a58936cc740c", resp.job_id)
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
@@ -306,13 +308,15 @@ class TestCopyFolder(ClientTestCase):
             "httpStatusCode": 200,
             "raw": {"jobId": "62de84fb1b02a58936cc740c"},
         }
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "sourceFolderPath": "/test",
                 "destinationPath": "/test1",
                 "includeFileVersions": false
             }"""
-        ))
+            )
+        )
         self.assertEqual("62de84fb1b02a58936cc740c", resp.job_id)
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
@@ -346,12 +350,14 @@ class TestCopyFolder(ClientTestCase):
             "httpStatusCode": 200,
             "raw": {"jobId": "62de84fb1b02a58936cc740c"},
         }
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "sourceFolderPath": "/test",
                 "destinationPath": "/test1"
             }"""
-        ))
+            )
+        )
         self.assertEqual("62de84fb1b02a58936cc740c", resp.job_id)
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
@@ -475,12 +481,14 @@ class TestMoveFolder(ClientTestCase):
             "httpStatusCode": 200,
             "raw": {"jobId": "62de84fb1b02a58936cc740c"},
         }
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "sourceFolderPath": "/test",
                 "destinationPath": "/test1"
             }"""
-        ))
+            )
+        )
         self.assertEqual("62de84fb1b02a58936cc740c", resp.job_id)
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),

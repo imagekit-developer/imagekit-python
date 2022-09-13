@@ -2,8 +2,8 @@
 
 # ImageKit.io Python SDK
 
-[![Python CI](<https://github.com/imagekit-developer/imagekit-python/workflows/Python%20CI/badge.svg>)](https://github.com/imagekit-developer/imagekit-python/)
-[![imagekitio](<https://img.shields.io/pypi/v/imagekitio.svg>)](https://pypi.org/project/imagekitio)
+[![Python CI](https://github.com/imagekit-developer/imagekit-python/workflows/Python%20CI/badge.svg)](https://github.com/imagekit-developer/imagekit-python/)
+[![imagekitio](https://img.shields.io/pypi/v/imagekitio.svg)](https://pypi.org/project/imagekitio)
 [![codecov](https://codecov.io/gh/imagekit-developer/imagekit-python/branch/master/graph/badge.svg?token=CwKWqBIlCu)](https://codecov.io/gh/imagekit-developer/imagekit-python)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
@@ -16,20 +16,20 @@ Supported Python Versions: >=3.6
 
 Table of contents -
 
-* [Installation](#installation)
-* [Initialization](#initialization)
-* [Change Log](#change-log)
-* [Usage](#usage)
-    * [URL Generation](#url-generation)
-    * [File Upload](#file-upload)
-    * [File Management](#file-management)
-    * [Utility Functions](#utility-functions)
-* [Handling errors](#handling-errors)
-* [Development](#development)
-    * [Tests](#tests)
-    * [Sample](#sample)
-* [Support](#support)
-* [Links](#links)
+-   [Installation](#installation)
+-   [Initialization](#initialization)
+-   [Change Log](#change-log)
+-   [Usage](#usage)
+    -   [URL Generation](#url-generation)
+    -   [File Upload](#file-upload)
+    -   [File Management](#file-management)
+    -   [Utility Functions](#utility-functions)
+-   [Handling errors](#handling-errors)
+-   [Development](#development)
+    -   [Tests](#tests)
+    -   [Sample](#sample)
+-   [Support](#support)
+-   [Links](#links)
 
 ## Installation
 
@@ -63,25 +63,24 @@ Changes from `2.2.8 -> 3.0.0` are listed below
 
 **What changed**
 
-- Before the upgrade, an `error` dict was coming in the return object of any function call. Now, SDK throws an exception in case of an error.
+-   Before the upgrade, an `error` dict was coming in the return object of any function call. Now, SDK throws an exception in case of an error.
 
 **Who is affected?**
 
-- This affects any development in your software that calls APIs from ImageKit IO and handles errors based on what's returned.
+-   This affects any development in your software that calls APIs from ImageKit IO and handles errors based on what's returned.
 
 **How should I update my code?**
 
-- To avoid failures in an application, you could handle errors as [documented here](#handling-errors)
-
+-   To avoid failures in an application, you could handle errors as [documented here](#handling-errors)
 
 # Usage
 
 You can use this Python SDK for three different kinds of methods:
 
-* [URL Generation](#url-generation)
-* [File Upload](#file-upload)
-* [File Management](#file-management)
-* [Utility Functions](#utility-functions)
+-   [URL Generation](#url-generation)
+-   [File Upload](#file-upload)
+-   [File Management](#file-management)
+-   [Utility Functions](#utility-functions)
 
 ## URL Generation
 
@@ -134,18 +133,18 @@ Sample Result URL -
 https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cw-400%2Car-4-3%2Cq-40
 ```
 
-The ```.url()``` method accepts the following parameters.
+The `.url()` method accepts the following parameters.
 
-| Option                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| :---------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| url_endpoint            | Optional. The prepended base URL before the path of the image. If not specified, the URL Endpoint specified during SDK initialization gets used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                                                                                                                         |
-| path                    | Conditional. A path at which the image exists. For example, `/path/to/image.jpg`. Specify a `path` or `src` parameter for URL generation.                                                                                                                                                                                                                                                                                                                                                                                                           |
-| src                     | Conditional. Complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Specify a `path` or `src` parameter for URL generation.                                                                                                                                                                                                                                                                                                                                   |
-| transformation          | Optional. Specify an array of objects with name and the value in key-value pair to apply transformation params in the URL. Append different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations)  as different objects of the array. This document includes a complete list of supported transformations in the SDK with some examples. If one uses an unspecified transformation name, it gets applied as it is in the URL.|
-| transformation_position | Optional. The default value is `path`, which places the transformation string as a path parameter in the URL. One can also specify it as a query, which adds the transformation string as the query parameter `tr` in the URL. Suppose one uses the `src` parameter to create the URL. In that case, the transformation string is always a query parameter.                                                                                                                                                                                                              |
-| query_parameters        | Optional. These are the other query parameters that one wants to add to the final URL. These can be any query parameters and are not necessarily related to ImageKit. Especially useful if one wants to add some versioning parameter to their URLs.                                                                                                                                                                                                                                                                                                                                  |
-| signed                  | Optional. Boolean. The default is `false`. If set to `true`, the SDK generates a signed image URL adding the image signature to the image URL. One can only use this if they create the URL with the `url_endpoint` and `path` parameters, not the `src` parameter.                                                                                                                                                                                                                                                                                                            |
-| expire_seconds          | Optional. Integer. Used along with the `signed` parameter to specify the time in seconds from `now` when the URL should expire. If specified, the URL contains the expiry timestamp, and the image signature is modified accordingly.                                                                                                                                                                                                                                                                                                                       |
+| Option                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| :---------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| url_endpoint            | Optional. The prepended base URL before the path of the image. If not specified, the URL Endpoint specified during SDK initialization gets used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                                             |
+| path                    | Conditional. A path at which the image exists. For example, `/path/to/image.jpg`. Specify a `path` or `src` parameter for URL generation.                                                                                                                                                                                                                                                                                                                                                   |
+| src                     | Conditional. Complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Specify a `path` or `src` parameter for URL generation.                                                                                                                                                                                                                                                                                |
+| transformation          | Optional. Specify an array of objects with name and the value in key-value pair to apply transformation params in the URL. Append different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations) as different objects of the array. This document includes a complete list of supported transformations in the SDK with some examples. If one uses an unspecified transformation name, it gets applied as it is in the URL. |
+| transformation_position | Optional. The default value is `path`, which places the transformation string as a path parameter in the URL. One can also specify it as a query, which adds the transformation string as the query parameter `tr` in the URL. Suppose one uses the `src` parameter to create the URL. In that case, the transformation string is always a query parameter.                                                                                                                                 |
+| query_parameters        | Optional. These are the other query parameters that one wants to add to the final URL. These can be any query parameters and are not necessarily related to ImageKit. Especially useful if one wants to add some versioning parameter to their URLs.                                                                                                                                                                                                                                        |
+| signed                  | Optional. Boolean. The default is `false`. If set to `true`, the SDK generates a signed image URL adding the image signature to the image URL. One can only use this if they create the URL with the `url_endpoint` and `path` parameters, not the `src` parameter.                                                                                                                                                                                                                         |
+| expire_seconds          | Optional. Integer. Used along with the `signed` parameter to specify the time in seconds from `now` when the URL should expire. If specified, the URL contains the expiry timestamp, and the image signature is modified accordingly.                                                                                                                                                                                                                                                       |
 
 ## Examples of generating URLs
 
@@ -230,7 +229,7 @@ The SDK gives a name to each transformation parameter, making the code simpler, 
 If you want to generate transformations in your application and add them to the URL as it is, use the raw parameter.
 
 | Supported Transformation Name | Translates to parameter         |
-|-------------------------------|---------------------------------|
+| ----------------------------- | ------------------------------- |
 | height                        | h                               |
 | width                         | w                               |
 | aspect_ratio                  | ar                              |
@@ -356,9 +355,9 @@ If the upload succeeds, the `result` will be the `UploadFileResult` class.
 
 If the upload fails, the custom exception will be thrown with:
 
-- `response_help` for any kind of help
-- `response_metadata` with `raw`, `http_status_code` and `headers`
-- `message` can be called to get the error message received from ImageKit's servers.
+-   `response_help` for any kind of help
+-   `response_metadata` with `raw`, `http_status_code` and `headers`
+-   `message` can be called to get the error message received from ImageKit's servers.
 
 ## File Management
 
@@ -929,7 +928,6 @@ print(result.schema.type)
 
 ```
 
-
 ```python
 # MultiSelect type Example
 
@@ -1152,7 +1150,7 @@ imagekit.phash_distance('a4a65595ac94518b', '7838873e791f8400')
 
 **HTTP response metadata of Internal API**
 
-HTTP response metadata of the internal API call can be accessed using the _response_metadata on the Result object.
+HTTP response metadata of the internal API call can be accessed using the \_response_metadata on the Result object.
 Example:
 
 ```Python
@@ -1297,9 +1295,9 @@ to [support@imagekit.io](https://github.com/imagekit-developer/imagekit-python)
 
 ## Links
 
-* [Documentation](https://docs.imagekit.io/)
+-   [Documentation](https://docs.imagekit.io/)
 
-* [Main Website](https://imagekit.io/)
+-   [Main Website](https://imagekit.io/)
 
 ## License
 

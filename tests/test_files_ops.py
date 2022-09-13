@@ -1393,8 +1393,9 @@ class TestUpdateFileDetails(ClientTestCase):
             headers=headers,
         )
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "removeAITags": ["ai-tag1", "ai-tag2"],
                 "webhookUrl": "url",
                 "extensions": [{
@@ -1414,7 +1415,8 @@ class TestUpdateFileDetails(ClientTestCase):
                     "test": 11
                 }
             }"""
-        ))
+            )
+        )
         resp = self.client.update_file_details(
             file_id=self.file_id,
             options=UpdateFileRequestOptions(
@@ -1675,104 +1677,107 @@ class TestGetFileVersions(ClientTestCase):
         )
         resp = self.client.get_file_versions(self.file_id)
         mock_response_metadata = {
-            'raw': [{
-                'type': 'file',
-                'name': 'new_car.jpg',
-                'createdAt': '2022-06-15T11:34:36.294Z',
-                'updatedAt': '2022-07-04T10:15:50.067Z',
-                'fileId': 'fake_123',
-                'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
-                'AITags': [{
-                    'name': 'Clothing',
-                    'confidence': 98.77,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Smile',
-                    'confidence': 95.31,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Shoe',
-                    'confidence': 95.2,
-                    'source': 'google-auto-tagging'
-                }],
-                'versionInfo': {
-                    'id': 'versionId',
-                    'name': 'Version 4'
+            "raw": [
+                {
+                    "type": "file",
+                    "name": "new_car.jpg",
+                    "createdAt": "2022-06-15T11:34:36.294Z",
+                    "updatedAt": "2022-07-04T10:15:50.067Z",
+                    "fileId": "fake_123",
+                    "tags": ["Tag_1", "Tag_2", "Tag_3"],
+                    "AITags": [
+                        {
+                            "name": "Clothing",
+                            "confidence": 98.77,
+                            "source": "google-auto-tagging",
+                        },
+                        {
+                            "name": "Smile",
+                            "confidence": 95.31,
+                            "source": "google-auto-tagging",
+                        },
+                        {
+                            "name": "Shoe",
+                            "confidence": 95.2,
+                            "source": "google-auto-tagging",
+                        },
+                    ],
+                    "versionInfo": {"id": "versionId", "name": "Version 4"},
+                    "embeddedMetadata": {
+                        "DateCreated": "2022-07-04T10:15:50.066Z",
+                        "DateTimeCreated": "2022-07-04T10:15:50.066Z",
+                    },
+                    "customCoordinates": "",
+                    "customMetadata": {"test100": 10, "test10": 11},
+                    "isPrivateFile": False,
+                    "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg",
+                    "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg",
+                    "fileType": "image",
+                    "filePath": "/new_car.jpg",
+                    "height": 354,
+                    "width": 236,
+                    "size": 7390,
+                    "hasAlpha": False,
+                    "mime": "image/jpeg",
                 },
-                'embeddedMetadata': {
-                    'DateCreated': '2022-07-04T10:15:50.066Z',
-                    'DateTimeCreated': '2022-07-04T10:15:50.066Z'
+                {
+                    "type": "file-version",
+                    "name": "new_car.jpg",
+                    "createdAt": "2022-07-04T10:15:49.698Z",
+                    "updatedAt": "2022-07-04T10:15:49.734Z",
+                    "fileId": "fileId",
+                    "tags": ["Tag_1", "Tag_2", "Tag_3"],
+                    "AITags": [
+                        {
+                            "name": "Clothing",
+                            "confidence": 98.77,
+                            "source": "google-auto-tagging",
+                        },
+                        {
+                            "name": "Smile",
+                            "confidence": 95.31,
+                            "source": "google-auto-tagging",
+                        },
+                        {
+                            "name": "Shoe",
+                            "confidence": 95.2,
+                            "source": "google-auto-tagging",
+                        },
+                        {
+                            "name": "Street light",
+                            "confidence": 91.05,
+                            "source": "google-auto-tagging",
+                        },
+                    ],
+                    "versionInfo": {
+                        "id": "62c2bdd5872375c6b8f40fd4",
+                        "name": "Version 1",
+                    },
+                    "embeddedMetadata": {
+                        "XResolution": 250,
+                        "YResolution": 250,
+                        "DateCreated": "2022-06-15T11:34:36.702Z",
+                        "DateTimeCreated": "2022-06-15T11:34:36.702Z",
+                    },
+                    "customCoordinates": "10,10,40,40",
+                    "customMetadata": {"test100": 10, "test10": 11},
+                    "isPrivateFile": False,
+                    "url": "https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                    "thumbnail": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz",
+                    "fileType": "image",
+                    "filePath": "/new_car.jpg",
+                    "height": 354,
+                    "width": 236,
+                    "size": 23023,
+                    "hasAlpha": False,
+                    "mime": "image/jpeg",
                 },
-                'customCoordinates': '',
-                'customMetadata': {
-                    'test100': 10,
-                    'test10': 11
-                },
-                'isPrivateFile': False,
-                'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg',
-                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg',
-                'fileType': 'image',
-                'filePath': '/new_car.jpg',
-                'height': 354,
-                'width': 236,
-                'size': 7390,
-                'hasAlpha': False,
-                'mime': 'image/jpeg'
-            }, {
-                'type': 'file-version',
-                'name': 'new_car.jpg',
-                'createdAt': '2022-07-04T10:15:49.698Z',
-                'updatedAt': '2022-07-04T10:15:49.734Z',
-                'fileId': 'fileId',
-                'tags': ['Tag_1', 'Tag_2', 'Tag_3'],
-                'AITags': [{
-                    'name': 'Clothing',
-                    'confidence': 98.77,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Smile',
-                    'confidence': 95.31,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Shoe',
-                    'confidence': 95.2,
-                    'source': 'google-auto-tagging'
-                }, {
-                    'name': 'Street light',
-                    'confidence': 91.05,
-                    'source': 'google-auto-tagging'
-                }],
-                'versionInfo': {
-                    'id': '62c2bdd5872375c6b8f40fd4',
-                    'name': 'Version 1'
-                },
-                'embeddedMetadata': {
-                    'XResolution': 250,
-                    'YResolution': 250,
-                    'DateCreated': '2022-06-15T11:34:36.702Z',
-                    'DateTimeCreated': '2022-06-15T11:34:36.702Z'
-                },
-                'customCoordinates': '10,10,40,40',
-                'customMetadata': {
-                    'test100': 10,
-                    'test10': 11
-                },
-                'isPrivateFile': False,
-                'url': 'https://ik.imagekit.io/your_imagekit_id/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
-                'thumbnail': 'https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/new_car.jpg?ik-obj-version=dlkUlhiJ7I8OTejhKG38GZJBrsvDBcnz',
-                'fileType': 'image',
-                'filePath': '/new_car.jpg',
-                'height': 354,
-                'width': 236,
-                'size': 23023,
-                'hasAlpha': False,
-                'mime': 'image/jpeg'
-            }],
-            'http_status_code': 200,
-            'headers': {
-                'Content-Type': 'text/plain, application/json',
-                'Authorization': 'Basic ZmFrZTEyMjo='
-            }
+            ],
+            "http_status_code": 200,
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
         }
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
@@ -2096,13 +2101,15 @@ class TestCopyFile(ClientTestCase):
             "raw": None,
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "sourceFilePath": "/source_file.jpg",
                 "destinationPath": "/destination_path",
                 "includeFileVersions": true
             }"""
-        ))
+            )
+        )
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(
@@ -2140,12 +2147,14 @@ class TestCopyFile(ClientTestCase):
             "raw": None,
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "sourceFilePath": "/source_file.jpg",
                 "destinationPath": "/destination_path"
             }"""
-        ))
+            )
+        )
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(
@@ -2219,12 +2228,14 @@ class TestMoveFile(ClientTestCase):
             "raw": None,
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "sourceFilePath": "/source_file.jpg",
                 "destinationPath": "/destination_path"
             }"""
-        ))
+            )
+        )
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(
@@ -2287,7 +2298,7 @@ class TestRenameFile(ClientTestCase):
             responses.PUT,
             url,
             headers=headers,
-            body='{}',
+            body="{}",
         )
         resp = self.client.rename_file(
             options=RenameFileRequestOptions(
@@ -2307,13 +2318,15 @@ class TestRenameFile(ClientTestCase):
             "raw": {},
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "filePath": "/file_path.jpg",
                 "newFileName": "new_file.jpg",
                 "purgeCache": false
             }"""
-        ))
+            )
+        )
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(
@@ -2357,13 +2370,15 @@ class TestRenameFile(ClientTestCase):
             "raw": {"purgeRequestId": "62de3e986f68334a5a3339fb"},
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "filePath": "/file_path.jpg",
                 "newFileName": "new_file.jpg",
                 "purgeCache": true
             }"""
-        ))
+            )
+        )
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(
@@ -2399,12 +2414,14 @@ class TestRenameFile(ClientTestCase):
             "raw": {},
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "filePath": "/file_path.jpg",
                 "newFileName": "new_file.jpg"
             }"""
-        ))
+            )
+        )
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(

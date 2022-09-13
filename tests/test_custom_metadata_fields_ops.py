@@ -346,8 +346,9 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "name": "test",
                 "label": "test",
                 "schema": {
@@ -356,7 +357,8 @@ class TestCustomMetadataFields(ClientTestCase):
                     "maxValue": 200
                 }
             }"""
-        ))
+            )
+        )
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -428,8 +430,9 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "name": "test",
                 "label": "test",
                 "schema": {
@@ -440,7 +443,8 @@ class TestCustomMetadataFields(ClientTestCase):
                     "maxLength": 200
                 }
             }"""
-        ))
+            )
+        )
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -506,8 +510,9 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "name": "test-date",
                 "label": "test-date",
                 "schema": {
@@ -516,7 +521,8 @@ class TestCustomMetadataFields(ClientTestCase):
                     "maxValue": "2022-11-30T10:11:10+00:00"
                 }
             }"""
-        ))
+            )
+        )
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -582,8 +588,9 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "name": "test-boolean",
                 "label": "test-boolean",
                 "schema": {
@@ -592,7 +599,8 @@ class TestCustomMetadataFields(ClientTestCase):
                     "isValueRequired": true
                 }
             }"""
-        ))
+            )
+        )
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -655,8 +663,9 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "name": "test",
                "label": "test",
                "schema":
@@ -666,7 +675,8 @@ class TestCustomMetadataFields(ClientTestCase):
                                          true]
                    }
                }"""
-        ))
+            )
+        )
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -735,8 +745,9 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "name": "test",
                 "label": "test",
                 "schema": {
@@ -746,7 +757,8 @@ class TestCustomMetadataFields(ClientTestCase):
                     "isValueRequired": true
                 }
             }"""
-        ))
+            )
+        )
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -804,15 +816,17 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "label": "test-update",
                 "schema": {
                     "minValue": 100,
                     "maxValue": 200
                 }
             }"""
-        ))
+            )
+        )
 
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),

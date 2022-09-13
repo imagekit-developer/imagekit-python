@@ -95,9 +95,9 @@ class File(object):
             raise ValueError("Invalid upload options")
         if isinstance(file, str) or isinstance(file, bytes):
             files.update({"file": (None, file)})
-        if 'overwriteAiTags' in options:
-            options['overwriteAITags'] = options['overwriteAiTags']
-            del options['overwriteAiTags']
+        if "overwriteAiTags" in options:
+            options["overwriteAITags"] = options["overwriteAiTags"]
+            del options["overwriteAiTags"]
         all_fields = {**files, **options}
         multipart_data = MultipartEncoder(
             fields=all_fields, boundary="--randomBoundary---------------------"
@@ -118,7 +118,7 @@ class File(object):
         :return: ListFileResult
         """
         if options is not None:
-            if 'tags' in options.__dict__ and isinstance(options.tags, list):
+            if "tags" in options.__dict__ and isinstance(options.tags, list):
                 val = ", ".join(options.tags)
                 if val:
                     options.tags = val
@@ -223,17 +223,13 @@ class File(object):
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
         formatted_options = request_formatter(options.__dict__)
-        if 'removeAiTags' in formatted_options:
-            remove_ai_tags_dict = {'removeAITags': formatted_options['removeAiTags']}
-            del formatted_options['removeAiTags']
+        if "removeAiTags" in formatted_options:
+            remove_ai_tags_dict = {"removeAITags": formatted_options["removeAiTags"]}
+            del formatted_options["removeAiTags"]
             request_data = {**remove_ai_tags_dict, **formatted_options}
         else:
             request_data = formatted_options
-        data = (
-            dumps(request_data)
-            if options is not None
-            else dict()
-        )
+        data = dumps(request_data) if options is not None else dict()
         resp = self.request.request(method="Patch", url=url, headers=headers, data=data)
         if resp.status_code == 200:
             response = convert_to_response_object(resp, FileResultWithResponseMetadata)

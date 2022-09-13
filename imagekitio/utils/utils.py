@@ -39,8 +39,8 @@ def general_api_throw_exception(response: Response):
     response_meta_data = populate_response_metadata(response)
     if type(resp) == str:
         resp = ast.literal_eval(resp)
-    error_message = resp['message'] if type(resp) == dict else ""
-    response_help = resp['help'] if type(resp) == dict and 'help' in resp else ""
+    error_message = resp["message"] if type(resp) == dict else ""
+    response_help = resp["help"] if type(resp) == dict and "help" in resp else ""
     if response.status_code == 400:
         raise BadRequestException(error_message, response_help, response_meta_data)
     elif response.status_code == 401:
@@ -65,8 +65,8 @@ def throw_other_exception(response: Response):
     response_meta_data = populate_response_metadata(response)
     if type(resp) == str:
         resp = ast.literal_eval(resp)
-    error_message = resp['message'] if type(resp) == dict else ""
-    response_help = resp['help'] if type(resp) == dict else ""
+    error_message = resp["message"] if type(resp) == dict else ""
+    response_help = resp["help"] if type(resp) == dict else ""
     if response.status_code == 207:
         raise PartialSuccessException(error_message, response_help, response_meta_data)
     elif response.status_code == 404:

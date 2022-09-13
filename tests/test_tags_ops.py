@@ -79,12 +79,14 @@ class TestTags(ClientTestCase):
             "httpStatusCode": 200,
             "raw": {"successfullyUpdatedFileIds": ["fake_123"]},
         }
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "fileIds": ["fake_123"],
                 "tags": ["add-tag-1", "add-tag-2"]
             }"""
-        ))
+            )
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(["fake_123"], resp.successfully_updated_file_ids)
         self.assertEqual(
@@ -174,12 +176,14 @@ class TestTags(ClientTestCase):
             "httpStatusCode": 200,
             "raw": {"successfullyUpdatedFileIds": ["fake_123"]},
         }
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "fileIds": ["fake_123"],
                 "tags": ["remove-tag-1", "remove-tag-2"]
             }"""
-        ))
+            )
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(["fake_123"], resp.successfully_updated_file_ids)
         self.assertEqual(
@@ -282,12 +286,14 @@ class TestAITags(ClientTestCase):
             "httpStatusCode": 200,
             "raw": {"successfullyUpdatedFileIds": ["fake_123"]},
         }
-        request_body = json.dumps(json.loads(
-            """{
+        request_body = json.dumps(
+            json.loads(
+                """{
                 "fileIds": ["fake_123"],
                 "AITags": ["remove-ai-tag-1", "remove-ai-tag-2"]
             }"""
-        ))
+            )
+        )
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(["fake_123"], resp.successfully_updated_file_ids)
         self.assertEqual(
