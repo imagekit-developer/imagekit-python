@@ -14,7 +14,7 @@ class UploadFileRequestOptions:
         extensions: json = None,
         webhook_url: str = None,
         overwrite_file: bool = None,
-        overwrite_a_i_tags: bool = None,
+        overwrite_ai_tags: bool = None,
         overwrite_tags: bool = None,
         overwrite_custom_metadata: bool = None,
         custom_metadata: json = None,
@@ -37,8 +37,8 @@ class UploadFileRequestOptions:
             self.webhook_url = webhook_url
         if overwrite_file is not None:
             self.overwrite_file = overwrite_file
-        if overwrite_a_i_tags is not None:
-            self.overwrite_a_i_tags = overwrite_a_i_tags
+        if overwrite_ai_tags is not None:
+            self.overwrite_ai_tags = overwrite_ai_tags
         if overwrite_tags is not None:
             self.overwrite_tags = overwrite_tags
         if overwrite_custom_metadata is not None:

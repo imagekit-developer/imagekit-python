@@ -95,13 +95,16 @@ class File(object):
             raise ValueError("Invalid upload options")
         if isinstance(file, str) or isinstance(file, bytes):
             files.update({"file": (None, file)})
+        if 'overwriteAiTags' in options:
+            options['overwriteAITags'] = options['overwriteAiTags']
+            del options['overwriteAiTags']
         all_fields = {**files, **options}
         multipart_data = MultipartEncoder(
             fields=all_fields, boundary="--randomBoundary---------------------"
         )
         headers.update({"Content-Type": multipart_data.content_type})
         resp = self.request.request(
-            "Post", url=url, data=multipart_data, headers=headers
+            "Post", url=url, data=multipart_data.read(), headers=headers
         )
         if resp.status_code == 200:
             response = convert_to_response_object(resp, UploadFileResult)
@@ -115,6 +118,10 @@ class File(object):
         :return: ListFileResult
         """
         if options is not None:
+            if 'tags' in options.__dict__ and isinstance(options.tags, list):
+                val = ", ".join(options.tags)
+                if val:
+                    options.tags = val
             formatted_options = request_formatter(options.__dict__)
             if not self.is_valid_list_options(formatted_options):
                 raise ValueError("Invalid option for list_files")
@@ -215,8 +222,15 @@ class File(object):
         url = "{}/v1/files/{}/details/".format(URL.API_BASE_URL, file_id)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
+        formatted_options = request_formatter(options.__dict__)
+        if 'removeAiTags' in formatted_options:
+            remove_ai_tags_dict = {'removeAITags': formatted_options['removeAiTags']}
+            del formatted_options['removeAiTags']
+            request_data = {**remove_ai_tags_dict, **formatted_options}
+        else:
+            request_data = formatted_options
         data = (
-            dumps(request_formatter(options.__dict__))
+            dumps(request_data)
             if options is not None
             else dict()
         )
@@ -250,15 +264,15 @@ class File(object):
         else:
             general_api_throw_exception(resp)
 
-    def remove_ai_tags(self, file_ids, a_i_tags) -> TagsResult:
+    def remove_ai_tags(self, file_ids, ai_tags) -> TagsResult:
         """Remove AI tags of files
         :param file_ids: array of file ids
-        :param a_i_tags: array of AI tags
+        :param ai_tags: array of AI tags
         """
         url = "{}/v1/files/removeAITags".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(self.request.get_auth_headers())
-        data = dumps({"fileIds": file_ids, "AITags": a_i_tags})
+        data = dumps({"fileIds": file_ids, "AITags": ai_tags})
         resp = self.request.request(method="Post", url=url, headers=headers, data=data)
         if resp.status_code == 200:
             response = convert_to_response_object(resp, TagsResult)

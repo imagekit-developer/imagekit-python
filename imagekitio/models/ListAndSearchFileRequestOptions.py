@@ -1,3 +1,6 @@
+import array
+
+
 class ListAndSearchFileRequestOptions:
     def __init__(
         self,
@@ -8,7 +11,7 @@ class ListAndSearchFileRequestOptions:
         file_type: str = None,
         limit: int = None,
         skip: int = None,
-        tags: str = None,
+        tags=None,
     ):
         if type is not None:
             self.type = type

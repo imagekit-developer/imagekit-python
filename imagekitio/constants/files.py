@@ -24,7 +24,7 @@ VALID_UPLOAD_OPTIONS = [
     "extensions",
     "webhook_url",
     "overwrite_file",
-    "overwrite_a_i_tags",
+    "overwrite_ai_tags",
     "overwrite_tags",
     "overwrite_custom_metadata",
     "custom_metadata",

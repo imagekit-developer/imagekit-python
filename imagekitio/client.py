@@ -109,9 +109,9 @@ class ImageKit(object):
         """Remove tags by file ids and tags"""
         return self.file.manage_tags(file_ids, tags, "removeTags")
 
-    def remove_ai_tags(self, file_ids, a_i_tags) -> TagsResult:
+    def remove_ai_tags(self, file_ids, ai_tags) -> TagsResult:
         """Remove AI tags by file ids and AI tags"""
-        return self.file.remove_ai_tags(file_ids, a_i_tags)
+        return self.file.remove_ai_tags(file_ids, ai_tags)
 
     def delete_file(self, file_id: str = None) -> ResponseMetadataResult:
         """Delete file by file_id"""

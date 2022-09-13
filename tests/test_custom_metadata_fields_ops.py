@@ -1,3 +1,5 @@
+import json
+
 import responses
 from responses import matchers
 
@@ -18,7 +20,6 @@ from imagekitio.utils.formatter import camel_dict_to_snake_dict
 from tests.helpers import (
     ClientTestCase,
     create_headers_for_test,
-    make_string_to_single_line,
 )
 
 
@@ -128,6 +129,87 @@ class TestCustomMetadataFields(ClientTestCase):
         self.assertEqual("62aab2cfdb4851833b8f5e64", resp.list[1].id)
         self.assertEqual(
             "http://test.com/v1/customMetadataFields?includeDeleted=false",
+            responses.calls[0].request.url,
+        )
+
+    @responses.activate
+    def test_get_custom_metadata_fields_succeeds_with_include_deleted_true(self):
+        """
+        Tests if get_custom_metadata_fields succeeds
+        """
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
+        headers = create_headers_for_test()
+        responses.add(
+            responses.GET,
+            url,
+            body="""[{
+                        "id": "62a9d5f6db485107347bb7f2",
+                        "name": "test10",
+                        "label": "test10",
+                        "schema": {
+                            "type": "Number",
+                            "isValueRequired": false,
+                            "minValue": 10,
+                            "maxValue": 1000
+                        }
+                    }, {
+                        "id": "62aab2cfdb4851833b8f5e64",
+                        "name": "test11",
+                        "label": "test11",
+                        "schema": {
+                            "type": "Number",
+                            "isValueRequired": false,
+                            "minValue": 10,
+                            "maxValue": 1000
+                        }
+                    }]""",
+            match=[matchers.query_string_matcher("includeDeleted=true")],
+            headers=headers,
+        )
+        resp = self.client.get_custom_metadata_fields(include_deleted=True)
+
+        mock_response_metadata = {
+            "raw": [
+                {
+                    "id": "62a9d5f6db485107347bb7f2",
+                    "name": "test10",
+                    "label": "test10",
+                    "schema": {
+                        "type": "Number",
+                        "isValueRequired": False,
+                        "minValue": 10,
+                        "maxValue": 1000,
+                    },
+                },
+                {
+                    "id": "62aab2cfdb4851833b8f5e64",
+                    "name": "test11",
+                    "label": "test11",
+                    "schema": {
+                        "type": "Number",
+                        "isValueRequired": False,
+                        "minValue": 10,
+                        "maxValue": 1000,
+                    },
+                },
+            ],
+            "httpStatusCode": 200,
+            "headers": {
+                "Content-Type": "text/plain",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
+        }
+
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual("62a9d5f6db485107347bb7f2", resp.list[0].id)
+        self.assertEqual("62aab2cfdb4851833b8f5e64", resp.list[1].id)
+        self.assertEqual(
+            "http://test.com/v1/customMetadataFields?includeDeleted=true",
             responses.calls[0].request.url,
         )
 
@@ -264,17 +346,17 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "name": "test",
-            "label": "test",
-            "schema": {
-                "type": "Number",
-                "minValue": 100,
-                "maxValue": 200
-            }
-        }"""
-        )
+                "name": "test",
+                "label": "test",
+                "schema": {
+                    "type": "Number",
+                    "minValue": 100,
+                    "maxValue": 200
+                }
+            }"""
+        ))
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -346,19 +428,19 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "name": "test",
-            "label": "test",
-            "schema": {
-                "type": "Textarea",
-                "defaultValue": "The",
-                "isValueRequired": true,
-                "minLength": 3,
-                "maxLength": 200
-            }
-        }"""
-        )
+                "name": "test",
+                "label": "test",
+                "schema": {
+                    "type": "Textarea",
+                    "defaultValue": "The",
+                    "isValueRequired": true,
+                    "minLength": 3,
+                    "maxLength": 200
+                }
+            }"""
+        ))
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -424,17 +506,17 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "name": "test-date",
-            "label": "test-date",
-            "schema": {
-                "type": "Date",
-                "minValue": "2022-11-29T10:11:10+00:00",
-                "maxValue": "2022-11-30T10:11:10+00:00"
-            }
-        }"""
-        )
+                "name": "test-date",
+                "label": "test-date",
+                "schema": {
+                    "type": "Date",
+                    "minValue": "2022-11-29T10:11:10+00:00",
+                    "maxValue": "2022-11-30T10:11:10+00:00"
+                }
+            }"""
+        ))
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -500,17 +582,17 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "name": "test-boolean",
-            "label": "test-boolean",
-            "schema": {
-                "type": "Boolean",
-                "defaultValue": true,
-                "isValueRequired": true
-            }
-        }"""
-        )
+                "name": "test-boolean",
+                "label": "test-boolean",
+                "schema": {
+                    "type": "Boolean",
+                    "defaultValue": true,
+                    "isValueRequired": true
+                }
+            }"""
+        ))
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -573,17 +655,18 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = make_string_to_single_line(
-            """{"name": "test",
-                                   "label": "test",
-                                   "schema":
-                                       {
-                                           "type": "SingleSelect",
-                                           "selectOptions": ["small", "medium", "large", 30, 40,
-                                                             true]
-                                       }
-                                   }"""
-        )
+        request_body = json.dumps(json.loads(
+            """{
+                "name": "test",
+               "label": "test",
+               "schema":
+                   {
+                       "type": "SingleSelect",
+                       "selectOptions": ["small", "medium", "large", 30, 40,
+                                         true]
+                   }
+               }"""
+        ))
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -652,18 +735,18 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "name": "test",
-            "label": "test",
-            "schema": {
-                "type": "MultiSelect",
-                "selectOptions": ["small", "medium", "large", 30, 40, true],
-                "defaultValue": ["small", 30, true],
-                "isValueRequired": true
-            }
-        }"""
-        )
+                "name": "test",
+                "label": "test",
+                "schema": {
+                    "type": "MultiSelect",
+                    "selectOptions": ["small", "medium", "large", 30, 40, true],
+                    "defaultValue": ["small", 30, true],
+                    "isValueRequired": true
+                }
+            }"""
+        ))
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
@@ -721,15 +804,15 @@ class TestCustomMetadataFields(ClientTestCase):
             },
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "label": "test-update",
-            "schema": {
-                "minValue": 100,
-                "maxValue": 200
-            }
-        }"""
-        )
+                "label": "test-update",
+                "schema": {
+                    "minValue": 100,
+                    "maxValue": 200
+                }
+            }"""
+        ))
 
         self.assertEqual(
             camel_dict_to_snake_dict(mock_response_metadata),

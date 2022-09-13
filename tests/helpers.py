@@ -1,4 +1,5 @@
 import base64
+import json
 import re
 import unittest
 from unittest.mock import patch
@@ -32,6 +33,16 @@ class ClientTestCase(unittest.TestCase):
             skip=0,
             tags="Tag-1, Tag-2, Tag-3",
         )
+        self.opt = ListAndSearchFileRequestOptions(
+            type="file",
+            sort="ASC_CREATED",
+            path="/",
+            search_query="created_at >= '2d' OR size < '2mb' OR format='png'",
+            file_type="all",
+            limit=1,
+            skip=0,
+            tags=["Tag-1", "Tag-2", "Tag-3"],
+        )
         self.client = ImageKit(
             public_key="fake122",
             private_key=ClientTestCase.private_key,
@@ -50,11 +61,3 @@ def get_auth_headers_for_test():
         (ClientTestCase.private_key + ":").encode()
     ).decode("utf-8")
     return {"Authorization": "Basic {}".format(encoded_private_key)}
-
-
-def make_string_to_single_line(multiline_string):
-    return (
-        re.sub(r"\s(?=\s)", "", re.sub(r"\s", " ", multiline_string))
-        .replace("{ ", "{")
-        .replace(" }", "}")
-    )
