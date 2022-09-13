@@ -1,4 +1,5 @@
 import base64
+import json
 import os
 
 import responses
@@ -21,7 +22,6 @@ from tests.helpers import (
     ClientTestCase,
     create_headers_for_test,
     get_auth_headers_for_test,
-    make_string_to_single_line,
 )
 
 imagekit_obj = ImageKit(
@@ -1393,28 +1393,28 @@ class TestUpdateFileDetails(ClientTestCase):
             headers=headers,
         )
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "removeAITags": ["ai-tag1", "ai-tag2"],
-            "webhookUrl": "url",
-            "extensions": [{
-                "name": "remove-bg",
-                "options": {
-                    "add_shadow": true,
-                    "bg_color": "red"
+                "removeAITags": ["ai-tag1", "ai-tag2"],
+                "webhookUrl": "url",
+                "extensions": [{
+                    "name": "remove-bg",
+                    "options": {
+                        "add_shadow": true,
+                        "bg_color": "red"
+                    }
+                }, {
+                    "name": "google-auto-tagging",
+                    "minConfidence": 80,
+                    "maxTags": 10
+                }],
+                "tags": ["tag1", "tag2"],
+                "customCoordinates": "10,10,100,100",
+                "customMetadata": {
+                    "test": 11
                 }
-            }, {
-                "name": "google-auto-tagging",
-                "minConfidence": 80,
-                "maxTags": 10
-            }],
-            "tags": ["tag1", "tag2"],
-            "customCoordinates": "10,10,100,100",
-            "customMetadata": {
-                "test": 11
-            }
-        }"""
-        )
+            }"""
+        ))
         resp = self.client.update_file_details(
             file_id=self.file_id,
             options=UpdateFileRequestOptions(
@@ -2102,13 +2102,13 @@ class TestCopyFile(ClientTestCase):
             "raw": None,
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "sourceFilePath": "/source_file.jpg",
-            "destinationPath": "/destination_path",
-            "includeFileVersions": true
-        }"""
-        )
+                "sourceFilePath": "/source_file.jpg",
+                "destinationPath": "/destination_path",
+                "includeFileVersions": true
+            }"""
+        ))
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(
@@ -2146,12 +2146,12 @@ class TestCopyFile(ClientTestCase):
             "raw": None,
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "sourceFilePath": "/source_file.jpg",
-            "destinationPath": "/destination_path"
-                }"""
-        )
+                "sourceFilePath": "/source_file.jpg",
+                "destinationPath": "/destination_path"
+            }"""
+        ))
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(
@@ -2225,12 +2225,12 @@ class TestMoveFile(ClientTestCase):
             "raw": None,
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "sourceFilePath": "/source_file.jpg",
-            "destinationPath": "/destination_path"
-        }"""
-        )
+                "sourceFilePath": "/source_file.jpg",
+                "destinationPath": "/destination_path"
+            }"""
+        ))
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(
@@ -2313,13 +2313,13 @@ class TestRenameFile(ClientTestCase):
             "raw": {},
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "filePath": "/file_path.jpg",
-            "newFileName": "new_file.jpg",
-            "purgeCache": false
+                "filePath": "/file_path.jpg",
+                "newFileName": "new_file.jpg",
+                "purgeCache": false
             }"""
-        )
+        ))
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(
@@ -2363,13 +2363,13 @@ class TestRenameFile(ClientTestCase):
             "raw": {"purgeRequestId": "62de3e986f68334a5a3339fb"},
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "filePath": "/file_path.jpg",
-            "newFileName": "new_file.jpg",
-            "purgeCache": true
+                "filePath": "/file_path.jpg",
+                "newFileName": "new_file.jpg",
+                "purgeCache": true
             }"""
-        )
+        ))
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(
@@ -2405,12 +2405,12 @@ class TestRenameFile(ClientTestCase):
             "raw": {},
         }
 
-        request_body = make_string_to_single_line(
+        request_body = json.dumps(json.loads(
             """{
-            "filePath": "/file_path.jpg",
-            "newFileName": "new_file.jpg"
-        }"""
-        )
+                "filePath": "/file_path.jpg",
+                "newFileName": "new_file.jpg"
+            }"""
+        ))
 
         self.assertEqual(request_body, responses.calls[0].request.body)
         self.assertEqual(

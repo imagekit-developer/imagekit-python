@@ -1,4 +1,5 @@
 import base64
+import json
 import re
 import unittest
 from unittest.mock import patch
@@ -60,11 +61,3 @@ def get_auth_headers_for_test():
         (ClientTestCase.private_key + ":").encode()
     ).decode("utf-8")
     return {"Authorization": "Basic {}".format(encoded_private_key)}
-
-
-def make_string_to_single_line(multiline_string):
-    return (
-        re.sub(r"\s(?=\s)", "", re.sub(r"\s", " ", multiline_string))
-        .replace("{ ", "{")
-        .replace(" }", "}")
-    )
