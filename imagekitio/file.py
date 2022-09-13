@@ -129,7 +129,6 @@ class File(object):
             formatted_options = dict()
         url = "{}/v1/files".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
-        print("Forma:-->", formatted_options)
         resp = self.request.request(
             method="GET", url=url, headers=headers, params=dumps(formatted_options)
         )

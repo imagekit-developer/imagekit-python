@@ -222,6 +222,128 @@ class TestUpload(ClientTestCase):
         )
         self.assertEqual(url, responses.calls[0].request.url)
 
+    @responses.activate
+    def test_upload_succeeds_with_url(self):
+        """
+        Tests if  upload succeeds
+        """
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "%s%s" % (URL.UPLOAD_BASE_URL, "/api/v1/files/upload")
+        headers = create_headers_for_test()
+        responses.add(
+            responses.POST,
+            url,
+            body="""{
+                        "fileId": "fake_file_id1234",
+                        "name": "file_name.jpg",
+                        "size": 102117,
+                        "versionInfo": {
+                            "id": "62d670648cdb697522602b45",
+                            "name": "Version 11"
+                        },
+                        "filePath": "/testing-python-folder/file_name.jpg",
+                        "url": "https://ik.imagekit.io/your_imagekit_id/testing-python-folder/file_name.jpg",
+                        "fileType": "image",
+                        "height": 700,
+                        "width": 1050,
+                        "thumbnailUrl": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/testing-python-folder/file_name.jpg",
+                        "tags": [
+                            "abc",
+                            "def"
+                        ],
+                        "AITags": [
+                            {
+                                "name": "Computer",
+                                "confidence": 97.66,
+                                "source": "google-auto-tagging"
+                            },
+                            {
+                                "name": "Personal computer",
+                                "confidence": 94.96,
+                                "source": "google-auto-tagging"
+                            }
+                        ],
+                        "isPrivateFile": true,
+                        "extensionStatus": {
+                            "remove-bg": "pending",
+                            "google-auto-tagging": "success"
+                        }
+                    }""",
+            headers=headers,
+        )
+
+        file_upload_url = "https://file-examples.com/wp-content/uploads/2017/10/file_example_JPG_100kB.jpg"
+        resp = self.client.upload_file(
+            file=file_upload_url,
+            file_name="file_name.jpg",
+            options=UploadFileRequestOptions(
+                use_unique_file_name=False,
+                tags=["abc", "def"],
+                folder="/testing-python-folder/",
+                is_private_file=True,
+                response_fields=["is_private_file", "tags"],
+                extensions=(
+                    {
+                        "name": "remove-bg",
+                        "options": {"add_shadow": True, "bg_color": "pink"},
+                    },
+                    {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10},
+                ),
+                webhook_url="url",
+                overwrite_file=True,
+                overwrite_ai_tags=False,
+                overwrite_tags=False,
+                overwrite_custom_metadata=True,
+                custom_metadata={"test100": 11},
+            ),
+        )
+        mock_response_metadata = {
+            "headers": {
+                "Content-Type": "text/plain",
+                "Accept-Encoding": "gzip, deflate",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
+            "http_status_code": 200,
+            "raw": {
+                "AITags": [
+                    {
+                        "confidence": 97.66,
+                        "name": "Computer",
+                        "source": "google-auto-tagging",
+                    },
+                    {
+                        "confidence": 94.96,
+                        "name": "Personal computer",
+                        "source": "google-auto-tagging",
+                    },
+                ],
+                "extensionStatus": {
+                    "google-auto-tagging": "success",
+                    "remove-bg": "pending",
+                },
+                "fileId": "fake_file_id1234",
+                "filePath": "/testing-python-folder/file_name.jpg",
+                "fileType": "image",
+                "height": 700,
+                "isPrivateFile": True,
+                "name": "file_name.jpg",
+                "size": 102117,
+                "tags": ["abc", "def"],
+                "thumbnailUrl": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/testing-python-folder/file_name.jpg",
+                "url": "https://ik.imagekit.io/your_imagekit_id/testing-python-folder/file_name.jpg",
+                "versionInfo": {"id": "62d670648cdb697522602b45", "name": "Version 11"},
+                "width": 1050,
+            },
+        }
+        request_body = b'----randomBoundary---------------------\r\nContent-Disposition: form-data; name="file"\r\n\r\nhttps://file-examples.com/wp-content/uploads/2017/10/file_example_JPG_100kB.jpg\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="fileName"\r\n\r\nfile_name.jpg\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="useUniqueFileName"\r\n\r\nfalse\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="tags"\r\n\r\nabc,def\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="folder"\r\n\r\n/testing-python-folder/\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="isPrivateFile"\r\n\r\ntrue\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="responseFields"\r\n\r\nisPrivateFile,tags\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="extensions"\r\n\r\n[{"name": "remove-bg", "options": {"add_shadow": true, "bg_color": "pink"}}, {"name": "google-auto-tagging", "minConfidence": 80, "maxTags": 10}]\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="webhookUrl"\r\n\r\nurl\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="overwriteFile"\r\n\r\ntrue\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="overwriteTags"\r\n\r\nfalse\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="overwriteCustomMetadata"\r\n\r\ntrue\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="customMetadata"\r\n\r\n{"test100": 11}\r\n----randomBoundary---------------------\r\nContent-Disposition: form-data; name="overwriteAITags"\r\n\r\nfalse\r\n----randomBoundary-----------------------\r\n'
+
+        self.assertEqual(request_body, responses.calls[0].request.body)
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(url, responses.calls[0].request.url)
+
     def test_upload_fails_without_file_name(self) -> None:
         """Test upload raises error on missing required params"""
         try:
