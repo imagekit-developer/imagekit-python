@@ -460,8 +460,9 @@ class File(object):
         """Create folder by provided folderName and parentFolderPath as an options"""
         url = "{}/v1/folder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
+        headers.update({"Content-Type": "application/json"})
         formatted_data = (
-            request_formatter(options.__dict__) if options is not None else dict()
+            dumps(request_formatter(options.__dict__)) if options is not None else dict()
         )
         resp = self.request.request(
             method="Post", url=url, headers=headers, data=formatted_data
@@ -484,8 +485,9 @@ class File(object):
         """Delete folder by provided folderPath as an options"""
         url = "{}/v1/folder".format(URL.API_BASE_URL)
         headers = self.request.create_headers()
+        headers.update({"Content-Type": "application/json"})
         formatted_data = (
-            request_formatter(options.__dict__) if options is not None else dict()
+            dumps(request_formatter(options.__dict__)) if options is not None else dict()
         )
         resp = self.request.request(
             method="Delete", url=url, headers=headers, data=formatted_data
