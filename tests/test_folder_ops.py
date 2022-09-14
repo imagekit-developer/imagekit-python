@@ -87,7 +87,7 @@ class TestFolders(ClientTestCase):
         )
         self.assertEqual("http://test.com/v1/folder", responses.calls[0].request.url)
         self.assertEqual(
-            "folderName=folder_name&parentFolderPath=%2Ftest",
+            '{"folderName": "folder_name", "parentFolderPath": "/test"}',
             responses.calls[0].request.body,
         )
 
@@ -169,7 +169,7 @@ class TestFolders(ClientTestCase):
             resp.response_metadata.__dict__,
         )
         self.assertEqual("http://test.com/v1/folder", responses.calls[0].request.url)
-        self.assertEqual("folderPath=%2FfolderName", responses.calls[0].request.body)
+        self.assertEqual('{"folderPath": "/folderName"}', responses.calls[0].request.body)
 
 
 class TestCopyFolder(ClientTestCase):
