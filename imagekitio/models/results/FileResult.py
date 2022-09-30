@@ -6,12 +6,12 @@ from .VersionInfo import VersionInfo
 class FileResult:
     def __init__(
         self,
-        type,
-        name,
-        created_at,
-        updated_at,
-        file_id,
-        tags,
+        type=None,
+        name=None,
+        created_at=None,
+        updated_at=None,
+        file_id=None,
+        tags=None,
         ai_tags: List[AITags] = [],
         version_info: dict = {},
         embedded_metadata: dict = {},

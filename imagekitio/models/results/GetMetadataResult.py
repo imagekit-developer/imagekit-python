@@ -10,15 +10,15 @@ from .ResponseMetadata import ResponseMetadata
 class GetMetadataResult:
     def __init__(
         self,
-        height,
-        width,
-        size,
-        format,
-        has_color_profile,
-        quality,
-        density,
-        has_transparency,
-        p_hash,
+        height=None,
+        width=None,
+        size=None,
+        format=None,
+        has_color_profile=None,
+        quality=None,
+        density=None,
+        has_transparency=None,
+        p_hash=None,
         exif: dict = {},
     ):
         self.height = height

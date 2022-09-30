@@ -1,17 +1,17 @@
 class MetadataExifImage:
     def __init__(
         self,
-        make,
-        model,
-        orientation,
-        x_resolution,
-        y_resolution,
-        resolution_unit,
-        software,
-        modify_date,
-        y_cb_cr_positioning,
-        exif_offset,
-        gps_info,
+        make=None,
+        model=None,
+        orientation=None,
+        x_resolution=None,
+        y_resolution=None,
+        resolution_unit=None,
+        software=None,
+        modify_date=None,
+        y_cb_cr_positioning=None,
+        exif_offset=None,
+        gps_info=None,
     ):
         self.make = make
         self.model = model
