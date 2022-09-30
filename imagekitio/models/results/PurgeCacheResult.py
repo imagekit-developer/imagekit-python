@@ -2,7 +2,7 @@ from .ResponseMetadata import ResponseMetadata
 
 
 class PurgeCacheResult:
-    def __init__(self, request_id):
+    def __init__(self, request_id=None):
         self.request_id = request_id
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")
 

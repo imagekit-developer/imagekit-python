@@ -4,9 +4,9 @@ from .CustomMetadataSchema import CustomMetadataSchema
 class CustomMetadataFieldsResult:
     def __init__(
         self,
-        id,
-        name,
-        label,
+        id=None,
+        name=None,
+        label=None,
         schema: dict = {},
     ):
         self.id = id

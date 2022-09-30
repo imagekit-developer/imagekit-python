@@ -6,9 +6,9 @@ from .ResponseMetadata import ResponseMetadata
 class CustomMetadataFieldsResultWithResponseMetadata(CustomMetadataFieldsResult):
     def __init__(
         self,
-        id,
-        name,
-        label,
+        id=None,
+        name=None,
+        label=None,
         schema: CustomMetadataSchema = CustomMetadataSchema(
             None, None, None, None, None, None, None, None
         ),

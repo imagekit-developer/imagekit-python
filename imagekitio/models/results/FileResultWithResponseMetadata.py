@@ -9,8 +9,8 @@ from .VersionInfo import VersionInfo
 class FileResultWithResponseMetadata(FileResult):
     def __init__(
         self,
-        type,
-        name,
+        type=None,
+        name=None,
         created_at=None,
         updated_at=None,
         file_id=None,

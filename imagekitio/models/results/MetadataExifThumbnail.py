@@ -1,12 +1,12 @@
 class MetadataExifThumbnail:
     def __init__(
         self,
-        compression,
-        x_resolution,
-        y_resolution,
-        resolution_unit,
-        thumbnail_offset,
-        thumbnail_length,
+        compression=None,
+        x_resolution=None,
+        y_resolution=None,
+        resolution_unit=None,
+        thumbnail_offset=None,
+        thumbnail_length=None,
     ):
         self.compression = compression
         self.x_resolution = x_resolution

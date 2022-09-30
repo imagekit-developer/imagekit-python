@@ -9,9 +9,9 @@ from .VersionInfo import VersionInfo
 class UploadFileResult:
     def __init__(
         self,
-        file_id,
-        name,
-        url,
+        file_id=None,
+        name=None,
+        url=None,
         thumbnail_url: str = None,
         height: int = None,
         width: int = None,
