@@ -1,11 +1,13 @@
 VALID_FILE_OPTIONS = [
+    "type",
+    "sort",
     "path",
+    "searchQuery",
     "fileType",
-    "tags",
-    "includeFolder",
-    "name",
     "limit",
     "skip",
+    "tags",
+    "includeFolder",
 ]
 
 VALID_FILE_DETAIL_OPTIONS = ["fileID"]
@@ -19,5 +21,12 @@ VALID_UPLOAD_OPTIONS = [
     "is_private_file",
     "custom_coordinates",
     "response_fields",
-    "metadata",
+    "extensions",
+    "webhook_url",
+    "overwrite_file",
+    "overwrite_ai_tags",
+    "overwrite_tags",
+    "overwrite_custom_metadata",
+    "custom_metadata",
+    "embedded_metadata",
 ]

@@ -28,7 +28,7 @@ class ERRORS(enum.Enum):
     }
     FILE_ID_MISSING = {
         "message": "Missing File ID parameter for this request",
-        help: "",
+        "help": "",
     }
     UPDATE_DATA_MISSING = {
         "message": "Missing file update data for this request",
@@ -53,13 +53,12 @@ class ERRORS(enum.Enum):
     MISSING_UPLOAD_DATA = {"message": "Missing data for upload", help: ""}
     MISSING_UPLOAD_FILE_PARAMETER = {
         "message": "Missing file parameter for upload",
-        help: "",
+        "help": "",
     }
     MISSING_UPLOAD_FILENAME_PARAMETER = {
         "message": "Missing fileName parameter for upload",
-        help: "",
+        "help": "",
     }
-
     INVALID_PHASH_VALUE = (
         {
             "message": "Invalid pHash value",
@@ -73,4 +72,12 @@ class ERRORS(enum.Enum):
     UNEQUAL_STRING_LENGTH = {
         "message": "Unequal pHash string length",
         help: "For distance calculation, the two pHash strings must have equal length",
+    }
+    VERSION_ID_MISSING = {
+        "message": "Missing Version ID parameter for this request",
+        "help": "",
+    }
+    MISSING_CUSTOM_METADATA_FIELD_ID = {
+        "message": "Missing field_id for update_custom_metadata_fields",
+        "help": "",
     }

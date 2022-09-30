@@ -1,22 +1,21 @@
+import base64
+import json
+import re
 import unittest
-from typing import Any
-from unittest.mock import Mock, patch
-
-from requests import Response
+from unittest.mock import patch
 
 from imagekitio.client import ImageKit
-from tests.dummy_data.file import AUTHENTICATION_ERR_MSG, SUCCESS_GENERIC_RESP
-try:
-    from simplejson.errors import JSONDecodeError
-except ImportError:
-    from json import JSONDecodeError
+from imagekitio.models.ListAndSearchFileRequestOptions import (
+    ListAndSearchFileRequestOptions,
+)
 
 
 class ClientTestCase(unittest.TestCase):
     """
     Base TestCase for Client
     """
-    private_key="fake122"
+
+    private_key = "fake122"
 
     @patch("imagekitio.file.File")
     @patch("imagekitio.resource.ImageKitRequest")
@@ -24,44 +23,41 @@ class ClientTestCase(unittest.TestCase):
         """
         Tests if list_files work with skip and limit
         """
-        self.options = {
-            "skip": "10",
-            "limit": "1",
-        }
+        self.options = ListAndSearchFileRequestOptions(
+            type="file",
+            sort="ASC_CREATED",
+            path="/",
+            search_query="created_at >= '2d' OR size < '2mb' OR format='png'",
+            file_type="all",
+            limit=1,
+            skip=0,
+            tags="Tag-1, Tag-2, Tag-3",
+        )
+        self.opt = ListAndSearchFileRequestOptions(
+            type="file",
+            sort="ASC_CREATED",
+            path="/",
+            search_query="created_at >= '2d' OR size < '2mb' OR format='png'",
+            file_type="all",
+            limit=1,
+            skip=0,
+            tags=["Tag-1", "Tag-2", "Tag-3"],
+        )
         self.client = ImageKit(
-            public_key="fake122", private_key=ClientTestCase.private_key, url_endpoint="fake122",
+            public_key="fake122",
+            private_key=ClientTestCase.private_key,
+            url_endpoint="fake122",
         )
 
 
-def get_mocked_failed_resp(message=None, status=401):
-    """GET failed mocked response customized by parameter
-    """
-    mocked_resp = Mock(spec=Response)
-    mocked_resp.status_code = status
-    if not message:
-        mocked_resp.json.return_value = AUTHENTICATION_ERR_MSG
-    else:
-        mocked_resp.json.return_value = message
-    return mocked_resp
+def create_headers_for_test():
+    headers = {"Accept-Encoding": "gzip, deflate"}
+    headers.update(get_auth_headers_for_test())
+    return headers
 
 
-def get_mocked_failed_resp_text():
-    """GET failed mocked response returned as text not json
-    """
-    mocked_resp = Mock(spec=Response)
-    mocked_resp.status_code = 502
-    mocked_resp.text = 'Bad Gateway'
-    mocked_resp.json.side_effect = JSONDecodeError("Expecting value: ", "Bad Gateway", 0)
-    return mocked_resp
-
-
-def get_mocked_success_resp(message: dict = None, status: int = 200):
-    """GET success mocked response customize by parameter
-    """
-    mocked_resp = Mock(spec=Response)
-    mocked_resp.status_code = status
-    if not message:
-        mocked_resp.json.return_value = SUCCESS_GENERIC_RESP
-    else:
-        mocked_resp.json.return_value = message
-    return mocked_resp
+def get_auth_headers_for_test():
+    encoded_private_key = base64.b64encode(
+        (ClientTestCase.private_key + ":").encode()
+    ).decode("utf-8")
+    return {"Authorization": "Basic {}".format(encoded_private_key)}

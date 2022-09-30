@@ -1,19 +1,18 @@
 import unittest
-from unittest.mock import MagicMock
 
 from imagekitio.client import ImageKit
-from tests.dummy_data.file import SUCCESS_DETAIL_MSG
-from tests.helpers import ClientTestCase, get_mocked_success_resp
+from tests.helpers import ClientTestCase
 
 imagekit_obj = ImageKit(
-    private_key="private_fake:", public_key="public_fake123:", url_endpoint="fake.com",
+    private_key="private_fake:",
+    public_key="public_fake123:",
+    url_endpoint="fake.com",
 )
 
 
 class TestPHashDistance(unittest.TestCase):
     def test_phash_distance(self):
-        """Tests if phash_distance working properly
-        """
+        """Tests if phash_distance working properly"""
         a, b = ("33699c96619cc69e", "968e978414fe04ea")
         c, d = ("33699c96619cc69e", "33699c96619cc69e")
         e, f = ("a4a65595ac94518b", "7838873e791f8400")
