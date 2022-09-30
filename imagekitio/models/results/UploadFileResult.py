@@ -26,6 +26,7 @@ class UploadFileResult:
         embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(None, None, None, None),
         extension_status: dict = None,
         file_type: str = None,
+        orientation: int = None
     ):
         self.file_id = file_id
         self.name = name
@@ -60,6 +61,7 @@ class UploadFileResult:
                 )
         self.extension_status = extension_status
         self.file_type = file_type
+        self.orientation = orientation
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")
 
     @property
