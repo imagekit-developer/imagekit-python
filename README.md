@@ -8,9 +8,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
 
-ImageKit Python SDK allows you to use [Image Resizing](https://docs.imagekit.io/features/image-transformations), [Optimization](https://docs.imagekit.io/features/image-optimization), [File Uploading](https://docs.imagekit.io/api-reference/upload-file-api) and
-other [ImageKit APIs](https://docs.imagekit.io/api-reference/api-introduction) from software written in the Python
-language.
+Python SDK for [ImageKit](https://imagekit.io/) implements the new APIs and interface for different file operations.
+
+ImageKit is complete media storage, optimization, and transformation solution that comes with an [image and video CDN](https://imagekit.io/features/imagekit-infrastructure). It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
 
 Supported Python Versions: >=3.6
 
@@ -91,7 +91,8 @@ endpoint(url_endpoint) you want to use to access the image. You can refer to the
 [here](https://docs.imagekit.io/integration/url-endpoints) to read more about URL endpoints
 in ImageKit and the section about [image origins](https://docs.imagekit.io/integration/configure-origin) to understand
 about paths with different kinds of origins.
-The File can be an image, video, or any other static file supported by ImageKit.
+
+The file can be an image, video, or any other static file supported by ImageKit.
 
 ```python
 imagekit_url = imagekit.url({
@@ -173,7 +174,7 @@ Sample Result URL -
 https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cw-400%3Art-90
 ```
 
-**2. Sharpening and contrast transform and a progressive JPG image**
+**2. Sharpening, contrast transform and progressive JPG image**
 
 Add transformations like [Sharpening](https://docs.imagekit.io/features/image-transformations/image-enhancement-and-color-manipulation) to the URL with or without any other value. To use such transforms without specifying a value, set it as "-" in the transformation object. Otherwise, use the value that one wants to add to this transformation.
 
@@ -192,7 +193,7 @@ image_url = imagekit.url({
 Sample Result URL -
 
 ```
-# Note that because `src` parameter is in effect, the transformation string gets added as a query parameter `tr`
+# Note that because the `src` parameter is in effect, the transformation string gets added as a query parameter `tr`
 
 https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=f-jpg%2Cpr-true%2Ce-sharpen%2Ce-contrast-1
 ```
@@ -595,7 +596,7 @@ print(result.response_metadata.raw)
 
 Delete a file version as per
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-file-version).
-The method accepts the `file_id` and particular version id of the File that has to be deleted.
+The method accepts the `file_id` and particular version id of the file that has to be deleted.
 
 ```python
 result = imagekit.delete_file_version(file_id="file_id", version_id="version_id")
@@ -631,7 +632,7 @@ print(result.successfully_deleted_file_ids[0])
 **12. Copy file**
 
 Copy a file according to the [API documentation here](https://docs.imagekit.io/api-reference/media-api/copy-file).
-The method accepts `source_file_path`, `destination_path`, and `include_file_versions` of the File that has to be copied.
+The method accepts `source_file_path`, `destination_path`, and `include_file_versions` of the file that has to be copied.
 
 ```python
 from imagekitio.models.CopyFileRequestOptions import CopyFileRequestOptions
@@ -652,7 +653,7 @@ print(result.response_metadata.raw)
 **13. Move File**
 
 Move a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/move-file).
-The method accepts `source_file_path` and `destination_path` of the File that has to be moved.
+The method accepts `source_file_path` and `destination_path` of the file that has to be moved.
 
 ```python
 from imagekitio.models.MoveFileRequestOptions import MoveFileRequestOptions
@@ -696,7 +697,7 @@ print(result.purge_request_id)
 
 Restore a file as per
 the [API documentation here](https://docs.imagekit.io/api-reference/media-api/restore-file-version).
-The method accepts `file_id` and `version_id` of the File that has to be restored.
+The method accepts the `file_id` and `version_id` of the file that has to be restored.
 
 ```python
 result = imagekit.restore_file_version(file_id="file_id", version_id="version_id")
@@ -898,10 +899,10 @@ can be passed as it is with the correct values to get the results.
 
 Check for the [allowed values in the schema](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/create-custom-metadata-field#allowed-values-in-the-schema-object).
 
-**example:**
+**Example:**
 
 ```python
-# Example for type number
+# Example for the type number
 
 from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import CreateCustomMetadataFieldsRequestOptions
 from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
@@ -997,7 +998,7 @@ print(result.schema.min_value)
 
 **26. Get CustomMetaDataFields**
 
-Accepts the `include_deleted` boolean as initial parameter and fetches the metadata as per
+Accepts the `include_deleted` boolean as the initial parameter and fetches the metadata as per
 the [API documentation here](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/get-custom-metadata-field)
 .
 
@@ -1035,7 +1036,7 @@ print(result.list[0].schema.default_value)
 
 **27. Update CustomMetaDataFields**
 
-Accepts an `field_id` and options for specifying the parameters to be used to edit custom metadata fields
+Accepts a `field_id` and options for specifying the parameters to be used to edit custom metadata fields
 as per
 the [API documentation here](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/update-custom-metadata-field)
 .
@@ -1118,11 +1119,11 @@ value of an image in the response. You can use this value
 to [find a duplicate or similar image](https://docs.imagekit.io/api-reference/metadata-api#using-phash-to-find-similar-or-duplicate-images)
 by calculating the distance between the two images.
 
-This SDK exposes `phash_distance` function to calculate the distance between two `pHash` values. It accepts two `pHash`
+This SDK exposes the `phash_distance` function to calculate the distance between two `pHash` values. It accepts two `pHash`
 hexadecimal
 strings and returns a numeric value indicative of the difference between the two images.
 
-```Python
+```python
 def calculate_distance():
     # fetch metadata of two uploaded image files
     ...
@@ -1139,7 +1140,7 @@ def calculate_distance():
 
 ```Python
 imagekit.phash_distance('f06830ca9f1e3e90', 'f06830ca9f1e3e90')
-# output: 0 (ame image)
+# output: 0 (same image)
 
 imagekit.phash_distance('2d5ad3936d2e015b', '2d6ed293db36a4fb')
 # output: 17 (similar images)
@@ -1168,7 +1169,7 @@ print(result.response_metadata.headers)
 
 ### Sample Code Instruction
 
-To run `sample` code go to the code samples here are hosted on Github - https://github.com/imagekit-samples/quickstart/tree/master/python and run
+To run `sample` code go to the code samples here are hosted on GitHub - https://github.com/imagekit-samples/quickstart/tree/master/python and run.
 
 ```shell
 python sample.py
@@ -1254,11 +1255,11 @@ $ pip install -e .
 
 #### Get samples
 
-To integrate ImageKit Samples in the Python, the code samples covered here are hosted on Github - https://github.com/imagekit-samples/quickstart/tree/master/python.
+To integrate ImageKit Samples in the Python, the code samples covered here are hosted on GitHub - https://github.com/imagekit-samples/quickstart/tree/master/python.
 
-Open `python/sample.py` file and replace placeholder credentials with actual values. You can get the value of [URL-endpoint](https://imagekit.io/dashboard#url-endpoints) from your ImageKit dashboard. API keys can be obtained from the [developer](https://imagekit.io/dashboard/developer/api-keys) section in your ImageKit dashboard.
+Open the `python/sample.py` file and replace placeholder credentials with actual values. You can get the value of [URL-endpoint](https://imagekit.io/dashboard#url-endpoints) from your ImageKit dashboard. API keys can be obtained from the [developer](https://imagekit.io/dashboard/developer/api-keys) section in your ImageKit dashboard.
 
-In `python/sample.py` file, set the following parameters for authentication:
+In the `python/sample.py` file, set the following parameters for authentication:
 
 ```python
 from imagekitio import ImageKit
@@ -1269,7 +1270,7 @@ imagekit = ImageKit(
 )
 ```
 
-To install dependencies that are in the `python/requirements.txt` file can fire this command to install them:
+To install dependencies that are in the `python/requirements.txt` file, can fire this command to install them:
 
 ```shell
 pip install -r python/requirements.txt
