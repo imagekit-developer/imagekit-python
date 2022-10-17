@@ -57,7 +57,7 @@ This document presents a list of changes that break the existing functionality o
 
 ### Breaking History:
 
-Changes from `2.2.8 -> 3.0.1` are listed below
+Changes from `2.2.8 -> 3.0.0` are listed below
 
 1. Throw an Error:
 
