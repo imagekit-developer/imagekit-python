@@ -93,8 +93,14 @@ class File(object):
             options = self.validate_upload(options.__dict__)
         if options is False:
             raise ValueError("Invalid upload options")
-        if isinstance(file, str) or isinstance(file, bytes):
+
+        # handle URL or bytes (base64 encoded data)
+        if (isinstance(file, str) and file.startswith("http")) or isinstance(file, bytes):
             files.update({"file": (None, file)})
+        # assume it's a path to a local file and open
+        else:
+            files.update({"file": (file_name, open(file, "rb"), 'application/octet-stream', {'Content-Transfer-Encoding': 'binary'})})
+
         if "overwriteAiTags" in options:
             options["overwriteAITags"] = options["overwriteAiTags"]
             del options["overwriteAiTags"]
