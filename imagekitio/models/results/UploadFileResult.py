@@ -53,11 +53,11 @@ class UploadFileResult:
             if type(embedded_metadata) == EmbeddedMetadata:
                 self.embedded_metadata = embedded_metadata
             else:
-                self.embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(
-                    embedded_metadata["x_resolution"],
-                    embedded_metadata["y_resolution"],
-                    embedded_metadata["date_created"],
-                    embedded_metadata["date_timecreated"],
+                self.embedded_metadata = EmbeddedMetadata(
+                    embedded_metadata["XResolution"] if "XResolution" in embedded_metadata else None,
+                    embedded_metadata["YResolution"] if "YResolution" in embedded_metadata else None,
+                    embedded_metadata["DateCreated"] if "DateCreated" in embedded_metadata else None,
+                    embedded_metadata["DateTimeCreated"] if "DateTimeCreated" in embedded_metadata else None,
                 )
         self.extension_status = extension_status
         self.file_type = file_type
