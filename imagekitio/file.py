@@ -1,4 +1,6 @@
 import ast
+import io
+import base64
 from json import dumps
 from typing import Any, Dict
 
@@ -83,6 +85,8 @@ class File(object):
             raise TypeError(ERRORS.MISSING_UPLOAD_FILENAME_PARAMETER.value)
         url = "%s%s" % (URL.UPLOAD_BASE_URL, "/api/v1/files/upload")
         headers = self.request.create_headers()
+        if isinstance(file, io.BufferedReader):
+            file = base64.b64encode(file.read())
         files = {
             "file": file,
             "fileName": file_name,
@@ -95,6 +99,7 @@ class File(object):
             raise ValueError("Invalid upload options")
         if isinstance(file, str) or isinstance(file, bytes):
             files.update({"file": (None, file)})
+
         if "overwriteAiTags" in options:
             options["overwriteAITags"] = options["overwriteAiTags"]
             del options["overwriteAiTags"]
