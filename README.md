@@ -340,7 +340,7 @@ options = UploadFileRequestOptions(
     custom_metadata={'testss': 12},
 )
 
-# file upload with url
+## file upload with url
 
 dummy_url = "https://picsum.photos/200/300"
 file=open(dummy_url, "rb")
@@ -359,12 +359,10 @@ print(result.response_metadata.raw)
 print(result.file_id)
 
 
-# file upload with base64
+## file upload with base64
 
 with open("file_path", mode="rb") as img:
     file = base64.b64encode(img.read())
-
-fileUploadWithBinary = open("file_path", "rb")
 
 result = imagekit.upload_file(file=file, # required
                               file_name='my_file_name.jpg', # required
@@ -380,7 +378,7 @@ print(result.response_metadata.raw)
 print(result.file_id)
 
 
-# file upload with binary
+## file upload with binary
 
 file = open("file_path", "rb")
 
