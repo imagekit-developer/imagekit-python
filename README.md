@@ -306,6 +306,7 @@ Simple usage
 ```python
 from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 import base64
+import imagekit
 
 extensions = [
     {
@@ -339,18 +340,51 @@ options = UploadFileRequestOptions(
     custom_metadata={'testss': 12},
 )
 
-# file upload with url|base_64|binary
+# file upload with url
 
 dummy_url = "https://picsum.photos/200/300"
+file=open(dummy_url, "rb")
 
-fileUploadByUrl=open(dummy_url, "rb")
+result = imagekit.upload_file(file=file, # required
+                              file_name='my_file_name.jpg', # required
+                              options=options)
+
+# Final Result
+print(result)
+
+# Raw Response
+print(result.response_metadata.raw)
+
+# print that uploaded file's ID
+print(result.file_id)
+
+
+# file upload with base64
 
 with open("file_path", mode="rb") as img:
-    fileUploadWithBase64 = base64.b64encode(img.read())
+    file = base64.b64encode(img.read())
 
 fileUploadWithBinary = open("file_path", "rb")
 
-result = imagekit.upload_file(file='<url|base_64|binary>', # required
+result = imagekit.upload_file(file=file, # required
+                              file_name='my_file_name.jpg', # required
+                              options=options)
+
+# Final Result
+print(result)
+
+# Raw Response
+print(result.response_metadata.raw)
+
+# print that uploaded file's ID
+print(result.file_id)
+
+
+# file upload with binary
+
+file = open("file_path", "rb")
+
+result = imagekit.upload_file(file=file, # required
                               file_name='my_file_name.jpg', # required
                               options=options)
 
