@@ -23,7 +23,7 @@ class UploadFileResult:
         is_private_file=False,
         custom_coordinates: dict = None,
         custom_metadata: dict = None,
-        embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(None, None, None, None),
+        embedded_metadata: EmbeddedMetadata = EmbeddedMetadata({}),
         extension_status: dict = None,
         file_type: str = None,
         orientation: int = None
@@ -47,18 +47,16 @@ class UploadFileResult:
         self.is_private_file = is_private_file
         self.custom_coordinates = custom_coordinates
         self.custom_metadata = custom_metadata
+        print("embedded_metadata:==>")
+        print(embedded_metadata)
+        print("=====")
         if embedded_metadata is None or embedded_metadata == {}:
-            self.embedded_metadata = EmbeddedMetadata(None, None, None, None)
+            self.embedded_metadata = EmbeddedMetadata({})
         else:
             if type(embedded_metadata) == EmbeddedMetadata:
                 self.embedded_metadata = embedded_metadata
             else:
-                self.embedded_metadata = EmbeddedMetadata(
-                    embedded_metadata["XResolution"] if "XResolution" in embedded_metadata else None,
-                    embedded_metadata["YResolution"] if "YResolution" in embedded_metadata else None,
-                    embedded_metadata["DateCreated"] if "DateCreated" in embedded_metadata else None,
-                    embedded_metadata["DateTimeCreated"] if "DateTimeCreated" in embedded_metadata else None,
-                )
+                self.embedded_metadata = EmbeddedMetadata(embedded_metadata)
         self.extension_status = extension_status
         self.file_type = file_type
         self.orientation = orientation

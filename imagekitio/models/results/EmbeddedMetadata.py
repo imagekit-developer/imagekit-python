@@ -1,6 +1,12 @@
+from typing import List, TypeVar
 class EmbeddedMetadata:
-    def __init__(self, XResolution=None, YResolution=None, DateCreated=None, DateTimeCreated=None):
-        self.XResolution = XResolution
-        self.YResolution = YResolution
-        self.DateCreated = DateCreated
-        self.DateTimeCreated = DateTimeCreated
+    def __init__(self, container: dict):
+        if bool(container):
+            keys = list(container.keys())
+            print("container:====>")
+            print(container)
+            print(container[keys[0]])
+            print("=======")
+            for k in container:
+                self.items = container[keys[k]]
+
