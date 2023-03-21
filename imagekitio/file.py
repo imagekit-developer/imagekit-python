@@ -86,7 +86,7 @@ class File(object):
         url = "%s%s" % (URL.UPLOAD_BASE_URL, "/api/v1/files/upload")
         headers = self.request.create_headers()
         if isinstance(file, io.BufferedReader):
-            file = base64.b64encode(file.read())
+            file = (file_name, file, "image/jpeg")
         files = {
             "file": file,
             "fileName": file_name,
