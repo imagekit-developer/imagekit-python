@@ -1,5 +1,6 @@
 import ast
 import io
+import mimetypes
 import base64
 from json import dumps
 from typing import Any, Dict
@@ -86,7 +87,8 @@ class File(object):
         url = "%s%s" % (URL.UPLOAD_BASE_URL, "/api/v1/files/upload")
         headers = self.request.create_headers()
         if isinstance(file, io.BufferedReader):
-            file = (file_name, file, "image/jpeg")
+            file_content_type = mimetypes.guess_type(file.name)[0]
+            file = (file_name, file, file_content_type)
         files = {
             "file": file,
             "fileName": file_name,
