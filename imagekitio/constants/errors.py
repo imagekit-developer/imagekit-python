@@ -14,7 +14,9 @@ class ERRORS(enum.Enum):
         "message": "Pass one of the mandatory parameter path or src"
     }
     INVALID_URL_GENERATION_PARAMETER = {
-        "message": "Invalid url parameter", help: ""}
+        "message": "Invalid url parameter",
+        "help": ""
+    }
     INVALID_TRANSFORMATION_OPTIONS = {
         "message": "Invalid transformation parameter options",
         "help": "",
@@ -51,8 +53,14 @@ class ERRORS(enum.Enum):
         "help": "If you do not want to pass any parameter for listing, pass an empty object",
     }
     MISSING_FILE_URL = {
-        "message": "Missing file_url for purge_cache", help: ""}
-    MISSING_UPLOAD_DATA = {"message": "Missing data for upload", help: ""}
+        "message": "Missing file_url for purge_cache",
+        "help": ""
+    }
+    MISSING_UPLOAD_DATA = {
+        "message": "Missing data for upload",
+        "help": ""
+
+    }
     MISSING_UPLOAD_FILE_PARAMETER = {
         "message": "Missing file parameter for upload",
         "help": "",
