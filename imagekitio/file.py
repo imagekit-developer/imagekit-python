@@ -49,6 +49,8 @@ from .models.results.RenameFileResult import RenameFileResult
 from .models.results.ResponseMetadataResult import ResponseMetadataResult
 from .models.results.TagsResult import TagsResult
 from .models.results.UploadFileResult import UploadFileResult
+import base64
+import io
 from .utils.formatter import (
     request_formatter,
     snake_to_lower_camel,
@@ -93,7 +95,9 @@ class File(object):
             options = self.validate_upload(options.__dict__)
         if options is False:
             raise ValueError("Invalid upload options")
-        if isinstance(file, str) or isinstance(file, bytes):
+        if isinstance(file,io.BufferedReader):
+            files.update({"file": (None, base64.b64encode(file.read()))})
+        elif isinstance(file, str) or isinstance(file, bytes):
             files.update({"file": (None, file)})
         if "overwriteAiTags" in options:
             options["overwriteAITags"] = options["overwriteAiTags"]

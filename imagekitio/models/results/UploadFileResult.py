@@ -57,7 +57,7 @@ class UploadFileResult:
                     embedded_metadata["x_resolution"],
                     embedded_metadata["y_resolution"],
                     embedded_metadata["date_created"],
-                    embedded_metadata["date_timecreated"],
+                    embedded_metadata["date_time_created"],
                 )
         self.extension_status = extension_status
         self.file_type = file_type
