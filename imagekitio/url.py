@@ -23,8 +23,9 @@ class Url:
 
     def generate_url(self, options: Dict = None) -> str:
         options = camel_dict_to_snake_dict(options)
-        if "query_parameters" in options.keys() and "ik-attachment" in options["query_parameters"].keys():
-             options["query_parameters"]["ik-attachment"] = str(options["query_parameters"]["ik-attachment"]).lower()
+        attachment = options.get("query_parameters",{}).get("ik-attachment")
+        if attachment:
+            options["query_parameters"]["ik-attachment"] = str(attachment).lower()
         extended_options = self.request.extend_url_options(options)
         return self.build_url(extended_options)
 
