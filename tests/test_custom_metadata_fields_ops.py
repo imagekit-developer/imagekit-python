@@ -8,19 +8,15 @@ from imagekitio.exceptions.BadRequestException import BadRequestException
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
 from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.exceptions.UnknownException import UnknownException
-from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import (
-    CreateCustomMetadataFieldsRequestOptions,
-)
+from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import \
+    CreateCustomMetadataFieldsRequestOptions
+from imagekitio.models.CustomMetadataFieldsSchema import \
+    CustomMetadataFieldsSchema
 from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
-from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
-from imagekitio.models.UpdateCustomMetadataFieldsRequestOptions import (
-    UpdateCustomMetadataFieldsRequestOptions,
-)
+from imagekitio.models.UpdateCustomMetadataFieldsRequestOptions import \
+    UpdateCustomMetadataFieldsRequestOptions
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
-from tests.helpers import (
-    ClientTestCase,
-    create_headers_for_test,
-)
+from tests.helpers import ClientTestCase, create_headers_for_test
 
 
 class TestCustomMetadataFields(ClientTestCase):
@@ -896,5 +892,6 @@ class TestCustomMetadataFields(ClientTestCase):
             )
             self.assertRaises(BadRequestException)
         except BadRequestException as e:
-            self.assertEqual("Your request contains invalid ID parameter.", e.message)
+            self.assertEqual(
+                "Your request contains invalid ID parameter.", e.message)
             self.assertEqual(400, e.response_metadata.http_status_code)

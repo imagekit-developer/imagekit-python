@@ -1,8 +1,8 @@
 from .MetadataExifExif import MetadataExifExif
 from .MetadataExifGPS import MetadataExifGPS
+from .MetadataExifImage import MetadataExifImage
 from .MetadataExifInteroperability import MetadataExifInteroperability
 from .MetadataExifThumbnail import MetadataExifThumbnail
-from .MetadataExifImage import MetadataExifImage
 
 
 class MetadataExif:
@@ -40,7 +40,8 @@ class MetadataExif:
                 )
 
         if thumbnail is None or thumbnail == {}:
-            self.thumbnail = MetadataExifThumbnail(None, None, None, None, None, None)
+            self.thumbnail = MetadataExifThumbnail(
+                None, None, None, None, None, None)
         else:
             if type(thumbnail) == MetadataExifThumbnail:
                 self.thumbnail = thumbnail

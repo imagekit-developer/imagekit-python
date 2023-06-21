@@ -8,10 +8,7 @@ from imagekitio.constants.url import URL
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
 from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
-from tests.helpers import (
-    ClientTestCase,
-    get_auth_headers_for_test,
-)
+from tests.helpers import ClientTestCase, get_auth_headers_for_test
 
 imagekit_obj = ImageKit(
     private_key="private_fake:",
@@ -325,7 +322,8 @@ class TestAITags(ClientTestCase):
                 headers=headers,
             )
             self.client.remove_ai_tags(
-                file_ids=[self.file_id], ai_tags=["remove-ai-tag-1", "remove-ai-tag-2"]
+                file_ids=[self.file_id], ai_tags=[
+                    "remove-ai-tag-1", "remove-ai-tag-2"]
             )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:

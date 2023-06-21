@@ -11,7 +11,8 @@ class CreateCustomMetadataFieldsRequestOptions:
         self.name = name
         self.label = label
         if schema is None or schema == {}:
-            CustomMetadataFieldsSchema(None, None, None, None, None, None, None, None)
+            CustomMetadataFieldsSchema(
+                None, None, None, None, None, None, None, None)
         else:
             if type(schema) == CustomMetadataFieldsSchema:
                 self.schema = schema

@@ -1,9 +1,9 @@
+from .MetadataExif import MetadataExif
 from .MetadataExifExif import MetadataExifExif
 from .MetadataExifGPS import MetadataExifGPS
+from .MetadataExifImage import MetadataExifImage
 from .MetadataExifInteroperability import MetadataExifInteroperability
 from .MetadataExifThumbnail import MetadataExifThumbnail
-from .MetadataExif import MetadataExif
-from .MetadataExifImage import MetadataExifImage
 from .ResponseMetadata import ResponseMetadata
 
 

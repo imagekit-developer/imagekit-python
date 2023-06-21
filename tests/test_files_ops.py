@@ -18,11 +18,8 @@ from imagekitio.models.RenameFileRequestOptions import RenameFileRequestOptions
 from imagekitio.models.UpdateFileRequestOptions import UpdateFileRequestOptions
 from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
-from tests.helpers import (
-    ClientTestCase,
-    create_headers_for_test,
-    get_auth_headers_for_test,
-)
+from tests.helpers import (ClientTestCase, create_headers_for_test,
+                           get_auth_headers_for_test)
 
 imagekit_obj = ImageKit(
     private_key="private_fake:",
@@ -362,7 +359,8 @@ class TestUpload(ClientTestCase):
             self.client.upload_file(file_name="file_name.jpg")
         except TypeError as e:
             self.assertEqual(
-                {"message": "Missing file parameter for upload", "help": ""}, e.args[0]
+                {"message": "Missing file parameter for upload",
+                    "help": ""}, e.args[0]
             )
 
     @responses.activate
@@ -501,7 +499,7 @@ class TestListFiles(ClientTestCase):
             headers=headers,
             match=[
                 matchers.query_string_matcher("type=file&sort=ASC_CREATED&path=%2F&searchQuery=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3"
-                )
+                                              )
             ],
         )
 
@@ -606,7 +604,7 @@ class TestListFiles(ClientTestCase):
             headers=headers,
             match=[
                 matchers.query_string_matcher("type=file&sort=ASC_CREATED&path=%2F&searchQuery=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3"
-                )
+                                              )
             ],
         )
 
@@ -679,7 +677,7 @@ class TestListFiles(ClientTestCase):
                                  "help": "For support kindly contact us at support@imagekit.io ."}""",
                 match=[
                     matchers.query_string_matcher("type=file&sort=ASC_CREATED&path=%2F&searchQuery=created_at+%3E%3D+%272d%27+OR+size+%3C+%272mb%27+OR+format%3D%27png%27&fileType=all&limit=1&skip=0&tags=Tag-1%2C+Tag-2%2C+Tag-3"
-                    )
+                                                  )
                 ],
             )
             self.client.list_files(self.options)
@@ -906,7 +904,8 @@ class TestDeleteFile(ClientTestCase):
             camel_dict_to_snake_dict(mock_response_metadata),
             resp.response_metadata.__dict__,
         )
-        self.assertEqual(["fake_123", "fake_222"], resp.successfully_deleted_file_ids)
+        self.assertEqual(["fake_123", "fake_222"],
+                         resp.successfully_deleted_file_ids)
         self.assertEqual(
             "http://test.com/v1/files/batch/deleteByFileIds",
             responses.calls[0].request.url,
@@ -2067,7 +2066,8 @@ class TestCopyFile(ClientTestCase):
             )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
-            self.assertEqual("No file found with filePath /source_file.jpg", e.message)
+            self.assertEqual(
+                "No file found with filePath /source_file.jpg", e.message)
             self.assertEqual(404, e.response_metadata.http_status_code)
 
     @responses.activate
@@ -2196,7 +2196,8 @@ class TestMoveFile(ClientTestCase):
             )
             self.assertRaises(NotFoundException)
         except NotFoundException as e:
-            self.assertEqual("No file found with filePath /source_file.jpg", e.message)
+            self.assertEqual(
+                "No file found with filePath /source_file.jpg", e.message)
             self.assertEqual(404, e.response_metadata.http_status_code)
 
     @responses.activate
@@ -2281,7 +2282,8 @@ class TestRenameFile(ClientTestCase):
                 e.message,
             )
             self.assertEqual(409, e.response_metadata.http_status_code)
-            self.assertEqual("FILE_ALREADY_EXISTS", e.response_metadata.raw["reason"])
+            self.assertEqual("FILE_ALREADY_EXISTS",
+                             e.response_metadata.raw["reason"])
 
     @responses.activate
     def test_rename_file_succeeds_with_purge_cache_false(self) -> None:

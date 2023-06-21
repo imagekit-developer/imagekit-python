@@ -5,9 +5,8 @@ import unittest
 from unittest.mock import patch
 
 from imagekitio.client import ImageKit
-from imagekitio.models.ListAndSearchFileRequestOptions import (
-    ListAndSearchFileRequestOptions,
-)
+from imagekitio.models.ListAndSearchFileRequestOptions import \
+    ListAndSearchFileRequestOptions
 
 
 class ClientTestCase(unittest.TestCase):

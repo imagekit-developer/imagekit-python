@@ -14,9 +14,8 @@ repos:
   - id: isort
     args: [ '--settings-path=setup.cfg' ]
 
-- repo: https://github.com/PyCQA/flake8
-  rev: 3.9.0
+- repo: https://github.com/pre-commit/mirrors-autopep8
+  rev: v1.5.7
   hooks:
-  - id: flake8
-#    additional_dependencies:
-#    - flake8-tidy-imports
+  - id: autopep8
+

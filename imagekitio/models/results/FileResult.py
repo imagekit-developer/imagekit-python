@@ -1,4 +1,5 @@
 from typing import List
+
 from .AITags import AITags
 from .VersionInfo import VersionInfo
 

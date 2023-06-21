@@ -23,7 +23,8 @@ class UploadFileResult:
         is_private_file=False,
         custom_coordinates: dict = None,
         custom_metadata: dict = None,
-        embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(None, None, None, None),
+        embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(
+            None, None, None, None),
         extension_status: dict = None,
         file_type: str = None,
         orientation: int = None

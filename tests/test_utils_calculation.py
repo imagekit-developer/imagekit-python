@@ -1,4 +1,5 @@
 import unittest
+
 from imagekitio.client import ImageKit
 from imagekitio.utils.calculation import get_authenticated_params
 

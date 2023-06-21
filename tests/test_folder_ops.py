@@ -6,18 +6,18 @@ from imagekitio import ImageKit
 from imagekitio.constants.url import URL
 from imagekitio.exceptions.BadRequestException import BadRequestException
 from imagekitio.exceptions.ForbiddenException import ForbiddenException
-from imagekitio.exceptions.InternalServerException import InternalServerException
+from imagekitio.exceptions.InternalServerException import \
+    InternalServerException
 from imagekitio.exceptions.NotFoundException import NotFoundException
 from imagekitio.exceptions.UnknownException import UnknownException
 from imagekitio.models.CopyFolderRequestOptions import CopyFolderRequestOptions
-from imagekitio.models.CreateFolderRequestOptions import CreateFolderRequestOptions
-from imagekitio.models.DeleteFolderRequestOptions import DeleteFolderRequestOptions
+from imagekitio.models.CreateFolderRequestOptions import \
+    CreateFolderRequestOptions
+from imagekitio.models.DeleteFolderRequestOptions import \
+    DeleteFolderRequestOptions
 from imagekitio.models.MoveFolderRequestOptions import MoveFolderRequestOptions
 from imagekitio.utils.formatter import camel_dict_to_snake_dict
-from tests.helpers import (
-    ClientTestCase,
-    create_headers_for_test,
-)
+from tests.helpers import ClientTestCase, create_headers_for_test
 
 imagekit_obj = ImageKit(
     private_key="private_fake:",
@@ -169,7 +169,8 @@ class TestFolders(ClientTestCase):
             resp.response_metadata.__dict__,
         )
         self.assertEqual("http://test.com/v1/folder", responses.calls[0].request.url)
-        self.assertEqual('{"folderPath": "/folderName"}', responses.calls[0].request.body)
+        self.assertEqual('{"folderPath": "/folderName"}',
+                         responses.calls[0].request.body)
 
 
 class TestCopyFolder(ClientTestCase):

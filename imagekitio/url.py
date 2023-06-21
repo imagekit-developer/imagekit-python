@@ -3,13 +3,13 @@ import hmac
 import sys
 from datetime import datetime as dt
 from typing import Any, Dict, List
-from urllib.parse import ParseResult, urlparse, urlunparse, parse_qsl, urlencode
+from urllib.parse import (ParseResult, parse_qsl, urlencode, urlparse,
+                          urlunparse)
 
 from .constants.defaults import Default
+from .constants.errors import ERRORS
 from .constants.supported_transform import SUPPORTED_TRANS
 from .utils.formatter import camel_dict_to_snake_dict, flatten_dict
-
-from .constants.errors import ERRORS
 
 
 class Url:
@@ -35,7 +35,8 @@ class Url:
         path = options.get("path", "").strip("/")
         src = options.get("src", "").strip("/")
         url_endpoint = options.get("url_endpoint", "").strip("/")
-        transformation_str = self.transformation_to_str(options.get("transformation"))
+        transformation_str = self.transformation_to_str(
+            options.get("transformation"))
         transformation_position = options.get(
             "transformation_position", Default.DEFAULT_TRANSFORMATION_POSITION.value
         )
@@ -103,7 +104,8 @@ class Url:
                     }
                 )
             else:
-                query_params.update({Default.SIGNATURE_PARAMETER.value: url_signature})
+                query_params.update(
+                    {Default.SIGNATURE_PARAMETER.value: url_signature})
 
             # Update signature related query params
             url_object = url_object._replace(query=urlencode(query_params))

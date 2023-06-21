@@ -1,5 +1,6 @@
 import ast
-from json import loads, dumps
+from json import dumps, loads
+
 from requests.models import Response
 
 from ..exceptions.BadRequestException import BadRequestException
@@ -30,7 +31,8 @@ def get_response_json(response: Response):
 
 def populate_response_metadata(response: Response):
     resp = get_response_json(response)
-    response_metadata = ResponseMetadata(resp, response.status_code, response.headers)
+    response_metadata = ResponseMetadata(
+        resp, response.status_code, response.headers)
     return response_metadata
 
 
@@ -48,14 +50,16 @@ def general_api_throw_exception(response: Response):
     elif response.status_code == 403:
         raise ForbiddenException(error_message, response_help, response_meta_data)
     elif response.status_code == 429:
-        raise TooManyRequestsException(error_message, response_help, response_meta_data)
+        raise TooManyRequestsException(
+            error_message, response_help, response_meta_data)
     elif (
         response.status_code == 500
         or response.status_code == 502
         or response.status_code == 503
         or response.status_code == 504
     ):
-        raise InternalServerException(error_message, response_help, response_meta_data)
+        raise InternalServerException(
+            error_message, response_help, response_meta_data)
     else:
         raise UnknownException(error_message, response_help, response_meta_data)
 
@@ -68,7 +72,8 @@ def throw_other_exception(response: Response):
     error_message = resp["message"] if type(resp) == dict else ""
     response_help = resp["help"] if type(resp) == dict else ""
     if response.status_code == 207:
-        raise PartialSuccessException(error_message, response_help, response_meta_data)
+        raise PartialSuccessException(
+            error_message, response_help, response_meta_data)
     elif response.status_code == 404:
         raise NotFoundException(error_message, response_help, response_meta_data)
     else:
@@ -78,7 +83,8 @@ def throw_other_exception(response: Response):
 def convert_to_response_object(resp: Response, response_object):
     res_new = loads(dumps(camel_dict_to_snake_dict(resp.json())))
     u = response_object(**res_new)
-    u.response_metadata = ResponseMetadata(resp.json(), resp.status_code, resp.headers)
+    u.response_metadata = ResponseMetadata(
+        resp.json(), resp.status_code, resp.headers)
     return u
 
 
@@ -100,5 +106,6 @@ def convert_to_list_response_object(
         response_list.append(u)
 
     u = list_response_object(response_list)
-    u.response_metadata = ResponseMetadata(resp.json(), resp.status_code, resp.headers)
+    u.response_metadata = ResponseMetadata(
+        resp.json(), resp.status_code, resp.headers)
     return u
