@@ -15,12 +15,17 @@ class TestGenerateURL(unittest.TestCase):
     def test_generate_url_with_path(self):
         options = {
             "path": "/default-image.jpg",
-            "transformation": [{"height": "300", "width": "400"}],
+            "transformation": [{"raw":"f-auto","height": "300", "width": "400"}],
+            "query_parameters": {
+                "ik-attachment":True
+            },
         }
         url = self.client.url(options)
+        
+        print(url)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg",
+            "https://test-domain.com/test-endpoint/tr:f-auto,h-300,w-400/default-image.jpg?ik-attachment=true",
         )
 
     def test_overriding_url_endpoint_generation_consists_new_url(self):
