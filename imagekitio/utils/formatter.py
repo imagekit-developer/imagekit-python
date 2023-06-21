@@ -32,7 +32,7 @@ def request_formatter(data: dict) -> dict:
 
 def camel_dict_to_snake_dict(data: dict) -> dict:
     """Convert the keys of dictionary from camel case to snake case"""
-    return {camel_to_snake(key):camel_dict_to_snake_dict(val) if isinstance(val, (dict)) else val for key, val in data.items()}
+    return {camel_to_snake(key): val for key, val in data.items()}
 
 
 def flatten_dict(dict_list: List[Dict]) -> OrderedDict:
