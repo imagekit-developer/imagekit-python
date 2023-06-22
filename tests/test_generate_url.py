@@ -21,8 +21,6 @@ class TestGenerateURL(unittest.TestCase):
             },
         }
         url = self.client.url(options)
-        
-        print(url)
         self.assertEqual(
             url,
             "https://test-domain.com/test-endpoint/tr:f-auto,h-300,w-400/default-image.jpg?ik-attachment=true",
