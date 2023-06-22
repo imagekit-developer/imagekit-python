@@ -4,3 +4,4 @@ class EmbeddedMetadata:
         self.y_resolution = y_resolution
         self.date_created = date_created
         self.date_time_created = date_time_created
+
