@@ -11,7 +11,6 @@ class TestGenerateURL(unittest.TestCase):
             public_key="public_key_test",
             url_endpoint="https://test-domain.com/test-endpoint",
         )
-
     def test_generate_url_with_path(self):
         options = {
             "path": "/default-image.jpg",
@@ -22,7 +21,32 @@ class TestGenerateURL(unittest.TestCase):
             url,
             "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg",
         )
+    def test_generate_url_with_path_with_ik_attachment(self):
+        options = {
+            "path": "/default-image.jpg",
+            "transformation": [{"height": "300", "width": "400"}],
+            "query_parameters": {
+                "ik-attachment":True
+            },
+        }
+        url = self.client.url(options)
+        self.assertEqual(
+            url,
+            "https://test-domain.com/test-endpoint/tr:h-300,w-400/default-image.jpg?ik-attachment=true",
+        )
 
+    def test_generate_url_With_path_with_transformation_raw(self):
+        options = {
+            "path": "/default-image.jpg",
+            "transformation": [{"raw":"f-auto","height": "300", "width": "400"}],
+
+        }
+        url = self.client.url(options)
+        self.assertEqual(
+            url,
+            "https://test-domain.com/test-endpoint/tr:f-auto,h-300,w-400/default-image.jpg",
+        )
+    
     def test_overriding_url_endpoint_generation_consists_new_url(self):
         """
         Overriding urlEndpoint parameter. Passing a urlEndpoint value which is

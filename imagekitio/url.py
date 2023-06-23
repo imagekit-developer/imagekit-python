@@ -23,6 +23,9 @@ class Url:
 
     def generate_url(self, options: Dict = None) -> str:
         options = camel_dict_to_snake_dict(options)
+        attachment = options.get("query_parameters",{}).get("ik-attachment")
+        if attachment:
+            options["query_parameters"]["ik-attachment"] = str(attachment).lower()
         extended_options = self.request.extend_url_options(options)
         return self.build_url(extended_options)
 
@@ -192,8 +195,8 @@ class Url:
                         value = value.strip("/")
                         value = value.replace("/", "@@")
                     if transform_key == "raw":
-                        for i in value.split(","):
-                            parsed_transform_step.append(i)
+                        for j in value.split(","):
+                            parsed_transform_step.append(j)
                     else:
                         parsed_transform_step.append(
                             "{}{}{}".format(

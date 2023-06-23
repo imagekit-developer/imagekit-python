@@ -63,6 +63,7 @@ from .utils.utils import (
     convert_to_response_metadata_result_object,
 )
 
+from io import BufferedReader
 
 class File(object):
     def __init__(self, request_obj):
@@ -93,7 +94,9 @@ class File(object):
             options = self.validate_upload(options.__dict__)
         if options is False:
             raise ValueError("Invalid upload options")
-        if isinstance(file, str) or isinstance(file, bytes):
+        if isinstance(file,BufferedReader):
+            files.update({"file": (file_name,file,None)})
+        elif isinstance(file, str) or isinstance(file, bytes):
             files.update({"file": (None, file)})
         if "overwriteAiTags" in options:
             options["overwriteAITags"] = options["overwriteAiTags"]
