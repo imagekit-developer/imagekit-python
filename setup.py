@@ -8,7 +8,7 @@ with open("requirements/requirements.txt") as f:
 
 setuptools.setup(
     name="imagekitio",
-    version="3.0.1",
+    version="3.0.2",
     description="Python wrapper for the ImageKit API",
     long_description=long_description,
     long_description_content_type="text/markdown",
