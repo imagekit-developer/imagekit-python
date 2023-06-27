@@ -76,11 +76,7 @@ def throw_other_exception(response: Response):
 
 
 def convert_to_response_object(resp: Response, response_object):
-    resp_json = resp.json()
-    embeddedMetadata = resp_json.get("embeddedMetadata")
-    if embeddedMetadata != None:
-        resp_json["embeddedMetadata"] = camel_dict_to_snake_dict(embeddedMetadata)
-    res_new = loads(dumps(camel_dict_to_snake_dict(resp_json)))
+    res_new = loads(dumps(camel_dict_to_snake_dict(resp.json())))
     u = response_object(**res_new)
     u.response_metadata = ResponseMetadata(resp.json(), resp.status_code, resp.headers)
     return u

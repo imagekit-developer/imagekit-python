@@ -1184,6 +1184,47 @@ class TestDeleteFile(ClientTestCase):
         )
 
     @responses.activate
+    def test_bulk_file_delete_succeeds_and_recieves_extra_non_breaking_changes_from_apii(self):
+        """Test bulk_delete  on authenticated request
+        this function tests if bulk_file_delete working properly
+        """
+
+        URL.API_BASE_URL = "http://test.com"
+        url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
+        headers = {"Content-Type": "application/json"}
+        headers.update(get_auth_headers_for_test())
+
+        responses.add(
+            responses.POST,
+            url,
+            body='{"successfullyDeletedFileIds": ["fake_123"],"nonDeletedFields":["fake_222"]}',
+            headers=headers,
+        )
+
+        resp = self.client.bulk_file_delete(self.bulk_delete_ids)
+
+        mock_response_metadata = {
+            "raw": {"successfullyDeletedFileIds": ["fake_123"],"nonDeletedFields":["fake_222"]},
+            "httpStatusCode": 200,
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
+        }
+        self.assertEqual(
+            '{"fileIds": ["fake_123", "fake_222"]}', responses.calls[0].request.body
+        )
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(["fake_123"], resp.successfully_deleted_file_ids)
+        self.assertEqual(["fake_222"], resp.non_deleted_fields)
+        self.assertEqual(
+            "http://test.com/v1/files/batch/deleteByFileIds",
+            responses.calls[0].request.url,
+        )
+    @responses.activate
     def test_bulk_file_delete_fails_with_404_exception(self) -> None:
         """Test bulk_file_delete raises 404 error"""
 

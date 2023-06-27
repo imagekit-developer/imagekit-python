@@ -44,7 +44,7 @@ class UploadFileResult:
                 self.ai_tags.append(AITags(**camel_dict_to_snake_dict(i)))
         else:
             self.ai_tags.append(AITags(None, None, None))
-        self.version_info = VersionInfo(camel_dict_to_snake_dict(version_info))
+        self.version_info = VersionInfo(**camel_dict_to_snake_dict(version_info))
         self.is_private_file = is_private_file
         self.custom_coordinates = custom_coordinates
         self.custom_metadata = custom_metadata
@@ -55,7 +55,7 @@ class UploadFileResult:
                 self.embedded_metadata = embedded_metadata
             else:
                 self.embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(
-                    **embedded_metadata
+                    **camel_dict_to_snake_dict(embedded_metadata)
                 )
         self.extension_status = extension_status
         self.file_type = file_type
