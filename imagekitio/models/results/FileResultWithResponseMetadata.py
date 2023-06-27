@@ -15,8 +15,8 @@ class FileResultWithResponseMetadata(FileResult):
         updated_at=None,
         file_id=None,
         tags=None,
-        ai_tags: List[AITags] = AITags(None, None, None),
-        version_info: VersionInfo = VersionInfo(None, None),
+        ai_tags: List[AITags] = [],
+        version_info: dict = {},
         embedded_metadata=None,
         custom_coordinates: str = "",
         custom_metadata=None,
@@ -31,6 +31,7 @@ class FileResultWithResponseMetadata(FileResult):
         has_alpha=False,
         mime: str = None,
         extension_status=None,
+        **kwargs
     ):
         super().__init__(
             type,
@@ -55,5 +56,6 @@ class FileResultWithResponseMetadata(FileResult):
             has_alpha,
             mime,
             extension_status,
+            **kwargs
         )
         self.response_metadata: ResponseMetadata = ResponseMetadata("", "", "")

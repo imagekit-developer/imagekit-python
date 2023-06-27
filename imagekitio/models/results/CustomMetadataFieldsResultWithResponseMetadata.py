@@ -9,11 +9,10 @@ class CustomMetadataFieldsResultWithResponseMetadata(CustomMetadataFieldsResult)
         id=None,
         name=None,
         label=None,
-        schema: CustomMetadataSchema = CustomMetadataSchema(
-            None, None, None, None, None, None, None, None
-        ),
+        schema:dict = {},
+        **kwargs
     ):
         super(CustomMetadataFieldsResultWithResponseMetadata, self).__init__(
-            id, name, label, schema
+            id, name, label, schema,**kwargs
         )
         self.response_metadata: ResponseMetadata = ResponseMetadata("", "", "")

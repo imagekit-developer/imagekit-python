@@ -1,7 +1,7 @@
 from typing import List
 from .AITags import AITags
 from .VersionInfo import VersionInfo
-
+from ...utils.utils import camel_dict_to_snake_dict
 
 class FileResult:
     def __init__(
@@ -28,6 +28,7 @@ class FileResult:
         has_alpha=False,
         mime: str = None,
         extension_status: dict = {},
+        **kwargs
     ):
         self.type = type
         self.name = name
@@ -40,12 +41,10 @@ class FileResult:
             for i in ai_tags:
                 self.ai_tags.append(
                     AITags(
-                        i["name"] if "name" in i else None,
-                        i["confidence"] if "confidence" in i else None,
-                        i["source"] if "source" in i else None,
+                        **camel_dict_to_snake_dict(i)
                     )
                 )
-        self.version_info = VersionInfo(version_info["id"], version_info["name"])
+        self.version_info = VersionInfo(**camel_dict_to_snake_dict(version_info))
         self.embedded_metadata = embedded_metadata
         self.custom_coordinates = custom_coordinates
         self.custom_metadata = custom_metadata
@@ -60,3 +59,8 @@ class FileResult:
         self.has_alpha = has_alpha
         self.mime = mime
         self.extension_status = extension_status
+        for key in kwargs.keys():
+                self.__setattr__(key,kwargs[key])
+    def __getattr__(self,key):
+        return None
+

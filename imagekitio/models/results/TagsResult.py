@@ -2,9 +2,13 @@ from .ResponseMetadata import ResponseMetadata
 
 
 class TagsResult:
-    def __init__(self, successfully_updated_file_ids=None):
+    def __init__(self, successfully_updated_file_ids=None,**kwargs):
         self.successfully_updated_file_ids = successfully_updated_file_ids
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")
+        for key in kwargs.keys():
+            self.__setattr__(key,kwargs[key])
+    def __getattr__(self,key):
+        return None
 
     @property
     def response_metadata(self):

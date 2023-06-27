@@ -4,7 +4,7 @@ from .AITags import AITags
 from .EmbeddedMetadata import EmbeddedMetadata
 from .ResponseMetadata import ResponseMetadata
 from .VersionInfo import VersionInfo
-
+from ...utils.utils import camel_dict_to_snake_dict
 
 class UploadFileResult:
     def __init__(
@@ -26,7 +26,8 @@ class UploadFileResult:
         embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(None, None, None, None),
         extension_status: dict = None,
         file_type: str = None,
-        orientation: int = None
+        orientation: int = None,
+        **kwargs
     ):
         self.file_id = file_id
         self.name = name
@@ -40,10 +41,10 @@ class UploadFileResult:
         self.ai_tags: List[AITags] = []
         if ai_tags is not None:
             for i in ai_tags:
-                self.ai_tags.append(AITags(i["name"], i["confidence"], i["source"]))
+                self.ai_tags.append(AITags(**camel_dict_to_snake_dict(i)))
         else:
             self.ai_tags.append(AITags(None, None, None))
-        self.version_info = VersionInfo(version_info["id"], version_info["name"])
+        self.version_info = VersionInfo(camel_dict_to_snake_dict(version_info))
         self.is_private_file = is_private_file
         self.custom_coordinates = custom_coordinates
         self.custom_metadata = custom_metadata
@@ -54,15 +55,17 @@ class UploadFileResult:
                 self.embedded_metadata = embedded_metadata
             else:
                 self.embedded_metadata: EmbeddedMetadata = EmbeddedMetadata(
-                    embedded_metadata["x_resolution"],
-                    embedded_metadata["y_resolution"],
-                    embedded_metadata["date_created"],
-                    embedded_metadata["date_time_created"],
+                    **embedded_metadata
                 )
         self.extension_status = extension_status
         self.file_type = file_type
         self.orientation = orientation
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")
+        for key in kwargs.keys():
+            self.__setattr__(key,kwargs[key])
+    def __getattr__(self,key):
+        return None
+    
 
     @property
     def response_metadata(self):
