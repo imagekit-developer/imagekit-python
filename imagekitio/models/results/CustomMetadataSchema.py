@@ -9,6 +9,8 @@ class CustomMetadataSchema:
         max_value=None,
         min_length=None,
         max_length=None,
+        **kwargs
+        
     ):
         self.type = type
         self.select_options = select_options
@@ -18,3 +20,8 @@ class CustomMetadataSchema:
         self.max_value = max_value
         self.min_length = min_length
         self.max_length = max_length
+        for key in kwargs.keys():
+                self.__setattr__(key,kwargs[key])
+    def __getattr__(self,key):
+        return None
+

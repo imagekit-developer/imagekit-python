@@ -12,6 +12,7 @@ class MetadataExifImage:
         y_cb_cr_positioning=None,
         exif_offset=None,
         gps_info=None,
+        **kwargs
     ):
         self.make = make
         self.model = model
@@ -24,3 +25,7 @@ class MetadataExifImage:
         self.y_cb_cr_positioning = y_cb_cr_positioning
         self.exif_offset = exif_offset
         self.gps_info = gps_info
+        for key in kwargs.keys():
+                self.__setattr__(key,kwargs[key])
+    def __getattr__(self,key):
+        return None

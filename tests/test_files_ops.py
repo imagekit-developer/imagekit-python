@@ -542,6 +542,78 @@ class TestUpload(ClientTestCase):
         #     camel_dict_to_snake_dict(mock_response_metadata),
         #     resp.response_metadata.__dict__,
         # )
+    @responses.activate()
+    def test_upload_file_result_on_upload_with_non_breaking_changes_in_response(self):
+        """
+        Tests if  upload succeeds
+        """
+        URL.UPLOAD_BASE_URL = "http://test.com"
+        url = "%s%s" % (URL.UPLOAD_BASE_URL, "/api/v1/files/upload")
+        headers = create_headers_for_test()
+        responses.add(
+            responses.POST,
+            url,
+            body="""{
+                        "fileId": "fake_file_id1234",
+                        "name": "file_name.jpg",
+                        "size": 102117,
+                        "versionInfo": {
+                            "id": "62d670648cdb697522602b45",
+                            "name": "Version 11",
+                            "decription":"Removed Background"
+                        },
+                        "filePath": "/testing-python-folder/file_name.jpg",
+                        "url": "https://ik.imagekit.io/your_imagekit_id/testing-python-folder/file_name.jpg",
+                        "fileType": "image",
+                        "height": 700,
+                        "width": 1050,
+                        "resolution":120,
+                        "thumbnailUrl": "https://ik.imagekit.io/your_imagekit_id/tr:n-ik_ml_thumbnail/testing-python-folder/file_name.jpg",
+                        "tags": [
+                            "abc",
+                            "def"
+                        ],
+                        "AITags": [
+                            {
+                                "name": "Computer",
+                                "confidence": 97.66,
+                                "source": "google-auto-tagging",
+                                "description":"automatically created tag"
+                            },
+                            {
+                                "name": "Personal computer",
+                                "confidence": 94.96,
+                                "source": "google-auto-tagging",
+                                "description":"automatically created tag"
+                            }
+                        ],
+                        "embeddedMetadata":{
+                            "XResolution":1,"YResolution":1,"DateCreated":"2023-06-21T11:49:39.850Z","DateTimeCreated":"2023-06-21T11:49:39.850Z","DPI":120
+                        },
+                        "isPrivateFile": true,
+                        "extensionStatus": {
+                            "remove-bg": "pending",
+                            "google-auto-tagging": "success",
+                            "image-enhancing":"pending"
+                        }
+                    }""",
+            headers=headers,
+        )
+        with open(self.sample_image,"rb") as img:
+            resp = self.client.upload(
+                file=img,
+                file_name="test.jpeg",
+                options=UploadFileRequestOptions(
+                    tags = ["test"],
+                    response_fields=["embedded_metadata"]
+                )
+        )
+        self.assertEqual(resp.embedded_metadata.dpi,120)
+        self.assertEqual(resp.resolution,120)
+        self.assertEqual(resp.ai_tags[0].name,"Computer")
+        self.assertEqual(resp.ai_tags[0].description,"automatically created tag")
+        self.assertEqual(resp.extension_status["image-enhancing"],"pending")
+
 
     def test_upload_fails_without_file_name(self) -> None:
         """Test upload raises error on missing required params"""
@@ -1111,6 +1183,47 @@ class TestDeleteFile(ClientTestCase):
             responses.calls[0].request.url,
         )
 
+    @responses.activate
+    def test_bulk_file_delete_succeeds_and_recieves_extra_non_breaking_changes_from_apii(self):
+        """Test bulk_delete  on authenticated request
+        this function tests if bulk_file_delete working properly
+        """
+
+        URL.API_BASE_URL = "http://test.com"
+        url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
+        headers = {"Content-Type": "application/json"}
+        headers.update(get_auth_headers_for_test())
+
+        responses.add(
+            responses.POST,
+            url,
+            body='{"successfullyDeletedFileIds": ["fake_123"],"nonDeletedFields":["fake_222"]}',
+            headers=headers,
+        )
+
+        resp = self.client.bulk_file_delete(self.bulk_delete_ids)
+
+        mock_response_metadata = {
+            "raw": {"successfullyDeletedFileIds": ["fake_123"],"nonDeletedFields":["fake_222"]},
+            "httpStatusCode": 200,
+            "headers": {
+                "Content-Type": "text/plain, application/json",
+                "Authorization": "Basic ZmFrZTEyMjo=",
+            },
+        }
+        self.assertEqual(
+            '{"fileIds": ["fake_123", "fake_222"]}', responses.calls[0].request.body
+        )
+        self.assertEqual(
+            camel_dict_to_snake_dict(mock_response_metadata),
+            resp.response_metadata.__dict__,
+        )
+        self.assertEqual(["fake_123"], resp.successfully_deleted_file_ids)
+        self.assertEqual(["fake_222"], resp.non_deleted_fields)
+        self.assertEqual(
+            "http://test.com/v1/files/batch/deleteByFileIds",
+            responses.calls[0].request.url,
+        )
     @responses.activate
     def test_bulk_file_delete_fails_with_404_exception(self) -> None:
         """Test bulk_file_delete raises 404 error"""
@@ -2747,3 +2860,108 @@ class TestRestoreFileVersion(ClientTestCase):
             "http://test.com/v1/files/fax_abx1223/versions/fake_123_version_id/restore",
             responses.calls[0].request.url,
         )
+
+    @responses.activate()
+    def test_get_metadata_with_non_breaking_changes_in_response(self):
+        URL.API_BASE_URL = "http://test.com"
+        url = "{}/v1/files/{}/metadata".format(URL.API_BASE_URL, self.file_id)
+        headers = {"Content-Type": "application/json"}
+        headers.update(create_headers_for_test())
+        responses.add(
+            responses.GET,
+            url,
+            headers=headers,
+            body="""{
+                    "height": 176, 
+                    "width": 287, 
+                    "size": 15869, 
+                    "format": "jpg", 
+                    "hasColorProfile": false, 
+                    "quality": 0, 
+                    "density": 72, 
+                    "hasTransparency": false, 
+                    "exif":{
+                        "gps":{
+                            "GPSVersionId":"1.2",
+                            "latitude":1235.124151355,
+                            "longitude":12315.326236
+                        },
+                        "thumbnail":
+                        {
+                            "compression":12,
+                            "YResolution":1,
+                            "XResolution":1,
+                            "resolutionUnit":"DPI",
+                            "thumbnailOffset":12,
+                            "thumbnailLength":12,
+                            "overallResolution":1
+                        },
+                        "exif": {
+                            "exposureTime":10,
+                            "FNumber":1,
+                            "exposureProgram":null,
+                            "ISO":"2001",
+                            "exifVersion":1.2,
+                            "dateTimeOriginal":null,
+                            "createDate":null,
+                            "shutterSpeedValue":122,
+                            "apertureValue":12,
+                            "exposureCompensation":12,
+                            "meteringMode":null,
+                            "flash":"white",
+                            "focalLength":null,
+                            "subSecTime":null,
+                            "subSecTimeOriginal":null,
+                            "subSecTimeDigitized":null,
+                            "flashpixVersion":null,
+                            "colorSpace":null,
+                            "exifImageWidth":null,
+                            "exifImageHeight":null,
+                            "interopOffset":null,
+                            "focalPlaneXResolution":null,
+                            "focalPlaneYResolution":null,
+                            "focalPlaneResolutionUnit":null,
+                            "customRendered":null,
+                            "exposureMode":null,
+                            "whiteBalance":null,
+                            "sceneCaptureType":null,
+                            "cameraModel":"Canon"
+                        }, 
+                        "image":{
+                            "make":null,
+                            "model":null,
+                            "orientation":null,
+                            "XResolution":null,
+                            "YResolution":null,
+                            "resolutionUnit":null,
+                            "software":null,
+                            "modifyDate":null,
+                            "YCbCrPositioning":null,
+                            "exifOffset":null,
+                            "gpsInfo":"navic",
+                            "cropped":true
+                        },
+                        "interoperability":{
+                            "interopVersion":1.1,
+                            "interopIndex":1.2,
+                            "interopRandom":132
+                        }
+                    }
+                }
+                """,
+        
+        )
+
+        metadataExif = self.client.get_metadata(self.file_id)
+
+        self.assertEqual(metadataExif.exif.interoperability.interop_index,1.2)
+        self.assertEqual(metadataExif.exif.interoperability.interop_random,132)
+        self.assertEqual(metadataExif.exif.image.gps_info,"navic")
+        self.assertEqual(metadataExif.exif.image.cropped,True)
+        self.assertEqual(metadataExif.exif.gps.gps_version_id,["1",".","2"])
+        self.assertEqual(metadataExif.exif.gps.longitude,12315.326236)
+        self.assertEqual(metadataExif.exif.exif.exposure_time,10)
+        self.assertEqual(metadataExif.exif.exif.camera_model,"Canon")
+        self.assertEqual(metadataExif.exif.thumbnail.x_resolution,1)
+        self.assertEqual(metadataExif.exif.thumbnail.overall_resolution,1)
+        

@@ -5,6 +5,7 @@ from .MetadataExifThumbnail import MetadataExifThumbnail
 from .MetadataExif import MetadataExif
 from .MetadataExifImage import MetadataExifImage
 from .ResponseMetadata import ResponseMetadata
+from ...utils.utils import camel_dict_to_snake_dict
 
 
 class GetMetadataResult:
@@ -20,6 +21,7 @@ class GetMetadataResult:
         has_transparency=None,
         p_hash=None,
         exif: dict = {},
+        **kwargs
     ):
         self.height = height
         self.width = width
@@ -31,14 +33,14 @@ class GetMetadataResult:
         self.has_transparency = has_transparency
         self.p_hash = p_hash
         self.exif: MetadataExif = MetadataExif(
-            exif["image"] if "image" in exif else None,
-            exif["thumbnail"] if "thumbnail" in exif else None,
-            exif["exif"] if "exif" in exif else None,
-            exif["gps"] if "gps" in exif else None,
-            exif["interoperability"] if "interoperability" in exif else None,
-            exif["makernote"] if "makernote" in exif else None,
+            ** camel_dict_to_snake_dict(exif)
         )
         self.__response_metadata: ResponseMetadata = ResponseMetadata("", "", "")
+
+        for key in kwargs.keys():
+                self.__setattr__(key,kwargs[key])
+    def __getattr__(self,key):
+        return None
 
     @property
     def response_metadata(self):

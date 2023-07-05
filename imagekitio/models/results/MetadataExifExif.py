@@ -29,6 +29,7 @@ class MetadataExifExif:
         exposure_mode=None,
         white_balance=None,
         scene_capture_type=None,
+        **kwargs
     ):
         self.exposure_time = exposure_time
         self.f_number = f_number
@@ -58,3 +59,7 @@ class MetadataExifExif:
         self.exposure_mode = exposure_mode
         self.white_balance = white_balance
         self.scene_capture_type = scene_capture_type
+        for key in kwargs.keys():
+                self.__setattr__(key,kwargs[key])
+    def __getattr__(self,key):
+        return None

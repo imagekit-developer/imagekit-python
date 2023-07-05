@@ -1,5 +1,5 @@
 from .CustomMetadataSchema import CustomMetadataSchema
-
+from ...utils.utils import camel_dict_to_snake_dict
 
 class CustomMetadataFieldsResult:
     def __init__(
@@ -8,17 +8,16 @@ class CustomMetadataFieldsResult:
         name=None,
         label=None,
         schema: dict = {},
+        **kwargs
     ):
         self.id = id
         self.name = name
         self.label = label
         self.schema = CustomMetadataSchema(
-            schema["type"],
-            schema["selectOptions"] if "selectOptions" in schema else None,
-            schema["defaultValue"] if "defaultValue" in schema else None,
-            schema["isValueRequired"] if "isValueRequired" in schema else None,
-            schema["minValue"] if "minValue" in schema else None,
-            schema["maxValue"] if "maxValue" in schema else None,
-            schema["minLength"] if "minLength" in schema else None,
-            schema["maxValue"] if "maxValue" in schema else None,
+            **camel_dict_to_snake_dict(schema)
         )
+        for key in kwargs.keys():
+                self.__setattr__(key,kwargs[key])
+    def __getattr__(self,key):
+        return None
+
