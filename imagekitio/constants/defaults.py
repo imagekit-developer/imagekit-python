@@ -9,7 +9,7 @@ class Default(enum.Enum):
         QUERY_TRANSFORMATION_POSITION,
     ]
     DEFAULT_TIMESTAMP = 9999999999
-    SDK_VERSION = "python-3.0.2"
+    SDK_VERSION = "python-3.1.0"
     TRANSFORMATION_PARAMETER = "tr"
     CHAIN_TRANSFORM_DELIMITER = ":"
     TRANSFORM_DELIMITER = ","
