@@ -179,6 +179,17 @@ The SDK gives a name to each transformation parameter, making the code simpler, 
 If a transformation is supported in ImageKit, but a name for it cannot be found in the table below, then use the
 transformation code from ImageKit docs as the name when using the `url` function.
 
+If you want to generate transformations in your application and add them to the URL as it is, use the raw parameter.
+
+<br/>
+
+> #### Deprecation notice
+> The list below mentions the old overlay syntax parameters such as `oi`, `ot`, `obg`, and more. These parameters will be deprecated on 31st Oct 2023 and will start returning errors when used in URLs. Please migrate to the new Layers syntax that supports overlay nesting, provides better positional control, and allows more transformations at the layer level. You can start with [examples](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#examples) to learn quickly.
+> If you create overlay transformations using the JavaScript SDK, you can migrate to the new Layers syntax using the `raw` transformation parameter, as given in the example below.
+> `transformation : [{ "width" : 300, "height" : 300 },{ "raw": "l-image,i-logo.png,w-10,rt-90,l-end" }]`
+
+<br/>
+
 | Supported Transformation Name | Translates to parameter |
 | ----------------------------- | ----------------------- |
 | height |  h|
@@ -237,6 +248,7 @@ transformation code from ImageKit docs as the name when using the `url` function
 | effect_contrast |  e-contrast|
 | effect_gray |  e-grayscale|
 | original |  orig|
+| raw | replaced by the parameter value|
 
 ## File Upload
 
