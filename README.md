@@ -222,6 +222,28 @@ Sample Result URL -
 https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400/default-image.jpg?p1=123&p2=345&ik-t=1658899345&ik-s=8f03aca28432d4e87f697a48143efb4497bbed9e
 ```
 
+**4. Adding overlays to images**
+
+ImageKit.io allows you to add [text](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#add-text-over-image) and [image overlay](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#add-images-over-image) dynamically.
+
+For example:
+
+```python
+image_url = imagekit.url({
+    "path": "/default-image",
+    "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
+    "transformation": [{
+        "height": "300",
+        "width": "400",
+        "raw": "l-image,i-default-image.jpg,w-100,b-10_CDDC39,l-end"
+    }],
+})
+```
+**Sample Result URL**
+```
+https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-image,i-default-image.jpg,w-100,b-10_CDDC39,l-end/default-image.jpg
+```
+
 **List of transformations**
 
 The complete list of transformations supported and their usage in ImageKit is available [here](https://docs.imagekit.io/features/image-transformations/resize-crop-and-other-transformations).
