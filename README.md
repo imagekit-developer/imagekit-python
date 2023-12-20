@@ -222,9 +222,35 @@ Sample Result URL -
 https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400/default-image.jpg?p1=123&p2=345&ik-t=1658899345&ik-s=8f03aca28432d4e87f697a48143efb4497bbed9e
 ```
 
-**4. Adding overlays to images**
+**4. Adding overlays**
 
-ImageKit.io allows you to add [text](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#add-text-over-image) and [image overlay](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#add-images-over-image) dynamically.
+ImageKit.io enables you to apply overlays to [images](https://docs.imagekit.io/features/image-transformations/overlay-using-layers) and [videos](https://docs.imagekit.io/features/video-transformation/overlay) using the raw parameter with the concept of [layers](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#layers). The raw parameter facilitates incorporating transformations directly in the URL. A layer is a distinct type of transformation that allows you to define an asset to serve as an overlay, along with its positioning and additional transformations.
+
+### Text as overlays
+
+You can add any text string over a base video or image using a text layer (l-text).
+
+For example:
+
+```python
+image_url = imagekit.url({
+    "path": "/default-image",
+    "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
+    "transformation": [{
+        "height": "300",
+        "width": "400",
+        "raw": "l-text,i-Imagekit,fs-50,l-end"
+    }],
+})
+```
+**Sample Result URL**
+```
+https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-text,i-Imagekit,fs-50,l-end/default-image.jpg
+```
+
+### Image as overlays
+
+You can add an image over a base video or image using an image layer (l-image).
 
 For example:
 
@@ -242,6 +268,28 @@ image_url = imagekit.url({
 **Sample Result URL**
 ```
 https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-image,i-default-image.jpg,w-100,b-10_CDDC39,l-end/default-image.jpg
+```
+
+### Solid color blocks as overlays
+
+You can add solid color blocks over a base video or image using an image layer (l-image).
+
+For example:
+
+```python
+image_url = imagekit.url({
+    "path": "/default-image",
+    "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
+    "transformation": [{
+        "height": "300",
+        "width": "400",
+        "raw": "l-image,i-ik_canvas,bg-FF0000,w-300,h-100,l-end"
+    }],
+})
+```
+**Sample Result URL**
+```
+https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-image,i-ik_canvas,bg-FF0000,w-300,h-100,l-end/default-image.jpg
 ```
 
 **List of transformations**
