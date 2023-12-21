@@ -247,6 +247,7 @@ image_url = imagekit.url({
 ```
 https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-text,i-Imagekit,fs-50,l-end/default-image.jpg
 ```
+
 **Image as overlays**
 
 You can add an image over a base video or image using an image layer (l-image).
@@ -277,7 +278,7 @@ For example:
 
 ```python
 image_url = imagekit.url({
-    "path": "/default-image",
+    "path": "/img/sample-video",
     "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
     "transformation": [{
         "height": "300",
@@ -288,7 +289,7 @@ image_url = imagekit.url({
 ```
 **Sample Result URL**
 ```
-https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-image,i-ik_canvas,bg-FF0000,w-300,h-100,l-end/default-image.jpg
+https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-image,i-ik_canvas,bg-FF0000,w-300,h-100,l-end/img/sample-video.mp4
 ```
 
 **List of transformations**
