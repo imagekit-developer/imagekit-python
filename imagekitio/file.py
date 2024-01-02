@@ -88,23 +88,35 @@ class File(object):
             "file": file,
             "fileName": file_name,
         }
+
+        
         if not options:
             options = dict()
         else:
             options = self.validate_upload(options.__dict__)
         if options is False:
             raise ValueError("Invalid upload options")
-        if isinstance(file,BufferedReader):
-            files.update({"file": (file_name,file,None)})
-        elif isinstance(file, str) or isinstance(file, bytes):
+
+        # Assuming file is a file path if it's a string
+        if isinstance(file, str):
+            file = open(file, 'rb')
+            files.update({"file": (file_name, file)})
+        elif isinstance(file, BufferedReader):
+            files.update({"file": (file_name, file, None)})
+        elif isinstance(file, bytes):
             files.update({"file": (None, file)})
+
         if "overwriteAiTags" in options:
             options["overwriteAITags"] = options["overwriteAiTags"]
             del options["overwriteAiTags"]
+
         all_fields = {**files, **options}
-        multipart_data = MultipartEncoder(
-            fields=all_fields, boundary="--randomBoundary---------------------"
-        )
+        multipart_data = MultipartEncoder(fields=all_fields)
+
+        # Remember to close the file if you opened it
+        if isinstance(file, str):
+            file.close()
+            
         headers.update({"Content-Type": multipart_data.content_type})
         resp = self.request.request(
             "Post", url=url, data=multipart_data.read(), headers=headers
