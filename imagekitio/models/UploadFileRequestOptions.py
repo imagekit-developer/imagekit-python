@@ -18,6 +18,7 @@ class UploadFileRequestOptions:
         overwrite_tags: bool = None,
         overwrite_custom_metadata: bool = None,
         custom_metadata: json = None,
+        transformation: json = None,
     ):
         if use_unique_file_name is not None:
             self.use_unique_file_name = use_unique_file_name
@@ -45,3 +46,5 @@ class UploadFileRequestOptions:
             self.overwrite_custom_metadata = overwrite_custom_metadata
         if custom_metadata is not None:
             self.custom_metadata = custom_metadata
+        if transformation is not None:
+            self.transformation = transformation
