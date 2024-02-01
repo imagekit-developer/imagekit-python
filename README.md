@@ -411,7 +411,7 @@ options = UploadFileRequestOptions(
     overwrite_tags=False,
     overwrite_custom_metadata=True,
     custom_metadata={'testss': 12},
-    transformation={ 'pre': 'l-text,i-Imagekit,fs-50,l-end', 'post': [{'type': 'transformation', 'value': 'w-100'}]}
+    transformation={'pre': 'l-text,i-Imagekit,fs-50,l-end', 'post': [{'type': 'transformation', 'value': 'w-100'}]}
 )
 
 result = imagekit.upload_file(file='<url|base_64|binary>', # required
