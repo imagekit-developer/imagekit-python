@@ -359,6 +359,8 @@ If you want to generate transformations in your application and add them to the 
 | effect_usm                    | e-usm                           |
 | effect_contrast               | e-contrast                      |
 | effect_gray                   | e-grayscale                     |
+| effect_shadow                 | e-shadow                        |
+| effect_gradient               | e-gradient                      |
 | original                      | orig                            |
 | raw                           | replaced by the parameter value |
 
