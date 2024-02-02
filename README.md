@@ -396,6 +396,16 @@ extensions = [
     }
 ]
 
+transformation = {
+    'pre': 'l-text,i-Imagekit,fs-50,l-end', 
+    'post': [
+        {
+            'type': 'transformation', 
+            'value': 'w-100'
+        }
+    ]
+}
+
 options = UploadFileRequestOptions(
     use_unique_file_name=False,
     tags=['abc', 'def'],
@@ -411,7 +421,7 @@ options = UploadFileRequestOptions(
     overwrite_tags=False,
     overwrite_custom_metadata=True,
     custom_metadata={'testss': 12},
-    transformation={'pre': 'l-text,i-Imagekit,fs-50,l-end', 'post': [{'type': 'transformation', 'value': 'w-100'}]}
+    transformation=transformation
 )
 
 result = imagekit.upload_file(file='<url|base_64|binary>', # required
