@@ -57,6 +57,14 @@ This document presents a list of changes that break the existing functionality o
 
 ### Breaking History:
 
+Changes from `3.2.0 -> 4.0.0` are listed below
+
+1. Overlay syntax update
+
+* In version 4.0.0, we've removed the old overlay syntax parameters for transformations, such as `oi`, `ot`, `obg`, and [more](https://docs.imagekit.io/features/image-transformations/overlay). These parameters are deprecated and will start returning errors when used in URLs. Please migrate to the new layers syntax that supports overlay nesting, provides better positional control, and allows more transformations at the layer level. You can start with [examples](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#examples) to learn quickly.
+* You can migrate to the new layers syntax using the `raw` transformation parameter.
+
+
 Changes from `2.2.8 -> 3.0.0` are listed below
 
 1. Throw an Error:
@@ -292,6 +300,29 @@ image_url = imagekit.url({
 https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-image,i-ik_canvas,bg-FF0000,w-300,h-100,l-end/img/sample-video.mp4
 ```
 
+**5. Arithmetic expressions in transformations**
+
+ImageKit allows use of [arithmetic expressions](https://docs.imagekit.io/features/arithmetic-expressions-in-transformations) in certain dimension and position-related parameters, making media transformations more flexible and dynamic.
+
+For example:
+
+```python
+image_url = imagekit.url({
+    "path": "/default-image.jpg",
+    "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
+    "transformation": [{
+        "height": "ih_div_2",
+        "width": "iw_div_4",
+        "border": "cw_mul_0.05_yellow"
+    }],
+})
+```
+
+**Sample Result URL**
+```
+https://ik.imagekit.io/your_imagekit_id/default-image.jpg?tr=w-iw_div_4,h-ih_div_2,b-cw_mul_0.05_yellow
+```
+
 **List of transformations**
 
 The complete list of transformations supported and their usage in ImageKit is available [here](https://docs.imagekit.io/features/image-transformations/resize-crop-and-other-transformations).
@@ -328,6 +359,8 @@ If you want to generate transformations in your application and add them to the 
 | effect_usm                    | e-usm                           |
 | effect_contrast               | e-contrast                      |
 | effect_gray                   | e-grayscale                     |
+| effect_shadow                 | e-shadow                        |
+| effect_gradient               | e-gradient                      |
 | original                      | orig                            |
 | raw                           | replaced by the parameter value |
 
@@ -363,6 +396,16 @@ extensions = [
     }
 ]
 
+transformation = {
+    'pre': 'l-text,i-Imagekit,fs-50,l-end', 
+    'post': [
+        {
+            'type': 'transformation', 
+            'value': 'w-100'
+        }
+    ]
+}
+
 options = UploadFileRequestOptions(
     use_unique_file_name=False,
     tags=['abc', 'def'],
@@ -378,6 +421,7 @@ options = UploadFileRequestOptions(
     overwrite_tags=False,
     overwrite_custom_metadata=True,
     custom_metadata={'testss': 12},
+    transformation=transformation
 )
 
 result = imagekit.upload_file(file='<url|base_64|binary>', # required

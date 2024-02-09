@@ -29,4 +29,5 @@ VALID_UPLOAD_OPTIONS = [
     "overwrite_custom_metadata",
     "custom_metadata",
     "embedded_metadata",
+    "transformation",
 ]
