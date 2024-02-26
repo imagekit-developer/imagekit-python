@@ -407,21 +407,21 @@ class TestGenerateURL(unittest.TestCase):
     def test_get_signature_with_100_expire_seconds(self):
         url = "https://test-domain.com/test-endpoint/tr:w-100/test-signed-url.png"
         signature = self.client.url_obj.get_signature(
-            self,"private_key_test", url, "https://test-domain.com/test-endpoint/", 100
+            "private_key_test", url, "https://test-domain.com/test-endpoint/", 100
         )
         self.assertEqual(signature, "5e5037a31a7121cbe2964e220b4338cc6e1ba66d")
 
     def test_get_signature_without_expire_seconds(self):
         url = "https://test-domain.com/test-endpoint/tr:w-100/test-signed-url.png"
         signature = self.client.url_obj.get_signature(
-           self, "private_key_test", url, "https://test-domain.com/test-endpoint/", 0
+           "private_key_test", url, "https://test-domain.com/test-endpoint/", 0
         )
         self.assertEqual(signature, "41b3075c40bc84147eb71b8b49ae7fbf349d0f00")
 
     def test_get_signature_without_expire_seconds_without_slash(self):
         url = "https://test-domain.com/test-endpoint/tr:w-100/test-signed-url.png"
         signature = self.client.url_obj.get_signature(
-            self,"private_key_test", url, "https://test-domain.com/test-endpoint", 0
+            "private_key_test", url, "https://test-domain.com/test-endpoint", 0
         )
         self.assertEqual(signature, "41b3075c40bc84147eb71b8b49ae7fbf349d0f00")
 
