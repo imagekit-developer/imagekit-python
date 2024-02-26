@@ -325,6 +325,20 @@ class TestGenerateURL(unittest.TestCase):
         }
         url = self.client.url(options)
         self.assertIn("ik-t", url)
+    
+    def test_url_signed_with_expire_in_seconds_with_diacritic(self):
+        options = {
+            "path": "/four-penguins-with-é.webp",
+            "transformation": [
+                {
+                    "width": "400",
+                },
+            ],
+            "signed": True,
+            "expire_seconds": 100,
+        }
+        url = self.client.url(options)
+        self.assertIn("ik-t", url)
 
     def test_generate_url_with_path_and_src_uses_path(self):
         """
