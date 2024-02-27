@@ -338,6 +338,7 @@ class TestGenerateURL(unittest.TestCase):
             "expire_seconds": 100,
         }
         url = self.client.url(options)
+        self.assertIn("ik-s", url)
         self.assertIn("ik-t", url)
 
     def test_generate_url_with_path_and_src_uses_path(self):
