@@ -3,7 +3,7 @@ import hmac
 import sys
 from datetime import datetime as dt
 from typing import Any, Dict, List
-from urllib.parse import ParseResult, urlparse, urlunparse, parse_qsl, urlencode, quote
+from urllib.parse import ParseResult, urlparse, urlunparse, parse_qsl, urlencode, quote, unquote
 
 from .constants.defaults import Default
 from .constants.supported_transform import SUPPORTED_TRANS
@@ -130,13 +130,7 @@ class Url:
 
     @staticmethod
     def get_signature(private_key, url, url_endpoint, expiry_timestamp: int) -> str:
-        last_slash_pos = url.rfind('/')
-        question_mark_pos = url.find('?', last_slash_pos)
-        path = url[last_slash_pos + 1:question_mark_pos] if question_mark_pos != -1 else url[last_slash_pos + 1:]
-        encoded_path = Url.encode_string_if_required(path)
-        encoded_url = url[:last_slash_pos + 1] + encoded_path + url[question_mark_pos:] if question_mark_pos != -1 else url[:last_slash_pos + 1] + encoded_path
-        url = encoded_url
-        print(url)
+        url = Url.encode_string_if_required(url)
         """ "
         create signature(hashed hex key) from
         private_key, url, url_endpoint and expiry_timestamp
@@ -220,9 +214,18 @@ class Url:
         return Default.CHAIN_TRANSFORM_DELIMITER.value.join(parsed_transforms)
 
     @staticmethod
+    def custom_encodeURIComponent(url_str):
+        parsed_url = urlparse(url_str)
+        encoded_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+        encoded_url +=quote(parsed_url.path, safe='~@#$&()*!+=:;,?/\'')
+        if(parsed_url.query):
+            encoded_url = encoded_url+"?"+quote(unquote(parsed_url.query), safe='~@#$&()*!+=:;?/\'')
+        return encoded_url
+
+    @staticmethod
     def has_more_than_ascii(s):
         return any(ord(char) > 127 for char in s)
         
     @staticmethod
     def encode_string_if_required(s):
-        return quote(s) if Url.has_more_than_ascii(s) else s
+        return Url.custom_encodeURIComponent(s) if Url.has_more_than_ascii(s) else s
