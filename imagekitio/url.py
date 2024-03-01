@@ -130,7 +130,6 @@ class Url:
 
     @staticmethod
     def get_signature(private_key, url, url_endpoint, expiry_timestamp: int) -> str:
-        url = Url.encode_string_if_required(url)
         """ "
         create signature(hashed hex key) from
         private_key, url, url_endpoint and expiry_timestamp
@@ -143,7 +142,7 @@ class Url:
             expiry_timestamp = Default.DEFAULT_TIMESTAMP.value
 
         replaced_url = url.replace(url_endpoint, "") + str(expiry_timestamp)
-
+        replaced_url = Url.encode_string_if_required(replaced_url)
         signature = hmac.new(
             key=private_key.encode(), msg=replaced_url.encode(), digestmod=hashlib.sha1
         )
@@ -214,12 +213,14 @@ class Url:
         return Default.CHAIN_TRANSFORM_DELIMITER.value.join(parsed_transforms)
 
     @staticmethod
-    def custom_encodeURIComponent(url_str):
-        parsed_url = urlparse(url_str)
-        encoded_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
-        encoded_url +=quote(parsed_url.path, safe='~@#$&()*!+=:;,?/\'')
-        if(parsed_url.query):
-            encoded_url = encoded_url+"?"+quote(unquote(parsed_url.query), safe='~@#$&()*!+=:;?/\'')
+    def encodeURI(url_str):
+        # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI
+        if "?" in url_str:
+            # here, we have applied the quote(unquote(url)) function to handle the query string.
+            # This function ensures that characters in the query are properly encoded. While some characters are already encoded, others require encoding for correct processing.
+            encoded_url = quote(url_str.split('?')[0], safe='~@#$&()*!+=:;,?/\'')+"?"+quote(unquote(url_str.split('?')[1]), safe='~@#$&()*!+=:;?/\'')
+        else:
+            encoded_url = quote(url_str.split('?')[0], safe='~@#$&()*!+=:;,?/\'')
         return encoded_url
 
     @staticmethod
@@ -228,4 +229,4 @@ class Url:
         
     @staticmethod
     def encode_string_if_required(s):
-        return Url.custom_encodeURIComponent(s) if Url.has_more_than_ascii(s) else s
+        return Url.encodeURI(s) if Url.has_more_than_ascii(s) else s
