@@ -218,9 +218,9 @@ class Url:
         if "?" in url_str:
             # here, we have applied the quote(unquote(url)) function to handle the query string.
             # This function ensures that characters in the query are properly encoded. While some characters are already encoded, others require encoding for correct processing.
-            encoded_url = quote(url_str.split('?')[0], safe='~@#$&()*!+=:;,?/\'')+"?"+quote(unquote(url_str.split('?')[1]), safe='~@#$&()*!+=:;?/\'')
+            encoded_url = quote(url_str.split('?')[0], safe=Default.IGNORE_CHARACTERS.value)+"?"+quote(unquote(url_str.split('?')[1]), safe=Default.IGNORE_CHARACTERS_WITHOUT_COMMA.value)
         else:
-            encoded_url = quote(url_str.split('?')[0], safe='~@#$&()*!+=:;,?/\'')
+            encoded_url = quote(url_str, safe=Default.IGNORE_CHARACTERS.value)
         return encoded_url
 
     @staticmethod

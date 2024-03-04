@@ -16,3 +16,5 @@ class Default(enum.Enum):
     TRANSFORM_KEY_VALUE_DELIMITER = "-"
     SIGNATURE_PARAMETER = "ik-s"
     TIMESTAMP_PARAMETER = "ik-t"
+    IGNORE_CHARACTERS = '~@#$&()*!+=:;,?/\''
+    IGNORE_CHARACTERS_WITHOUT_COMMA = '~@#$&()*!+=:;?/\''
