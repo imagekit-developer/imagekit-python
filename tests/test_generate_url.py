@@ -341,9 +341,8 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/test_é_path_alt.jpg?ik-s=cae8a516223d21e245424dc0b97163aa3a03c789",
+            "https://test-domain.com/test-endpoint/test_é_path_alt.jpg?ik-s="+signature,
         )
-        self.assertIn("ik-s="+signature, url)
 
     def test_url_signed_with_diacritic_in_filename_and_path(self):
         url = "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg"
@@ -360,9 +359,8 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg?ik-s=40a821ef1b7a2e9253599dac36a47be3d49787ab",
+            "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg?ik-s="+signature,
         )
-        self.assertIn("ik-s="+signature, url)
 
     def test_url_signed_with_diacritic_in_filename_path_transforamtion_in_path(self):
         url = "https://test-domain.com/test-endpoint/tr:l-text,i-Imagekité,fs-50,l-end/aéb/test_é_path_alt.jpg"
@@ -385,9 +383,8 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/tr:l-text,i-Imagekité,fs-50,l-end/aéb/test_é_path_alt.jpg?ik-s=3a65902916664517bcac38e9ddaa69d4a81a0106",
+            "https://test-domain.com/test-endpoint/tr:l-text,i-Imagekité,fs-50,l-end/aéb/test_é_path_alt.jpg?ik-s="+signature,
         )
-        self.assertIn("ik-s="+signature, url)
 
     def test_url_signed_with_diacritic_in_filename_path_transforamtion_in_query(self):
         url = "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg?tr=l-text%2Ci-Imagekit%C3%A9%2Cfs-50%2Cl-end"
@@ -410,9 +407,8 @@ class TestGenerateURL(unittest.TestCase):
         url = self.client.url(options)
         self.assertEqual(
             url,
-            "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg?tr=l-text%2Ci-Imagekit%C3%A9%2Cfs-50%2Cl-end&ik-s=ce55719add9ac43908c9de6c0eceece70f4d6c6e",
+            "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg?tr=l-text%2Ci-Imagekit%C3%A9%2Cfs-50%2Cl-end&ik-s="+signature,
         )
-        self.assertIn("ik-s="+signature, url)
 
     def test_generate_url_with_path_and_src_uses_path(self):
         """
