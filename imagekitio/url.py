@@ -3,7 +3,7 @@ import hmac
 import sys
 from datetime import datetime as dt
 from typing import Any, Dict, List
-from urllib.parse import ParseResult, urlparse, urlunparse, parse_qsl, urlencode
+from urllib.parse import ParseResult, urlparse, urlunparse, parse_qsl, urlencode, quote, unquote
 
 from .constants.defaults import Default
 from .constants.supported_transform import SUPPORTED_TRANS
@@ -142,7 +142,7 @@ class Url:
             expiry_timestamp = Default.DEFAULT_TIMESTAMP.value
 
         replaced_url = url.replace(url_endpoint, "") + str(expiry_timestamp)
-
+        replaced_url = Url.encode_string_if_required(replaced_url)
         signature = hmac.new(
             key=private_key.encode(), msg=replaced_url.encode(), digestmod=hashlib.sha1
         )
@@ -211,3 +211,21 @@ class Url:
             )
 
         return Default.CHAIN_TRANSFORM_DELIMITER.value.join(parsed_transforms)
+
+    @staticmethod
+    def encodeURI(url_str):
+        # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI
+        if "?" in url_str:
+            # here we are not encoding query parameters as it is allready encoded
+            encoded_url = quote(url_str.split('?')[0], safe=Default.IGNORE_CHARACTERS.value)+"?"+url_str.split('?')[1]
+        else:
+            encoded_url = quote(url_str, safe=Default.IGNORE_CHARACTERS.value)
+        return encoded_url
+
+    @staticmethod
+    def has_more_than_ascii(s):
+        return any(ord(char) > 127 for char in s)
+        
+    @staticmethod
+    def encode_string_if_required(s):
+        return Url.encodeURI(s) if Url.has_more_than_ascii(s) else s
