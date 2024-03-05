@@ -390,7 +390,7 @@ class TestGenerateURL(unittest.TestCase):
         self.assertIn("ik-s="+signature, url)
 
     def test_url_signed_with_diacritic_in_filename_path_transforamtion_in_query(self):
-        url = "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg?tr=l-text%2Ci-Imagekité%2Cfs-50%2Cl-end"
+        url = "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg?tr=l-text%2Ci-Imagekit%C3%A9%2Cfs-50%2Cl-end"
         encodedUrl = Url.encode_string_if_required(url)
         self.assertEqual(
             encodedUrl,
