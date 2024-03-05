@@ -17,4 +17,3 @@ class Default(enum.Enum):
     SIGNATURE_PARAMETER = "ik-s"
     TIMESTAMP_PARAMETER = "ik-t"
     IGNORE_CHARACTERS = '~@#$&()*!+=:;,?/\''
-    IGNORE_CHARACTERS_WITHOUT_COMMA = '~@#$&()*!+=:;?/\''

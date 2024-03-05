@@ -216,9 +216,8 @@ class Url:
     def encodeURI(url_str):
         # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI
         if "?" in url_str:
-            # here, we have applied the quote(unquote(url)) function to handle the query string.
-            # This function ensures that characters in the query are properly encoded. While some characters are already encoded, others require encoding for correct processing.
-            encoded_url = quote(url_str.split('?')[0], safe=Default.IGNORE_CHARACTERS.value)+"?"+quote(unquote(url_str.split('?')[1]), safe=Default.IGNORE_CHARACTERS_WITHOUT_COMMA.value)
+            # here we are not encoding query parameters as it is allready encoded
+            encoded_url = quote(url_str.split('?')[0], safe=Default.IGNORE_CHARACTERS.value)+"?"+url_str.split('?')[1]
         else:
             encoded_url = quote(url_str, safe=Default.IGNORE_CHARACTERS.value)
         return encoded_url
