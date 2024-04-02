@@ -2,7 +2,7 @@ import unittest
 
 from imagekitio.client import ImageKit
 from imagekitio.constants.defaults import Default
-
+from imagekitio.url import Url
 
 class TestGenerateURL(unittest.TestCase):
     def setUp(self) -> None:
@@ -325,6 +325,90 @@ class TestGenerateURL(unittest.TestCase):
         }
         url = self.client.url(options)
         self.assertIn("ik-t", url)
+
+    def test_url_signed_with_diacritic_in_filename(self):
+        url = "https://test-domain.com/test-endpoint/test_é_path_alt.jpg"
+        encodedUrl = Url.encode_string_if_required(url)
+        self.assertEqual(
+            encodedUrl,
+            "https://test-domain.com/test-endpoint/test_%C3%A9_path_alt.jpg",
+        )
+        signature = Url.get_signature("private_key_test", url, "https://test-domain.com/test-endpoint", 9999999999)
+        options = {
+            "path": "/test_é_path_alt.jpg",
+            "signed": True,
+        }
+        url = self.client.url(options)
+        self.assertEqual(
+            url,
+            "https://test-domain.com/test-endpoint/test_é_path_alt.jpg?ik-s="+signature,
+        )
+
+    def test_url_signed_with_diacritic_in_filename_and_path(self):
+        url = "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg"
+        encodedUrl = Url.encode_string_if_required(url)
+        self.assertEqual(
+            encodedUrl,
+            "https://test-domain.com/test-endpoint/a%C3%A9b/test_%C3%A9_path_alt.jpg",
+        )
+        signature = Url.get_signature("private_key_test", url, "https://test-domain.com/test-endpoint", 9999999999)
+        options = {
+            "path": "/aéb/test_é_path_alt.jpg",
+            "signed": True,
+        }
+        url = self.client.url(options)
+        self.assertEqual(
+            url,
+            "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg?ik-s="+signature,
+        )
+
+    def test_url_signed_with_diacritic_in_filename_path_transforamtion_in_path(self):
+        url = "https://test-domain.com/test-endpoint/tr:l-text,i-Imagekité,fs-50,l-end/aéb/test_é_path_alt.jpg"
+        encodedUrl = Url.encode_string_if_required(url)
+        self.assertEqual(
+            encodedUrl,
+            "https://test-domain.com/test-endpoint/tr:l-text,i-Imagekit%C3%A9,fs-50,l-end/a%C3%A9b/test_%C3%A9_path_alt.jpg",
+        )
+        signature = Url.get_signature("private_key_test", url, "https://test-domain.com/test-endpoint", 9999999999)
+        options = {
+            "path": "/aéb/test_é_path_alt.jpg",
+            "transformation": [
+                {
+                    "raw": "l-text,i-Imagekité,fs-50,l-end"
+                },
+            ],
+            "signed": True,
+             "transformation_position": "path"
+        }
+        url = self.client.url(options)
+        self.assertEqual(
+            url,
+            "https://test-domain.com/test-endpoint/tr:l-text,i-Imagekité,fs-50,l-end/aéb/test_é_path_alt.jpg?ik-s="+signature,
+        )
+
+    def test_url_signed_with_diacritic_in_filename_path_transforamtion_in_query(self):
+        url = "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg?tr=l-text%2Ci-Imagekit%C3%A9%2Cfs-50%2Cl-end"
+        encodedUrl = Url.encode_string_if_required(url)
+        self.assertEqual(
+            encodedUrl,
+            "https://test-domain.com/test-endpoint/a%C3%A9b/test_%C3%A9_path_alt.jpg?tr=l-text%2Ci-Imagekit%C3%A9%2Cfs-50%2Cl-end",
+        )
+        signature = Url.get_signature("private_key_test", url, "https://test-domain.com/test-endpoint", 9999999999)
+        options = {
+            "path": "/aéb/test_é_path_alt.jpg",
+            "transformation": [
+                {
+                    "raw": "l-text,i-Imagekité,fs-50,l-end"
+                },
+            ],
+            "signed": True,
+             "transformation_position": "query"
+        }
+        url = self.client.url(options)
+        self.assertEqual(
+            url,
+            "https://test-domain.com/test-endpoint/aéb/test_é_path_alt.jpg?tr=l-text%2Ci-Imagekit%C3%A9%2Cfs-50%2Cl-end&ik-s="+signature,
+        )
 
     def test_generate_url_with_path_and_src_uses_path(self):
         """
