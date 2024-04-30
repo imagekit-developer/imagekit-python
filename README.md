@@ -459,6 +459,9 @@ in
 the [documentation here](https://docs.imagekit.io/api-reference/media-api/list-and-search-files#list-and-search-file-api)
 can be passed with the correct values to get the results.
 
+#### Applying Filters
+Filter out the files by specifying the parameters.
+
 ```Python
 from imagekitio.models.ListAndSearchFileRequestOptions import ListAndSearchFileRequestOptions
 
@@ -466,7 +469,6 @@ options = ListAndSearchFileRequestOptions(
     type='file',
     sort='ASC_CREATED',
     path='/',
-    search_query="created_at >= '2d' OR size < '2mb' OR format='png'",
     file_type='all',
     limit=5,
     skip=0,
@@ -484,6 +486,29 @@ print(result.response_metadata.raw)
 # print the first file's ID
 print(result.list[0].file_id)
 ```
+
+#### Advance Search
+In addition, you can fine-tune your query by specifying various filters by generating a query string in a Lucene-like syntax and providing this generated string as the value of the `search_query`.
+
+```Python
+from imagekitio.models.ListAndSearchFileRequestOptions import ListAndSearchFileRequestOptions
+
+options = ListAndSearchFileRequestOptions(
+    search_query="createdAt >= '2d' OR size < '2mb' OR format='png'",
+)
+
+result = imagekit.list_files(options=options)
+
+# Final Result
+print(result)
+
+# Raw Response
+print(result.response_metadata.raw)
+
+# print the first file's ID
+print(result.list[0].file_id)
+```
+Detailed documentation can be found here for [advance search queries](https://docs.imagekit.io/api-reference/media-api/list-and-search-files#advanced-search-queries).
 
 **2. Get File Details**
 
