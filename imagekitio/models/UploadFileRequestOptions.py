@@ -19,6 +19,7 @@ class UploadFileRequestOptions:
         overwrite_custom_metadata: bool = None,
         custom_metadata: json = None,
         transformation: json = None,
+        checks: str = None,
     ):
         if use_unique_file_name is not None:
             self.use_unique_file_name = use_unique_file_name
@@ -48,3 +49,5 @@ class UploadFileRequestOptions:
             self.custom_metadata = custom_metadata
         if transformation is not None:
             self.transformation = transformation
+        if checks is not None:
+            self.checks = checks
