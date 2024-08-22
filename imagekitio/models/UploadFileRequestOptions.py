@@ -49,5 +49,5 @@ class UploadFileRequestOptions:
             self.custom_metadata = custom_metadata
         if transformation is not None:
             self.transformation = transformation
-        if checks is not None:
+        if checks is not None and isinstance(checks, str):
             self.checks = checks
