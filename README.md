@@ -625,7 +625,7 @@ print(result.file_id)
 
 **Update publish status**
 
-If `UpdateFileRequestOptions` contains the `publish` property, all other properties will be ignored.
+If `publish` is included in the update options, no other parameters are allowed. If any are present, an error will be returned: `Your request cannot contain any other parameters when publish is present`.
 
 ```python
 from imagekitio.models.UpdateFileRequestOptions import UpdateFileRequestOptions
