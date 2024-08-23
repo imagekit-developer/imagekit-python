@@ -20,6 +20,7 @@ class UploadFileRequestOptions:
         custom_metadata: json = None,
         transformation: json = None,
         checks: str = None,
+        isPublished: bool = None,
     ):
         if use_unique_file_name is not None:
             self.use_unique_file_name = use_unique_file_name
@@ -51,3 +52,5 @@ class UploadFileRequestOptions:
             self.transformation = transformation
         if checks is not None:
             self.checks = checks
+        if isPublished is not None:
+            self.isPublished = isPublished

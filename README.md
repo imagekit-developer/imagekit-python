@@ -421,8 +421,9 @@ options = UploadFileRequestOptions(
     overwrite_tags=False,
     overwrite_custom_metadata=True,
     custom_metadata={'testss': 12},
-    transformation=transformation
-    checks="'request.folder' : '/testing-python-folder'" # To run server side checks before uploading files. Notice the quotes around request.folder and /testing-python-folder.
+    transformation=transformation,
+    checks="'request.folder' : '/testing-python-folder'", # To run server side checks before uploading files. Notice the quotes around request.folder and /testing-python-folder.
+    isPublished=True
 )
 
 result = imagekit.upload_file(file='<url|base_64|binary>', # required
@@ -607,6 +608,33 @@ options = UpdateFileRequestOptions(
     tags=['tag-1', 'tag-2'],
     custom_coordinates='10,10,100,100',
     custom_metadata={'test': 11},
+)
+
+result = imagekit.update_file_details(file_id='62cfd39819ca454d82a07182'
+        , options=options)  # required
+
+# Final Result
+print(result)
+
+# Raw Response
+print(result.response_metadata.raw)
+
+# print that file's id
+print(result.file_id)
+```
+
+**Update publish status**
+
+If `UpdateFileRequestOptions` contains the `publish` property, all other properties will be ignored.
+
+```python
+from imagekitio.models.UpdateFileRequestOptions import UpdateFileRequestOptions
+
+options = UpdateFileRequestOptions(
+    publish={
+        "isPublished": True,
+        "includeFileVersions": True
+    }
 )
 
 result = imagekit.update_file_details(file_id='62cfd39819ca454d82a07182'
