@@ -175,7 +175,7 @@ class TestUpload(ClientTestCase):
                 custom_metadata={"test100": 11},
                 transformation={"pre": "h-100", "post": [{"type": "transformation", "value": "w-100"}]},
                 checks="'request.folder' : '/testing-python-folder/'",
-                isPublished=True
+                is_published=True
             ),
         )
         mock_response_metadata = {

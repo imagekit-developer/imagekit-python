@@ -423,7 +423,7 @@ options = UploadFileRequestOptions(
     custom_metadata={'testss': 12},
     transformation=transformation,
     checks="'request.folder' : '/testing-python-folder'", # To run server side checks before uploading files. Notice the quotes around request.folder and /testing-python-folder.
-    isPublished=True
+    is_published=True
 )
 
 result = imagekit.upload_file(file='<url|base_64|binary>', # required
