@@ -15,16 +15,15 @@ class UpdateFileRequestOptions:
     ):
         if publish is not None:
             self.publish = publish
-        else:
-            if remove_ai_tags is not None:
-                self.remove_ai_tags = remove_ai_tags
-            if webhook_url is not None:
-                self.webhook_url = webhook_url
-            if extensions is not None:
-                self.extensions = extensions
-            if tags is not None:
-                self.tags = tags
-            if custom_coordinates is not None:
-                self.custom_coordinates = custom_coordinates
-            if custom_metadata is not None:
-                self.custom_metadata = custom_metadata
+        if remove_ai_tags is not None:
+            self.remove_ai_tags = remove_ai_tags
+        if webhook_url is not None:
+            self.webhook_url = webhook_url
+        if extensions is not None:
+            self.extensions = extensions
+        if tags is not None:
+            self.tags = tags
+        if custom_coordinates is not None:
+            self.custom_coordinates = custom_coordinates
+        if custom_metadata is not None:
+            self.custom_metadata = custom_metadata
