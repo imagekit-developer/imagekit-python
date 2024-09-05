@@ -421,7 +421,9 @@ options = UploadFileRequestOptions(
     overwrite_tags=False,
     overwrite_custom_metadata=True,
     custom_metadata={'testss': 12},
-    transformation=transformation
+    transformation=transformation,
+    checks="'request.folder' : '/testing-python-folder'", # To run server side checks before uploading files. Notice the quotes around request.folder and /testing-python-folder.
+    is_published=True
 )
 
 result = imagekit.upload_file(file='<url|base_64|binary>', # required
@@ -606,6 +608,33 @@ options = UpdateFileRequestOptions(
     tags=['tag-1', 'tag-2'],
     custom_coordinates='10,10,100,100',
     custom_metadata={'test': 11},
+)
+
+result = imagekit.update_file_details(file_id='62cfd39819ca454d82a07182'
+        , options=options)  # required
+
+# Final Result
+print(result)
+
+# Raw Response
+print(result.response_metadata.raw)
+
+# print that file's id
+print(result.file_id)
+```
+
+**Update publish status**
+
+If `publish` is included in the update options, no other parameters are allowed. If any are present, an error will be returned: `Your request cannot contain any other parameters when publish is present`.
+
+```python
+from imagekitio.models.UpdateFileRequestOptions import UpdateFileRequestOptions
+
+options = UpdateFileRequestOptions(
+    publish={
+        "isPublished": True,
+        "includeFileVersions": True
+    }
 )
 
 result = imagekit.update_file_details(file_id='62cfd39819ca454d82a07182'

@@ -11,7 +11,10 @@ class UpdateFileRequestOptions:
         tags: List[str] = None,
         custom_coordinates: str = None,
         custom_metadata: json = None,
+        publish: json = None,
     ):
+        if publish is not None:
+            self.publish = publish
         if remove_ai_tags is not None:
             self.remove_ai_tags = remove_ai_tags
         if webhook_url is not None:

@@ -30,4 +30,6 @@ VALID_UPLOAD_OPTIONS = [
     "custom_metadata",
     "embedded_metadata",
     "transformation",
+    "checks",
+    "is_published",
 ]
