@@ -23,6 +23,11 @@ Types:
 
 ```python
 from imagekit.types import (
+    ExifDetails,
+    ExifImage,
+    Gps,
+    Interoperability,
+    Thumbnail,
     FileListResponse,
     FileAddTagsResponse,
     FileRemoveAITagsResponse,

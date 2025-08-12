@@ -2,9 +2,14 @@
 
 from __future__ import annotations
 
+from .gps import Gps as Gps
+from .thumbnail import Thumbnail as Thumbnail
+from .exif_image import ExifImage as ExifImage
+from .exif_details import ExifDetails as ExifDetails
 from .file_copy_params import FileCopyParams as FileCopyParams
 from .file_list_params import FileListParams as FileListParams
 from .file_move_params import FileMoveParams as FileMoveParams
+from .interoperability import Interoperability as Interoperability
 from .file_list_response import FileListResponse as FileListResponse
 from .file_rename_params import FileRenameParams as FileRenameParams
 from .file_add_tags_params import FileAddTagsParams as FileAddTagsParams
