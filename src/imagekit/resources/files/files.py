@@ -44,6 +44,8 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.file_get_response import FileGetResponse
+from ...types.file_copy_response import FileCopyResponse
+from ...types.file_move_response import FileMoveResponse
 from ...types.file_rename_response import FileRenameResponse
 from ...types.file_update_response import FileUpdateResponse
 from ...types.file_upload_response import FileUploadResponse
@@ -89,7 +91,7 @@ class FilesResource(SyncAPIResource):
         file_id: str,
         *,
         custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
-        custom_metadata: object | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
         extensions: Iterable[file_update_params.UpdateFileDetailsExtension] | NotGiven = NOT_GIVEN,
         remove_ai_tags: Union[List[str], Literal["all"]] | NotGiven = NOT_GIVEN,
@@ -183,7 +185,7 @@ class FilesResource(SyncAPIResource):
         file_id: str,
         *,
         custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
-        custom_metadata: object | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
         extensions: Iterable[file_update_params.UpdateFileDetailsExtension] | NotGiven = NOT_GIVEN,
         remove_ai_tags: Union[List[str], Literal["all"]] | NotGiven = NOT_GIVEN,
@@ -270,7 +272,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> FileCopyResponse:
         """
         This will copy a file from one folder to another.
 
@@ -308,7 +310,7 @@ class FilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileCopyResponse,
         )
 
     def get(
@@ -356,7 +358,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> FileMoveResponse:
         """
         This will move a file and all its versions from one folder to another.
 
@@ -388,7 +390,7 @@ class FilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileMoveResponse,
         )
 
     def rename(
@@ -760,7 +762,7 @@ class AsyncFilesResource(AsyncAPIResource):
         file_id: str,
         *,
         custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
-        custom_metadata: object | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
         extensions: Iterable[file_update_params.UpdateFileDetailsExtension] | NotGiven = NOT_GIVEN,
         remove_ai_tags: Union[List[str], Literal["all"]] | NotGiven = NOT_GIVEN,
@@ -854,7 +856,7 @@ class AsyncFilesResource(AsyncAPIResource):
         file_id: str,
         *,
         custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
-        custom_metadata: object | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
         extensions: Iterable[file_update_params.UpdateFileDetailsExtension] | NotGiven = NOT_GIVEN,
         remove_ai_tags: Union[List[str], Literal["all"]] | NotGiven = NOT_GIVEN,
@@ -941,7 +943,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> FileCopyResponse:
         """
         This will copy a file from one folder to another.
 
@@ -979,7 +981,7 @@ class AsyncFilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileCopyResponse,
         )
 
     async def get(
@@ -1027,7 +1029,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> FileMoveResponse:
         """
         This will move a file and all its versions from one folder to another.
 
@@ -1059,7 +1061,7 @@ class AsyncFilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileMoveResponse,
         )
 
     async def rename(

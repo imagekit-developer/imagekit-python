@@ -22,6 +22,7 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.custom_metadata_field_list_response import CustomMetadataFieldListResponse
 from ..types.custom_metadata_field_create_response import CustomMetadataFieldCreateResponse
+from ..types.custom_metadata_field_delete_response import CustomMetadataFieldDeleteResponse
 from ..types.custom_metadata_field_update_response import CustomMetadataFieldUpdateResponse
 
 __all__ = ["CustomMetadataFieldsResource", "AsyncCustomMetadataFieldsResource"]
@@ -205,7 +206,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> CustomMetadataFieldDeleteResponse:
         """This API deletes a custom metadata field.
 
         Even after deleting a custom metadata
@@ -227,7 +228,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=CustomMetadataFieldDeleteResponse,
         )
 
 
@@ -409,7 +410,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> CustomMetadataFieldDeleteResponse:
         """This API deletes a custom metadata field.
 
         Even after deleting a custom metadata
@@ -431,7 +432,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=CustomMetadataFieldDeleteResponse,
         )
 
 

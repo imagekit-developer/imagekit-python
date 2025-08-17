@@ -32,6 +32,8 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.folder_copy_response import FolderCopyResponse
 from ...types.folder_move_response import FolderMoveResponse
+from ...types.folder_create_response import FolderCreateResponse
+from ...types.folder_delete_response import FolderDeleteResponse
 from ...types.folder_rename_response import FolderRenameResponse
 
 __all__ = ["FoldersResource", "AsyncFoldersResource"]
@@ -72,7 +74,7 @@ class FoldersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> FolderCreateResponse:
         """This will create a new folder.
 
         You can specify the folder name and location of
@@ -113,7 +115,7 @@ class FoldersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FolderCreateResponse,
         )
 
     def delete(
@@ -126,7 +128,7 @@ class FoldersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> FolderDeleteResponse:
         """This will delete a folder and all its contents permanently.
 
         The API returns an
@@ -149,7 +151,7 @@ class FoldersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FolderDeleteResponse,
         )
 
     def copy(
@@ -359,7 +361,7 @@ class AsyncFoldersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> FolderCreateResponse:
         """This will create a new folder.
 
         You can specify the folder name and location of
@@ -400,7 +402,7 @@ class AsyncFoldersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FolderCreateResponse,
         )
 
     async def delete(
@@ -413,7 +415,7 @@ class AsyncFoldersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> FolderDeleteResponse:
         """This will delete a folder and all its contents permanently.
 
         The API returns an
@@ -436,7 +438,7 @@ class AsyncFoldersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FolderDeleteResponse,
         )
 
     async def copy(

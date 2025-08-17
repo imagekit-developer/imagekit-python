@@ -10,6 +10,7 @@ from .metadata_get_response import MetadataGetResponse as MetadataGetResponse
 from .version_list_response import VersionListResponse as VersionListResponse
 from .bulk_add_tags_response import BulkAddTagsResponse as BulkAddTagsResponse
 from .bulk_remove_tags_params import BulkRemoveTagsParams as BulkRemoveTagsParams
+from .version_delete_response import VersionDeleteResponse as VersionDeleteResponse
 from .version_restore_response import VersionRestoreResponse as VersionRestoreResponse
 from .bulk_remove_tags_response import BulkRemoveTagsResponse as BulkRemoveTagsResponse
 from .bulk_remove_ai_tags_params import BulkRemoveAITagsParams as BulkRemoveAITagsParams

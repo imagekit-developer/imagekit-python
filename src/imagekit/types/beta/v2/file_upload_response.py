@@ -130,7 +130,7 @@ class FileUploadResponse(BaseModel):
     this field.
     """
 
-    custom_metadata: Optional[object] = FieldInfo(alias="customMetadata", default=None)
+    custom_metadata: Optional[Dict[str, object]] = FieldInfo(alias="customMetadata", default=None)
     """A key-value data associated with the asset.
 
     Use `responseField` in API request to get `customMetadata` in the upload API

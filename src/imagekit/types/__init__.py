@@ -8,11 +8,16 @@ from .shared import (
     Thumbnail as Thumbnail,
     ExifDetails as ExifDetails,
     Interoperability as Interoperability,
+    AutoTaggingExtension as AutoTaggingExtension,
+    RemovedotBgExtension as RemovedotBgExtension,
+    AutoDescriptionExtension as AutoDescriptionExtension,
 )
 from .file_copy_params import FileCopyParams as FileCopyParams
 from .file_move_params import FileMoveParams as FileMoveParams
 from .asset_list_params import AssetListParams as AssetListParams
 from .file_get_response import FileGetResponse as FileGetResponse
+from .file_copy_response import FileCopyResponse as FileCopyResponse
+from .file_move_response import FileMoveResponse as FileMoveResponse
 from .file_rename_params import FileRenameParams as FileRenameParams
 from .file_update_params import FileUpdateParams as FileUpdateParams
 from .file_upload_params import FileUploadParams as FileUploadParams
@@ -27,6 +32,8 @@ from .folder_create_params import FolderCreateParams as FolderCreateParams
 from .folder_delete_params import FolderDeleteParams as FolderDeleteParams
 from .folder_move_response import FolderMoveResponse as FolderMoveResponse
 from .folder_rename_params import FolderRenameParams as FolderRenameParams
+from .folder_create_response import FolderCreateResponse as FolderCreateResponse
+from .folder_delete_response import FolderDeleteResponse as FolderDeleteResponse
 from .folder_rename_response import FolderRenameResponse as FolderRenameResponse
 from .custom_metadata_field_list_params import CustomMetadataFieldListParams as CustomMetadataFieldListParams
 from .custom_metadata_field_create_params import CustomMetadataFieldCreateParams as CustomMetadataFieldCreateParams
@@ -34,6 +41,9 @@ from .custom_metadata_field_list_response import CustomMetadataFieldListResponse
 from .custom_metadata_field_update_params import CustomMetadataFieldUpdateParams as CustomMetadataFieldUpdateParams
 from .custom_metadata_field_create_response import (
     CustomMetadataFieldCreateResponse as CustomMetadataFieldCreateResponse,
+)
+from .custom_metadata_field_delete_response import (
+    CustomMetadataFieldDeleteResponse as CustomMetadataFieldDeleteResponse,
 )
 from .custom_metadata_field_update_response import (
     CustomMetadataFieldUpdateResponse as CustomMetadataFieldUpdateResponse,

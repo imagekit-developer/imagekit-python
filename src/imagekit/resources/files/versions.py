@@ -16,6 +16,7 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.files.version_get_response import VersionGetResponse
 from ...types.files.version_list_response import VersionListResponse
+from ...types.files.version_delete_response import VersionDeleteResponse
 from ...types.files.version_restore_response import VersionRestoreResponse
 
 __all__ = ["VersionsResource", "AsyncVersionsResource"]
@@ -85,7 +86,7 @@ class VersionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> VersionDeleteResponse:
         """This API deletes a non-current file version permanently.
 
         The API returns an
@@ -111,7 +112,7 @@ class VersionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=VersionDeleteResponse,
         )
 
     def get(
@@ -251,7 +252,7 @@ class AsyncVersionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> VersionDeleteResponse:
         """This API deletes a non-current file version permanently.
 
         The API returns an
@@ -277,7 +278,7 @@ class AsyncVersionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=VersionDeleteResponse,
         )
 
     async def get(

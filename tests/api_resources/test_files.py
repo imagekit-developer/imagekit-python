@@ -11,6 +11,8 @@ from imagekit import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
 from imagekit.types import (
     FileGetResponse,
+    FileCopyResponse,
+    FileMoveResponse,
     FileRenameResponse,
     FileUpdateResponse,
     FileUploadResponse,
@@ -36,7 +38,7 @@ class TestFiles:
         file = client.files.update(
             file_id="fileId",
             custom_coordinates="customCoordinates",
-            custom_metadata={},
+            custom_metadata={"foo": "bar"},
             description="description",
             extensions=[
                 {
@@ -192,7 +194,7 @@ class TestFiles:
             destination_path="/folder/to/copy/into/",
             source_file_path="/path/to/file.jpg",
         )
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileCopyResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -202,7 +204,7 @@ class TestFiles:
             source_file_path="/path/to/file.jpg",
             include_file_versions=False,
         )
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileCopyResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -215,7 +217,7 @@ class TestFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileCopyResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -228,7 +230,7 @@ class TestFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(object, file, path=["response"])
+            assert_matches_type(FileCopyResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -281,7 +283,7 @@ class TestFiles:
             destination_path="/folder/to/move/into/",
             source_file_path="/path/to/file.jpg",
         )
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileMoveResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -294,7 +296,7 @@ class TestFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileMoveResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -307,7 +309,7 @@ class TestFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(object, file, path=["response"])
+            assert_matches_type(FileMoveResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -476,7 +478,7 @@ class TestAsyncFiles:
         file = await async_client.files.update(
             file_id="fileId",
             custom_coordinates="customCoordinates",
-            custom_metadata={},
+            custom_metadata={"foo": "bar"},
             description="description",
             extensions=[
                 {
@@ -632,7 +634,7 @@ class TestAsyncFiles:
             destination_path="/folder/to/copy/into/",
             source_file_path="/path/to/file.jpg",
         )
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileCopyResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -642,7 +644,7 @@ class TestAsyncFiles:
             source_file_path="/path/to/file.jpg",
             include_file_versions=False,
         )
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileCopyResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -655,7 +657,7 @@ class TestAsyncFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileCopyResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -668,7 +670,7 @@ class TestAsyncFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(object, file, path=["response"])
+            assert_matches_type(FileCopyResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -721,7 +723,7 @@ class TestAsyncFiles:
             destination_path="/folder/to/move/into/",
             source_file_path="/path/to/file.jpg",
         )
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileMoveResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -734,7 +736,7 @@ class TestAsyncFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileMoveResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -747,7 +749,7 @@ class TestAsyncFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(object, file, path=["response"])
+            assert_matches_type(FileMoveResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

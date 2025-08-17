@@ -12,6 +12,8 @@ from tests.utils import assert_matches_type
 from imagekit.types import (
     FolderCopyResponse,
     FolderMoveResponse,
+    FolderCreateResponse,
+    FolderDeleteResponse,
     FolderRenameResponse,
 )
 
@@ -28,7 +30,7 @@ class TestFolders:
             folder_name="summer",
             parent_folder_path="/product/images/",
         )
-        assert_matches_type(object, folder, path=["response"])
+        assert_matches_type(FolderCreateResponse, folder, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -41,7 +43,7 @@ class TestFolders:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         folder = response.parse()
-        assert_matches_type(object, folder, path=["response"])
+        assert_matches_type(FolderCreateResponse, folder, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -54,7 +56,7 @@ class TestFolders:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             folder = response.parse()
-            assert_matches_type(object, folder, path=["response"])
+            assert_matches_type(FolderCreateResponse, folder, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -64,7 +66,7 @@ class TestFolders:
         folder = client.folders.delete(
             folder_path="/folder/to/delete/",
         )
-        assert_matches_type(object, folder, path=["response"])
+        assert_matches_type(FolderDeleteResponse, folder, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -76,7 +78,7 @@ class TestFolders:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         folder = response.parse()
-        assert_matches_type(object, folder, path=["response"])
+        assert_matches_type(FolderDeleteResponse, folder, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -88,7 +90,7 @@ class TestFolders:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             folder = response.parse()
-            assert_matches_type(object, folder, path=["response"])
+            assert_matches_type(FolderDeleteResponse, folder, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -236,7 +238,7 @@ class TestAsyncFolders:
             folder_name="summer",
             parent_folder_path="/product/images/",
         )
-        assert_matches_type(object, folder, path=["response"])
+        assert_matches_type(FolderCreateResponse, folder, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -249,7 +251,7 @@ class TestAsyncFolders:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         folder = await response.parse()
-        assert_matches_type(object, folder, path=["response"])
+        assert_matches_type(FolderCreateResponse, folder, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -262,7 +264,7 @@ class TestAsyncFolders:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             folder = await response.parse()
-            assert_matches_type(object, folder, path=["response"])
+            assert_matches_type(FolderCreateResponse, folder, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -272,7 +274,7 @@ class TestAsyncFolders:
         folder = await async_client.folders.delete(
             folder_path="/folder/to/delete/",
         )
-        assert_matches_type(object, folder, path=["response"])
+        assert_matches_type(FolderDeleteResponse, folder, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -284,7 +286,7 @@ class TestAsyncFolders:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         folder = await response.parse()
-        assert_matches_type(object, folder, path=["response"])
+        assert_matches_type(FolderDeleteResponse, folder, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -296,7 +298,7 @@ class TestAsyncFolders:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             folder = await response.parse()
-            assert_matches_type(object, folder, path=["response"])
+            assert_matches_type(FolderDeleteResponse, folder, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

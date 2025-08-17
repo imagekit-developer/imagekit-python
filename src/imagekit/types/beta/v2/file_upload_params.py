@@ -7,14 +7,13 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from ...._types import FileTypes
 from ...._utils import PropertyInfo
+from ...shared_params.auto_tagging_extension import AutoTaggingExtension
+from ...shared_params.removedot_bg_extension import RemovedotBgExtension
+from ...shared_params.auto_description_extension import AutoDescriptionExtension
 
 __all__ = [
     "FileUploadParams",
     "Extension",
-    "ExtensionRemovedotBgExtension",
-    "ExtensionRemovedotBgExtensionOptions",
-    "ExtensionAutoTaggingExtension",
-    "ExtensionAutoDescriptionExtension",
     "Transformation",
     "TransformationPost",
     "TransformationPostSimplePostTransformation",
@@ -198,61 +197,7 @@ class FileUploadParams(TypedDict, total=False):
     """
 
 
-class ExtensionRemovedotBgExtensionOptions(TypedDict, total=False):
-    add_shadow: bool
-    """Whether to add an artificial shadow to the result.
-
-    Default is false. Note: Adding shadows is currently only supported for car
-    photos.
-    """
-
-    bg_color: str
-    """
-    Specifies a solid color background using hex code (e.g., "81d4fa", "fff") or
-    color name (e.g., "green"). If this parameter is set, `bg_image_url` must be
-    empty.
-    """
-
-    bg_image_url: str
-    """Sets a background image from a URL.
-
-    If this parameter is set, `bg_color` must be empty.
-    """
-
-    semitransparency: bool
-    """Allows semi-transparent regions in the result.
-
-    Default is true. Note: Semitransparency is currently only supported for car
-    windows.
-    """
-
-
-class ExtensionRemovedotBgExtension(TypedDict, total=False):
-    name: Required[Literal["remove-bg"]]
-    """Specifies the background removal extension."""
-
-    options: ExtensionRemovedotBgExtensionOptions
-
-
-class ExtensionAutoTaggingExtension(TypedDict, total=False):
-    max_tags: Required[Annotated[int, PropertyInfo(alias="maxTags")]]
-    """Maximum number of tags to attach to the asset."""
-
-    min_confidence: Required[Annotated[int, PropertyInfo(alias="minConfidence")]]
-    """Minimum confidence level for tags to be considered valid."""
-
-    name: Required[Literal["google-auto-tagging", "aws-auto-tagging"]]
-    """Specifies the auto-tagging extension used."""
-
-
-class ExtensionAutoDescriptionExtension(TypedDict, total=False):
-    name: Required[Literal["ai-auto-description"]]
-    """Specifies the auto description extension."""
-
-
-Extension: TypeAlias = Union[
-    ExtensionRemovedotBgExtension, ExtensionAutoTaggingExtension, ExtensionAutoDescriptionExtension
-]
+Extension: TypeAlias = Union[RemovedotBgExtension, AutoTaggingExtension, AutoDescriptionExtension]
 
 
 class TransformationPostSimplePostTransformation(TypedDict, total=False):

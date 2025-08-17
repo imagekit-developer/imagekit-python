@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -61,7 +61,7 @@ class FileUpdateResponse(BaseModel):
     custom_coordinates: Optional[str] = FieldInfo(alias="customCoordinates", default=None)
     """An string with custom coordinates of the file."""
 
-    custom_metadata: Optional[object] = FieldInfo(alias="customMetadata", default=None)
+    custom_metadata: Optional[Dict[str, object]] = FieldInfo(alias="customMetadata", default=None)
     """An object with custom metadata for the file."""
 
     extension_status: Optional[ExtensionStatus] = FieldInfo(alias="extensionStatus", default=None)
