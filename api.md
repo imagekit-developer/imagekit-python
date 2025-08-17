@@ -1,3 +1,9 @@
+# Shared Types
+
+```python
+from imagekit.types import ExifDetails, ExifImage, Gps, Interoperability, Thumbnail
+```
+
 # CustomMetadataFields
 
 Types:

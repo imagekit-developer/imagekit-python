@@ -2,6 +2,13 @@
 
 from __future__ import annotations
 
+from .shared import (
+    Gps as Gps,
+    ExifImage as ExifImage,
+    Thumbnail as Thumbnail,
+    ExifDetails as ExifDetails,
+    Interoperability as Interoperability,
+)
 from .file_copy_params import FileCopyParams as FileCopyParams
 from .file_move_params import FileMoveParams as FileMoveParams
 from .asset_list_params import AssetListParams as AssetListParams
