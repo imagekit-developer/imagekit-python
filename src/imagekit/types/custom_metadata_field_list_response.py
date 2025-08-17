@@ -15,7 +15,7 @@ __all__ = [
 
 
 class CustomMetadataFieldListResponseItemSchema(BaseModel):
-    type: Literal["Text", "TextArea", "Number", "Date", "Boolean", "SingleSelect", "MultiSelect"]
+    type: Literal["Text", "Textarea", "Number", "Date", "Boolean", "SingleSelect", "MultiSelect"]
     """Type of the custom metadata field."""
 
     default_value: Union[str, float, bool, List[Union[str, float, bool]], None] = FieldInfo(

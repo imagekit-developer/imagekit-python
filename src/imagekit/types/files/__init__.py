@@ -2,17 +2,17 @@
 
 from __future__ import annotations
 
-from .batch_delete_params import BatchDeleteParams as BatchDeleteParams
-from .detail_update_params import DetailUpdateParams as DetailUpdateParams
-from .purge_execute_params import PurgeExecuteParams as PurgeExecuteParams
-from .batch_delete_response import BatchDeleteResponse as BatchDeleteResponse
-from .purge_status_response import PurgeStatusResponse as PurgeStatusResponse
+from .bulk_delete_params import BulkDeleteParams as BulkDeleteParams
+from .bulk_add_tags_params import BulkAddTagsParams as BulkAddTagsParams
+from .bulk_delete_response import BulkDeleteResponse as BulkDeleteResponse
+from .version_get_response import VersionGetResponse as VersionGetResponse
+from .metadata_get_response import MetadataGetResponse as MetadataGetResponse
 from .version_list_response import VersionListResponse as VersionListResponse
-from .detail_update_response import DetailUpdateResponse as DetailUpdateResponse
-from .purge_execute_response import PurgeExecuteResponse as PurgeExecuteResponse
-from .detail_retrieve_response import DetailRetrieveResponse as DetailRetrieveResponse
-from .metadata_from_url_params import MetadataFromURLParams as MetadataFromURLParams
+from .bulk_add_tags_response import BulkAddTagsResponse as BulkAddTagsResponse
+from .bulk_remove_tags_params import BulkRemoveTagsParams as BulkRemoveTagsParams
 from .version_restore_response import VersionRestoreResponse as VersionRestoreResponse
-from .version_retrieve_response import VersionRetrieveResponse as VersionRetrieveResponse
-from .metadata_from_url_response import MetadataFromURLResponse as MetadataFromURLResponse
-from .metadata_retrieve_response import MetadataRetrieveResponse as MetadataRetrieveResponse
+from .bulk_remove_tags_response import BulkRemoveTagsResponse as BulkRemoveTagsResponse
+from .bulk_remove_ai_tags_params import BulkRemoveAITagsParams as BulkRemoveAITagsParams
+from .bulk_remove_ai_tags_response import BulkRemoveAITagsResponse as BulkRemoveAITagsResponse
+from .metadata_get_from_url_params import MetadataGetFromURLParams as MetadataGetFromURLParams
+from .metadata_get_from_url_response import MetadataGetFromURLResponse as MetadataGetFromURLResponse

@@ -11,7 +11,4 @@ __all__ = ["CustomMetadataFieldListParams"]
 
 class CustomMetadataFieldListParams(TypedDict, total=False):
     include_deleted: Annotated[bool, PropertyInfo(alias="includeDeleted")]
-    """Set it to `true` to include deleted field objects in the API response.
-
-    Default value is `false`.
-    """
+    """Set it to `true` to include deleted field objects in the API response."""

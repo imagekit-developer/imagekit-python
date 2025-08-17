@@ -14,9 +14,9 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
+from ...types.files.version_get_response import VersionGetResponse
 from ...types.files.version_list_response import VersionListResponse
 from ...types.files.version_restore_response import VersionRestoreResponse
-from ...types.files.version_retrieve_response import VersionRetrieveResponse
 
 __all__ = ["VersionsResource", "AsyncVersionsResource"]
 
@@ -40,42 +40,6 @@ class VersionsResource(SyncAPIResource):
         For more information, see https://www.github.com/stainless-sdks/imagekit-python#with_streaming_response
         """
         return VersionsResourceWithStreamingResponse(self)
-
-    def retrieve(
-        self,
-        version_id: str,
-        *,
-        file_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VersionRetrieveResponse:
-        """
-        This API returns an object with details or attributes of a file version.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
-        if not version_id:
-            raise ValueError(f"Expected a non-empty value for `version_id` but received {version_id!r}")
-        return self._get(
-            f"/v1/files/{file_id}/versions/{version_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=VersionRetrieveResponse,
-        )
 
     def list(
         self,
@@ -150,6 +114,42 @@ class VersionsResource(SyncAPIResource):
             cast_to=object,
         )
 
+    def get(
+        self,
+        version_id: str,
+        *,
+        file_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> VersionGetResponse:
+        """
+        This API returns an object with details or attributes of a file version.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not file_id:
+            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
+        if not version_id:
+            raise ValueError(f"Expected a non-empty value for `version_id` but received {version_id!r}")
+        return self._get(
+            f"/v1/files/{file_id}/versions/{version_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VersionGetResponse,
+        )
+
     def restore(
         self,
         version_id: str,
@@ -206,42 +206,6 @@ class AsyncVersionsResource(AsyncAPIResource):
         For more information, see https://www.github.com/stainless-sdks/imagekit-python#with_streaming_response
         """
         return AsyncVersionsResourceWithStreamingResponse(self)
-
-    async def retrieve(
-        self,
-        version_id: str,
-        *,
-        file_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VersionRetrieveResponse:
-        """
-        This API returns an object with details or attributes of a file version.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
-        if not version_id:
-            raise ValueError(f"Expected a non-empty value for `version_id` but received {version_id!r}")
-        return await self._get(
-            f"/v1/files/{file_id}/versions/{version_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=VersionRetrieveResponse,
-        )
 
     async def list(
         self,
@@ -316,6 +280,42 @@ class AsyncVersionsResource(AsyncAPIResource):
             cast_to=object,
         )
 
+    async def get(
+        self,
+        version_id: str,
+        *,
+        file_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> VersionGetResponse:
+        """
+        This API returns an object with details or attributes of a file version.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not file_id:
+            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
+        if not version_id:
+            raise ValueError(f"Expected a non-empty value for `version_id` but received {version_id!r}")
+        return await self._get(
+            f"/v1/files/{file_id}/versions/{version_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VersionGetResponse,
+        )
+
     async def restore(
         self,
         version_id: str,
@@ -357,14 +357,14 @@ class VersionsResourceWithRawResponse:
     def __init__(self, versions: VersionsResource) -> None:
         self._versions = versions
 
-        self.retrieve = to_raw_response_wrapper(
-            versions.retrieve,
-        )
         self.list = to_raw_response_wrapper(
             versions.list,
         )
         self.delete = to_raw_response_wrapper(
             versions.delete,
+        )
+        self.get = to_raw_response_wrapper(
+            versions.get,
         )
         self.restore = to_raw_response_wrapper(
             versions.restore,
@@ -375,14 +375,14 @@ class AsyncVersionsResourceWithRawResponse:
     def __init__(self, versions: AsyncVersionsResource) -> None:
         self._versions = versions
 
-        self.retrieve = async_to_raw_response_wrapper(
-            versions.retrieve,
-        )
         self.list = async_to_raw_response_wrapper(
             versions.list,
         )
         self.delete = async_to_raw_response_wrapper(
             versions.delete,
+        )
+        self.get = async_to_raw_response_wrapper(
+            versions.get,
         )
         self.restore = async_to_raw_response_wrapper(
             versions.restore,
@@ -393,14 +393,14 @@ class VersionsResourceWithStreamingResponse:
     def __init__(self, versions: VersionsResource) -> None:
         self._versions = versions
 
-        self.retrieve = to_streamed_response_wrapper(
-            versions.retrieve,
-        )
         self.list = to_streamed_response_wrapper(
             versions.list,
         )
         self.delete = to_streamed_response_wrapper(
             versions.delete,
+        )
+        self.get = to_streamed_response_wrapper(
+            versions.get,
         )
         self.restore = to_streamed_response_wrapper(
             versions.restore,
@@ -411,14 +411,14 @@ class AsyncVersionsResourceWithStreamingResponse:
     def __init__(self, versions: AsyncVersionsResource) -> None:
         self._versions = versions
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            versions.retrieve,
-        )
         self.list = async_to_streamed_response_wrapper(
             versions.list,
         )
         self.delete = async_to_streamed_response_wrapper(
             versions.delete,
+        )
+        self.get = async_to_streamed_response_wrapper(
+            versions.get,
         )
         self.restore = async_to_streamed_response_wrapper(
             versions.restore,

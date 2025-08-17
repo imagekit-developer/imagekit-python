@@ -10,13 +10,10 @@ import pytest
 from imagekit import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
 from imagekit.types import (
-    FileListResponse,
+    FileGetResponse,
     FileRenameResponse,
-    FileAddTagsResponse,
-    FileUploadV1Response,
-    FileUploadV2Response,
-    FileRemoveTagsResponse,
-    FileRemoveAITagsResponse,
+    FileUpdateResponse,
+    FileUploadResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -27,45 +24,124 @@ class TestFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list(self, client: ImageKit) -> None:
-        file = client.files.list()
-        assert_matches_type(FileListResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_list_with_all_params(self, client: ImageKit) -> None:
-        file = client.files.list(
-            file_type="fileType",
-            limit="limit",
-            path="path",
-            search_query="searchQuery",
-            skip="skip",
-            sort="sort",
-            type="file",
+    def test_method_update_overload_1(self, client: ImageKit) -> None:
+        file = client.files.update(
+            file_id="fileId",
         )
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_list(self, client: ImageKit) -> None:
-        response = client.files.with_raw_response.list()
+    def test_method_update_with_all_params_overload_1(self, client: ImageKit) -> None:
+        file = client.files.update(
+            file_id="fileId",
+            custom_coordinates="customCoordinates",
+            custom_metadata={},
+            description="description",
+            extensions=[
+                {
+                    "name": "remove-bg",
+                    "options": {
+                        "add_shadow": True,
+                        "bg_color": "bg_color",
+                        "bg_image_url": "bg_image_url",
+                        "semitransparency": True,
+                    },
+                }
+            ],
+            remove_ai_tags=["string"],
+            tags=["tag1", "tag2"],
+            webhook_url="https://example.com",
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update_overload_1(self, client: ImageKit) -> None:
+        response = client.files.with_raw_response.update(
+            file_id="fileId",
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_list(self, client: ImageKit) -> None:
-        with client.files.with_streaming_response.list() as response:
+    def test_streaming_response_update_overload_1(self, client: ImageKit) -> None:
+        with client.files.with_streaming_response.update(
+            file_id="fileId",
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(FileListResponse, file, path=["response"])
+            assert_matches_type(FileUpdateResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update_overload_1(self, client: ImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
+            client.files.with_raw_response.update(
+                file_id="",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_overload_2(self, client: ImageKit) -> None:
+        file = client.files.update(
+            file_id="fileId",
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params_overload_2(self, client: ImageKit) -> None:
+        file = client.files.update(
+            file_id="fileId",
+            publish={
+                "is_published": True,
+                "include_file_versions": True,
+            },
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update_overload_2(self, client: ImageKit) -> None:
+        response = client.files.with_raw_response.update(
+            file_id="fileId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        file = response.parse()
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_update_overload_2(self, client: ImageKit) -> None:
+        with client.files.with_streaming_response.update(
+            file_id="fileId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            file = response.parse()
+            assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update_overload_2(self, client: ImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
+            client.files.with_raw_response.update(
+                file_id="",
+            )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -108,43 +184,6 @@ class TestFiles:
             client.files.with_raw_response.delete(
                 "",
             )
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_add_tags(self, client: ImageKit) -> None:
-        file = client.files.add_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        )
-        assert_matches_type(FileAddTagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_raw_response_add_tags(self, client: ImageKit) -> None:
-        response = client.files.with_raw_response.add_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        file = response.parse()
-        assert_matches_type(FileAddTagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_streaming_response_add_tags(self, client: ImageKit) -> None:
-        with client.files.with_streaming_response.add_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            file = response.parse()
-            assert_matches_type(FileAddTagsResponse, file, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -195,6 +234,48 @@ class TestFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    def test_method_get(self, client: ImageKit) -> None:
+        file = client.files.get(
+            "fileId",
+        )
+        assert_matches_type(FileGetResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_get(self, client: ImageKit) -> None:
+        response = client.files.with_raw_response.get(
+            "fileId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        file = response.parse()
+        assert_matches_type(FileGetResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_get(self, client: ImageKit) -> None:
+        with client.files.with_streaming_response.get(
+            "fileId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            file = response.parse()
+            assert_matches_type(FileGetResponse, file, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_get(self, client: ImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
+            client.files.with_raw_response.get(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     def test_method_move(self, client: ImageKit) -> None:
         file = client.files.move(
             destination_path="/folder/to/move/into/",
@@ -227,80 +308,6 @@ class TestFiles:
 
             file = response.parse()
             assert_matches_type(object, file, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_remove_ai_tags(self, client: ImageKit) -> None:
-        file = client.files.remove_ai_tags(
-            ai_tags=["t-shirt", "round-neck", "sale2019"],
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-        )
-        assert_matches_type(FileRemoveAITagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_raw_response_remove_ai_tags(self, client: ImageKit) -> None:
-        response = client.files.with_raw_response.remove_ai_tags(
-            ai_tags=["t-shirt", "round-neck", "sale2019"],
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        file = response.parse()
-        assert_matches_type(FileRemoveAITagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_streaming_response_remove_ai_tags(self, client: ImageKit) -> None:
-        with client.files.with_streaming_response.remove_ai_tags(
-            ai_tags=["t-shirt", "round-neck", "sale2019"],
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            file = response.parse()
-            assert_matches_type(FileRemoveAITagsResponse, file, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_remove_tags(self, client: ImageKit) -> None:
-        file = client.files.remove_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        )
-        assert_matches_type(FileRemoveTagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_raw_response_remove_tags(self, client: ImageKit) -> None:
-        response = client.files.with_raw_response.remove_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        file = response.parse()
-        assert_matches_type(FileRemoveTagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_streaming_response_remove_tags(self, client: ImageKit) -> None:
-        with client.files.with_streaming_response.remove_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            file = response.parse()
-            assert_matches_type(FileRemoveTagsResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -353,130 +360,99 @@ class TestFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_upload_v1(self, client: ImageKit) -> None:
-        file = client.files.upload_v1(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
+    def test_method_upload(self, client: ImageKit) -> None:
+        file = client.files.upload(
+            file=b"raw file contents",
             file_name="fileName",
         )
-        assert_matches_type(FileUploadV1Response, file, path=["response"])
+        assert_matches_type(FileUploadResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_upload_v1_with_all_params(self, client: ImageKit) -> None:
-        file = client.files.upload_v1(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
+    def test_method_upload_with_all_params(self, client: ImageKit) -> None:
+        file = client.files.upload(
+            file=b"raw file contents",
             file_name="fileName",
             token="token",
             checks='"request.folder" : "marketing/"\n',
             custom_coordinates="customCoordinates",
-            custom_metadata='"\n  {\n    "brand": "Nike",\n    "color":"red"\n  }\n"\n',
-            expire="expire",
-            extensions='"\n[\n  {"name":"remove-bg","options":{"add_shadow":true,"bg_colour":"green"}},\n  {"name":"google-auto-tagging","maxTags":5,"minConfidence":95}\n]\n"\n',
+            custom_metadata={
+                "brand": "bar",
+                "color": "bar",
+            },
+            description="Running shoes",
+            expire=0,
+            extensions=[
+                {
+                    "name": "remove-bg",
+                    "options": {
+                        "add_shadow": True,
+                        "bg_color": "bg_color",
+                        "bg_image_url": "bg_image_url",
+                        "semitransparency": True,
+                    },
+                },
+                {
+                    "max_tags": 5,
+                    "min_confidence": 95,
+                    "name": "google-auto-tagging",
+                },
+            ],
             folder="folder",
-            is_private_file="true",
-            is_published="true",
-            overwrite_ai_tags="true",
-            overwrite_custom_metadata="true",
-            overwrite_file="overwriteFile",
-            overwrite_tags="true",
+            is_private_file=True,
+            is_published=True,
+            overwrite_ai_tags=True,
+            overwrite_custom_metadata=True,
+            overwrite_file=True,
+            overwrite_tags=True,
             public_key="publicKey",
-            response_fields="responseFields",
+            response_fields=["tags", "customCoordinates", "isPrivateFile"],
             signature="signature",
-            tags="t-shirt,round-neck,men",
-            transformation='\'{"pre":"width:300,height:300,quality:80","post":[{"type":"thumbnail","value":"width:100,height:100"}]}\'\n',
-            use_unique_file_name="true",
-            webhook_url="webhookUrl",
+            tags=["t-shirt", "round-neck", "men"],
+            transformation={
+                "post": [
+                    {
+                        "type": "thumbnail",
+                        "value": "w-150,h-150",
+                    },
+                    {
+                        "protocol": "dash",
+                        "type": "abs",
+                        "value": "sr-240_360_480_720_1080",
+                    },
+                ],
+                "pre": "w-300,h-300,q-80",
+            },
+            use_unique_file_name=True,
+            webhook_url="https://example.com",
         )
-        assert_matches_type(FileUploadV1Response, file, path=["response"])
+        assert_matches_type(FileUploadResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_upload_v1(self, client: ImageKit) -> None:
-        response = client.files.with_raw_response.upload_v1(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
-            file_name="fileName",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        file = response.parse()
-        assert_matches_type(FileUploadV1Response, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_streaming_response_upload_v1(self, client: ImageKit) -> None:
-        with client.files.with_streaming_response.upload_v1(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
-            file_name="fileName",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            file = response.parse()
-            assert_matches_type(FileUploadV1Response, file, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_upload_v2(self, client: ImageKit) -> None:
-        file = client.files.upload_v2(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
-            file_name="fileName",
-        )
-        assert_matches_type(FileUploadV2Response, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_upload_v2_with_all_params(self, client: ImageKit) -> None:
-        file = client.files.upload_v2(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
-            file_name="fileName",
-            token="token",
-            checks='"request.folder" : "marketing/"\n',
-            custom_coordinates="customCoordinates",
-            custom_metadata='"\n  {\n    "brand": "Nike",\n    "color":"red"\n  }\n"\n',
-            extensions='"\n[\n  {"name":"remove-bg","options":{"add_shadow":true,"bg_colour":"green"}},\n  {"name":"google-auto-tagging","maxTags":5,"minConfidence":95}\n]\n"\n',
-            folder="folder",
-            is_private_file="true",
-            is_published="true",
-            overwrite_ai_tags="true",
-            overwrite_custom_metadata="true",
-            overwrite_file="overwriteFile",
-            overwrite_tags="true",
-            response_fields="responseFields",
-            tags="t-shirt,round-neck,men",
-            transformation='\'{"pre":"width:300,height:300,quality:80","post":[{"type":"thumbnail","value":"width:100,height:100"}]}\'\n',
-            use_unique_file_name="true",
-            webhook_url="webhookUrl",
-        )
-        assert_matches_type(FileUploadV2Response, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_raw_response_upload_v2(self, client: ImageKit) -> None:
-        response = client.files.with_raw_response.upload_v2(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
+    def test_raw_response_upload(self, client: ImageKit) -> None:
+        response = client.files.with_raw_response.upload(
+            file=b"raw file contents",
             file_name="fileName",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(FileUploadV2Response, file, path=["response"])
+        assert_matches_type(FileUploadResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_upload_v2(self, client: ImageKit) -> None:
-        with client.files.with_streaming_response.upload_v2(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
+    def test_streaming_response_upload(self, client: ImageKit) -> None:
+        with client.files.with_streaming_response.upload(
+            file=b"raw file contents",
             file_name="fileName",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(FileUploadV2Response, file, path=["response"])
+            assert_matches_type(FileUploadResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -488,45 +464,124 @@ class TestAsyncFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list(self, async_client: AsyncImageKit) -> None:
-        file = await async_client.files.list()
-        assert_matches_type(FileListResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncImageKit) -> None:
-        file = await async_client.files.list(
-            file_type="fileType",
-            limit="limit",
-            path="path",
-            search_query="searchQuery",
-            skip="skip",
-            sort="sort",
-            type="file",
+    async def test_method_update_overload_1(self, async_client: AsyncImageKit) -> None:
+        file = await async_client.files.update(
+            file_id="fileId",
         )
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncImageKit) -> None:
-        response = await async_client.files.with_raw_response.list()
+    async def test_method_update_with_all_params_overload_1(self, async_client: AsyncImageKit) -> None:
+        file = await async_client.files.update(
+            file_id="fileId",
+            custom_coordinates="customCoordinates",
+            custom_metadata={},
+            description="description",
+            extensions=[
+                {
+                    "name": "remove-bg",
+                    "options": {
+                        "add_shadow": True,
+                        "bg_color": "bg_color",
+                        "bg_image_url": "bg_image_url",
+                        "semitransparency": True,
+                    },
+                }
+            ],
+            remove_ai_tags=["string"],
+            tags=["tag1", "tag2"],
+            webhook_url="https://example.com",
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update_overload_1(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.files.with_raw_response.update(
+            file_id="fileId",
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncImageKit) -> None:
-        async with async_client.files.with_streaming_response.list() as response:
+    async def test_streaming_response_update_overload_1(self, async_client: AsyncImageKit) -> None:
+        async with async_client.files.with_streaming_response.update(
+            file_id="fileId",
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(FileListResponse, file, path=["response"])
+            assert_matches_type(FileUpdateResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update_overload_1(self, async_client: AsyncImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
+            await async_client.files.with_raw_response.update(
+                file_id="",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_overload_2(self, async_client: AsyncImageKit) -> None:
+        file = await async_client.files.update(
+            file_id="fileId",
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params_overload_2(self, async_client: AsyncImageKit) -> None:
+        file = await async_client.files.update(
+            file_id="fileId",
+            publish={
+                "is_published": True,
+                "include_file_versions": True,
+            },
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.files.with_raw_response.update(
+            file_id="fileId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        file = await response.parse()
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
+        async with async_client.files.with_streaming_response.update(
+            file_id="fileId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            file = await response.parse()
+            assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update_overload_2(self, async_client: AsyncImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
+            await async_client.files.with_raw_response.update(
+                file_id="",
+            )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -569,43 +624,6 @@ class TestAsyncFiles:
             await async_client.files.with_raw_response.delete(
                 "",
             )
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_add_tags(self, async_client: AsyncImageKit) -> None:
-        file = await async_client.files.add_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        )
-        assert_matches_type(FileAddTagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_raw_response_add_tags(self, async_client: AsyncImageKit) -> None:
-        response = await async_client.files.with_raw_response.add_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        file = await response.parse()
-        assert_matches_type(FileAddTagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_streaming_response_add_tags(self, async_client: AsyncImageKit) -> None:
-        async with async_client.files.with_streaming_response.add_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            file = await response.parse()
-            assert_matches_type(FileAddTagsResponse, file, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -656,6 +674,48 @@ class TestAsyncFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    async def test_method_get(self, async_client: AsyncImageKit) -> None:
+        file = await async_client.files.get(
+            "fileId",
+        )
+        assert_matches_type(FileGetResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_get(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.files.with_raw_response.get(
+            "fileId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        file = await response.parse()
+        assert_matches_type(FileGetResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_get(self, async_client: AsyncImageKit) -> None:
+        async with async_client.files.with_streaming_response.get(
+            "fileId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            file = await response.parse()
+            assert_matches_type(FileGetResponse, file, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_get(self, async_client: AsyncImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
+            await async_client.files.with_raw_response.get(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     async def test_method_move(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.move(
             destination_path="/folder/to/move/into/",
@@ -688,80 +748,6 @@ class TestAsyncFiles:
 
             file = await response.parse()
             assert_matches_type(object, file, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_remove_ai_tags(self, async_client: AsyncImageKit) -> None:
-        file = await async_client.files.remove_ai_tags(
-            ai_tags=["t-shirt", "round-neck", "sale2019"],
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-        )
-        assert_matches_type(FileRemoveAITagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_raw_response_remove_ai_tags(self, async_client: AsyncImageKit) -> None:
-        response = await async_client.files.with_raw_response.remove_ai_tags(
-            ai_tags=["t-shirt", "round-neck", "sale2019"],
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        file = await response.parse()
-        assert_matches_type(FileRemoveAITagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_streaming_response_remove_ai_tags(self, async_client: AsyncImageKit) -> None:
-        async with async_client.files.with_streaming_response.remove_ai_tags(
-            ai_tags=["t-shirt", "round-neck", "sale2019"],
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            file = await response.parse()
-            assert_matches_type(FileRemoveAITagsResponse, file, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_remove_tags(self, async_client: AsyncImageKit) -> None:
-        file = await async_client.files.remove_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        )
-        assert_matches_type(FileRemoveTagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_raw_response_remove_tags(self, async_client: AsyncImageKit) -> None:
-        response = await async_client.files.with_raw_response.remove_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        file = await response.parse()
-        assert_matches_type(FileRemoveTagsResponse, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_streaming_response_remove_tags(self, async_client: AsyncImageKit) -> None:
-        async with async_client.files.with_streaming_response.remove_tags(
-            file_ids=["598821f949c0a938d57563bd", "598821f949c0a938d57563be"],
-            tags=["t-shirt", "round-neck", "sale2019"],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            file = await response.parse()
-            assert_matches_type(FileRemoveTagsResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -814,129 +800,98 @@ class TestAsyncFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_upload_v1(self, async_client: AsyncImageKit) -> None:
-        file = await async_client.files.upload_v1(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
+    async def test_method_upload(self, async_client: AsyncImageKit) -> None:
+        file = await async_client.files.upload(
+            file=b"raw file contents",
             file_name="fileName",
         )
-        assert_matches_type(FileUploadV1Response, file, path=["response"])
+        assert_matches_type(FileUploadResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_upload_v1_with_all_params(self, async_client: AsyncImageKit) -> None:
-        file = await async_client.files.upload_v1(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
+    async def test_method_upload_with_all_params(self, async_client: AsyncImageKit) -> None:
+        file = await async_client.files.upload(
+            file=b"raw file contents",
             file_name="fileName",
             token="token",
             checks='"request.folder" : "marketing/"\n',
             custom_coordinates="customCoordinates",
-            custom_metadata='"\n  {\n    "brand": "Nike",\n    "color":"red"\n  }\n"\n',
-            expire="expire",
-            extensions='"\n[\n  {"name":"remove-bg","options":{"add_shadow":true,"bg_colour":"green"}},\n  {"name":"google-auto-tagging","maxTags":5,"minConfidence":95}\n]\n"\n',
+            custom_metadata={
+                "brand": "bar",
+                "color": "bar",
+            },
+            description="Running shoes",
+            expire=0,
+            extensions=[
+                {
+                    "name": "remove-bg",
+                    "options": {
+                        "add_shadow": True,
+                        "bg_color": "bg_color",
+                        "bg_image_url": "bg_image_url",
+                        "semitransparency": True,
+                    },
+                },
+                {
+                    "max_tags": 5,
+                    "min_confidence": 95,
+                    "name": "google-auto-tagging",
+                },
+            ],
             folder="folder",
-            is_private_file="true",
-            is_published="true",
-            overwrite_ai_tags="true",
-            overwrite_custom_metadata="true",
-            overwrite_file="overwriteFile",
-            overwrite_tags="true",
+            is_private_file=True,
+            is_published=True,
+            overwrite_ai_tags=True,
+            overwrite_custom_metadata=True,
+            overwrite_file=True,
+            overwrite_tags=True,
             public_key="publicKey",
-            response_fields="responseFields",
+            response_fields=["tags", "customCoordinates", "isPrivateFile"],
             signature="signature",
-            tags="t-shirt,round-neck,men",
-            transformation='\'{"pre":"width:300,height:300,quality:80","post":[{"type":"thumbnail","value":"width:100,height:100"}]}\'\n',
-            use_unique_file_name="true",
-            webhook_url="webhookUrl",
+            tags=["t-shirt", "round-neck", "men"],
+            transformation={
+                "post": [
+                    {
+                        "type": "thumbnail",
+                        "value": "w-150,h-150",
+                    },
+                    {
+                        "protocol": "dash",
+                        "type": "abs",
+                        "value": "sr-240_360_480_720_1080",
+                    },
+                ],
+                "pre": "w-300,h-300,q-80",
+            },
+            use_unique_file_name=True,
+            webhook_url="https://example.com",
         )
-        assert_matches_type(FileUploadV1Response, file, path=["response"])
+        assert_matches_type(FileUploadResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_upload_v1(self, async_client: AsyncImageKit) -> None:
-        response = await async_client.files.with_raw_response.upload_v1(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
-            file_name="fileName",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        file = await response.parse()
-        assert_matches_type(FileUploadV1Response, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_streaming_response_upload_v1(self, async_client: AsyncImageKit) -> None:
-        async with async_client.files.with_streaming_response.upload_v1(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
-            file_name="fileName",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            file = await response.parse()
-            assert_matches_type(FileUploadV1Response, file, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_upload_v2(self, async_client: AsyncImageKit) -> None:
-        file = await async_client.files.upload_v2(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
-            file_name="fileName",
-        )
-        assert_matches_type(FileUploadV2Response, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_upload_v2_with_all_params(self, async_client: AsyncImageKit) -> None:
-        file = await async_client.files.upload_v2(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
-            file_name="fileName",
-            token="token",
-            checks='"request.folder" : "marketing/"\n',
-            custom_coordinates="customCoordinates",
-            custom_metadata='"\n  {\n    "brand": "Nike",\n    "color":"red"\n  }\n"\n',
-            extensions='"\n[\n  {"name":"remove-bg","options":{"add_shadow":true,"bg_colour":"green"}},\n  {"name":"google-auto-tagging","maxTags":5,"minConfidence":95}\n]\n"\n',
-            folder="folder",
-            is_private_file="true",
-            is_published="true",
-            overwrite_ai_tags="true",
-            overwrite_custom_metadata="true",
-            overwrite_file="overwriteFile",
-            overwrite_tags="true",
-            response_fields="responseFields",
-            tags="t-shirt,round-neck,men",
-            transformation='\'{"pre":"width:300,height:300,quality:80","post":[{"type":"thumbnail","value":"width:100,height:100"}]}\'\n',
-            use_unique_file_name="true",
-            webhook_url="webhookUrl",
-        )
-        assert_matches_type(FileUploadV2Response, file, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_raw_response_upload_v2(self, async_client: AsyncImageKit) -> None:
-        response = await async_client.files.with_raw_response.upload_v2(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
+    async def test_raw_response_upload(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.files.with_raw_response.upload(
+            file=b"raw file contents",
             file_name="fileName",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(FileUploadV2Response, file, path=["response"])
+        assert_matches_type(FileUploadResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_upload_v2(self, async_client: AsyncImageKit) -> None:
-        async with async_client.files.with_streaming_response.upload_v2(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
+    async def test_streaming_response_upload(self, async_client: AsyncImageKit) -> None:
+        async with async_client.files.with_streaming_response.upload(
+            file=b"raw file contents",
             file_name="fileName",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(FileUploadV2Response, file, path=["response"])
+            assert_matches_type(FileUploadResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True

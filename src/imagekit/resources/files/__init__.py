@@ -1,12 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .batch import (
-    BatchResource,
-    AsyncBatchResource,
-    BatchResourceWithRawResponse,
-    AsyncBatchResourceWithRawResponse,
-    BatchResourceWithStreamingResponse,
-    AsyncBatchResourceWithStreamingResponse,
+from .bulk import (
+    BulkResource,
+    AsyncBulkResource,
+    BulkResourceWithRawResponse,
+    AsyncBulkResourceWithRawResponse,
+    BulkResourceWithStreamingResponse,
+    AsyncBulkResourceWithStreamingResponse,
 )
 from .files import (
     FilesResource,
@@ -15,22 +15,6 @@ from .files import (
     AsyncFilesResourceWithRawResponse,
     FilesResourceWithStreamingResponse,
     AsyncFilesResourceWithStreamingResponse,
-)
-from .purge import (
-    PurgeResource,
-    AsyncPurgeResource,
-    PurgeResourceWithRawResponse,
-    AsyncPurgeResourceWithRawResponse,
-    PurgeResourceWithStreamingResponse,
-    AsyncPurgeResourceWithStreamingResponse,
-)
-from .details import (
-    DetailsResource,
-    AsyncDetailsResource,
-    DetailsResourceWithRawResponse,
-    AsyncDetailsResourceWithRawResponse,
-    DetailsResourceWithStreamingResponse,
-    AsyncDetailsResourceWithStreamingResponse,
 )
 from .metadata import (
     MetadataResource,
@@ -50,30 +34,18 @@ from .versions import (
 )
 
 __all__ = [
-    "DetailsResource",
-    "AsyncDetailsResource",
-    "DetailsResourceWithRawResponse",
-    "AsyncDetailsResourceWithRawResponse",
-    "DetailsResourceWithStreamingResponse",
-    "AsyncDetailsResourceWithStreamingResponse",
-    "BatchResource",
-    "AsyncBatchResource",
-    "BatchResourceWithRawResponse",
-    "AsyncBatchResourceWithRawResponse",
-    "BatchResourceWithStreamingResponse",
-    "AsyncBatchResourceWithStreamingResponse",
+    "BulkResource",
+    "AsyncBulkResource",
+    "BulkResourceWithRawResponse",
+    "AsyncBulkResourceWithRawResponse",
+    "BulkResourceWithStreamingResponse",
+    "AsyncBulkResourceWithStreamingResponse",
     "VersionsResource",
     "AsyncVersionsResource",
     "VersionsResourceWithRawResponse",
     "AsyncVersionsResourceWithRawResponse",
     "VersionsResourceWithStreamingResponse",
     "AsyncVersionsResourceWithStreamingResponse",
-    "PurgeResource",
-    "AsyncPurgeResource",
-    "PurgeResourceWithRawResponse",
-    "AsyncPurgeResourceWithRawResponse",
-    "PurgeResourceWithStreamingResponse",
-    "AsyncPurgeResourceWithStreamingResponse",
     "MetadataResource",
     "AsyncMetadataResource",
     "MetadataResourceWithRawResponse",

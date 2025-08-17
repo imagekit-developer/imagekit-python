@@ -23,7 +23,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import folder, accounts, bulk_jobs, custom_metadata_fields
+from .resources import assets, custom_metadata_fields
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import ImageKitError, APIStatusError
 from ._base_client import (
@@ -31,7 +31,11 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.beta import beta
+from .resources.cache import cache
 from .resources.files import files
+from .resources.folders import folders
+from .resources.accounts import accounts
 
 __all__ = [
     "Timeout",
@@ -48,9 +52,11 @@ __all__ = [
 class ImageKit(SyncAPIClient):
     custom_metadata_fields: custom_metadata_fields.CustomMetadataFieldsResource
     files: files.FilesResource
-    folder: folder.FolderResource
-    bulk_jobs: bulk_jobs.BulkJobsResource
+    assets: assets.AssetsResource
+    cache: cache.CacheResource
+    folders: folders.FoldersResource
     accounts: accounts.AccountsResource
+    beta: beta.BetaResource
     with_raw_response: ImageKitWithRawResponse
     with_streaming_response: ImageKitWithStreamedResponse
 
@@ -119,9 +125,11 @@ class ImageKit(SyncAPIClient):
 
         self.custom_metadata_fields = custom_metadata_fields.CustomMetadataFieldsResource(self)
         self.files = files.FilesResource(self)
-        self.folder = folder.FolderResource(self)
-        self.bulk_jobs = bulk_jobs.BulkJobsResource(self)
+        self.assets = assets.AssetsResource(self)
+        self.cache = cache.CacheResource(self)
+        self.folders = folders.FoldersResource(self)
         self.accounts = accounts.AccountsResource(self)
+        self.beta = beta.BetaResource(self)
         self.with_raw_response = ImageKitWithRawResponse(self)
         self.with_streaming_response = ImageKitWithStreamedResponse(self)
 
@@ -251,9 +259,11 @@ class ImageKit(SyncAPIClient):
 class AsyncImageKit(AsyncAPIClient):
     custom_metadata_fields: custom_metadata_fields.AsyncCustomMetadataFieldsResource
     files: files.AsyncFilesResource
-    folder: folder.AsyncFolderResource
-    bulk_jobs: bulk_jobs.AsyncBulkJobsResource
+    assets: assets.AsyncAssetsResource
+    cache: cache.AsyncCacheResource
+    folders: folders.AsyncFoldersResource
     accounts: accounts.AsyncAccountsResource
+    beta: beta.AsyncBetaResource
     with_raw_response: AsyncImageKitWithRawResponse
     with_streaming_response: AsyncImageKitWithStreamedResponse
 
@@ -322,9 +332,11 @@ class AsyncImageKit(AsyncAPIClient):
 
         self.custom_metadata_fields = custom_metadata_fields.AsyncCustomMetadataFieldsResource(self)
         self.files = files.AsyncFilesResource(self)
-        self.folder = folder.AsyncFolderResource(self)
-        self.bulk_jobs = bulk_jobs.AsyncBulkJobsResource(self)
+        self.assets = assets.AsyncAssetsResource(self)
+        self.cache = cache.AsyncCacheResource(self)
+        self.folders = folders.AsyncFoldersResource(self)
         self.accounts = accounts.AsyncAccountsResource(self)
+        self.beta = beta.AsyncBetaResource(self)
         self.with_raw_response = AsyncImageKitWithRawResponse(self)
         self.with_streaming_response = AsyncImageKitWithStreamedResponse(self)
 
@@ -457,9 +469,11 @@ class ImageKitWithRawResponse:
             client.custom_metadata_fields
         )
         self.files = files.FilesResourceWithRawResponse(client.files)
-        self.folder = folder.FolderResourceWithRawResponse(client.folder)
-        self.bulk_jobs = bulk_jobs.BulkJobsResourceWithRawResponse(client.bulk_jobs)
+        self.assets = assets.AssetsResourceWithRawResponse(client.assets)
+        self.cache = cache.CacheResourceWithRawResponse(client.cache)
+        self.folders = folders.FoldersResourceWithRawResponse(client.folders)
         self.accounts = accounts.AccountsResourceWithRawResponse(client.accounts)
+        self.beta = beta.BetaResourceWithRawResponse(client.beta)
 
 
 class AsyncImageKitWithRawResponse:
@@ -468,9 +482,11 @@ class AsyncImageKitWithRawResponse:
             client.custom_metadata_fields
         )
         self.files = files.AsyncFilesResourceWithRawResponse(client.files)
-        self.folder = folder.AsyncFolderResourceWithRawResponse(client.folder)
-        self.bulk_jobs = bulk_jobs.AsyncBulkJobsResourceWithRawResponse(client.bulk_jobs)
+        self.assets = assets.AsyncAssetsResourceWithRawResponse(client.assets)
+        self.cache = cache.AsyncCacheResourceWithRawResponse(client.cache)
+        self.folders = folders.AsyncFoldersResourceWithRawResponse(client.folders)
         self.accounts = accounts.AsyncAccountsResourceWithRawResponse(client.accounts)
+        self.beta = beta.AsyncBetaResourceWithRawResponse(client.beta)
 
 
 class ImageKitWithStreamedResponse:
@@ -479,9 +495,11 @@ class ImageKitWithStreamedResponse:
             client.custom_metadata_fields
         )
         self.files = files.FilesResourceWithStreamingResponse(client.files)
-        self.folder = folder.FolderResourceWithStreamingResponse(client.folder)
-        self.bulk_jobs = bulk_jobs.BulkJobsResourceWithStreamingResponse(client.bulk_jobs)
+        self.assets = assets.AssetsResourceWithStreamingResponse(client.assets)
+        self.cache = cache.CacheResourceWithStreamingResponse(client.cache)
+        self.folders = folders.FoldersResourceWithStreamingResponse(client.folders)
         self.accounts = accounts.AccountsResourceWithStreamingResponse(client.accounts)
+        self.beta = beta.BetaResourceWithStreamingResponse(client.beta)
 
 
 class AsyncImageKitWithStreamedResponse:
@@ -490,9 +508,11 @@ class AsyncImageKitWithStreamedResponse:
             client.custom_metadata_fields
         )
         self.files = files.AsyncFilesResourceWithStreamingResponse(client.files)
-        self.folder = folder.AsyncFolderResourceWithStreamingResponse(client.folder)
-        self.bulk_jobs = bulk_jobs.AsyncBulkJobsResourceWithStreamingResponse(client.bulk_jobs)
+        self.assets = assets.AsyncAssetsResourceWithStreamingResponse(client.assets)
+        self.cache = cache.AsyncCacheResourceWithStreamingResponse(client.cache)
+        self.folders = folders.AsyncFoldersResourceWithStreamingResponse(client.folders)
         self.accounts = accounts.AsyncAccountsResourceWithStreamingResponse(client.accounts)
+        self.beta = beta.AsyncBetaResourceWithStreamingResponse(client.beta)
 
 
 Client = ImageKit

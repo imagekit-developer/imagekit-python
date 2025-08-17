@@ -170,8 +170,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
         fields in the API response.
 
         Args:
-          include_deleted: Set it to `true` to include deleted field objects in the API response. Default
-              value is `false`.
+          include_deleted: Set it to `true` to include deleted field objects in the API response.
 
           extra_headers: Send extra headers
 
@@ -375,8 +374,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
         fields in the API response.
 
         Args:
-          include_deleted: Set it to `true` to include deleted field objects in the API response. Default
-              value is `false`.
+          include_deleted: Set it to `true` to include deleted field objects in the API response.
 
           extra_headers: Send extra headers
 

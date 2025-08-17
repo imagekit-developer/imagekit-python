@@ -23,137 +23,194 @@ Types:
 
 ```python
 from imagekit.types import (
-    ExifDetails,
-    ExifImage,
-    Gps,
-    Interoperability,
-    Thumbnail,
-    FileListResponse,
-    FileAddTagsResponse,
-    FileRemoveAITagsResponse,
-    FileRemoveTagsResponse,
+    FileUpdateResponse,
+    FileGetResponse,
     FileRenameResponse,
-    FileUploadV1Response,
-    FileUploadV2Response,
+    FileUploadResponse,
 )
 ```
 
 Methods:
 
-- <code title="get /v1/files">client.files.<a href="./src/imagekit/resources/files/files.py">list</a>(\*\*<a href="src/imagekit/types/file_list_params.py">params</a>) -> <a href="./src/imagekit/types/file_list_response.py">FileListResponse</a></code>
+- <code title="patch /v1/files/{fileId}/details">client.files.<a href="./src/imagekit/resources/files/files.py">update</a>(file_id, \*\*<a href="src/imagekit/types/file_update_params.py">params</a>) -> <a href="./src/imagekit/types/file_update_response.py">FileUpdateResponse</a></code>
 - <code title="delete /v1/files/{fileId}">client.files.<a href="./src/imagekit/resources/files/files.py">delete</a>(file_id) -> None</code>
-- <code title="post /v1/files/addTags">client.files.<a href="./src/imagekit/resources/files/files.py">add_tags</a>(\*\*<a href="src/imagekit/types/file_add_tags_params.py">params</a>) -> <a href="./src/imagekit/types/file_add_tags_response.py">FileAddTagsResponse</a></code>
 - <code title="post /v1/files/copy">client.files.<a href="./src/imagekit/resources/files/files.py">copy</a>(\*\*<a href="src/imagekit/types/file_copy_params.py">params</a>) -> object</code>
+- <code title="get /v1/files/{fileId}/details">client.files.<a href="./src/imagekit/resources/files/files.py">get</a>(file_id) -> <a href="./src/imagekit/types/file_get_response.py">FileGetResponse</a></code>
 - <code title="post /v1/files/move">client.files.<a href="./src/imagekit/resources/files/files.py">move</a>(\*\*<a href="src/imagekit/types/file_move_params.py">params</a>) -> object</code>
-- <code title="post /v1/files/removeAITags">client.files.<a href="./src/imagekit/resources/files/files.py">remove_ai_tags</a>(\*\*<a href="src/imagekit/types/file_remove_ai_tags_params.py">params</a>) -> <a href="./src/imagekit/types/file_remove_ai_tags_response.py">FileRemoveAITagsResponse</a></code>
-- <code title="post /v1/files/removeTags">client.files.<a href="./src/imagekit/resources/files/files.py">remove_tags</a>(\*\*<a href="src/imagekit/types/file_remove_tags_params.py">params</a>) -> <a href="./src/imagekit/types/file_remove_tags_response.py">FileRemoveTagsResponse</a></code>
 - <code title="put /v1/files/rename">client.files.<a href="./src/imagekit/resources/files/files.py">rename</a>(\*\*<a href="src/imagekit/types/file_rename_params.py">params</a>) -> <a href="./src/imagekit/types/file_rename_response.py">FileRenameResponse</a></code>
-- <code title="post /api/v1/files/upload">client.files.<a href="./src/imagekit/resources/files/files.py">upload_v1</a>(\*\*<a href="src/imagekit/types/file_upload_v1_params.py">params</a>) -> <a href="./src/imagekit/types/file_upload_v1_response.py">FileUploadV1Response</a></code>
-- <code title="post /api/v2/files/upload">client.files.<a href="./src/imagekit/resources/files/files.py">upload_v2</a>(\*\*<a href="src/imagekit/types/file_upload_v2_params.py">params</a>) -> <a href="./src/imagekit/types/file_upload_v2_response.py">FileUploadV2Response</a></code>
+- <code title="post /api/v1/files/upload">client.files.<a href="./src/imagekit/resources/files/files.py">upload</a>(\*\*<a href="src/imagekit/types/file_upload_params.py">params</a>) -> <a href="./src/imagekit/types/file_upload_response.py">FileUploadResponse</a></code>
 
-## Details
-
-Types:
-
-```python
-from imagekit.types.files import DetailRetrieveResponse, DetailUpdateResponse
-```
-
-Methods:
-
-- <code title="get /v1/files/{fileId}/details">client.files.details.<a href="./src/imagekit/resources/files/details.py">retrieve</a>(file_id) -> <a href="./src/imagekit/types/files/detail_retrieve_response.py">DetailRetrieveResponse</a></code>
-- <code title="patch /v1/files/{fileId}/details">client.files.details.<a href="./src/imagekit/resources/files/details.py">update</a>(file_id, \*\*<a href="src/imagekit/types/files/detail_update_params.py">params</a>) -> <a href="./src/imagekit/types/files/detail_update_response.py">DetailUpdateResponse</a></code>
-
-## Batch
+## Bulk
 
 Types:
 
 ```python
-from imagekit.types.files import BatchDeleteResponse
+from imagekit.types.files import (
+    BulkDeleteResponse,
+    BulkAddTagsResponse,
+    BulkRemoveAITagsResponse,
+    BulkRemoveTagsResponse,
+)
 ```
 
 Methods:
 
-- <code title="post /v1/files/batch/deleteByFileIds">client.files.batch.<a href="./src/imagekit/resources/files/batch.py">delete</a>(\*\*<a href="src/imagekit/types/files/batch_delete_params.py">params</a>) -> <a href="./src/imagekit/types/files/batch_delete_response.py">BatchDeleteResponse</a></code>
+- <code title="post /v1/files/batch/deleteByFileIds">client.files.bulk.<a href="./src/imagekit/resources/files/bulk.py">delete</a>(\*\*<a href="src/imagekit/types/files/bulk_delete_params.py">params</a>) -> <a href="./src/imagekit/types/files/bulk_delete_response.py">BulkDeleteResponse</a></code>
+- <code title="post /v1/files/addTags">client.files.bulk.<a href="./src/imagekit/resources/files/bulk.py">add_tags</a>(\*\*<a href="src/imagekit/types/files/bulk_add_tags_params.py">params</a>) -> <a href="./src/imagekit/types/files/bulk_add_tags_response.py">BulkAddTagsResponse</a></code>
+- <code title="post /v1/files/removeAITags">client.files.bulk.<a href="./src/imagekit/resources/files/bulk.py">remove_ai_tags</a>(\*\*<a href="src/imagekit/types/files/bulk_remove_ai_tags_params.py">params</a>) -> <a href="./src/imagekit/types/files/bulk_remove_ai_tags_response.py">BulkRemoveAITagsResponse</a></code>
+- <code title="post /v1/files/removeTags">client.files.bulk.<a href="./src/imagekit/resources/files/bulk.py">remove_tags</a>(\*\*<a href="src/imagekit/types/files/bulk_remove_tags_params.py">params</a>) -> <a href="./src/imagekit/types/files/bulk_remove_tags_response.py">BulkRemoveTagsResponse</a></code>
 
 ## Versions
 
 Types:
 
 ```python
-from imagekit.types.files import (
-    VersionRetrieveResponse,
-    VersionListResponse,
-    VersionRestoreResponse,
-)
+from imagekit.types.files import VersionListResponse, VersionGetResponse, VersionRestoreResponse
 ```
 
 Methods:
 
-- <code title="get /v1/files/{fileId}/versions/{versionId}">client.files.versions.<a href="./src/imagekit/resources/files/versions.py">retrieve</a>(version_id, \*, file_id) -> <a href="./src/imagekit/types/files/version_retrieve_response.py">VersionRetrieveResponse</a></code>
 - <code title="get /v1/files/{fileId}/versions">client.files.versions.<a href="./src/imagekit/resources/files/versions.py">list</a>(file_id) -> <a href="./src/imagekit/types/files/version_list_response.py">VersionListResponse</a></code>
 - <code title="delete /v1/files/{fileId}/versions/{versionId}">client.files.versions.<a href="./src/imagekit/resources/files/versions.py">delete</a>(version_id, \*, file_id) -> object</code>
+- <code title="get /v1/files/{fileId}/versions/{versionId}">client.files.versions.<a href="./src/imagekit/resources/files/versions.py">get</a>(version_id, \*, file_id) -> <a href="./src/imagekit/types/files/version_get_response.py">VersionGetResponse</a></code>
 - <code title="put /v1/files/{fileId}/versions/{versionId}/restore">client.files.versions.<a href="./src/imagekit/resources/files/versions.py">restore</a>(version_id, \*, file_id) -> <a href="./src/imagekit/types/files/version_restore_response.py">VersionRestoreResponse</a></code>
-
-## Purge
-
-Types:
-
-```python
-from imagekit.types.files import PurgeExecuteResponse, PurgeStatusResponse
-```
-
-Methods:
-
-- <code title="post /v1/files/purge">client.files.purge.<a href="./src/imagekit/resources/files/purge.py">execute</a>(\*\*<a href="src/imagekit/types/files/purge_execute_params.py">params</a>) -> <a href="./src/imagekit/types/files/purge_execute_response.py">PurgeExecuteResponse</a></code>
-- <code title="get /v1/files/purge/{requestId}">client.files.purge.<a href="./src/imagekit/resources/files/purge.py">status</a>(request_id) -> <a href="./src/imagekit/types/files/purge_status_response.py">PurgeStatusResponse</a></code>
 
 ## Metadata
 
 Types:
 
 ```python
-from imagekit.types.files import MetadataRetrieveResponse, MetadataFromURLResponse
+from imagekit.types.files import MetadataGetResponse, MetadataGetFromURLResponse
 ```
 
 Methods:
 
-- <code title="get /v1/files/{fileId}/metadata">client.files.metadata.<a href="./src/imagekit/resources/files/metadata.py">retrieve</a>(file_id) -> <a href="./src/imagekit/types/files/metadata_retrieve_response.py">MetadataRetrieveResponse</a></code>
-- <code title="get /v1/files/metadata">client.files.metadata.<a href="./src/imagekit/resources/files/metadata.py">from_url</a>(\*\*<a href="src/imagekit/types/files/metadata_from_url_params.py">params</a>) -> <a href="./src/imagekit/types/files/metadata_from_url_response.py">MetadataFromURLResponse</a></code>
+- <code title="get /v1/files/{fileId}/metadata">client.files.metadata.<a href="./src/imagekit/resources/files/metadata.py">get</a>(file_id) -> <a href="./src/imagekit/types/files/metadata_get_response.py">MetadataGetResponse</a></code>
+- <code title="get /v1/files/metadata">client.files.metadata.<a href="./src/imagekit/resources/files/metadata.py">get_from_url</a>(\*\*<a href="src/imagekit/types/files/metadata_get_from_url_params.py">params</a>) -> <a href="./src/imagekit/types/files/metadata_get_from_url_response.py">MetadataGetFromURLResponse</a></code>
 
-# Folder
-
-Methods:
-
-- <code title="post /v1/folder">client.folder.<a href="./src/imagekit/resources/folder.py">create</a>(\*\*<a href="src/imagekit/types/folder_create_params.py">params</a>) -> object</code>
-- <code title="delete /v1/folder">client.folder.<a href="./src/imagekit/resources/folder.py">delete</a>(\*\*<a href="src/imagekit/types/folder_delete_params.py">params</a>) -> object</code>
-
-# BulkJobs
+# Assets
 
 Types:
 
 ```python
-from imagekit.types import (
-    BulkJobCopyFolderResponse,
-    BulkJobMoveFolderResponse,
-    BulkJobRetrieveStatusResponse,
+from imagekit.types import AssetListResponse
+```
+
+Methods:
+
+- <code title="get /v1/files">client.assets.<a href="./src/imagekit/resources/assets.py">list</a>(\*\*<a href="src/imagekit/types/asset_list_params.py">params</a>) -> <a href="./src/imagekit/types/asset_list_response.py">AssetListResponse</a></code>
+
+# Cache
+
+## Invalidation
+
+Types:
+
+```python
+from imagekit.types.cache import InvalidationCreateResponse, InvalidationGetResponse
+```
+
+Methods:
+
+- <code title="post /v1/files/purge">client.cache.invalidation.<a href="./src/imagekit/resources/cache/invalidation.py">create</a>(\*\*<a href="src/imagekit/types/cache/invalidation_create_params.py">params</a>) -> <a href="./src/imagekit/types/cache/invalidation_create_response.py">InvalidationCreateResponse</a></code>
+- <code title="get /v1/files/purge/{requestId}">client.cache.invalidation.<a href="./src/imagekit/resources/cache/invalidation.py">get</a>(request_id) -> <a href="./src/imagekit/types/cache/invalidation_get_response.py">InvalidationGetResponse</a></code>
+
+# Folders
+
+Types:
+
+```python
+from imagekit.types import FolderCopyResponse, FolderMoveResponse, FolderRenameResponse
+```
+
+Methods:
+
+- <code title="post /v1/folder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">create</a>(\*\*<a href="src/imagekit/types/folder_create_params.py">params</a>) -> object</code>
+- <code title="delete /v1/folder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">delete</a>(\*\*<a href="src/imagekit/types/folder_delete_params.py">params</a>) -> object</code>
+- <code title="post /v1/bulkJobs/copyFolder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">copy</a>(\*\*<a href="src/imagekit/types/folder_copy_params.py">params</a>) -> <a href="./src/imagekit/types/folder_copy_response.py">FolderCopyResponse</a></code>
+- <code title="post /v1/bulkJobs/moveFolder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">move</a>(\*\*<a href="src/imagekit/types/folder_move_params.py">params</a>) -> <a href="./src/imagekit/types/folder_move_response.py">FolderMoveResponse</a></code>
+- <code title="post /v1/bulkJobs/renameFolder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">rename</a>(\*\*<a href="src/imagekit/types/folder_rename_params.py">params</a>) -> <a href="./src/imagekit/types/folder_rename_response.py">FolderRenameResponse</a></code>
+
+## Job
+
+Types:
+
+```python
+from imagekit.types.folders import JobGetResponse
+```
+
+Methods:
+
+- <code title="get /v1/bulkJobs/{jobId}">client.folders.job.<a href="./src/imagekit/resources/folders/job.py">get</a>(job_id) -> <a href="./src/imagekit/types/folders/job_get_response.py">JobGetResponse</a></code>
+
+# Accounts
+
+## Usage
+
+Types:
+
+```python
+from imagekit.types.accounts import UsageGetResponse
+```
+
+Methods:
+
+- <code title="get /v1/accounts/usage">client.accounts.usage.<a href="./src/imagekit/resources/accounts/usage.py">get</a>(\*\*<a href="src/imagekit/types/accounts/usage_get_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/usage_get_response.py">UsageGetResponse</a></code>
+
+## Origins
+
+Types:
+
+```python
+from imagekit.types.accounts import (
+    OriginCreateResponse,
+    OriginUpdateResponse,
+    OriginListResponse,
+    OriginGetResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /v1/bulkJobs/copyFolder">client.bulk_jobs.<a href="./src/imagekit/resources/bulk_jobs.py">copy_folder</a>(\*\*<a href="src/imagekit/types/bulk_job_copy_folder_params.py">params</a>) -> <a href="./src/imagekit/types/bulk_job_copy_folder_response.py">BulkJobCopyFolderResponse</a></code>
-- <code title="post /v1/bulkJobs/moveFolder">client.bulk_jobs.<a href="./src/imagekit/resources/bulk_jobs.py">move_folder</a>(\*\*<a href="src/imagekit/types/bulk_job_move_folder_params.py">params</a>) -> <a href="./src/imagekit/types/bulk_job_move_folder_response.py">BulkJobMoveFolderResponse</a></code>
-- <code title="get /v1/bulkJobs/{jobId}">client.bulk_jobs.<a href="./src/imagekit/resources/bulk_jobs.py">retrieve_status</a>(job_id) -> <a href="./src/imagekit/types/bulk_job_retrieve_status_response.py">BulkJobRetrieveStatusResponse</a></code>
+- <code title="post /v1/accounts/origins">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">create</a>(\*\*<a href="src/imagekit/types/accounts/origin_create_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/origin_create_response.py">OriginCreateResponse</a></code>
+- <code title="put /v1/accounts/origins/{id}">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">update</a>(id, \*\*<a href="src/imagekit/types/accounts/origin_update_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/origin_update_response.py">OriginUpdateResponse</a></code>
+- <code title="get /v1/accounts/origins">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">list</a>() -> <a href="./src/imagekit/types/accounts/origin_list_response.py">OriginListResponse</a></code>
+- <code title="delete /v1/accounts/origins/{id}">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">delete</a>(id) -> None</code>
+- <code title="get /v1/accounts/origins/{id}">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">get</a>(id) -> <a href="./src/imagekit/types/accounts/origin_get_response.py">OriginGetResponse</a></code>
 
-# Accounts
+## URLEndpoints
 
 Types:
 
 ```python
-from imagekit.types import AccountGetUsageResponse
+from imagekit.types.accounts import (
+    URLEndpointCreateResponse,
+    URLEndpointUpdateResponse,
+    URLEndpointListResponse,
+    URLEndpointGetResponse,
+)
 ```
 
 Methods:
 
-- <code title="get /v1/accounts/usage">client.accounts.<a href="./src/imagekit/resources/accounts.py">get_usage</a>(\*\*<a href="src/imagekit/types/account_get_usage_params.py">params</a>) -> <a href="./src/imagekit/types/account_get_usage_response.py">AccountGetUsageResponse</a></code>
+- <code title="post /v1/accounts/url-endpoints">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">create</a>(\*\*<a href="src/imagekit/types/accounts/url_endpoint_create_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/url_endpoint_create_response.py">URLEndpointCreateResponse</a></code>
+- <code title="put /v1/accounts/url-endpoints/{id}">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">update</a>(id, \*\*<a href="src/imagekit/types/accounts/url_endpoint_update_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/url_endpoint_update_response.py">URLEndpointUpdateResponse</a></code>
+- <code title="get /v1/accounts/url-endpoints">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">list</a>() -> <a href="./src/imagekit/types/accounts/url_endpoint_list_response.py">URLEndpointListResponse</a></code>
+- <code title="delete /v1/accounts/url-endpoints/{id}">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">delete</a>(id) -> None</code>
+- <code title="get /v1/accounts/url-endpoints/{id}">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">get</a>(id) -> <a href="./src/imagekit/types/accounts/url_endpoint_get_response.py">URLEndpointGetResponse</a></code>
+
+# Beta
+
+## V2
+
+### Files
+
+Types:
+
+```python
+from imagekit.types.beta.v2 import FileUploadResponse
+```
+
+Methods:
+
+- <code title="post /api/v2/files/upload">client.beta.v2.files.<a href="./src/imagekit/resources/beta/v2/files.py">upload</a>(\*\*<a href="src/imagekit/types/beta/v2/file_upload_params.py">params</a>) -> <a href="./src/imagekit/types/beta/v2/file_upload_response.py">FileUploadResponse</a></code>

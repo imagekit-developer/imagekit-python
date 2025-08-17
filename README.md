@@ -38,8 +38,8 @@ client = ImageKit(
     password=os.environ.get("ORG_MY_PASSWORD_TOKEN"),  # This is the default and can be omitted
 )
 
-response = client.files.upload_v1(
-    file="https://www.example.com/rest-of-the-image-path.jpg",
+response = client.files.upload(
+    file=b"raw file contents",
     file_name="fileName",
 )
 print(response.video_codec)
@@ -68,8 +68,8 @@ client = AsyncImageKit(
 
 
 async def main() -> None:
-    response = await client.files.upload_v1(
-        file="https://www.example.com/rest-of-the-image-path.jpg",
+    response = await client.files.upload(
+        file=b"raw file contents",
         file_name="fileName",
     )
     print(response.video_codec)
@@ -105,8 +105,8 @@ async def main() -> None:
         password="My Password",
         http_client=DefaultAioHttpClient(),
     ) as client:
-        response = await client.files.upload_v1(
-            file="https://www.example.com/rest-of-the-image-path.jpg",
+        response = await client.files.upload(
+            file=b"raw file contents",
             file_name="fileName",
         )
         print(response.video_codec)
@@ -133,17 +133,43 @@ from imagekit import ImageKit
 
 client = ImageKit()
 
-custom_metadata_field = client.custom_metadata_fields.create(
-    label="price",
-    name="price",
-    schema={
-        "type": "Number",
-        "max_value": 3000,
-        "min_value": 1000,
+response = client.files.upload(
+    file=b"raw file contents",
+    file_name="fileName",
+    transformation={
+        "post": [
+            {
+                "type": "thumbnail",
+                "value": "w-150,h-150",
+            },
+            {
+                "protocol": "dash",
+                "type": "abs",
+                "value": "sr-240_360_480_720_1080",
+            },
+        ]
     },
 )
-print(custom_metadata_field.schema)
+print(response.transformation)
 ```
+
+## File uploads
+
+Request parameters that correspond to file uploads can be passed as `bytes`, or a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
+
+```python
+from pathlib import Path
+from imagekit import ImageKit
+
+client = ImageKit()
+
+client.files.upload(
+    file=Path("/path/to/file"),
+    file_name="fileName",
+)
+```
+
+The async client uses the exact same interface. If you pass a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, the file contents will be read asynchronously automatically.
 
 ## Handling errors
 
@@ -161,8 +187,8 @@ from imagekit import ImageKit
 client = ImageKit()
 
 try:
-    client.files.upload_v1(
-        file="https://www.example.com/rest-of-the-image-path.jpg",
+    client.files.upload(
+        file=b"raw file contents",
         file_name="fileName",
     )
 except imagekit.APIConnectionError as e:
@@ -207,8 +233,8 @@ client = ImageKit(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).files.upload_v1(
-    file="https://www.example.com/rest-of-the-image-path.jpg",
+client.with_options(max_retries=5).files.upload(
+    file=b"raw file contents",
     file_name="fileName",
 )
 ```
@@ -233,8 +259,8 @@ client = ImageKit(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).files.upload_v1(
-    file="https://www.example.com/rest-of-the-image-path.jpg",
+client.with_options(timeout=5.0).files.upload(
+    file=b"raw file contents",
     file_name="fileName",
 )
 ```
@@ -277,13 +303,13 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from imagekit import ImageKit
 
 client = ImageKit()
-response = client.files.with_raw_response.upload_v1(
-    file="https://www.example.com/rest-of-the-image-path.jpg",
+response = client.files.with_raw_response.upload(
+    file=b"raw file contents",
     file_name="fileName",
 )
 print(response.headers.get('X-My-Header'))
 
-file = response.parse()  # get the object that `files.upload_v1()` would have returned
+file = response.parse()  # get the object that `files.upload()` would have returned
 print(file.video_codec)
 ```
 
@@ -298,8 +324,8 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.files.with_streaming_response.upload_v1(
-    file="https://www.example.com/rest-of-the-image-path.jpg",
+with client.files.with_streaming_response.upload(
+    file=b"raw file contents",
     file_name="fileName",
 ) as response:
     print(response.headers.get("X-My-Header"))

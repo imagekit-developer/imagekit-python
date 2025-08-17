@@ -29,7 +29,7 @@ class CustomMetadataFieldCreateParams(TypedDict, total=False):
 
 
 class Schema(TypedDict, total=False):
-    type: Required[Literal["Text", "TextArea", "Number", "Date", "Boolean", "SingleSelect", "MultiSelect"]]
+    type: Required[Literal["Text", "Textarea", "Number", "Date", "Boolean", "SingleSelect", "MultiSelect"]]
     """Type of the custom metadata field."""
 
     default_value: Annotated[Union[str, float, bool, List[Union[str, float, bool]]], PropertyInfo(alias="defaultValue")]

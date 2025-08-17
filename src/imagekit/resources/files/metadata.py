@@ -14,10 +14,10 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...types.files import metadata_from_url_params
+from ...types.files import metadata_get_from_url_params
 from ..._base_client import make_request_options
-from ...types.files.metadata_from_url_response import MetadataFromURLResponse
-from ...types.files.metadata_retrieve_response import MetadataRetrieveResponse
+from ...types.files.metadata_get_response import MetadataGetResponse
+from ...types.files.metadata_get_from_url_response import MetadataGetFromURLResponse
 
 __all__ = ["MetadataResource", "AsyncMetadataResource"]
 
@@ -42,7 +42,7 @@ class MetadataResource(SyncAPIResource):
         """
         return MetadataResourceWithStreamingResponse(self)
 
-    def retrieve(
+    def get(
         self,
         file_id: str,
         *,
@@ -52,7 +52,7 @@ class MetadataResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> MetadataRetrieveResponse:
+    ) -> MetadataGetResponse:
         """
         You can programmatically get image EXIF, pHash, and other metadata for uploaded
         files in the ImageKit.io media library using this API.
@@ -76,10 +76,10 @@ class MetadataResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=MetadataRetrieveResponse,
+            cast_to=MetadataGetResponse,
         )
 
-    def from_url(
+    def get_from_url(
         self,
         *,
         url: str,
@@ -89,7 +89,7 @@ class MetadataResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> MetadataFromURLResponse:
+    ) -> MetadataGetFromURLResponse:
         """
         Get image EXIF, pHash, and other metadata from ImageKit.io powered remote URL
         using this API.
@@ -113,9 +113,9 @@ class MetadataResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"url": url}, metadata_from_url_params.MetadataFromURLParams),
+                query=maybe_transform({"url": url}, metadata_get_from_url_params.MetadataGetFromURLParams),
             ),
-            cast_to=MetadataFromURLResponse,
+            cast_to=MetadataGetFromURLResponse,
         )
 
 
@@ -139,7 +139,7 @@ class AsyncMetadataResource(AsyncAPIResource):
         """
         return AsyncMetadataResourceWithStreamingResponse(self)
 
-    async def retrieve(
+    async def get(
         self,
         file_id: str,
         *,
@@ -149,7 +149,7 @@ class AsyncMetadataResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> MetadataRetrieveResponse:
+    ) -> MetadataGetResponse:
         """
         You can programmatically get image EXIF, pHash, and other metadata for uploaded
         files in the ImageKit.io media library using this API.
@@ -173,10 +173,10 @@ class AsyncMetadataResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=MetadataRetrieveResponse,
+            cast_to=MetadataGetResponse,
         )
 
-    async def from_url(
+    async def get_from_url(
         self,
         *,
         url: str,
@@ -186,7 +186,7 @@ class AsyncMetadataResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> MetadataFromURLResponse:
+    ) -> MetadataGetFromURLResponse:
         """
         Get image EXIF, pHash, and other metadata from ImageKit.io powered remote URL
         using this API.
@@ -210,9 +210,9 @@ class AsyncMetadataResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"url": url}, metadata_from_url_params.MetadataFromURLParams),
+                query=await async_maybe_transform({"url": url}, metadata_get_from_url_params.MetadataGetFromURLParams),
             ),
-            cast_to=MetadataFromURLResponse,
+            cast_to=MetadataGetFromURLResponse,
         )
 
 
@@ -220,11 +220,11 @@ class MetadataResourceWithRawResponse:
     def __init__(self, metadata: MetadataResource) -> None:
         self._metadata = metadata
 
-        self.retrieve = to_raw_response_wrapper(
-            metadata.retrieve,
+        self.get = to_raw_response_wrapper(
+            metadata.get,
         )
-        self.from_url = to_raw_response_wrapper(
-            metadata.from_url,
+        self.get_from_url = to_raw_response_wrapper(
+            metadata.get_from_url,
         )
 
 
@@ -232,11 +232,11 @@ class AsyncMetadataResourceWithRawResponse:
     def __init__(self, metadata: AsyncMetadataResource) -> None:
         self._metadata = metadata
 
-        self.retrieve = async_to_raw_response_wrapper(
-            metadata.retrieve,
+        self.get = async_to_raw_response_wrapper(
+            metadata.get,
         )
-        self.from_url = async_to_raw_response_wrapper(
-            metadata.from_url,
+        self.get_from_url = async_to_raw_response_wrapper(
+            metadata.get_from_url,
         )
 
 
@@ -244,11 +244,11 @@ class MetadataResourceWithStreamingResponse:
     def __init__(self, metadata: MetadataResource) -> None:
         self._metadata = metadata
 
-        self.retrieve = to_streamed_response_wrapper(
-            metadata.retrieve,
+        self.get = to_streamed_response_wrapper(
+            metadata.get,
         )
-        self.from_url = to_streamed_response_wrapper(
-            metadata.from_url,
+        self.get_from_url = to_streamed_response_wrapper(
+            metadata.get_from_url,
         )
 
 
@@ -256,9 +256,9 @@ class AsyncMetadataResourceWithStreamingResponse:
     def __init__(self, metadata: AsyncMetadataResource) -> None:
         self._metadata = metadata
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            metadata.retrieve,
+        self.get = async_to_streamed_response_wrapper(
+            metadata.get,
         )
-        self.from_url = async_to_streamed_response_wrapper(
-            metadata.from_url,
+        self.get_from_url = async_to_streamed_response_wrapper(
+            metadata.get_from_url,
         )

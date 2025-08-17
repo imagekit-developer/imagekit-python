@@ -1,5 +1,21 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from .beta import (
+    BetaResource,
+    AsyncBetaResource,
+    BetaResourceWithRawResponse,
+    AsyncBetaResourceWithRawResponse,
+    BetaResourceWithStreamingResponse,
+    AsyncBetaResourceWithStreamingResponse,
+)
+from .cache import (
+    CacheResource,
+    AsyncCacheResource,
+    CacheResourceWithRawResponse,
+    AsyncCacheResourceWithRawResponse,
+    CacheResourceWithStreamingResponse,
+    AsyncCacheResourceWithStreamingResponse,
+)
 from .files import (
     FilesResource,
     AsyncFilesResource,
@@ -8,13 +24,21 @@ from .files import (
     FilesResourceWithStreamingResponse,
     AsyncFilesResourceWithStreamingResponse,
 )
-from .folder import (
-    FolderResource,
-    AsyncFolderResource,
-    FolderResourceWithRawResponse,
-    AsyncFolderResourceWithRawResponse,
-    FolderResourceWithStreamingResponse,
-    AsyncFolderResourceWithStreamingResponse,
+from .assets import (
+    AssetsResource,
+    AsyncAssetsResource,
+    AssetsResourceWithRawResponse,
+    AsyncAssetsResourceWithRawResponse,
+    AssetsResourceWithStreamingResponse,
+    AsyncAssetsResourceWithStreamingResponse,
+)
+from .folders import (
+    FoldersResource,
+    AsyncFoldersResource,
+    FoldersResourceWithRawResponse,
+    AsyncFoldersResourceWithRawResponse,
+    FoldersResourceWithStreamingResponse,
+    AsyncFoldersResourceWithStreamingResponse,
 )
 from .accounts import (
     AccountsResource,
@@ -23,14 +47,6 @@ from .accounts import (
     AsyncAccountsResourceWithRawResponse,
     AccountsResourceWithStreamingResponse,
     AsyncAccountsResourceWithStreamingResponse,
-)
-from .bulk_jobs import (
-    BulkJobsResource,
-    AsyncBulkJobsResource,
-    BulkJobsResourceWithRawResponse,
-    AsyncBulkJobsResourceWithRawResponse,
-    BulkJobsResourceWithStreamingResponse,
-    AsyncBulkJobsResourceWithStreamingResponse,
 )
 from .custom_metadata_fields import (
     CustomMetadataFieldsResource,
@@ -54,22 +70,34 @@ __all__ = [
     "AsyncFilesResourceWithRawResponse",
     "FilesResourceWithStreamingResponse",
     "AsyncFilesResourceWithStreamingResponse",
-    "FolderResource",
-    "AsyncFolderResource",
-    "FolderResourceWithRawResponse",
-    "AsyncFolderResourceWithRawResponse",
-    "FolderResourceWithStreamingResponse",
-    "AsyncFolderResourceWithStreamingResponse",
-    "BulkJobsResource",
-    "AsyncBulkJobsResource",
-    "BulkJobsResourceWithRawResponse",
-    "AsyncBulkJobsResourceWithRawResponse",
-    "BulkJobsResourceWithStreamingResponse",
-    "AsyncBulkJobsResourceWithStreamingResponse",
+    "AssetsResource",
+    "AsyncAssetsResource",
+    "AssetsResourceWithRawResponse",
+    "AsyncAssetsResourceWithRawResponse",
+    "AssetsResourceWithStreamingResponse",
+    "AsyncAssetsResourceWithStreamingResponse",
+    "CacheResource",
+    "AsyncCacheResource",
+    "CacheResourceWithRawResponse",
+    "AsyncCacheResourceWithRawResponse",
+    "CacheResourceWithStreamingResponse",
+    "AsyncCacheResourceWithStreamingResponse",
+    "FoldersResource",
+    "AsyncFoldersResource",
+    "FoldersResourceWithRawResponse",
+    "AsyncFoldersResourceWithRawResponse",
+    "FoldersResourceWithStreamingResponse",
+    "AsyncFoldersResourceWithStreamingResponse",
     "AccountsResource",
     "AsyncAccountsResource",
     "AccountsResourceWithRawResponse",
     "AsyncAccountsResourceWithRawResponse",
     "AccountsResourceWithStreamingResponse",
     "AsyncAccountsResourceWithStreamingResponse",
+    "BetaResource",
+    "AsyncBetaResource",
+    "BetaResourceWithRawResponse",
+    "AsyncBetaResourceWithRawResponse",
+    "BetaResourceWithStreamingResponse",
+    "AsyncBetaResourceWithStreamingResponse",
 ]
