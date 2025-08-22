@@ -39,8 +39,8 @@ client = ImageKit(
 )
 
 response = client.files.upload(
-    file=b"raw file contents",
-    file_name="fileName",
+    file=b"https://www.example.com/public-url.jpg",
+    file_name="file-name.jpg",
 )
 print(response.video_codec)
 ```
@@ -69,8 +69,8 @@ client = AsyncImageKit(
 
 async def main() -> None:
     response = await client.files.upload(
-        file=b"raw file contents",
-        file_name="fileName",
+        file=b"https://www.example.com/public-url.jpg",
+        file_name="file-name.jpg",
     )
     print(response.video_codec)
 
@@ -106,8 +106,8 @@ async def main() -> None:
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.files.upload(
-            file=b"raw file contents",
-            file_name="fileName",
+            file=b"https://www.example.com/public-url.jpg",
+            file_name="file-name.jpg",
         )
         print(response.video_codec)
 
@@ -188,8 +188,8 @@ client = ImageKit()
 
 try:
     client.files.upload(
-        file=b"raw file contents",
-        file_name="fileName",
+        file=b"https://www.example.com/public-url.jpg",
+        file_name="file-name.jpg",
     )
 except imagekit.APIConnectionError as e:
     print("The server could not be reached")
@@ -234,8 +234,8 @@ client = ImageKit(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).files.upload(
-    file=b"raw file contents",
-    file_name="fileName",
+    file=b"https://www.example.com/public-url.jpg",
+    file_name="file-name.jpg",
 )
 ```
 
@@ -260,8 +260,8 @@ client = ImageKit(
 
 # Override per-request:
 client.with_options(timeout=5.0).files.upload(
-    file=b"raw file contents",
-    file_name="fileName",
+    file=b"https://www.example.com/public-url.jpg",
+    file_name="file-name.jpg",
 )
 ```
 
@@ -304,8 +304,8 @@ from imagekit import ImageKit
 
 client = ImageKit()
 response = client.files.with_raw_response.upload(
-    file=b"raw file contents",
-    file_name="fileName",
+    file=b"https://www.example.com/public-url.jpg",
+    file_name="file-name.jpg",
 )
 print(response.headers.get('X-My-Header'))
 
@@ -325,8 +325,8 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.files.with_streaming_response.upload(
-    file=b"raw file contents",
-    file_name="fileName",
+    file=b"https://www.example.com/public-url.jpg",
+    file_name="file-name.jpg",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
