@@ -48,6 +48,7 @@ from .accounts import (
     AccountsResourceWithStreamingResponse,
     AsyncAccountsResourceWithStreamingResponse,
 )
+from .webhooks import WebhooksResource, AsyncWebhooksResource
 from .custom_metadata_fields import (
     CustomMetadataFieldsResource,
     AsyncCustomMetadataFieldsResource,
@@ -100,4 +101,6 @@ __all__ = [
     "AsyncBetaResourceWithRawResponse",
     "BetaResourceWithStreamingResponse",
     "AsyncBetaResourceWithStreamingResponse",
+    "WebhooksResource",
+    "AsyncWebhooksResource",
 ]

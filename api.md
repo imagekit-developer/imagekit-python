@@ -243,3 +243,16 @@ from imagekit.types.beta.v2 import FileUploadResponse
 Methods:
 
 - <code title="post /api/v2/files/upload">client.beta.v2.files.<a href="./src/imagekit/resources/beta/v2/files.py">upload</a>(\*\*<a href="src/imagekit/types/beta/v2/file_upload_params.py">params</a>) -> <a href="./src/imagekit/types/beta/v2/file_upload_response.py">FileUploadResponse</a></code>
+
+# Webhooks
+
+Types:
+
+```python
+from imagekit.types import (
+    VideoTransformationAcceptedWebhookEvent,
+    VideoTransformationReadyWebhookEvent,
+    VideoTransformationErrorWebhookEvent,
+    UnwrapWebhookEvent,
+)
+```

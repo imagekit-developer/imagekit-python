@@ -23,7 +23,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import assets, custom_metadata_fields
+from .resources import assets, webhooks, custom_metadata_fields
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import ImageKitError, APIStatusError
 from ._base_client import (
@@ -57,6 +57,7 @@ class ImageKit(SyncAPIClient):
     folders: folders.FoldersResource
     accounts: accounts.AccountsResource
     beta: beta.BetaResource
+    webhooks: webhooks.WebhooksResource
     with_raw_response: ImageKitWithRawResponse
     with_streaming_response: ImageKitWithStreamedResponse
 
@@ -130,6 +131,7 @@ class ImageKit(SyncAPIClient):
         self.folders = folders.FoldersResource(self)
         self.accounts = accounts.AccountsResource(self)
         self.beta = beta.BetaResource(self)
+        self.webhooks = webhooks.WebhooksResource(self)
         self.with_raw_response = ImageKitWithRawResponse(self)
         self.with_streaming_response = ImageKitWithStreamedResponse(self)
 
@@ -264,6 +266,7 @@ class AsyncImageKit(AsyncAPIClient):
     folders: folders.AsyncFoldersResource
     accounts: accounts.AsyncAccountsResource
     beta: beta.AsyncBetaResource
+    webhooks: webhooks.AsyncWebhooksResource
     with_raw_response: AsyncImageKitWithRawResponse
     with_streaming_response: AsyncImageKitWithStreamedResponse
 
@@ -337,6 +340,7 @@ class AsyncImageKit(AsyncAPIClient):
         self.folders = folders.AsyncFoldersResource(self)
         self.accounts = accounts.AsyncAccountsResource(self)
         self.beta = beta.AsyncBetaResource(self)
+        self.webhooks = webhooks.AsyncWebhooksResource(self)
         self.with_raw_response = AsyncImageKitWithRawResponse(self)
         self.with_streaming_response = AsyncImageKitWithStreamedResponse(self)
 
