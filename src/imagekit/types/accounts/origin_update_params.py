@@ -9,18 +9,18 @@ from ..._utils import PropertyInfo
 
 __all__ = [
     "OriginUpdateParams",
-    "S3",
-    "S3Compatible",
-    "CloudinaryBackup",
-    "WebFolder",
-    "WebProxy",
-    "GoogleCloudStorageGcs",
-    "AzureBlobStorage",
-    "AkeneoPim",
+    "S3Origin",
+    "S3CompatibleOrigin",
+    "CloudinaryBackupOrigin",
+    "WebFolderOrigin",
+    "WebProxyOrigin",
+    "GcsOrigin",
+    "AzureBlobOrigin",
+    "AkeneoPimOrigin",
 ]
 
 
-class S3(TypedDict, total=False):
+class S3Origin(TypedDict, total=False):
     access_key: Required[Annotated[str, PropertyInfo(alias="accessKey")]]
     """Access key for the bucket."""
 
@@ -33,7 +33,11 @@ class S3(TypedDict, total=False):
     secret_key: Required[Annotated[str, PropertyInfo(alias="secretKey")]]
     """Secret key for the bucket."""
 
-    type: Required[Literal["S3"]]
+    type: Required[
+        Literal[
+            "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ]
+    ]
 
     base_url_for_canonical_header: Annotated[str, PropertyInfo(alias="baseUrlForCanonicalHeader")]
     """URL used in the Canonical header (if enabled)."""
@@ -45,7 +49,7 @@ class S3(TypedDict, total=False):
     """Path prefix inside the bucket."""
 
 
-class S3Compatible(TypedDict, total=False):
+class S3CompatibleOrigin(TypedDict, total=False):
     access_key: Required[Annotated[str, PropertyInfo(alias="accessKey")]]
     """Access key for the bucket."""
 
@@ -61,7 +65,11 @@ class S3Compatible(TypedDict, total=False):
     secret_key: Required[Annotated[str, PropertyInfo(alias="secretKey")]]
     """Secret key for the bucket."""
 
-    type: Required[Literal["S3_COMPATIBLE"]]
+    type: Required[
+        Literal[
+            "S3_COMPATIBLE", "S3", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ]
+    ]
 
     base_url_for_canonical_header: Annotated[str, PropertyInfo(alias="baseUrlForCanonicalHeader")]
     """URL used in the Canonical header (if enabled)."""
@@ -76,7 +84,7 @@ class S3Compatible(TypedDict, total=False):
     """Use path-style S3 URLs?"""
 
 
-class CloudinaryBackup(TypedDict, total=False):
+class CloudinaryBackupOrigin(TypedDict, total=False):
     access_key: Required[Annotated[str, PropertyInfo(alias="accessKey")]]
     """Access key for the bucket."""
 
@@ -89,7 +97,11 @@ class CloudinaryBackup(TypedDict, total=False):
     secret_key: Required[Annotated[str, PropertyInfo(alias="secretKey")]]
     """Secret key for the bucket."""
 
-    type: Required[Literal["CLOUDINARY_BACKUP"]]
+    type: Required[
+        Literal[
+            "CLOUDINARY_BACKUP", "S3", "S3_COMPATIBLE", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ]
+    ]
 
     base_url_for_canonical_header: Annotated[str, PropertyInfo(alias="baseUrlForCanonicalHeader")]
     """URL used in the Canonical header (if enabled)."""
@@ -101,14 +113,18 @@ class CloudinaryBackup(TypedDict, total=False):
     """Path prefix inside the bucket."""
 
 
-class WebFolder(TypedDict, total=False):
+class WebFolderOrigin(TypedDict, total=False):
     base_url: Required[Annotated[str, PropertyInfo(alias="baseUrl")]]
     """Root URL for the web folder origin."""
 
     name: Required[str]
     """Display name of the origin."""
 
-    type: Required[Literal["WEB_FOLDER"]]
+    type: Required[
+        Literal[
+            "WEB_FOLDER", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ]
+    ]
 
     base_url_for_canonical_header: Annotated[str, PropertyInfo(alias="baseUrlForCanonicalHeader")]
     """URL used in the Canonical header (if enabled)."""
@@ -120,11 +136,15 @@ class WebFolder(TypedDict, total=False):
     """Whether to send a Canonical header."""
 
 
-class WebProxy(TypedDict, total=False):
+class WebProxyOrigin(TypedDict, total=False):
     name: Required[str]
     """Display name of the origin."""
 
-    type: Required[Literal["WEB_PROXY"]]
+    type: Required[
+        Literal[
+            "WEB_PROXY", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ]
+    ]
 
     base_url_for_canonical_header: Annotated[str, PropertyInfo(alias="baseUrlForCanonicalHeader")]
     """URL used in the Canonical header (if enabled)."""
@@ -133,7 +153,7 @@ class WebProxy(TypedDict, total=False):
     """Whether to send a Canonical header."""
 
 
-class GoogleCloudStorageGcs(TypedDict, total=False):
+class GcsOrigin(TypedDict, total=False):
     bucket: Required[str]
 
     client_email: Required[Annotated[str, PropertyInfo(alias="clientEmail")]]
@@ -143,7 +163,11 @@ class GoogleCloudStorageGcs(TypedDict, total=False):
 
     private_key: Required[Annotated[str, PropertyInfo(alias="privateKey")]]
 
-    type: Required[Literal["GCS"]]
+    type: Required[
+        Literal[
+            "GCS", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "AZURE_BLOB", "AKENEO_PIM"
+        ]
+    ]
 
     base_url_for_canonical_header: Annotated[str, PropertyInfo(alias="baseUrlForCanonicalHeader")]
     """URL used in the Canonical header (if enabled)."""
@@ -154,7 +178,7 @@ class GoogleCloudStorageGcs(TypedDict, total=False):
     prefix: str
 
 
-class AzureBlobStorage(TypedDict, total=False):
+class AzureBlobOrigin(TypedDict, total=False):
     account_name: Required[Annotated[str, PropertyInfo(alias="accountName")]]
 
     container: Required[str]
@@ -164,7 +188,11 @@ class AzureBlobStorage(TypedDict, total=False):
 
     sas_token: Required[Annotated[str, PropertyInfo(alias="sasToken")]]
 
-    type: Required[Literal["AZURE_BLOB"]]
+    type: Required[
+        Literal[
+            "AZURE_BLOB", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AKENEO_PIM"
+        ]
+    ]
 
     base_url_for_canonical_header: Annotated[str, PropertyInfo(alias="baseUrlForCanonicalHeader")]
     """URL used in the Canonical header (if enabled)."""
@@ -175,7 +203,7 @@ class AzureBlobStorage(TypedDict, total=False):
     prefix: str
 
 
-class AkeneoPim(TypedDict, total=False):
+class AkeneoPimOrigin(TypedDict, total=False):
     base_url: Required[Annotated[str, PropertyInfo(alias="baseUrl")]]
     """Akeneo instance base URL."""
 
@@ -191,7 +219,11 @@ class AkeneoPim(TypedDict, total=False):
     password: Required[str]
     """Akeneo API password."""
 
-    type: Required[Literal["AKENEO_PIM"]]
+    type: Required[
+        Literal[
+            "AKENEO_PIM", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB"
+        ]
+    ]
 
     username: Required[str]
     """Akeneo API username."""
@@ -204,5 +236,12 @@ class AkeneoPim(TypedDict, total=False):
 
 
 OriginUpdateParams: TypeAlias = Union[
-    S3, S3Compatible, CloudinaryBackup, WebFolder, WebProxy, GoogleCloudStorageGcs, AzureBlobStorage, AkeneoPim
+    S3Origin,
+    S3CompatibleOrigin,
+    CloudinaryBackupOrigin,
+    WebFolderOrigin,
+    WebProxyOrigin,
+    GcsOrigin,
+    AzureBlobOrigin,
+    AkeneoPimOrigin,
 ]

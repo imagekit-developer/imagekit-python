@@ -55,7 +55,9 @@ class OriginsResource(SyncAPIResource):
         bucket: str,
         name: str,
         secret_key: str,
-        type: Literal["S3"],
+        type: Literal[
+            "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -105,7 +107,9 @@ class OriginsResource(SyncAPIResource):
         endpoint: str,
         name: str,
         secret_key: str,
-        type: Literal["S3_COMPATIBLE"],
+        type: Literal[
+            "S3_COMPATIBLE", "S3", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -159,7 +163,9 @@ class OriginsResource(SyncAPIResource):
         bucket: str,
         name: str,
         secret_key: str,
-        type: Literal["CLOUDINARY_BACKUP"],
+        type: Literal[
+            "CLOUDINARY_BACKUP", "S3", "S3_COMPATIBLE", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -206,7 +212,9 @@ class OriginsResource(SyncAPIResource):
         *,
         base_url: str,
         name: str,
-        type: Literal["WEB_FOLDER"],
+        type: Literal[
+            "WEB_FOLDER", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
@@ -248,7 +256,9 @@ class OriginsResource(SyncAPIResource):
         self,
         *,
         name: str,
-        type: Literal["WEB_PROXY"],
+        type: Literal[
+            "WEB_PROXY", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -288,7 +298,9 @@ class OriginsResource(SyncAPIResource):
         client_email: str,
         name: str,
         private_key: str,
-        type: Literal["GCS"],
+        type: Literal[
+            "GCS", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -329,7 +341,9 @@ class OriginsResource(SyncAPIResource):
         container: str,
         name: str,
         sas_token: str,
-        type: Literal["AZURE_BLOB"],
+        type: Literal[
+            "AZURE_BLOB", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -371,7 +385,9 @@ class OriginsResource(SyncAPIResource):
         client_secret: str,
         name: str,
         password: str,
-        type: Literal["AKENEO_PIM"],
+        type: Literal[
+            "AKENEO_PIM", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB"
+        ],
         username: str,
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
@@ -430,14 +446,9 @@ class OriginsResource(SyncAPIResource):
         bucket: str | NotGiven = NOT_GIVEN,
         name: str,
         secret_key: str | NotGiven = NOT_GIVEN,
-        type: Literal["S3"]
-        | Literal["S3_COMPATIBLE"]
-        | Literal["CLOUDINARY_BACKUP"]
-        | Literal["WEB_FOLDER"]
-        | Literal["WEB_PROXY"]
-        | Literal["GCS"]
-        | Literal["AZURE_BLOB"]
-        | Literal["AKENEO_PIM"],
+        type: Literal[
+            "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -509,7 +520,9 @@ class OriginsResource(SyncAPIResource):
         bucket: str,
         name: str,
         secret_key: str,
-        type: Literal["S3"],
+        type: Literal[
+            "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -563,7 +576,9 @@ class OriginsResource(SyncAPIResource):
         endpoint: str,
         name: str,
         secret_key: str,
-        type: Literal["S3_COMPATIBLE"],
+        type: Literal[
+            "S3_COMPATIBLE", "S3", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -621,7 +636,9 @@ class OriginsResource(SyncAPIResource):
         bucket: str,
         name: str,
         secret_key: str,
-        type: Literal["CLOUDINARY_BACKUP"],
+        type: Literal[
+            "CLOUDINARY_BACKUP", "S3", "S3_COMPATIBLE", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -672,7 +689,9 @@ class OriginsResource(SyncAPIResource):
         *,
         base_url: str,
         name: str,
-        type: Literal["WEB_FOLDER"],
+        type: Literal[
+            "WEB_FOLDER", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
@@ -718,7 +737,9 @@ class OriginsResource(SyncAPIResource):
         id: str,
         *,
         name: str,
-        type: Literal["WEB_PROXY"],
+        type: Literal[
+            "WEB_PROXY", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -762,7 +783,9 @@ class OriginsResource(SyncAPIResource):
         client_email: str,
         name: str,
         private_key: str,
-        type: Literal["GCS"],
+        type: Literal[
+            "GCS", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -807,7 +830,9 @@ class OriginsResource(SyncAPIResource):
         container: str,
         name: str,
         sas_token: str,
-        type: Literal["AZURE_BLOB"],
+        type: Literal[
+            "AZURE_BLOB", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -853,7 +878,9 @@ class OriginsResource(SyncAPIResource):
         client_secret: str,
         name: str,
         password: str,
-        type: Literal["AKENEO_PIM"],
+        type: Literal[
+            "AKENEO_PIM", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB"
+        ],
         username: str,
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
@@ -916,14 +943,9 @@ class OriginsResource(SyncAPIResource):
         bucket: str | NotGiven = NOT_GIVEN,
         name: str,
         secret_key: str | NotGiven = NOT_GIVEN,
-        type: Literal["S3"]
-        | Literal["S3_COMPATIBLE"]
-        | Literal["CLOUDINARY_BACKUP"]
-        | Literal["WEB_FOLDER"]
-        | Literal["WEB_PROXY"]
-        | Literal["GCS"]
-        | Literal["AZURE_BLOB"]
-        | Literal["AKENEO_PIM"],
+        type: Literal[
+            "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1121,7 +1143,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         bucket: str,
         name: str,
         secret_key: str,
-        type: Literal["S3"],
+        type: Literal[
+            "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1171,7 +1195,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         endpoint: str,
         name: str,
         secret_key: str,
-        type: Literal["S3_COMPATIBLE"],
+        type: Literal[
+            "S3_COMPATIBLE", "S3", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1225,7 +1251,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         bucket: str,
         name: str,
         secret_key: str,
-        type: Literal["CLOUDINARY_BACKUP"],
+        type: Literal[
+            "CLOUDINARY_BACKUP", "S3", "S3_COMPATIBLE", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1272,7 +1300,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         *,
         base_url: str,
         name: str,
-        type: Literal["WEB_FOLDER"],
+        type: Literal[
+            "WEB_FOLDER", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
@@ -1314,7 +1344,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         self,
         *,
         name: str,
-        type: Literal["WEB_PROXY"],
+        type: Literal[
+            "WEB_PROXY", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1354,7 +1386,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         client_email: str,
         name: str,
         private_key: str,
-        type: Literal["GCS"],
+        type: Literal[
+            "GCS", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1395,7 +1429,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         container: str,
         name: str,
         sas_token: str,
-        type: Literal["AZURE_BLOB"],
+        type: Literal[
+            "AZURE_BLOB", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1437,7 +1473,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         client_secret: str,
         name: str,
         password: str,
-        type: Literal["AKENEO_PIM"],
+        type: Literal[
+            "AKENEO_PIM", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB"
+        ],
         username: str,
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
@@ -1496,14 +1534,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         bucket: str | NotGiven = NOT_GIVEN,
         name: str,
         secret_key: str | NotGiven = NOT_GIVEN,
-        type: Literal["S3"]
-        | Literal["S3_COMPATIBLE"]
-        | Literal["CLOUDINARY_BACKUP"]
-        | Literal["WEB_FOLDER"]
-        | Literal["WEB_PROXY"]
-        | Literal["GCS"]
-        | Literal["AZURE_BLOB"]
-        | Literal["AKENEO_PIM"],
+        type: Literal[
+            "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1575,7 +1608,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         bucket: str,
         name: str,
         secret_key: str,
-        type: Literal["S3"],
+        type: Literal[
+            "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1629,7 +1664,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         endpoint: str,
         name: str,
         secret_key: str,
-        type: Literal["S3_COMPATIBLE"],
+        type: Literal[
+            "S3_COMPATIBLE", "S3", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1687,7 +1724,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         bucket: str,
         name: str,
         secret_key: str,
-        type: Literal["CLOUDINARY_BACKUP"],
+        type: Literal[
+            "CLOUDINARY_BACKUP", "S3", "S3_COMPATIBLE", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1738,7 +1777,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         *,
         base_url: str,
         name: str,
-        type: Literal["WEB_FOLDER"],
+        type: Literal[
+            "WEB_FOLDER", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
@@ -1784,7 +1825,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         id: str,
         *,
         name: str,
-        type: Literal["WEB_PROXY"],
+        type: Literal[
+            "WEB_PROXY", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1828,7 +1871,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         client_email: str,
         name: str,
         private_key: str,
-        type: Literal["GCS"],
+        type: Literal[
+            "GCS", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1873,7 +1918,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         container: str,
         name: str,
         sas_token: str,
-        type: Literal["AZURE_BLOB"],
+        type: Literal[
+            "AZURE_BLOB", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
@@ -1919,7 +1966,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         client_secret: str,
         name: str,
         password: str,
-        type: Literal["AKENEO_PIM"],
+        type: Literal[
+            "AKENEO_PIM", "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB"
+        ],
         username: str,
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
@@ -1982,14 +2031,9 @@ class AsyncOriginsResource(AsyncAPIResource):
         bucket: str | NotGiven = NOT_GIVEN,
         name: str,
         secret_key: str | NotGiven = NOT_GIVEN,
-        type: Literal["S3"]
-        | Literal["S3_COMPATIBLE"]
-        | Literal["CLOUDINARY_BACKUP"]
-        | Literal["WEB_FOLDER"]
-        | Literal["WEB_PROXY"]
-        | Literal["GCS"]
-        | Literal["AZURE_BLOB"]
-        | Literal["AKENEO_PIM"],
+        type: Literal[
+            "S3", "S3_COMPATIBLE", "CLOUDINARY_BACKUP", "WEB_FOLDER", "WEB_PROXY", "GCS", "AZURE_BLOB", "AKENEO_PIM"
+        ],
         base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
         include_canonical_header: bool | NotGiven = NOT_GIVEN,
         prefix: str | NotGiven = NOT_GIVEN,
