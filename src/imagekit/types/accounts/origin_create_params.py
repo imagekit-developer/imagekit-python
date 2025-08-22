@@ -15,8 +15,8 @@ __all__ = [
     "OriginCloudinaryBackup",
     "OriginWebFolder",
     "OriginWebProxy",
-    "OriginGoogleCloudStorageGcs",
-    "OriginAzureBlobStorage",
+    "OriginGcs",
+    "OriginAzureBlob",
     "OriginAkeneoPim",
 ]
 
@@ -139,7 +139,7 @@ class OriginWebProxy(TypedDict, total=False):
     """Whether to send a Canonical header."""
 
 
-class OriginGoogleCloudStorageGcs(TypedDict, total=False):
+class OriginGcs(TypedDict, total=False):
     bucket: Required[str]
 
     client_email: Required[Annotated[str, PropertyInfo(alias="clientEmail")]]
@@ -160,7 +160,7 @@ class OriginGoogleCloudStorageGcs(TypedDict, total=False):
     prefix: str
 
 
-class OriginAzureBlobStorage(TypedDict, total=False):
+class OriginAzureBlob(TypedDict, total=False):
     account_name: Required[Annotated[str, PropertyInfo(alias="accountName")]]
 
     container: Required[str]
@@ -215,7 +215,7 @@ Origin: TypeAlias = Union[
     OriginCloudinaryBackup,
     OriginWebFolder,
     OriginWebProxy,
-    OriginGoogleCloudStorageGcs,
-    OriginAzureBlobStorage,
+    OriginGcs,
+    OriginAzureBlob,
     OriginAkeneoPim,
 ]

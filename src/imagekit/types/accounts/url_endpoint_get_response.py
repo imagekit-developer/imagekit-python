@@ -1,38 +1,33 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Union, Optional
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal, Annotated, TypeAlias
 
 from pydantic import Field as FieldInfo
 
+from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
-__all__ = [
-    "URLEndpointGetResponse",
-    "URLRewriter",
-    "URLRewriterCloudinaryURLRewriter",
-    "URLRewriterImgixURLRewriter",
-    "URLRewriterAkamaiURLRewriter",
-]
+__all__ = ["URLEndpointGetResponse", "URLRewriter", "URLRewriterCloudinary", "URLRewriterImgix", "URLRewriterAkamai"]
 
 
-class URLRewriterCloudinaryURLRewriter(BaseModel):
+class URLRewriterCloudinary(BaseModel):
     preserve_asset_delivery_types: bool = FieldInfo(alias="preserveAssetDeliveryTypes")
     """Whether to preserve `<asset_type>/<delivery_type>` in the rewritten URL."""
 
     type: Literal["CLOUDINARY"]
 
 
-class URLRewriterImgixURLRewriter(BaseModel):
+class URLRewriterImgix(BaseModel):
     type: Literal["IMGIX"]
 
 
-class URLRewriterAkamaiURLRewriter(BaseModel):
+class URLRewriterAkamai(BaseModel):
     type: Literal["AKAMAI"]
 
 
-URLRewriter: TypeAlias = Union[
-    URLRewriterCloudinaryURLRewriter, URLRewriterImgixURLRewriter, URLRewriterAkamaiURLRewriter
+URLRewriter: TypeAlias = Annotated[
+    Union[URLRewriterCloudinary, URLRewriterImgix, URLRewriterAkamai], PropertyInfo(discriminator="type")
 ]
 
 

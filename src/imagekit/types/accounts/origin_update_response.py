@@ -1,10 +1,11 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Union, Optional
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal, Annotated, TypeAlias
 
 from pydantic import Field as FieldInfo
 
+from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
 __all__ = [
@@ -14,8 +15,8 @@ __all__ = [
     "CloudinaryBackup",
     "WebFolder",
     "WebProxy",
-    "GoogleCloudStorageGcs",
-    "AzureBlobStorage",
+    "Gcs",
+    "AzureBlob",
     "AkeneoPim",
 ]
 
@@ -145,7 +146,7 @@ class WebProxy(BaseModel):
     """URL used in the Canonical header (if enabled)."""
 
 
-class GoogleCloudStorageGcs(BaseModel):
+class Gcs(BaseModel):
     id: str
     """Unique identifier for the origin.
 
@@ -170,7 +171,7 @@ class GoogleCloudStorageGcs(BaseModel):
     """URL used in the Canonical header (if enabled)."""
 
 
-class AzureBlobStorage(BaseModel):
+class AzureBlob(BaseModel):
     id: str
     """Unique identifier for the origin.
 
@@ -217,6 +218,7 @@ class AkeneoPim(BaseModel):
     """URL used in the Canonical header (if enabled)."""
 
 
-OriginUpdateResponse: TypeAlias = Union[
-    S3, S3Compatible, CloudinaryBackup, WebFolder, WebProxy, GoogleCloudStorageGcs, AzureBlobStorage, AkeneoPim
+OriginUpdateResponse: TypeAlias = Annotated[
+    Union[S3, S3Compatible, CloudinaryBackup, WebFolder, WebProxy, Gcs, AzureBlob, AkeneoPim],
+    PropertyInfo(discriminator="type"),
 ]

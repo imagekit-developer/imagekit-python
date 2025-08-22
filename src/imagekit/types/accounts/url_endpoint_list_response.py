@@ -1,41 +1,45 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Union, Optional
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal, Annotated, TypeAlias
 
 from pydantic import Field as FieldInfo
 
+from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
 __all__ = [
     "URLEndpointListResponse",
     "URLEndpointListResponseItem",
     "URLEndpointListResponseItemURLRewriter",
-    "URLEndpointListResponseItemURLRewriterCloudinaryURLRewriter",
-    "URLEndpointListResponseItemURLRewriterImgixURLRewriter",
-    "URLEndpointListResponseItemURLRewriterAkamaiURLRewriter",
+    "URLEndpointListResponseItemURLRewriterCloudinary",
+    "URLEndpointListResponseItemURLRewriterImgix",
+    "URLEndpointListResponseItemURLRewriterAkamai",
 ]
 
 
-class URLEndpointListResponseItemURLRewriterCloudinaryURLRewriter(BaseModel):
+class URLEndpointListResponseItemURLRewriterCloudinary(BaseModel):
     preserve_asset_delivery_types: bool = FieldInfo(alias="preserveAssetDeliveryTypes")
     """Whether to preserve `<asset_type>/<delivery_type>` in the rewritten URL."""
 
     type: Literal["CLOUDINARY"]
 
 
-class URLEndpointListResponseItemURLRewriterImgixURLRewriter(BaseModel):
+class URLEndpointListResponseItemURLRewriterImgix(BaseModel):
     type: Literal["IMGIX"]
 
 
-class URLEndpointListResponseItemURLRewriterAkamaiURLRewriter(BaseModel):
+class URLEndpointListResponseItemURLRewriterAkamai(BaseModel):
     type: Literal["AKAMAI"]
 
 
-URLEndpointListResponseItemURLRewriter: TypeAlias = Union[
-    URLEndpointListResponseItemURLRewriterCloudinaryURLRewriter,
-    URLEndpointListResponseItemURLRewriterImgixURLRewriter,
-    URLEndpointListResponseItemURLRewriterAkamaiURLRewriter,
+URLEndpointListResponseItemURLRewriter: TypeAlias = Annotated[
+    Union[
+        URLEndpointListResponseItemURLRewriterCloudinary,
+        URLEndpointListResponseItemURLRewriterImgix,
+        URLEndpointListResponseItemURLRewriterAkamai,
+    ],
+    PropertyInfo(discriminator="type"),
 ]
 
 

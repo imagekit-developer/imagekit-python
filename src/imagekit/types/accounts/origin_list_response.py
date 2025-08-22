@@ -1,10 +1,11 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Union, Optional
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal, Annotated, TypeAlias
 
 from pydantic import Field as FieldInfo
 
+from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
 __all__ = [
@@ -15,8 +16,8 @@ __all__ = [
     "OriginListResponseItemCloudinaryBackup",
     "OriginListResponseItemWebFolder",
     "OriginListResponseItemWebProxy",
-    "OriginListResponseItemGoogleCloudStorageGcs",
-    "OriginListResponseItemAzureBlobStorage",
+    "OriginListResponseItemGcs",
+    "OriginListResponseItemAzureBlob",
     "OriginListResponseItemAkeneoPim",
 ]
 
@@ -146,7 +147,7 @@ class OriginListResponseItemWebProxy(BaseModel):
     """URL used in the Canonical header (if enabled)."""
 
 
-class OriginListResponseItemGoogleCloudStorageGcs(BaseModel):
+class OriginListResponseItemGcs(BaseModel):
     id: str
     """Unique identifier for the origin.
 
@@ -171,7 +172,7 @@ class OriginListResponseItemGoogleCloudStorageGcs(BaseModel):
     """URL used in the Canonical header (if enabled)."""
 
 
-class OriginListResponseItemAzureBlobStorage(BaseModel):
+class OriginListResponseItemAzureBlob(BaseModel):
     id: str
     """Unique identifier for the origin.
 
@@ -218,15 +219,18 @@ class OriginListResponseItemAkeneoPim(BaseModel):
     """URL used in the Canonical header (if enabled)."""
 
 
-OriginListResponseItem: TypeAlias = Union[
-    OriginListResponseItemS3,
-    OriginListResponseItemS3Compatible,
-    OriginListResponseItemCloudinaryBackup,
-    OriginListResponseItemWebFolder,
-    OriginListResponseItemWebProxy,
-    OriginListResponseItemGoogleCloudStorageGcs,
-    OriginListResponseItemAzureBlobStorage,
-    OriginListResponseItemAkeneoPim,
+OriginListResponseItem: TypeAlias = Annotated[
+    Union[
+        OriginListResponseItemS3,
+        OriginListResponseItemS3Compatible,
+        OriginListResponseItemCloudinaryBackup,
+        OriginListResponseItemWebFolder,
+        OriginListResponseItemWebProxy,
+        OriginListResponseItemGcs,
+        OriginListResponseItemAzureBlob,
+        OriginListResponseItemAkeneoPim,
+    ],
+    PropertyInfo(discriminator="type"),
 ]
 
 OriginListResponse: TypeAlias = List[OriginListResponseItem]
