@@ -6,13 +6,20 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from ...._models import BaseModel
-from ...shared.gps import Gps
-from ...shared.thumbnail import Thumbnail
-from ...shared.exif_image import ExifImage
-from ...shared.exif_details import ExifDetails
-from ...shared.interoperability import Interoperability
 
-__all__ = ["FileUploadResponse", "AITag", "ExtensionStatus", "Metadata", "MetadataExif", "VersionInfo"]
+__all__ = [
+    "FileUploadResponse",
+    "AITag",
+    "ExtensionStatus",
+    "Metadata",
+    "MetadataExif",
+    "MetadataExifExif",
+    "MetadataExifGps",
+    "MetadataExifImage",
+    "MetadataExifInteroperability",
+    "MetadataExifThumbnail",
+    "VersionInfo",
+]
 
 
 class AITag(BaseModel):
@@ -42,22 +49,124 @@ class ExtensionStatus(BaseModel):
     remove_bg: Optional[Literal["success", "pending", "failed"]] = FieldInfo(alias="remove-bg", default=None)
 
 
+class MetadataExifExif(BaseModel):
+    aperture_value: Optional[float] = FieldInfo(alias="ApertureValue", default=None)
+
+    color_space: Optional[int] = FieldInfo(alias="ColorSpace", default=None)
+
+    create_date: Optional[str] = FieldInfo(alias="CreateDate", default=None)
+
+    custom_rendered: Optional[int] = FieldInfo(alias="CustomRendered", default=None)
+
+    date_time_original: Optional[str] = FieldInfo(alias="DateTimeOriginal", default=None)
+
+    exif_image_height: Optional[int] = FieldInfo(alias="ExifImageHeight", default=None)
+
+    exif_image_width: Optional[int] = FieldInfo(alias="ExifImageWidth", default=None)
+
+    exif_version: Optional[str] = FieldInfo(alias="ExifVersion", default=None)
+
+    exposure_compensation: Optional[float] = FieldInfo(alias="ExposureCompensation", default=None)
+
+    exposure_mode: Optional[int] = FieldInfo(alias="ExposureMode", default=None)
+
+    exposure_program: Optional[int] = FieldInfo(alias="ExposureProgram", default=None)
+
+    exposure_time: Optional[float] = FieldInfo(alias="ExposureTime", default=None)
+
+    flash: Optional[int] = FieldInfo(alias="Flash", default=None)
+
+    flashpix_version: Optional[str] = FieldInfo(alias="FlashpixVersion", default=None)
+
+    f_number: Optional[float] = FieldInfo(alias="FNumber", default=None)
+
+    focal_length: Optional[int] = FieldInfo(alias="FocalLength", default=None)
+
+    focal_plane_resolution_unit: Optional[int] = FieldInfo(alias="FocalPlaneResolutionUnit", default=None)
+
+    focal_plane_x_resolution: Optional[float] = FieldInfo(alias="FocalPlaneXResolution", default=None)
+
+    focal_plane_y_resolution: Optional[float] = FieldInfo(alias="FocalPlaneYResolution", default=None)
+
+    interop_offset: Optional[int] = FieldInfo(alias="InteropOffset", default=None)
+
+    iso: Optional[int] = FieldInfo(alias="ISO", default=None)
+
+    metering_mode: Optional[int] = FieldInfo(alias="MeteringMode", default=None)
+
+    scene_capture_type: Optional[int] = FieldInfo(alias="SceneCaptureType", default=None)
+
+    shutter_speed_value: Optional[float] = FieldInfo(alias="ShutterSpeedValue", default=None)
+
+    sub_sec_time: Optional[str] = FieldInfo(alias="SubSecTime", default=None)
+
+    white_balance: Optional[int] = FieldInfo(alias="WhiteBalance", default=None)
+
+
+class MetadataExifGps(BaseModel):
+    gps_version_id: Optional[List[int]] = FieldInfo(alias="GPSVersionID", default=None)
+
+
+class MetadataExifImage(BaseModel):
+    exif_offset: Optional[int] = FieldInfo(alias="ExifOffset", default=None)
+
+    gps_info: Optional[int] = FieldInfo(alias="GPSInfo", default=None)
+
+    make: Optional[str] = FieldInfo(alias="Make", default=None)
+
+    model: Optional[str] = FieldInfo(alias="Model", default=None)
+
+    modify_date: Optional[str] = FieldInfo(alias="ModifyDate", default=None)
+
+    orientation: Optional[int] = FieldInfo(alias="Orientation", default=None)
+
+    resolution_unit: Optional[int] = FieldInfo(alias="ResolutionUnit", default=None)
+
+    software: Optional[str] = FieldInfo(alias="Software", default=None)
+
+    x_resolution: Optional[int] = FieldInfo(alias="XResolution", default=None)
+
+    y_cb_cr_positioning: Optional[int] = FieldInfo(alias="YCbCrPositioning", default=None)
+
+    y_resolution: Optional[int] = FieldInfo(alias="YResolution", default=None)
+
+
+class MetadataExifInteroperability(BaseModel):
+    interop_index: Optional[str] = FieldInfo(alias="InteropIndex", default=None)
+
+    interop_version: Optional[str] = FieldInfo(alias="InteropVersion", default=None)
+
+
+class MetadataExifThumbnail(BaseModel):
+    compression: Optional[int] = FieldInfo(alias="Compression", default=None)
+
+    resolution_unit: Optional[int] = FieldInfo(alias="ResolutionUnit", default=None)
+
+    thumbnail_length: Optional[int] = FieldInfo(alias="ThumbnailLength", default=None)
+
+    thumbnail_offset: Optional[int] = FieldInfo(alias="ThumbnailOffset", default=None)
+
+    x_resolution: Optional[int] = FieldInfo(alias="XResolution", default=None)
+
+    y_resolution: Optional[int] = FieldInfo(alias="YResolution", default=None)
+
+
 class MetadataExif(BaseModel):
-    exif: Optional[ExifDetails] = None
+    exif: Optional[MetadataExifExif] = None
     """Object containing Exif details."""
 
-    gps: Optional[Gps] = None
+    gps: Optional[MetadataExifGps] = None
     """Object containing GPS information."""
 
-    image: Optional[ExifImage] = None
+    image: Optional[MetadataExifImage] = None
     """Object containing EXIF image information."""
 
-    interoperability: Optional[Interoperability] = None
+    interoperability: Optional[MetadataExifInteroperability] = None
     """JSON object."""
 
     makernote: Optional[Dict[str, object]] = None
 
-    thumbnail: Optional[Thumbnail] = None
+    thumbnail: Optional[MetadataExifThumbnail] = None
     """Object containing Thumbnail information."""
 
 

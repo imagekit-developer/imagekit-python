@@ -1,18 +1,3 @@
-# Shared Types
-
-```python
-from imagekit.types import (
-    AutoDescriptionExtension,
-    AutoTaggingExtension,
-    ExifDetails,
-    ExifImage,
-    Gps,
-    Interoperability,
-    RemovedotBgExtension,
-    Thumbnail,
-)
-```
-
 # CustomMetadataFields
 
 Types:
