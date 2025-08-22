@@ -1,3 +1,22 @@
+requests_toolbelt>=1.0.0
+
+# ------------ Python >= 3.9 ------------
+# Requests 2.32.0/2.32.1 were yanked; start at 2.32.2.
+# urllib3 2.x requires Python >=3.9; exclude 2.0.0 (known bug).
+requests>=2.32.2; python_version >= "3.9"
+urllib3!=2.0.0,<3; python_version >= "3.9"
+
+# ------------ 3.7 <= Python < 3.9 ------------
+# Latest Requests that still supports 3.7/3.8 is 2.31.x.
+requests>=2.22.0,<2.32; python_version >= "3.7" and python_version < "3.9"
+# urllib3<2 keeps behavior consistent on these Pythons.
+urllib3<2; python_version >= "3.7" and python_version < "3.9"
+
+# ------------ Python < 3.7 (i.e., 3.6) ------------
+# 2.27.x was the last Requests series for 3.6.
+requests>=2.22.0,<2.28; python_version < "3.7"
+urllib3<2; python_version < "3.7"
+
 black==19.10b0
 coverage==4.5.4
 tox==3.14.2

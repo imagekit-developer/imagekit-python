@@ -22,7 +22,6 @@ jobs:
                   python-version: ${{ matrix.python }}
             - name: Install deps
               run: |
-                pip install -r requirements/requirements.txt
                 pip install -r requirements/test.txt
                 if [ "${{ matrix.urllib3-line }}" = "lt2" ]; then
                   pip install "urllib3<2"
