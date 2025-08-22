@@ -26,7 +26,7 @@ class TestFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_update(self, client: ImageKit) -> None:
+    def test_method_update_overload_1(self, client: ImageKit) -> None:
         file = client.files.update(
             file_id="fileId",
         )
@@ -34,48 +34,32 @@ class TestFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_update_with_all_params(self, client: ImageKit) -> None:
+    def test_method_update_with_all_params_overload_1(self, client: ImageKit) -> None:
         file = client.files.update(
             file_id="fileId",
-            update={
-                "custom_coordinates": "10,10,100,100",
-                "custom_metadata": {
-                    "brand": "bar",
-                    "color": "bar",
-                },
-                "description": "description",
-                "extensions": [
-                    {
-                        "name": "remove-bg",
-                        "options": {
-                            "add_shadow": True,
-                            "bg_color": "bg_color",
-                            "bg_image_url": "bg_image_url",
-                            "semitransparency": True,
-                        },
+            custom_coordinates="customCoordinates",
+            custom_metadata={"foo": "bar"},
+            description="description",
+            extensions=[
+                {
+                    "name": "remove-bg",
+                    "options": {
+                        "add_shadow": True,
+                        "bg_color": "bg_color",
+                        "bg_image_url": "bg_image_url",
+                        "semitransparency": True,
                     },
-                    {
-                        "max_tags": 10,
-                        "min_confidence": 80,
-                        "name": "google-auto-tagging",
-                    },
-                    {
-                        "max_tags": 10,
-                        "min_confidence": 80,
-                        "name": "aws-auto-tagging",
-                    },
-                    {"name": "ai-auto-description"},
-                ],
-                "remove_ai_tags": ["car", "vehicle", "motorsports"],
-                "tags": ["tag1", "tag2"],
-                "webhook_url": "https://webhook.site/0d6b6c7a-8e5a-4b3a-8b7c-0d6b6c7a8e5a",
-            },
+                }
+            ],
+            remove_ai_tags=["string"],
+            tags=["tag1", "tag2"],
+            webhook_url="https://example.com",
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_update(self, client: ImageKit) -> None:
+    def test_raw_response_update_overload_1(self, client: ImageKit) -> None:
         response = client.files.with_raw_response.update(
             file_id="fileId",
         )
@@ -87,7 +71,7 @@ class TestFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_update(self, client: ImageKit) -> None:
+    def test_streaming_response_update_overload_1(self, client: ImageKit) -> None:
         with client.files.with_streaming_response.update(
             file_id="fileId",
         ) as response:
@@ -101,7 +85,61 @@ class TestFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_update(self, client: ImageKit) -> None:
+    def test_path_params_update_overload_1(self, client: ImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
+            client.files.with_raw_response.update(
+                file_id="",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_overload_2(self, client: ImageKit) -> None:
+        file = client.files.update(
+            file_id="fileId",
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params_overload_2(self, client: ImageKit) -> None:
+        file = client.files.update(
+            file_id="fileId",
+            publish={
+                "is_published": True,
+                "include_file_versions": True,
+            },
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update_overload_2(self, client: ImageKit) -> None:
+        response = client.files.with_raw_response.update(
+            file_id="fileId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        file = response.parse()
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_update_overload_2(self, client: ImageKit) -> None:
+        with client.files.with_streaming_response.update(
+            file_id="fileId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            file = response.parse()
+            assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update_overload_2(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             client.files.with_raw_response.update(
                 file_id="",
@@ -428,7 +466,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_update(self, async_client: AsyncImageKit) -> None:
+    async def test_method_update_overload_1(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.update(
             file_id="fileId",
         )
@@ -436,48 +474,32 @@ class TestAsyncFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncImageKit) -> None:
+    async def test_method_update_with_all_params_overload_1(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.update(
             file_id="fileId",
-            update={
-                "custom_coordinates": "10,10,100,100",
-                "custom_metadata": {
-                    "brand": "bar",
-                    "color": "bar",
-                },
-                "description": "description",
-                "extensions": [
-                    {
-                        "name": "remove-bg",
-                        "options": {
-                            "add_shadow": True,
-                            "bg_color": "bg_color",
-                            "bg_image_url": "bg_image_url",
-                            "semitransparency": True,
-                        },
+            custom_coordinates="customCoordinates",
+            custom_metadata={"foo": "bar"},
+            description="description",
+            extensions=[
+                {
+                    "name": "remove-bg",
+                    "options": {
+                        "add_shadow": True,
+                        "bg_color": "bg_color",
+                        "bg_image_url": "bg_image_url",
+                        "semitransparency": True,
                     },
-                    {
-                        "max_tags": 10,
-                        "min_confidence": 80,
-                        "name": "google-auto-tagging",
-                    },
-                    {
-                        "max_tags": 10,
-                        "min_confidence": 80,
-                        "name": "aws-auto-tagging",
-                    },
-                    {"name": "ai-auto-description"},
-                ],
-                "remove_ai_tags": ["car", "vehicle", "motorsports"],
-                "tags": ["tag1", "tag2"],
-                "webhook_url": "https://webhook.site/0d6b6c7a-8e5a-4b3a-8b7c-0d6b6c7a8e5a",
-            },
+                }
+            ],
+            remove_ai_tags=["string"],
+            tags=["tag1", "tag2"],
+            webhook_url="https://example.com",
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncImageKit) -> None:
+    async def test_raw_response_update_overload_1(self, async_client: AsyncImageKit) -> None:
         response = await async_client.files.with_raw_response.update(
             file_id="fileId",
         )
@@ -489,7 +511,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncImageKit) -> None:
+    async def test_streaming_response_update_overload_1(self, async_client: AsyncImageKit) -> None:
         async with async_client.files.with_streaming_response.update(
             file_id="fileId",
         ) as response:
@@ -503,7 +525,61 @@ class TestAsyncFiles:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_update(self, async_client: AsyncImageKit) -> None:
+    async def test_path_params_update_overload_1(self, async_client: AsyncImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
+            await async_client.files.with_raw_response.update(
+                file_id="",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_overload_2(self, async_client: AsyncImageKit) -> None:
+        file = await async_client.files.update(
+            file_id="fileId",
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params_overload_2(self, async_client: AsyncImageKit) -> None:
+        file = await async_client.files.update(
+            file_id="fileId",
+            publish={
+                "is_published": True,
+                "include_file_versions": True,
+            },
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.files.with_raw_response.update(
+            file_id="fileId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        file = await response.parse()
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
+        async with async_client.files.with_streaming_response.update(
+            file_id="fileId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            file = await response.parse()
+            assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update_overload_2(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             await async_client.files.with_raw_response.update(
                 file_id="",
