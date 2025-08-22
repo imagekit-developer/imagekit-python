@@ -17,9 +17,9 @@ jobs:
           - python: "3.8"
             urllib3-line: "ge2"
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v5
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
       - name: Install deps
