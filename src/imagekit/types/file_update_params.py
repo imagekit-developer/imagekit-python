@@ -11,10 +11,10 @@ __all__ = [
     "FileUpdateParams",
     "UpdateFileDetails",
     "UpdateFileDetailsExtension",
-    "UpdateFileDetailsExtensionRemovedotBgExtension",
-    "UpdateFileDetailsExtensionRemovedotBgExtensionOptions",
+    "UpdateFileDetailsExtensionRemoveBg",
+    "UpdateFileDetailsExtensionRemoveBgOptions",
     "UpdateFileDetailsExtensionAutoTaggingExtension",
-    "UpdateFileDetailsExtensionAutoDescriptionExtension",
+    "UpdateFileDetailsExtensionAIAutoDescription",
     "ChangePublicationStatus",
     "ChangePublicationStatusPublish",
 ]
@@ -72,7 +72,7 @@ class UpdateFileDetails(TypedDict, total=False):
     """
 
 
-class UpdateFileDetailsExtensionRemovedotBgExtensionOptions(TypedDict, total=False):
+class UpdateFileDetailsExtensionRemoveBgOptions(TypedDict, total=False):
     add_shadow: bool
     """Whether to add an artificial shadow to the result.
 
@@ -101,11 +101,11 @@ class UpdateFileDetailsExtensionRemovedotBgExtensionOptions(TypedDict, total=Fal
     """
 
 
-class UpdateFileDetailsExtensionRemovedotBgExtension(TypedDict, total=False):
+class UpdateFileDetailsExtensionRemoveBg(TypedDict, total=False):
     name: Required[Literal["remove-bg"]]
     """Specifies the background removal extension."""
 
-    options: UpdateFileDetailsExtensionRemovedotBgExtensionOptions
+    options: UpdateFileDetailsExtensionRemoveBgOptions
 
 
 class UpdateFileDetailsExtensionAutoTaggingExtension(TypedDict, total=False):
@@ -119,15 +119,15 @@ class UpdateFileDetailsExtensionAutoTaggingExtension(TypedDict, total=False):
     """Specifies the auto-tagging extension used."""
 
 
-class UpdateFileDetailsExtensionAutoDescriptionExtension(TypedDict, total=False):
+class UpdateFileDetailsExtensionAIAutoDescription(TypedDict, total=False):
     name: Required[Literal["ai-auto-description"]]
     """Specifies the auto description extension."""
 
 
 UpdateFileDetailsExtension: TypeAlias = Union[
-    UpdateFileDetailsExtensionRemovedotBgExtension,
+    UpdateFileDetailsExtensionRemoveBg,
     UpdateFileDetailsExtensionAutoTaggingExtension,
-    UpdateFileDetailsExtensionAutoDescriptionExtension,
+    UpdateFileDetailsExtensionAIAutoDescription,
 ]
 
 
