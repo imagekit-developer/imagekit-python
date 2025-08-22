@@ -30,7 +30,9 @@ class CustomMetadataFieldUpdateParams(TypedDict, total=False):
 
 
 class Schema(TypedDict, total=False):
-    default_value: Annotated[Union[str, float, bool, List[Union[str, float, bool]]], PropertyInfo(alias="defaultValue")]
+    default_value: Annotated[
+        Union[Union[str, float, bool], List[Union[str, float, bool]]], PropertyInfo(alias="defaultValue")
+    ]
     """The default value for this custom metadata field.
 
     This property is only required if `isValueRequired` property is set to `true`.
