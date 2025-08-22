@@ -11,16 +11,16 @@ from ...._utils import PropertyInfo
 __all__ = [
     "FileUploadParams",
     "Extension",
-    "ExtensionRemovedotBgExtension",
-    "ExtensionRemovedotBgExtensionOptions",
+    "ExtensionRemoveBg",
+    "ExtensionRemoveBgOptions",
     "ExtensionAutoTaggingExtension",
-    "ExtensionAutoDescriptionExtension",
+    "ExtensionAIAutoDescription",
     "Transformation",
     "TransformationPost",
-    "TransformationPostSimplePostTransformation",
-    "TransformationPostConvertGifToVideo",
-    "TransformationPostGenerateAThumbnail",
-    "TransformationPostAdaptiveBitrateStreaming",
+    "TransformationPostTransformation",
+    "TransformationPostGifToVideo",
+    "TransformationPostThumbnail",
+    "TransformationPostAbs",
 ]
 
 
@@ -198,7 +198,7 @@ class FileUploadParams(TypedDict, total=False):
     """
 
 
-class ExtensionRemovedotBgExtensionOptions(TypedDict, total=False):
+class ExtensionRemoveBgOptions(TypedDict, total=False):
     add_shadow: bool
     """Whether to add an artificial shadow to the result.
 
@@ -227,11 +227,11 @@ class ExtensionRemovedotBgExtensionOptions(TypedDict, total=False):
     """
 
 
-class ExtensionRemovedotBgExtension(TypedDict, total=False):
+class ExtensionRemoveBg(TypedDict, total=False):
     name: Required[Literal["remove-bg"]]
     """Specifies the background removal extension."""
 
-    options: ExtensionRemovedotBgExtensionOptions
+    options: ExtensionRemoveBgOptions
 
 
 class ExtensionAutoTaggingExtension(TypedDict, total=False):
@@ -245,17 +245,15 @@ class ExtensionAutoTaggingExtension(TypedDict, total=False):
     """Specifies the auto-tagging extension used."""
 
 
-class ExtensionAutoDescriptionExtension(TypedDict, total=False):
+class ExtensionAIAutoDescription(TypedDict, total=False):
     name: Required[Literal["ai-auto-description"]]
     """Specifies the auto description extension."""
 
 
-Extension: TypeAlias = Union[
-    ExtensionRemovedotBgExtension, ExtensionAutoTaggingExtension, ExtensionAutoDescriptionExtension
-]
+Extension: TypeAlias = Union[ExtensionRemoveBg, ExtensionAutoTaggingExtension, ExtensionAIAutoDescription]
 
 
-class TransformationPostSimplePostTransformation(TypedDict, total=False):
+class TransformationPostTransformation(TypedDict, total=False):
     type: Required[Literal["transformation"]]
     """Transformation type."""
 
@@ -267,7 +265,7 @@ class TransformationPostSimplePostTransformation(TypedDict, total=False):
     """
 
 
-class TransformationPostConvertGifToVideo(TypedDict, total=False):
+class TransformationPostGifToVideo(TypedDict, total=False):
     type: Required[Literal["gif-to-video"]]
     """Converts an animated GIF into an MP4."""
 
@@ -278,7 +276,7 @@ class TransformationPostConvertGifToVideo(TypedDict, total=False):
     """
 
 
-class TransformationPostGenerateAThumbnail(TypedDict, total=False):
+class TransformationPostThumbnail(TypedDict, total=False):
     type: Required[Literal["thumbnail"]]
     """Generates a thumbnail image."""
 
@@ -289,7 +287,7 @@ class TransformationPostGenerateAThumbnail(TypedDict, total=False):
     """
 
 
-class TransformationPostAdaptiveBitrateStreaming(TypedDict, total=False):
+class TransformationPostAbs(TypedDict, total=False):
     protocol: Required[Literal["hls", "dash"]]
     """Streaming protocol to use (`hls` or `dash`)."""
 
@@ -303,10 +301,7 @@ class TransformationPostAdaptiveBitrateStreaming(TypedDict, total=False):
 
 
 TransformationPost: TypeAlias = Union[
-    TransformationPostSimplePostTransformation,
-    TransformationPostConvertGifToVideo,
-    TransformationPostGenerateAThumbnail,
-    TransformationPostAdaptiveBitrateStreaming,
+    TransformationPostTransformation, TransformationPostGifToVideo, TransformationPostThumbnail, TransformationPostAbs
 ]
 
 

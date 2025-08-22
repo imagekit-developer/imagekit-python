@@ -7,13 +7,7 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = [
-    "URLEndpointUpdateParams",
-    "URLRewriter",
-    "URLRewriterCloudinaryURLRewriter",
-    "URLRewriterImgixURLRewriter",
-    "URLRewriterAkamaiURLRewriter",
-]
+__all__ = ["URLEndpointUpdateParams", "URLRewriter", "URLRewriterCloudinary", "URLRewriterImgix", "URLRewriterAkamai"]
 
 
 class URLEndpointUpdateParams(TypedDict, total=False):
@@ -37,21 +31,19 @@ class URLEndpointUpdateParams(TypedDict, total=False):
     """Configuration for third-party URL rewriting."""
 
 
-class URLRewriterCloudinaryURLRewriter(TypedDict, total=False):
+class URLRewriterCloudinary(TypedDict, total=False):
     type: Required[Literal["CLOUDINARY"]]
 
     preserve_asset_delivery_types: Annotated[bool, PropertyInfo(alias="preserveAssetDeliveryTypes")]
     """Whether to preserve `<asset_type>/<delivery_type>` in the rewritten URL."""
 
 
-class URLRewriterImgixURLRewriter(TypedDict, total=False):
+class URLRewriterImgix(TypedDict, total=False):
     type: Required[Literal["IMGIX"]]
 
 
-class URLRewriterAkamaiURLRewriter(TypedDict, total=False):
+class URLRewriterAkamai(TypedDict, total=False):
     type: Required[Literal["AKAMAI"]]
 
 
-URLRewriter: TypeAlias = Union[
-    URLRewriterCloudinaryURLRewriter, URLRewriterImgixURLRewriter, URLRewriterAkamaiURLRewriter
-]
+URLRewriter: TypeAlias = Union[URLRewriterCloudinary, URLRewriterImgix, URLRewriterAkamai]
