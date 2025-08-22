@@ -9,18 +9,82 @@ from .._utils import PropertyInfo
 
 __all__ = [
     "FileUpdateParams",
-    "UpdateFileDetails",
-    "UpdateFileDetailsExtension",
-    "UpdateFileDetailsExtensionRemovedotBgExtension",
-    "UpdateFileDetailsExtensionRemovedotBgExtensionOptions",
-    "UpdateFileDetailsExtensionAutoTaggingExtension",
-    "UpdateFileDetailsExtensionAutoDescriptionExtension",
-    "ChangePublicationStatus",
-    "ChangePublicationStatusPublish",
+    "Update",
+    "UpdateUpdateFileDetails",
+    "UpdateUpdateFileDetailsExtension",
+    "UpdateUpdateFileDetailsExtensionRemovedotBgExtension",
+    "UpdateUpdateFileDetailsExtensionRemovedotBgExtensionOptions",
+    "UpdateUpdateFileDetailsExtensionAutoTaggingExtension",
+    "UpdateUpdateFileDetailsExtensionAutoDescriptionExtension",
+    "UpdateChangePublicationStatus",
+    "UpdateChangePublicationStatusPublish",
 ]
 
 
-class UpdateFileDetails(TypedDict, total=False):
+class FileUpdateParams(TypedDict, total=False):
+    update: Update
+
+
+class UpdateUpdateFileDetailsExtensionRemovedotBgExtensionOptions(TypedDict, total=False):
+    add_shadow: bool
+    """Whether to add an artificial shadow to the result.
+
+    Default is false. Note: Adding shadows is currently only supported for car
+    photos.
+    """
+
+    bg_color: str
+    """
+    Specifies a solid color background using hex code (e.g., "81d4fa", "fff") or
+    color name (e.g., "green"). If this parameter is set, `bg_image_url` must be
+    empty.
+    """
+
+    bg_image_url: str
+    """Sets a background image from a URL.
+
+    If this parameter is set, `bg_color` must be empty.
+    """
+
+    semitransparency: bool
+    """Allows semi-transparent regions in the result.
+
+    Default is true. Note: Semitransparency is currently only supported for car
+    windows.
+    """
+
+
+class UpdateUpdateFileDetailsExtensionRemovedotBgExtension(TypedDict, total=False):
+    name: Required[Literal["remove-bg"]]
+    """Specifies the background removal extension."""
+
+    options: UpdateUpdateFileDetailsExtensionRemovedotBgExtensionOptions
+
+
+class UpdateUpdateFileDetailsExtensionAutoTaggingExtension(TypedDict, total=False):
+    max_tags: Required[Annotated[int, PropertyInfo(alias="maxTags")]]
+    """Maximum number of tags to attach to the asset."""
+
+    min_confidence: Required[Annotated[int, PropertyInfo(alias="minConfidence")]]
+    """Minimum confidence level for tags to be considered valid."""
+
+    name: Required[Literal["google-auto-tagging", "aws-auto-tagging"]]
+    """Specifies the auto-tagging extension used."""
+
+
+class UpdateUpdateFileDetailsExtensionAutoDescriptionExtension(TypedDict, total=False):
+    name: Required[Literal["ai-auto-description"]]
+    """Specifies the auto description extension."""
+
+
+UpdateUpdateFileDetailsExtension: TypeAlias = Union[
+    UpdateUpdateFileDetailsExtensionRemovedotBgExtension,
+    UpdateUpdateFileDetailsExtensionAutoTaggingExtension,
+    UpdateUpdateFileDetailsExtensionAutoDescriptionExtension,
+]
+
+
+class UpdateUpdateFileDetails(TypedDict, total=False):
     custom_coordinates: Annotated[Optional[str], PropertyInfo(alias="customCoordinates")]
     """Define an important area in the image in the format `x,y,width,height` e.g.
 
@@ -38,7 +102,7 @@ class UpdateFileDetails(TypedDict, total=False):
     description: str
     """Optional text to describe the contents of the file."""
 
-    extensions: Iterable[UpdateFileDetailsExtension]
+    extensions: Iterable[UpdateUpdateFileDetailsExtension]
     """Array of extensions to be applied to the asset.
 
     Each extension can be configured with specific parameters based on the extension
@@ -72,71 +136,7 @@ class UpdateFileDetails(TypedDict, total=False):
     """
 
 
-class UpdateFileDetailsExtensionRemovedotBgExtensionOptions(TypedDict, total=False):
-    add_shadow: bool
-    """Whether to add an artificial shadow to the result.
-
-    Default is false. Note: Adding shadows is currently only supported for car
-    photos.
-    """
-
-    bg_color: str
-    """
-    Specifies a solid color background using hex code (e.g., "81d4fa", "fff") or
-    color name (e.g., "green"). If this parameter is set, `bg_image_url` must be
-    empty.
-    """
-
-    bg_image_url: str
-    """Sets a background image from a URL.
-
-    If this parameter is set, `bg_color` must be empty.
-    """
-
-    semitransparency: bool
-    """Allows semi-transparent regions in the result.
-
-    Default is true. Note: Semitransparency is currently only supported for car
-    windows.
-    """
-
-
-class UpdateFileDetailsExtensionRemovedotBgExtension(TypedDict, total=False):
-    name: Required[Literal["remove-bg"]]
-    """Specifies the background removal extension."""
-
-    options: UpdateFileDetailsExtensionRemovedotBgExtensionOptions
-
-
-class UpdateFileDetailsExtensionAutoTaggingExtension(TypedDict, total=False):
-    max_tags: Required[Annotated[int, PropertyInfo(alias="maxTags")]]
-    """Maximum number of tags to attach to the asset."""
-
-    min_confidence: Required[Annotated[int, PropertyInfo(alias="minConfidence")]]
-    """Minimum confidence level for tags to be considered valid."""
-
-    name: Required[Literal["google-auto-tagging", "aws-auto-tagging"]]
-    """Specifies the auto-tagging extension used."""
-
-
-class UpdateFileDetailsExtensionAutoDescriptionExtension(TypedDict, total=False):
-    name: Required[Literal["ai-auto-description"]]
-    """Specifies the auto description extension."""
-
-
-UpdateFileDetailsExtension: TypeAlias = Union[
-    UpdateFileDetailsExtensionRemovedotBgExtension,
-    UpdateFileDetailsExtensionAutoTaggingExtension,
-    UpdateFileDetailsExtensionAutoDescriptionExtension,
-]
-
-
-class ChangePublicationStatus(TypedDict, total=False):
-    publish: ChangePublicationStatusPublish
-    """Configure the publication status of a file and its versions."""
-
-
-class ChangePublicationStatusPublish(TypedDict, total=False):
+class UpdateChangePublicationStatusPublish(TypedDict, total=False):
     is_published: Required[Annotated[bool, PropertyInfo(alias="isPublished")]]
     """Set to `true` to publish the file. Set to `false` to unpublish the file."""
 
@@ -147,4 +147,9 @@ class ChangePublicationStatusPublish(TypedDict, total=False):
     """
 
 
-FileUpdateParams: TypeAlias = Union[UpdateFileDetails, ChangePublicationStatus]
+class UpdateChangePublicationStatus(TypedDict, total=False):
+    publish: UpdateChangePublicationStatusPublish
+    """Configure the publication status of a file and its versions."""
+
+
+Update: TypeAlias = Union[UpdateUpdateFileDetails, UpdateChangePublicationStatus]
