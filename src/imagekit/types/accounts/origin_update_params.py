@@ -9,18 +9,24 @@ from ..._utils import PropertyInfo
 
 __all__ = [
     "OriginUpdateParams",
-    "S3",
-    "S3Compatible",
-    "CloudinaryBackup",
-    "WebFolder",
-    "WebProxy",
-    "GoogleCloudStorageGcs",
-    "AzureBlobStorage",
-    "AkeneoPim",
+    "Origin",
+    "OriginS3",
+    "OriginS3Compatible",
+    "OriginCloudinaryBackup",
+    "OriginWebFolder",
+    "OriginWebProxy",
+    "OriginGoogleCloudStorageGcs",
+    "OriginAzureBlobStorage",
+    "OriginAkeneoPim",
 ]
 
 
-class S3(TypedDict, total=False):
+class OriginUpdateParams(TypedDict, total=False):
+    origin: Required[Origin]
+    """Schema for origin resources."""
+
+
+class OriginS3(TypedDict, total=False):
     access_key: Required[Annotated[str, PropertyInfo(alias="accessKey")]]
     """Access key for the bucket."""
 
@@ -45,7 +51,7 @@ class S3(TypedDict, total=False):
     """Path prefix inside the bucket."""
 
 
-class S3Compatible(TypedDict, total=False):
+class OriginS3Compatible(TypedDict, total=False):
     access_key: Required[Annotated[str, PropertyInfo(alias="accessKey")]]
     """Access key for the bucket."""
 
@@ -76,7 +82,7 @@ class S3Compatible(TypedDict, total=False):
     """Use path-style S3 URLs?"""
 
 
-class CloudinaryBackup(TypedDict, total=False):
+class OriginCloudinaryBackup(TypedDict, total=False):
     access_key: Required[Annotated[str, PropertyInfo(alias="accessKey")]]
     """Access key for the bucket."""
 
@@ -101,7 +107,7 @@ class CloudinaryBackup(TypedDict, total=False):
     """Path prefix inside the bucket."""
 
 
-class WebFolder(TypedDict, total=False):
+class OriginWebFolder(TypedDict, total=False):
     base_url: Required[Annotated[str, PropertyInfo(alias="baseUrl")]]
     """Root URL for the web folder origin."""
 
@@ -120,7 +126,7 @@ class WebFolder(TypedDict, total=False):
     """Whether to send a Canonical header."""
 
 
-class WebProxy(TypedDict, total=False):
+class OriginWebProxy(TypedDict, total=False):
     name: Required[str]
     """Display name of the origin."""
 
@@ -133,7 +139,7 @@ class WebProxy(TypedDict, total=False):
     """Whether to send a Canonical header."""
 
 
-class GoogleCloudStorageGcs(TypedDict, total=False):
+class OriginGoogleCloudStorageGcs(TypedDict, total=False):
     bucket: Required[str]
 
     client_email: Required[Annotated[str, PropertyInfo(alias="clientEmail")]]
@@ -154,7 +160,7 @@ class GoogleCloudStorageGcs(TypedDict, total=False):
     prefix: str
 
 
-class AzureBlobStorage(TypedDict, total=False):
+class OriginAzureBlobStorage(TypedDict, total=False):
     account_name: Required[Annotated[str, PropertyInfo(alias="accountName")]]
 
     container: Required[str]
@@ -175,7 +181,7 @@ class AzureBlobStorage(TypedDict, total=False):
     prefix: str
 
 
-class AkeneoPim(TypedDict, total=False):
+class OriginAkeneoPim(TypedDict, total=False):
     base_url: Required[Annotated[str, PropertyInfo(alias="baseUrl")]]
     """Akeneo instance base URL."""
 
@@ -203,6 +209,13 @@ class AkeneoPim(TypedDict, total=False):
     """Whether to send a Canonical header."""
 
 
-OriginUpdateParams: TypeAlias = Union[
-    S3, S3Compatible, CloudinaryBackup, WebFolder, WebProxy, GoogleCloudStorageGcs, AzureBlobStorage, AkeneoPim
+Origin: TypeAlias = Union[
+    OriginS3,
+    OriginS3Compatible,
+    OriginCloudinaryBackup,
+    OriginWebFolder,
+    OriginWebProxy,
+    OriginGoogleCloudStorageGcs,
+    OriginAzureBlobStorage,
+    OriginAkeneoPim,
 ]
