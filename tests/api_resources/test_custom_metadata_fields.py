@@ -40,7 +40,7 @@ class TestCustomMetadataFields:
             name="price",
             schema={
                 "type": "Number",
-                "default_value": "Hello",
+                "default_value": "string",
                 "is_value_required": True,
                 "max_length": 0,
                 "max_value": 3000,
@@ -96,7 +96,7 @@ class TestCustomMetadataFields:
             id="id",
             label="price",
             schema={
-                "default_value": "Hello",
+                "default_value": "string",
                 "is_value_required": True,
                 "max_length": 0,
                 "max_value": 3000,
@@ -243,7 +243,7 @@ class TestAsyncCustomMetadataFields:
             name="price",
             schema={
                 "type": "Number",
-                "default_value": "Hello",
+                "default_value": "string",
                 "is_value_required": True,
                 "max_length": 0,
                 "max_value": 3000,
@@ -299,7 +299,7 @@ class TestAsyncCustomMetadataFields:
             id="id",
             label="price",
             schema={
-                "default_value": "Hello",
+                "default_value": "string",
                 "is_value_required": True,
                 "max_length": 0,
                 "max_value": 3000,

@@ -18,7 +18,7 @@ class CustomMetadataFieldListResponseItemSchema(BaseModel):
     type: Literal["Text", "Textarea", "Number", "Date", "Boolean", "SingleSelect", "MultiSelect"]
     """Type of the custom metadata field."""
 
-    default_value: Union[Union[str, float, bool], List[Union[str, float, bool]], None] = FieldInfo(
+    default_value: Union[str, float, bool, List[Union[str, float, bool]], None] = FieldInfo(
         alias="defaultValue", default=None
     )
     """The default value for this custom metadata field.

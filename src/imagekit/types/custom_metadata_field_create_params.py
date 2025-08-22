@@ -32,9 +32,7 @@ class Schema(TypedDict, total=False):
     type: Required[Literal["Text", "Textarea", "Number", "Date", "Boolean", "SingleSelect", "MultiSelect"]]
     """Type of the custom metadata field."""
 
-    default_value: Annotated[
-        Union[Union[str, float, bool], List[Union[str, float, bool]]], PropertyInfo(alias="defaultValue")
-    ]
+    default_value: Annotated[Union[str, float, bool, List[Union[str, float, bool]]], PropertyInfo(alias="defaultValue")]
     """The default value for this custom metadata field.
 
     This property is only required if `isValueRequired` property is set to `true`.
