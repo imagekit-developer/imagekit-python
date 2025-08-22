@@ -4,16 +4,31 @@ on: [push, pull_request]
 
 jobs:
     build:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-latest
         strategy:
             matrix:
                 python: [3.7, 3.8, 3.9, '3.10', '3.11', '3.12']
+                urllib3-line: ["lt2", "ge2"]
+                exclude:
+                  - python-version: "3.7"
+                    urllib3-line: "ge2"
+                  - python-version: "3.8"
+                    urllib3-line: "ge2"
         steps:
             - uses: actions/checkout@v1
             - name: Setup Python
               uses: actions/setup-python@v1
               with:
                   python-version: ${{ matrix.python }}
+            - name: Install deps
+              run: |
+                pip install -r requirements/requirements.txt
+                if [ "${{ matrix.urllib3-line }}" = "lt2" ]; then
+                  pip install "urllib3<2"
+                else
+                  pip install "urllib3!=2.0.0,<3"
+                fi
+                pip install -e .
             - name: Install Tox and any other packages
               run: pip install -r requirements/test.txt
             - name: Run Tox
