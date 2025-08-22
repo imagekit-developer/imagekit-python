@@ -23,14 +23,13 @@ jobs:
             - name: Install deps
               run: |
                 pip install -r requirements/requirements.txt
+                pip install -r requirements/test.txt
                 if [ "${{ matrix.urllib3-line }}" = "lt2" ]; then
                   pip install "urllib3<2"
                 else
                   pip install "urllib3!=2.0.0,<3"
                 fi
                 pip install -e .
-            - name: Install Tox and any other packages
-              run: pip install -r requirements/test.txt
             - name: Run Tox
               run: tox -e py
             - name: Upload Coverage to codecov
