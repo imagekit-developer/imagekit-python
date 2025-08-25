@@ -18,6 +18,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.accounts import origin_create_params, origin_update_params
+from ...types.accounts.origin_param import OriginParam
 from ...types.accounts.origin_get_response import OriginGetResponse
 from ...types.accounts.origin_list_response import OriginListResponse
 from ...types.accounts.origin_create_response import OriginCreateResponse
@@ -49,7 +50,7 @@ class OriginsResource(SyncAPIResource):
     def create(
         self,
         *,
-        origin: origin_create_params.Origin,
+        origin: OriginParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -91,7 +92,7 @@ class OriginsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        origin: origin_update_params.Origin,
+        origin: OriginParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -262,7 +263,7 @@ class AsyncOriginsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        origin: origin_create_params.Origin,
+        origin: OriginParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -304,7 +305,7 @@ class AsyncOriginsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        origin: origin_update_params.Origin,
+        origin: OriginParam,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

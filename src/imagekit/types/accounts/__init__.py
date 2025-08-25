@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .origin_param import OriginParam as OriginParam
 from .usage_get_params import UsageGetParams as UsageGetParams
 from .usage_get_response import UsageGetResponse as UsageGetResponse
 from .origin_get_response import OriginGetResponse as OriginGetResponse

@@ -172,6 +172,7 @@ Types:
 
 ```python
 from imagekit.types.accounts import (
+    Origin,
     OriginCreateResponse,
     OriginUpdateResponse,
     OriginListResponse,
