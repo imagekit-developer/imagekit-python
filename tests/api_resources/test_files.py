@@ -10,7 +10,7 @@ import pytest
 from imagekit import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
 from imagekit.types import (
-    FileGetResponse,
+    File,
     FileCopyResponse,
     FileMoveResponse,
     FileRenameResponse,
@@ -202,7 +202,7 @@ class TestFiles:
         file = client.files.get(
             "fileId",
         )
-        assert_matches_type(FileGetResponse, file, path=["response"])
+        assert_matches_type(File, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -214,7 +214,7 @@ class TestFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(FileGetResponse, file, path=["response"])
+        assert_matches_type(File, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -226,7 +226,7 @@ class TestFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(FileGetResponse, file, path=["response"])
+            assert_matches_type(File, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -604,7 +604,7 @@ class TestAsyncFiles:
         file = await async_client.files.get(
             "fileId",
         )
-        assert_matches_type(FileGetResponse, file, path=["response"])
+        assert_matches_type(File, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -616,7 +616,7 @@ class TestAsyncFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(FileGetResponse, file, path=["response"])
+        assert_matches_type(File, file, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -628,7 +628,7 @@ class TestAsyncFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(FileGetResponse, file, path=["response"])
+            assert_matches_type(File, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

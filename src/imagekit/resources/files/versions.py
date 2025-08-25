@@ -13,11 +13,10 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ...types.file import File
 from ..._base_client import make_request_options
-from ...types.files.version_get_response import VersionGetResponse
 from ...types.files.version_list_response import VersionListResponse
 from ...types.files.version_delete_response import VersionDeleteResponse
-from ...types.files.version_restore_response import VersionRestoreResponse
 
 __all__ = ["VersionsResource", "AsyncVersionsResource"]
 
@@ -126,7 +125,7 @@ class VersionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VersionGetResponse:
+    ) -> File:
         """
         This API returns an object with details or attributes of a file version.
 
@@ -148,7 +147,7 @@ class VersionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=VersionGetResponse,
+            cast_to=File,
         )
 
     def restore(
@@ -162,7 +161,7 @@ class VersionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VersionRestoreResponse:
+    ) -> File:
         """
         This API restores a file version as the current file version.
 
@@ -184,7 +183,7 @@ class VersionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=VersionRestoreResponse,
+            cast_to=File,
         )
 
 
@@ -292,7 +291,7 @@ class AsyncVersionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VersionGetResponse:
+    ) -> File:
         """
         This API returns an object with details or attributes of a file version.
 
@@ -314,7 +313,7 @@ class AsyncVersionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=VersionGetResponse,
+            cast_to=File,
         )
 
     async def restore(
@@ -328,7 +327,7 @@ class AsyncVersionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VersionRestoreResponse:
+    ) -> File:
         """
         This API restores a file version as the current file version.
 
@@ -350,7 +349,7 @@ class AsyncVersionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=VersionRestoreResponse,
+            cast_to=File,
         )
 
 

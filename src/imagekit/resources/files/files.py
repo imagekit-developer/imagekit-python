@@ -42,8 +42,8 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ...types.file import File
 from ..._base_client import make_request_options
-from ...types.file_get_response import FileGetResponse
 from ...types.file_copy_response import FileCopyResponse
 from ...types.file_move_response import FileMoveResponse
 from ...types.file_rename_response import FileRenameResponse
@@ -223,7 +223,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FileGetResponse:
+    ) -> File:
         """
         This API returns an object with details or attributes about the current version
         of the file.
@@ -244,7 +244,7 @@ class FilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FileGetResponse,
+            cast_to=File,
         )
 
     def move(
@@ -794,7 +794,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FileGetResponse:
+    ) -> File:
         """
         This API returns an object with details or attributes about the current version
         of the file.
@@ -815,7 +815,7 @@ class AsyncFilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FileGetResponse,
+            cast_to=File,
         )
 
     async def move(

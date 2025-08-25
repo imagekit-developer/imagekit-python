@@ -6,9 +6,9 @@ from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
-from ..._models import BaseModel
+from .._models import BaseModel
 
-__all__ = ["VersionGetResponse", "AITag", "VersionInfo"]
+__all__ = ["File", "AITag", "VersionInfo"]
 
 
 class AITag(BaseModel):
@@ -33,7 +33,7 @@ class VersionInfo(BaseModel):
     """Name of the file version."""
 
 
-class VersionGetResponse(BaseModel):
+class File(BaseModel):
     ai_tags: Optional[List[AITag]] = FieldInfo(alias="AITags", default=None)
     """An array of tags assigned to the file by auto tagging."""
 
