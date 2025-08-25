@@ -7,6 +7,7 @@ from .usage_get_params import UsageGetParams as UsageGetParams
 from .usage_get_response import UsageGetResponse as UsageGetResponse
 from .origin_create_params import OriginCreateParams as OriginCreateParams
 from .origin_list_response import OriginListResponse as OriginListResponse
+from .origin_request_param import OriginRequestParam as OriginRequestParam
 from .origin_update_params import OriginUpdateParams as OriginUpdateParams
 from .url_endpoint_get_response import URLEndpointGetResponse as URLEndpointGetResponse
 from .url_endpoint_create_params import URLEndpointCreateParams as URLEndpointCreateParams

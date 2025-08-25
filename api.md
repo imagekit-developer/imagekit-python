@@ -171,7 +171,7 @@ Methods:
 Types:
 
 ```python
-from imagekit.types.accounts import OriginResponse, OriginListResponse
+from imagekit.types.accounts import OriginRequest, OriginResponse, OriginListResponse
 ```
 
 Methods:

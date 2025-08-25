@@ -9,7 +9,10 @@ import pytest
 
 from imagekit import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
-from imagekit.types.accounts import OriginResponse, OriginListResponse
+from imagekit.types.accounts import (
+    OriginResponse,
+    OriginListResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
