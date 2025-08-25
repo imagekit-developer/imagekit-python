@@ -194,6 +194,7 @@ Types:
 
 ```python
 from imagekit.types.accounts import (
+    URLEndpoint,
     URLEndpointCreateResponse,
     URLEndpointUpdateResponse,
     URLEndpointListResponse,
