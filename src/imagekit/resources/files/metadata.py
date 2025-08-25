@@ -16,8 +16,7 @@ from ..._response import (
 )
 from ...types.files import metadata_get_from_url_params
 from ..._base_client import make_request_options
-from ...types.files.metadata_get_response import MetadataGetResponse
-from ...types.files.metadata_get_from_url_response import MetadataGetFromURLResponse
+from ...types.metadata import Metadata
 
 __all__ = ["MetadataResource", "AsyncMetadataResource"]
 
@@ -52,7 +51,7 @@ class MetadataResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> MetadataGetResponse:
+    ) -> Metadata:
         """
         You can programmatically get image EXIF, pHash, and other metadata for uploaded
         files in the ImageKit.io media library using this API.
@@ -76,7 +75,7 @@ class MetadataResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=MetadataGetResponse,
+            cast_to=Metadata,
         )
 
     def get_from_url(
@@ -89,7 +88,7 @@ class MetadataResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> MetadataGetFromURLResponse:
+    ) -> Metadata:
         """
         Get image EXIF, pHash, and other metadata from ImageKit.io powered remote URL
         using this API.
@@ -115,7 +114,7 @@ class MetadataResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"url": url}, metadata_get_from_url_params.MetadataGetFromURLParams),
             ),
-            cast_to=MetadataGetFromURLResponse,
+            cast_to=Metadata,
         )
 
 
@@ -149,7 +148,7 @@ class AsyncMetadataResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> MetadataGetResponse:
+    ) -> Metadata:
         """
         You can programmatically get image EXIF, pHash, and other metadata for uploaded
         files in the ImageKit.io media library using this API.
@@ -173,7 +172,7 @@ class AsyncMetadataResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=MetadataGetResponse,
+            cast_to=Metadata,
         )
 
     async def get_from_url(
@@ -186,7 +185,7 @@ class AsyncMetadataResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> MetadataGetFromURLResponse:
+    ) -> Metadata:
         """
         Get image EXIF, pHash, and other metadata from ImageKit.io powered remote URL
         using this API.
@@ -212,7 +211,7 @@ class AsyncMetadataResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform({"url": url}, metadata_get_from_url_params.MetadataGetFromURLParams),
             ),
-            cast_to=MetadataGetFromURLResponse,
+            cast_to=Metadata,
         )
 
 

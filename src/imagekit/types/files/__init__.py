@@ -5,7 +5,6 @@ from __future__ import annotations
 from .bulk_delete_params import BulkDeleteParams as BulkDeleteParams
 from .bulk_add_tags_params import BulkAddTagsParams as BulkAddTagsParams
 from .bulk_delete_response import BulkDeleteResponse as BulkDeleteResponse
-from .metadata_get_response import MetadataGetResponse as MetadataGetResponse
 from .version_list_response import VersionListResponse as VersionListResponse
 from .bulk_add_tags_response import BulkAddTagsResponse as BulkAddTagsResponse
 from .bulk_remove_tags_params import BulkRemoveTagsParams as BulkRemoveTagsParams
@@ -14,4 +13,3 @@ from .bulk_remove_tags_response import BulkRemoveTagsResponse as BulkRemoveTagsR
 from .bulk_remove_ai_tags_params import BulkRemoveAITagsParams as BulkRemoveAITagsParams
 from .bulk_remove_ai_tags_response import BulkRemoveAITagsResponse as BulkRemoveAITagsResponse
 from .metadata_get_from_url_params import MetadataGetFromURLParams as MetadataGetFromURLParams
-from .metadata_get_from_url_response import MetadataGetFromURLResponse as MetadataGetFromURLResponse

@@ -4,17 +4,9 @@ from typing import Dict, List, Optional
 
 from pydantic import Field as FieldInfo
 
-from ..._models import BaseModel
+from .._models import BaseModel
 
-__all__ = [
-    "MetadataGetFromURLResponse",
-    "Exif",
-    "ExifExif",
-    "ExifGps",
-    "ExifImage",
-    "ExifInteroperability",
-    "ExifThumbnail",
-]
+__all__ = ["Metadata", "Exif", "ExifExif", "ExifGps", "ExifImage", "ExifInteroperability", "ExifThumbnail"]
 
 
 class ExifExif(BaseModel):
@@ -138,7 +130,7 @@ class Exif(BaseModel):
     """Object containing Thumbnail information."""
 
 
-class MetadataGetFromURLResponse(BaseModel):
+class Metadata(BaseModel):
     audio_codec: Optional[str] = FieldInfo(alias="audioCodec", default=None)
     """The audio codec used in the video (only for video)."""
 

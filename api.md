@@ -25,6 +25,7 @@ Types:
 from imagekit.types import (
     File,
     Folder,
+    Metadata,
     FileUpdateResponse,
     FileCopyResponse,
     FileMoveResponse,
@@ -80,16 +81,10 @@ Methods:
 
 ## Metadata
 
-Types:
-
-```python
-from imagekit.types.files import MetadataGetResponse, MetadataGetFromURLResponse
-```
-
 Methods:
 
-- <code title="get /v1/files/{fileId}/metadata">client.files.metadata.<a href="./src/imagekit/resources/files/metadata.py">get</a>(file_id) -> <a href="./src/imagekit/types/files/metadata_get_response.py">MetadataGetResponse</a></code>
-- <code title="get /v1/files/metadata">client.files.metadata.<a href="./src/imagekit/resources/files/metadata.py">get_from_url</a>(\*\*<a href="src/imagekit/types/files/metadata_get_from_url_params.py">params</a>) -> <a href="./src/imagekit/types/files/metadata_get_from_url_response.py">MetadataGetFromURLResponse</a></code>
+- <code title="get /v1/files/{fileId}/metadata">client.files.metadata.<a href="./src/imagekit/resources/files/metadata.py">get</a>(file_id) -> <a href="./src/imagekit/types/metadata.py">Metadata</a></code>
+- <code title="get /v1/files/metadata">client.files.metadata.<a href="./src/imagekit/resources/files/metadata.py">get_from_url</a>(\*\*<a href="src/imagekit/types/files/metadata_get_from_url_params.py">params</a>) -> <a href="./src/imagekit/types/metadata.py">Metadata</a></code>
 
 # Assets
 

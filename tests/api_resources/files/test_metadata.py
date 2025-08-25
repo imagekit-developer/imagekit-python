@@ -9,7 +9,7 @@ import pytest
 
 from imagekit import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
-from imagekit.types.files import MetadataGetResponse, MetadataGetFromURLResponse
+from imagekit.types import Metadata
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -23,7 +23,7 @@ class TestMetadata:
         metadata = client.files.metadata.get(
             "fileId",
         )
-        assert_matches_type(MetadataGetResponse, metadata, path=["response"])
+        assert_matches_type(Metadata, metadata, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -35,7 +35,7 @@ class TestMetadata:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         metadata = response.parse()
-        assert_matches_type(MetadataGetResponse, metadata, path=["response"])
+        assert_matches_type(Metadata, metadata, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -47,7 +47,7 @@ class TestMetadata:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             metadata = response.parse()
-            assert_matches_type(MetadataGetResponse, metadata, path=["response"])
+            assert_matches_type(Metadata, metadata, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -65,7 +65,7 @@ class TestMetadata:
         metadata = client.files.metadata.get_from_url(
             url="https://example.com",
         )
-        assert_matches_type(MetadataGetFromURLResponse, metadata, path=["response"])
+        assert_matches_type(Metadata, metadata, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -77,7 +77,7 @@ class TestMetadata:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         metadata = response.parse()
-        assert_matches_type(MetadataGetFromURLResponse, metadata, path=["response"])
+        assert_matches_type(Metadata, metadata, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -89,7 +89,7 @@ class TestMetadata:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             metadata = response.parse()
-            assert_matches_type(MetadataGetFromURLResponse, metadata, path=["response"])
+            assert_matches_type(Metadata, metadata, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -105,7 +105,7 @@ class TestAsyncMetadata:
         metadata = await async_client.files.metadata.get(
             "fileId",
         )
-        assert_matches_type(MetadataGetResponse, metadata, path=["response"])
+        assert_matches_type(Metadata, metadata, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -117,7 +117,7 @@ class TestAsyncMetadata:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         metadata = await response.parse()
-        assert_matches_type(MetadataGetResponse, metadata, path=["response"])
+        assert_matches_type(Metadata, metadata, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -129,7 +129,7 @@ class TestAsyncMetadata:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             metadata = await response.parse()
-            assert_matches_type(MetadataGetResponse, metadata, path=["response"])
+            assert_matches_type(Metadata, metadata, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -147,7 +147,7 @@ class TestAsyncMetadata:
         metadata = await async_client.files.metadata.get_from_url(
             url="https://example.com",
         )
-        assert_matches_type(MetadataGetFromURLResponse, metadata, path=["response"])
+        assert_matches_type(Metadata, metadata, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -159,7 +159,7 @@ class TestAsyncMetadata:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         metadata = await response.parse()
-        assert_matches_type(MetadataGetFromURLResponse, metadata, path=["response"])
+        assert_matches_type(Metadata, metadata, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -171,6 +171,6 @@ class TestAsyncMetadata:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             metadata = await response.parse()
-            assert_matches_type(MetadataGetFromURLResponse, metadata, path=["response"])
+            assert_matches_type(Metadata, metadata, path=["response"])
 
         assert cast(Any, response.is_closed) is True

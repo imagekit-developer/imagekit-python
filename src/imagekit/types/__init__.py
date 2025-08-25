@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from .file import File as File
 from .folder import Folder as Folder
+from .metadata import Metadata as Metadata
 from .file_copy_params import FileCopyParams as FileCopyParams
 from .file_move_params import FileMoveParams as FileMoveParams
 from .asset_list_params import AssetListParams as AssetListParams
