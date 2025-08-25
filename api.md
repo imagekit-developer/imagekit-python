@@ -96,7 +96,7 @@ Methods:
 Types:
 
 ```python
-from imagekit.types import AssetListResponse
+from imagekit.types import File, Folder, AssetListResponse
 ```
 
 Methods:
