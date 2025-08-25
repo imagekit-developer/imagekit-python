@@ -10,10 +10,9 @@ import pytest
 from imagekit import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
 from imagekit.types import (
+    CustomMetadataField,
     CustomMetadataFieldListResponse,
-    CustomMetadataFieldCreateResponse,
     CustomMetadataFieldDeleteResponse,
-    CustomMetadataFieldUpdateResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -30,7 +29,7 @@ class TestCustomMetadataFields:
             name="price",
             schema={"type": "Number"},
         )
-        assert_matches_type(CustomMetadataFieldCreateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -49,7 +48,7 @@ class TestCustomMetadataFields:
                 "select_options": ["small", "medium", "large", 30, 40, True],
             },
         )
-        assert_matches_type(CustomMetadataFieldCreateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -63,7 +62,7 @@ class TestCustomMetadataFields:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         custom_metadata_field = response.parse()
-        assert_matches_type(CustomMetadataFieldCreateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -77,7 +76,7 @@ class TestCustomMetadataFields:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             custom_metadata_field = response.parse()
-            assert_matches_type(CustomMetadataFieldCreateResponse, custom_metadata_field, path=["response"])
+            assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -87,7 +86,7 @@ class TestCustomMetadataFields:
         custom_metadata_field = client.custom_metadata_fields.update(
             id="id",
         )
-        assert_matches_type(CustomMetadataFieldUpdateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -105,7 +104,7 @@ class TestCustomMetadataFields:
                 "select_options": ["small", "medium", "large", 30, 40, True],
             },
         )
-        assert_matches_type(CustomMetadataFieldUpdateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -117,7 +116,7 @@ class TestCustomMetadataFields:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         custom_metadata_field = response.parse()
-        assert_matches_type(CustomMetadataFieldUpdateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -129,7 +128,7 @@ class TestCustomMetadataFields:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             custom_metadata_field = response.parse()
-            assert_matches_type(CustomMetadataFieldUpdateResponse, custom_metadata_field, path=["response"])
+            assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -233,7 +232,7 @@ class TestAsyncCustomMetadataFields:
             name="price",
             schema={"type": "Number"},
         )
-        assert_matches_type(CustomMetadataFieldCreateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -252,7 +251,7 @@ class TestAsyncCustomMetadataFields:
                 "select_options": ["small", "medium", "large", 30, 40, True],
             },
         )
-        assert_matches_type(CustomMetadataFieldCreateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -266,7 +265,7 @@ class TestAsyncCustomMetadataFields:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         custom_metadata_field = await response.parse()
-        assert_matches_type(CustomMetadataFieldCreateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -280,7 +279,7 @@ class TestAsyncCustomMetadataFields:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             custom_metadata_field = await response.parse()
-            assert_matches_type(CustomMetadataFieldCreateResponse, custom_metadata_field, path=["response"])
+            assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -290,7 +289,7 @@ class TestAsyncCustomMetadataFields:
         custom_metadata_field = await async_client.custom_metadata_fields.update(
             id="id",
         )
-        assert_matches_type(CustomMetadataFieldUpdateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -308,7 +307,7 @@ class TestAsyncCustomMetadataFields:
                 "select_options": ["small", "medium", "large", 30, 40, True],
             },
         )
-        assert_matches_type(CustomMetadataFieldUpdateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -320,7 +319,7 @@ class TestAsyncCustomMetadataFields:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         custom_metadata_field = await response.parse()
-        assert_matches_type(CustomMetadataFieldUpdateResponse, custom_metadata_field, path=["response"])
+        assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -332,7 +331,7 @@ class TestAsyncCustomMetadataFields:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             custom_metadata_field = await response.parse()
-            assert_matches_type(CustomMetadataFieldUpdateResponse, custom_metadata_field, path=["response"])
+            assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

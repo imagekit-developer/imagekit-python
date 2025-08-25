@@ -7,7 +7,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["CustomMetadataFieldUpdateResponse", "Schema"]
+__all__ = ["CustomMetadataField", "Schema"]
 
 
 class Schema(BaseModel):
@@ -51,7 +51,7 @@ class Schema(BaseModel):
     """An array of allowed values when field type is `SingleSelect` or `MultiSelect`."""
 
 
-class CustomMetadataFieldUpdateResponse(BaseModel):
+class CustomMetadataField(BaseModel):
     id: str
     """Unique identifier for the custom metadata field. Use this to update the field."""
 

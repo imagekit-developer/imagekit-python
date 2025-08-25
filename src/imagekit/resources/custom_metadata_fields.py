@@ -20,10 +20,9 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.custom_metadata_field import CustomMetadataField
 from ..types.custom_metadata_field_list_response import CustomMetadataFieldListResponse
-from ..types.custom_metadata_field_create_response import CustomMetadataFieldCreateResponse
 from ..types.custom_metadata_field_delete_response import CustomMetadataFieldDeleteResponse
-from ..types.custom_metadata_field_update_response import CustomMetadataFieldUpdateResponse
 
 __all__ = ["CustomMetadataFieldsResource", "AsyncCustomMetadataFieldsResource"]
 
@@ -60,7 +59,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> CustomMetadataFieldCreateResponse:
+    ) -> CustomMetadataField:
         """This API creates a new custom metadata field.
 
         Once a custom metadata field is
@@ -98,7 +97,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomMetadataFieldCreateResponse,
+            cast_to=CustomMetadataField,
         )
 
     def update(
@@ -113,7 +112,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> CustomMetadataFieldUpdateResponse:
+    ) -> CustomMetadataField:
         """
         This API updates the label or schema of an existing custom metadata field.
 
@@ -150,7 +149,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomMetadataFieldUpdateResponse,
+            cast_to=CustomMetadataField,
         )
 
     def list(
@@ -264,7 +263,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> CustomMetadataFieldCreateResponse:
+    ) -> CustomMetadataField:
         """This API creates a new custom metadata field.
 
         Once a custom metadata field is
@@ -302,7 +301,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomMetadataFieldCreateResponse,
+            cast_to=CustomMetadataField,
         )
 
     async def update(
@@ -317,7 +316,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> CustomMetadataFieldUpdateResponse:
+    ) -> CustomMetadataField:
         """
         This API updates the label or schema of an existing custom metadata field.
 
@@ -354,7 +353,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CustomMetadataFieldUpdateResponse,
+            cast_to=CustomMetadataField,
         )
 
     async def list(

@@ -4,8 +4,7 @@ Types:
 
 ```python
 from imagekit.types import (
-    CustomMetadataFieldCreateResponse,
-    CustomMetadataFieldUpdateResponse,
+    CustomMetadataField,
     CustomMetadataFieldListResponse,
     CustomMetadataFieldDeleteResponse,
 )
@@ -13,8 +12,8 @@ from imagekit.types import (
 
 Methods:
 
-- <code title="post /v1/customMetadataFields">client.custom_metadata_fields.<a href="./src/imagekit/resources/custom_metadata_fields.py">create</a>(\*\*<a href="src/imagekit/types/custom_metadata_field_create_params.py">params</a>) -> <a href="./src/imagekit/types/custom_metadata_field_create_response.py">CustomMetadataFieldCreateResponse</a></code>
-- <code title="patch /v1/customMetadataFields/{id}">client.custom_metadata_fields.<a href="./src/imagekit/resources/custom_metadata_fields.py">update</a>(id, \*\*<a href="src/imagekit/types/custom_metadata_field_update_params.py">params</a>) -> <a href="./src/imagekit/types/custom_metadata_field_update_response.py">CustomMetadataFieldUpdateResponse</a></code>
+- <code title="post /v1/customMetadataFields">client.custom_metadata_fields.<a href="./src/imagekit/resources/custom_metadata_fields.py">create</a>(\*\*<a href="src/imagekit/types/custom_metadata_field_create_params.py">params</a>) -> <a href="./src/imagekit/types/custom_metadata_field.py">CustomMetadataField</a></code>
+- <code title="patch /v1/customMetadataFields/{id}">client.custom_metadata_fields.<a href="./src/imagekit/resources/custom_metadata_fields.py">update</a>(id, \*\*<a href="src/imagekit/types/custom_metadata_field_update_params.py">params</a>) -> <a href="./src/imagekit/types/custom_metadata_field.py">CustomMetadataField</a></code>
 - <code title="get /v1/customMetadataFields">client.custom_metadata_fields.<a href="./src/imagekit/resources/custom_metadata_fields.py">list</a>(\*\*<a href="src/imagekit/types/custom_metadata_field_list_params.py">params</a>) -> <a href="./src/imagekit/types/custom_metadata_field_list_response.py">CustomMetadataFieldListResponse</a></code>
 - <code title="delete /v1/customMetadataFields/{id}">client.custom_metadata_fields.<a href="./src/imagekit/resources/custom_metadata_fields.py">delete</a>(id) -> <a href="./src/imagekit/types/custom_metadata_field_delete_response.py">CustomMetadataFieldDeleteResponse</a></code>
 
