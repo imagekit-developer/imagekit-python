@@ -30,9 +30,11 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.job_response import JobResponse
+from ...types.folder_copy_response import FolderCopyResponse
+from ...types.folder_move_response import FolderMoveResponse
 from ...types.folder_create_response import FolderCreateResponse
 from ...types.folder_delete_response import FolderDeleteResponse
+from ...types.folder_rename_response import FolderRenameResponse
 
 __all__ = ["FoldersResource", "AsyncFoldersResource"]
 
@@ -164,7 +166,7 @@ class FoldersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobResponse:
+    ) -> FolderCopyResponse:
         """This will copy one folder into another.
 
         The selected folder, its nested folders,
@@ -204,7 +206,7 @@ class FoldersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=JobResponse,
+            cast_to=FolderCopyResponse,
         )
 
     def move(
@@ -218,7 +220,7 @@ class FoldersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobResponse:
+    ) -> FolderMoveResponse:
         """This will move one folder into another.
 
         The selected folder, its nested folders,
@@ -252,7 +254,7 @@ class FoldersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=JobResponse,
+            cast_to=FolderMoveResponse,
         )
 
     def rename(
@@ -267,7 +269,7 @@ class FoldersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobResponse:
+    ) -> FolderRenameResponse:
         """This API allows you to rename an existing folder.
 
         The folder and all its nested
@@ -320,7 +322,7 @@ class FoldersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=JobResponse,
+            cast_to=FolderRenameResponse,
         )
 
 
@@ -451,7 +453,7 @@ class AsyncFoldersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobResponse:
+    ) -> FolderCopyResponse:
         """This will copy one folder into another.
 
         The selected folder, its nested folders,
@@ -491,7 +493,7 @@ class AsyncFoldersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=JobResponse,
+            cast_to=FolderCopyResponse,
         )
 
     async def move(
@@ -505,7 +507,7 @@ class AsyncFoldersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobResponse:
+    ) -> FolderMoveResponse:
         """This will move one folder into another.
 
         The selected folder, its nested folders,
@@ -539,7 +541,7 @@ class AsyncFoldersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=JobResponse,
+            cast_to=FolderMoveResponse,
         )
 
     async def rename(
@@ -554,7 +556,7 @@ class AsyncFoldersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> JobResponse:
+    ) -> FolderRenameResponse:
         """This API allows you to rename an existing folder.
 
         The folder and all its nested
@@ -607,7 +609,7 @@ class AsyncFoldersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=JobResponse,
+            cast_to=FolderRenameResponse,
         )
 
 
