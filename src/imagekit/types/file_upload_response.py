@@ -73,6 +73,12 @@ class FileUploadResponse(BaseModel):
     `responseFields` in API request to get the value of this field.
     """
 
+    description: Optional[str] = None
+    """Optional text to describe the contents of the file.
+
+    Can be set by the user or the ai-auto-description extension.
+    """
+
     duration: Optional[int] = None
     """The duration of the video in seconds (only for video)."""
 

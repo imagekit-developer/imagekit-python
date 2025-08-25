@@ -49,6 +49,12 @@ class File(BaseModel):
     custom_metadata: Optional[Dict[str, object]] = FieldInfo(alias="customMetadata", default=None)
     """An object with custom metadata for the file."""
 
+    description: Optional[str] = None
+    """Optional text to describe the contents of the file.
+
+    Can be set by the user or the ai-auto-description extension.
+    """
+
     file_id: Optional[str] = FieldInfo(alias="fileId", default=None)
     """Unique identifier of the asset."""
 
