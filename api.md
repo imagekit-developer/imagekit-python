@@ -171,16 +171,16 @@ Methods:
 Types:
 
 ```python
-from imagekit.types.accounts import Origin, OriginResponse, OriginListResponse
+from imagekit.types.accounts import Origin, OriginListResponse
 ```
 
 Methods:
 
-- <code title="post /v1/accounts/origins">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">create</a>(\*\*<a href="src/imagekit/types/accounts/origin_create_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/origin_response.py">OriginResponse</a></code>
-- <code title="put /v1/accounts/origins/{id}">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">update</a>(id, \*\*<a href="src/imagekit/types/accounts/origin_update_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/origin_response.py">OriginResponse</a></code>
+- <code title="post /v1/accounts/origins">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">create</a>(\*\*<a href="src/imagekit/types/accounts/origin_create_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/origin.py">Origin</a></code>
+- <code title="put /v1/accounts/origins/{id}">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">update</a>(id, \*\*<a href="src/imagekit/types/accounts/origin_update_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/origin.py">Origin</a></code>
 - <code title="get /v1/accounts/origins">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">list</a>() -> <a href="./src/imagekit/types/accounts/origin_list_response.py">OriginListResponse</a></code>
 - <code title="delete /v1/accounts/origins/{id}">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">delete</a>(id) -> None</code>
-- <code title="get /v1/accounts/origins/{id}">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">get</a>(id) -> <a href="./src/imagekit/types/accounts/origin_response.py">OriginResponse</a></code>
+- <code title="get /v1/accounts/origins/{id}">client.accounts.origins.<a href="./src/imagekit/resources/accounts/origins.py">get</a>(id) -> <a href="./src/imagekit/types/accounts/origin.py">Origin</a></code>
 
 ## URLEndpoints
 

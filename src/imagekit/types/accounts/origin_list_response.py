@@ -3,8 +3,8 @@
 from typing import List
 from typing_extensions import TypeAlias
 
-from .origin_response import OriginResponse
+from .origin import Origin
 
 __all__ = ["OriginListResponse"]
 
-OriginListResponse: TypeAlias = List[OriginResponse]
+OriginListResponse: TypeAlias = List[Origin]

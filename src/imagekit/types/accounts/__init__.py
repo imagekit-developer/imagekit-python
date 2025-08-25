@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from .origin import Origin as Origin
 from .origin_param import OriginParam as OriginParam
-from .origin_response import OriginResponse as OriginResponse
 from .usage_get_params import UsageGetParams as UsageGetParams
 from .usage_get_response import UsageGetResponse as UsageGetResponse
 from .origin_create_params import OriginCreateParams as OriginCreateParams
