@@ -23,7 +23,6 @@ Types:
 
 ```python
 from imagekit.types import (
-    AsyncBulkJobResponse,
     File,
     Folder,
     Metadata,
@@ -120,6 +119,7 @@ Types:
 
 ```python
 from imagekit.types import (
+    AsyncBulkJobResponse,
     FolderCreateResponse,
     FolderDeleteResponse,
     FolderCopyResponse,
