@@ -3,14 +3,12 @@
 from __future__ import annotations
 
 from .origin_param import OriginParam as OriginParam
+from .origin_response import OriginResponse as OriginResponse
 from .usage_get_params import UsageGetParams as UsageGetParams
 from .usage_get_response import UsageGetResponse as UsageGetResponse
-from .origin_get_response import OriginGetResponse as OriginGetResponse
 from .origin_create_params import OriginCreateParams as OriginCreateParams
 from .origin_list_response import OriginListResponse as OriginListResponse
 from .origin_update_params import OriginUpdateParams as OriginUpdateParams
-from .origin_create_response import OriginCreateResponse as OriginCreateResponse
-from .origin_update_response import OriginUpdateResponse as OriginUpdateResponse
 from .url_endpoint_get_response import URLEndpointGetResponse as URLEndpointGetResponse
 from .url_endpoint_create_params import URLEndpointCreateParams as URLEndpointCreateParams
 from .url_endpoint_list_response import URLEndpointListResponse as URLEndpointListResponse

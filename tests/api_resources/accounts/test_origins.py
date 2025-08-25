@@ -10,10 +10,8 @@ import pytest
 from imagekit import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
 from imagekit.types.accounts import (
-    OriginGetResponse,
+    OriginResponse,
     OriginListResponse,
-    OriginCreateResponse,
-    OriginUpdateResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -34,7 +32,7 @@ class TestOrigins:
                 "type": "S3",
             },
         )
-        assert_matches_type(OriginCreateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -51,7 +49,7 @@ class TestOrigins:
                 "prefix": "images",
             },
         )
-        assert_matches_type(OriginCreateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -69,7 +67,7 @@ class TestOrigins:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         origin = response.parse()
-        assert_matches_type(OriginCreateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -87,7 +85,7 @@ class TestOrigins:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             origin = response.parse()
-            assert_matches_type(OriginCreateResponse, origin, path=["response"])
+            assert_matches_type(OriginResponse, origin, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -104,7 +102,7 @@ class TestOrigins:
                 "type": "S3",
             },
         )
-        assert_matches_type(OriginUpdateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -122,7 +120,7 @@ class TestOrigins:
                 "prefix": "images",
             },
         )
-        assert_matches_type(OriginUpdateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -141,7 +139,7 @@ class TestOrigins:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         origin = response.parse()
-        assert_matches_type(OriginUpdateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -160,7 +158,7 @@ class TestOrigins:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             origin = response.parse()
-            assert_matches_type(OriginUpdateResponse, origin, path=["response"])
+            assert_matches_type(OriginResponse, origin, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -255,7 +253,7 @@ class TestOrigins:
         origin = client.accounts.origins.get(
             "id",
         )
-        assert_matches_type(OriginGetResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -267,7 +265,7 @@ class TestOrigins:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         origin = response.parse()
-        assert_matches_type(OriginGetResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -279,7 +277,7 @@ class TestOrigins:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             origin = response.parse()
-            assert_matches_type(OriginGetResponse, origin, path=["response"])
+            assert_matches_type(OriginResponse, origin, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -309,7 +307,7 @@ class TestAsyncOrigins:
                 "type": "S3",
             },
         )
-        assert_matches_type(OriginCreateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -326,7 +324,7 @@ class TestAsyncOrigins:
                 "prefix": "images",
             },
         )
-        assert_matches_type(OriginCreateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -344,7 +342,7 @@ class TestAsyncOrigins:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         origin = await response.parse()
-        assert_matches_type(OriginCreateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -362,7 +360,7 @@ class TestAsyncOrigins:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             origin = await response.parse()
-            assert_matches_type(OriginCreateResponse, origin, path=["response"])
+            assert_matches_type(OriginResponse, origin, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -379,7 +377,7 @@ class TestAsyncOrigins:
                 "type": "S3",
             },
         )
-        assert_matches_type(OriginUpdateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -397,7 +395,7 @@ class TestAsyncOrigins:
                 "prefix": "images",
             },
         )
-        assert_matches_type(OriginUpdateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -416,7 +414,7 @@ class TestAsyncOrigins:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         origin = await response.parse()
-        assert_matches_type(OriginUpdateResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -435,7 +433,7 @@ class TestAsyncOrigins:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             origin = await response.parse()
-            assert_matches_type(OriginUpdateResponse, origin, path=["response"])
+            assert_matches_type(OriginResponse, origin, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -530,7 +528,7 @@ class TestAsyncOrigins:
         origin = await async_client.accounts.origins.get(
             "id",
         )
-        assert_matches_type(OriginGetResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -542,7 +540,7 @@ class TestAsyncOrigins:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         origin = await response.parse()
-        assert_matches_type(OriginGetResponse, origin, path=["response"])
+        assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -554,7 +552,7 @@ class TestAsyncOrigins:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             origin = await response.parse()
-            assert_matches_type(OriginGetResponse, origin, path=["response"])
+            assert_matches_type(OriginResponse, origin, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

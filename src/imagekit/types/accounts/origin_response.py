@@ -9,7 +9,7 @@ from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
 __all__ = [
-    "OriginGetResponse",
+    "OriginResponse",
     "S3",
     "S3Compatible",
     "CloudinaryBackup",
@@ -218,7 +218,7 @@ class AkeneoPim(BaseModel):
     """URL used in the Canonical header (if enabled)."""
 
 
-OriginGetResponse: TypeAlias = Annotated[
+OriginResponse: TypeAlias = Annotated[
     Union[S3, S3Compatible, CloudinaryBackup, WebFolder, WebProxy, Gcs, AzureBlob, AkeneoPim],
     PropertyInfo(discriminator="type"),
 ]

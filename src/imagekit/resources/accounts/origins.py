@@ -19,10 +19,8 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.accounts import origin_create_params, origin_update_params
 from ...types.accounts.origin_param import OriginParam
-from ...types.accounts.origin_get_response import OriginGetResponse
+from ...types.accounts.origin_response import OriginResponse
 from ...types.accounts.origin_list_response import OriginListResponse
-from ...types.accounts.origin_create_response import OriginCreateResponse
-from ...types.accounts.origin_update_response import OriginUpdateResponse
 
 __all__ = ["OriginsResource", "AsyncOriginsResource"]
 
@@ -57,7 +55,7 @@ class OriginsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OriginCreateResponse:
+    ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -75,16 +73,14 @@ class OriginsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return cast(
-            OriginCreateResponse,
+            OriginResponse,
             self._post(
                 "/v1/accounts/origins",
                 body=maybe_transform(origin, origin_create_params.OriginCreateParams),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
-                cast_to=cast(
-                    Any, OriginCreateResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+                cast_to=cast(Any, OriginResponse),  # Union types cannot be passed in as arguments in the type system
             ),
         )
 
@@ -99,7 +95,7 @@ class OriginsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OriginUpdateResponse:
+    ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -122,16 +118,14 @@ class OriginsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return cast(
-            OriginUpdateResponse,
+            OriginResponse,
             self._put(
                 f"/v1/accounts/origins/{id}",
                 body=maybe_transform(origin, origin_update_params.OriginUpdateParams),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
-                cast_to=cast(
-                    Any, OriginUpdateResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+                cast_to=cast(Any, OriginResponse),  # Union types cannot be passed in as arguments in the type system
             ),
         )
 
@@ -208,7 +202,7 @@ class OriginsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OriginGetResponse:
+    ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -229,13 +223,13 @@ class OriginsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return cast(
-            OriginGetResponse,
+            OriginResponse,
             self._get(
                 f"/v1/accounts/origins/{id}",
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
-                cast_to=cast(Any, OriginGetResponse),  # Union types cannot be passed in as arguments in the type system
+                cast_to=cast(Any, OriginResponse),  # Union types cannot be passed in as arguments in the type system
             ),
         )
 
@@ -270,7 +264,7 @@ class AsyncOriginsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OriginCreateResponse:
+    ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -288,16 +282,14 @@ class AsyncOriginsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return cast(
-            OriginCreateResponse,
+            OriginResponse,
             await self._post(
                 "/v1/accounts/origins",
                 body=await async_maybe_transform(origin, origin_create_params.OriginCreateParams),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
-                cast_to=cast(
-                    Any, OriginCreateResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+                cast_to=cast(Any, OriginResponse),  # Union types cannot be passed in as arguments in the type system
             ),
         )
 
@@ -312,7 +304,7 @@ class AsyncOriginsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OriginUpdateResponse:
+    ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -335,16 +327,14 @@ class AsyncOriginsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return cast(
-            OriginUpdateResponse,
+            OriginResponse,
             await self._put(
                 f"/v1/accounts/origins/{id}",
                 body=await async_maybe_transform(origin, origin_update_params.OriginUpdateParams),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
-                cast_to=cast(
-                    Any, OriginUpdateResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+                cast_to=cast(Any, OriginResponse),  # Union types cannot be passed in as arguments in the type system
             ),
         )
 
@@ -421,7 +411,7 @@ class AsyncOriginsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OriginGetResponse:
+    ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -442,13 +432,13 @@ class AsyncOriginsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return cast(
-            OriginGetResponse,
+            OriginResponse,
             await self._get(
                 f"/v1/accounts/origins/{id}",
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
-                cast_to=cast(Any, OriginGetResponse),  # Union types cannot be passed in as arguments in the type system
+                cast_to=cast(Any, OriginResponse),  # Union types cannot be passed in as arguments in the type system
             ),
         )
 
