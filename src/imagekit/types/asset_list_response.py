@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Union, Optional
+from datetime import datetime
 from typing_extensions import Literal, TypeAlias
 
 from pydantic import Field as FieldInfo
@@ -43,7 +44,7 @@ class AssetListResponseItemFileDetails(BaseModel):
     ai_tags: Optional[List[AssetListResponseItemFileDetailsAITag]] = FieldInfo(alias="AITags", default=None)
     """An array of tags assigned to the file by auto tagging."""
 
-    created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
     """Date and time when the file was uploaded.
 
     The date and time is in ISO8601 format.
@@ -102,10 +103,10 @@ class AssetListResponseItemFileDetails(BaseModel):
     This URL is used to access the thumbnail image of the file in the media library.
     """
 
-    type: Optional[str] = None
+    type: Optional[Literal["file", "file-version"]] = None
     """Type of the asset."""
 
-    updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
     """Date and time when the file was last updated.
 
     The date and time is in ISO8601 format.
@@ -122,7 +123,7 @@ class AssetListResponseItemFileDetails(BaseModel):
 
 
 class AssetListResponseItemFolderDetails(BaseModel):
-    created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
     """Date and time when the folder was created.
 
     The date and time is in ISO8601 format.
@@ -145,7 +146,7 @@ class AssetListResponseItemFolderDetails(BaseModel):
     type: Optional[Literal["folder"]] = None
     """Type of the asset."""
 
-    updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
     """Date and time when the folder was last updated.
 
     The date and time is in ISO8601 format.
