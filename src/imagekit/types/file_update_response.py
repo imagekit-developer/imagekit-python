@@ -5,8 +5,8 @@ from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
-from .file import File
 from .._models import BaseModel
+from .shared.file import File
 
 __all__ = ["FileUpdateResponse", "FileUpdateResponseExtensionStatus"]
 

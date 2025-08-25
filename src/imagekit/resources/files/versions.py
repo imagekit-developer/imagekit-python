@@ -13,8 +13,8 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...types.file import File
 from ..._base_client import make_request_options
+from ...types.shared.file import File
 from ...types.files.version_list_response import VersionListResponse
 from ...types.files.version_delete_response import VersionDeleteResponse
 

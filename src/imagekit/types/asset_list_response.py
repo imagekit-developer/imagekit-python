@@ -3,8 +3,8 @@
 from typing import List, Union
 from typing_extensions import TypeAlias
 
-from .file import File
-from .folder import Folder
+from .shared.file import File
+from .shared.folder import Folder
 
 __all__ = ["AssetListResponse", "AssetListResponseItem"]
 
