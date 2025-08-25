@@ -23,6 +23,7 @@ Types:
 
 ```python
 from imagekit.types import (
+    AsyncBulkJobResponse,
     File,
     Folder,
     Metadata,
