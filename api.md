@@ -118,16 +118,16 @@ Methods:
 Types:
 
 ```python
-from imagekit.types import AsyncBulkJobResponse, FolderCreateResponse, FolderDeleteResponse
+from imagekit.types import JobResponse, FolderCreateResponse, FolderDeleteResponse
 ```
 
 Methods:
 
 - <code title="post /v1/folder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">create</a>(\*\*<a href="src/imagekit/types/folder_create_params.py">params</a>) -> <a href="./src/imagekit/types/folder_create_response.py">FolderCreateResponse</a></code>
 - <code title="delete /v1/folder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">delete</a>(\*\*<a href="src/imagekit/types/folder_delete_params.py">params</a>) -> <a href="./src/imagekit/types/folder_delete_response.py">FolderDeleteResponse</a></code>
-- <code title="post /v1/bulkJobs/copyFolder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">copy</a>(\*\*<a href="src/imagekit/types/folder_copy_params.py">params</a>) -> <a href="./src/imagekit/types/async_bulk_job_response.py">AsyncBulkJobResponse</a></code>
-- <code title="post /v1/bulkJobs/moveFolder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">move</a>(\*\*<a href="src/imagekit/types/folder_move_params.py">params</a>) -> <a href="./src/imagekit/types/async_bulk_job_response.py">AsyncBulkJobResponse</a></code>
-- <code title="post /v1/bulkJobs/renameFolder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">rename</a>(\*\*<a href="src/imagekit/types/folder_rename_params.py">params</a>) -> <a href="./src/imagekit/types/async_bulk_job_response.py">AsyncBulkJobResponse</a></code>
+- <code title="post /v1/bulkJobs/copyFolder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">copy</a>(\*\*<a href="src/imagekit/types/folder_copy_params.py">params</a>) -> <a href="./src/imagekit/types/job_response.py">JobResponse</a></code>
+- <code title="post /v1/bulkJobs/moveFolder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">move</a>(\*\*<a href="src/imagekit/types/folder_move_params.py">params</a>) -> <a href="./src/imagekit/types/job_response.py">JobResponse</a></code>
+- <code title="post /v1/bulkJobs/renameFolder">client.folders.<a href="./src/imagekit/resources/folders/folders.py">rename</a>(\*\*<a href="src/imagekit/types/folder_rename_params.py">params</a>) -> <a href="./src/imagekit/types/job_response.py">JobResponse</a></code>
 
 ## Job
 

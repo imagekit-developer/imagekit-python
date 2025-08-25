@@ -5,6 +5,7 @@ from __future__ import annotations
 from .file import File as File
 from .folder import Folder as Folder
 from .metadata import Metadata as Metadata
+from .job_response import JobResponse as JobResponse
 from .file_copy_params import FileCopyParams as FileCopyParams
 from .file_move_params import FileMoveParams as FileMoveParams
 from .asset_list_params import AssetListParams as AssetListParams
@@ -26,7 +27,6 @@ from .unwrap_webhook_event import UnwrapWebhookEvent as UnwrapWebhookEvent
 from .custom_metadata_field import CustomMetadataField as CustomMetadataField
 from .folder_create_response import FolderCreateResponse as FolderCreateResponse
 from .folder_delete_response import FolderDeleteResponse as FolderDeleteResponse
-from .async_bulk_job_response import AsyncBulkJobResponse as AsyncBulkJobResponse
 from .unsafe_unwrap_webhook_event import UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent
 from .custom_metadata_field_list_params import CustomMetadataFieldListParams as CustomMetadataFieldListParams
 from .custom_metadata_field_create_params import CustomMetadataFieldCreateParams as CustomMetadataFieldCreateParams
