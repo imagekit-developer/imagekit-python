@@ -3,7 +3,7 @@
 from typing import List
 from typing_extensions import TypeAlias
 
-from ..shared.file import File
+from ..file import File
 
 __all__ = ["VersionListResponse"]
 

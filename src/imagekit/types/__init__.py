@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from .shared import File as File, Folder as Folder
+from .file import File as File
+from .folder import Folder as Folder
 from .metadata import Metadata as Metadata
 from .file_copy_params import FileCopyParams as FileCopyParams
 from .file_move_params import FileMoveParams as FileMoveParams

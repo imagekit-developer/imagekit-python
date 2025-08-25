@@ -42,8 +42,8 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ...types.file import File
 from ..._base_client import make_request_options
-from ...types.shared.file import File
 from ...types.file_copy_response import FileCopyResponse
 from ...types.file_move_response import FileMoveResponse
 from ...types.file_rename_response import FileRenameResponse

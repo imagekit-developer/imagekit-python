@@ -1,9 +1,3 @@
-# Shared Types
-
-```python
-from imagekit.types import File, Folder
-```
-
 # CustomMetadataFields
 
 Types:
@@ -29,6 +23,8 @@ Types:
 
 ```python
 from imagekit.types import (
+    File,
+    Folder,
     Metadata,
     FileUpdateResponse,
     FileCopyResponse,
@@ -43,7 +39,7 @@ Methods:
 - <code title="patch /v1/files/{fileId}/details">client.files.<a href="./src/imagekit/resources/files/files.py">update</a>(file_id, \*\*<a href="src/imagekit/types/file_update_params.py">params</a>) -> <a href="./src/imagekit/types/file_update_response.py">FileUpdateResponse</a></code>
 - <code title="delete /v1/files/{fileId}">client.files.<a href="./src/imagekit/resources/files/files.py">delete</a>(file_id) -> None</code>
 - <code title="post /v1/files/copy">client.files.<a href="./src/imagekit/resources/files/files.py">copy</a>(\*\*<a href="src/imagekit/types/file_copy_params.py">params</a>) -> <a href="./src/imagekit/types/file_copy_response.py">FileCopyResponse</a></code>
-- <code title="get /v1/files/{fileId}/details">client.files.<a href="./src/imagekit/resources/files/files.py">get</a>(file_id) -> <a href="./src/imagekit/types/shared/file.py">File</a></code>
+- <code title="get /v1/files/{fileId}/details">client.files.<a href="./src/imagekit/resources/files/files.py">get</a>(file_id) -> <a href="./src/imagekit/types/file.py">File</a></code>
 - <code title="post /v1/files/move">client.files.<a href="./src/imagekit/resources/files/files.py">move</a>(\*\*<a href="src/imagekit/types/file_move_params.py">params</a>) -> <a href="./src/imagekit/types/file_move_response.py">FileMoveResponse</a></code>
 - <code title="put /v1/files/rename">client.files.<a href="./src/imagekit/resources/files/files.py">rename</a>(\*\*<a href="src/imagekit/types/file_rename_params.py">params</a>) -> <a href="./src/imagekit/types/file_rename_response.py">FileRenameResponse</a></code>
 - <code title="post /api/v1/files/upload">client.files.<a href="./src/imagekit/resources/files/files.py">upload</a>(\*\*<a href="src/imagekit/types/file_upload_params.py">params</a>) -> <a href="./src/imagekit/types/file_upload_response.py">FileUploadResponse</a></code>
@@ -80,8 +76,8 @@ Methods:
 
 - <code title="get /v1/files/{fileId}/versions">client.files.versions.<a href="./src/imagekit/resources/files/versions.py">list</a>(file_id) -> <a href="./src/imagekit/types/files/version_list_response.py">VersionListResponse</a></code>
 - <code title="delete /v1/files/{fileId}/versions/{versionId}">client.files.versions.<a href="./src/imagekit/resources/files/versions.py">delete</a>(version_id, \*, file_id) -> <a href="./src/imagekit/types/files/version_delete_response.py">VersionDeleteResponse</a></code>
-- <code title="get /v1/files/{fileId}/versions/{versionId}">client.files.versions.<a href="./src/imagekit/resources/files/versions.py">get</a>(version_id, \*, file_id) -> <a href="./src/imagekit/types/shared/file.py">File</a></code>
-- <code title="put /v1/files/{fileId}/versions/{versionId}/restore">client.files.versions.<a href="./src/imagekit/resources/files/versions.py">restore</a>(version_id, \*, file_id) -> <a href="./src/imagekit/types/shared/file.py">File</a></code>
+- <code title="get /v1/files/{fileId}/versions/{versionId}">client.files.versions.<a href="./src/imagekit/resources/files/versions.py">get</a>(version_id, \*, file_id) -> <a href="./src/imagekit/types/file.py">File</a></code>
+- <code title="put /v1/files/{fileId}/versions/{versionId}/restore">client.files.versions.<a href="./src/imagekit/resources/files/versions.py">restore</a>(version_id, \*, file_id) -> <a href="./src/imagekit/types/file.py">File</a></code>
 
 ## Metadata
 
