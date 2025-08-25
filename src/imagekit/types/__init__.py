@@ -19,16 +19,14 @@ from .asset_list_response import AssetListResponse as AssetListResponse
 from .file_rename_response import FileRenameResponse as FileRenameResponse
 from .file_update_response import FileUpdateResponse as FileUpdateResponse
 from .file_upload_response import FileUploadResponse as FileUploadResponse
-from .folder_copy_response import FolderCopyResponse as FolderCopyResponse
 from .folder_create_params import FolderCreateParams as FolderCreateParams
 from .folder_delete_params import FolderDeleteParams as FolderDeleteParams
-from .folder_move_response import FolderMoveResponse as FolderMoveResponse
 from .folder_rename_params import FolderRenameParams as FolderRenameParams
 from .unwrap_webhook_event import UnwrapWebhookEvent as UnwrapWebhookEvent
 from .custom_metadata_field import CustomMetadataField as CustomMetadataField
 from .folder_create_response import FolderCreateResponse as FolderCreateResponse
 from .folder_delete_response import FolderDeleteResponse as FolderDeleteResponse
-from .folder_rename_response import FolderRenameResponse as FolderRenameResponse
+from .async_bulk_job_response import AsyncBulkJobResponse as AsyncBulkJobResponse
 from .unsafe_unwrap_webhook_event import UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent
 from .custom_metadata_field_list_params import CustomMetadataFieldListParams as CustomMetadataFieldListParams
 from .custom_metadata_field_create_params import CustomMetadataFieldCreateParams as CustomMetadataFieldCreateParams
