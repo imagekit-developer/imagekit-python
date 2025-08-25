@@ -10,10 +10,8 @@ import pytest
 from imagekit import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
 from imagekit.types.accounts import (
-    URLEndpointGetResponse,
+    URLEndpointResponse,
     URLEndpointListResponse,
-    URLEndpointCreateResponse,
-    URLEndpointUpdateResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -28,7 +26,7 @@ class TestURLEndpoints:
         url_endpoint = client.accounts.url_endpoints.create(
             description="My custom URL endpoint",
         )
-        assert_matches_type(URLEndpointCreateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -42,7 +40,7 @@ class TestURLEndpoints:
                 "preserve_asset_delivery_types": True,
             },
         )
-        assert_matches_type(URLEndpointCreateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -54,7 +52,7 @@ class TestURLEndpoints:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         url_endpoint = response.parse()
-        assert_matches_type(URLEndpointCreateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -66,7 +64,7 @@ class TestURLEndpoints:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             url_endpoint = response.parse()
-            assert_matches_type(URLEndpointCreateResponse, url_endpoint, path=["response"])
+            assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -77,7 +75,7 @@ class TestURLEndpoints:
             id="id",
             description="My custom URL endpoint",
         )
-        assert_matches_type(URLEndpointUpdateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -92,7 +90,7 @@ class TestURLEndpoints:
                 "preserve_asset_delivery_types": True,
             },
         )
-        assert_matches_type(URLEndpointUpdateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -105,7 +103,7 @@ class TestURLEndpoints:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         url_endpoint = response.parse()
-        assert_matches_type(URLEndpointUpdateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -118,7 +116,7 @@ class TestURLEndpoints:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             url_endpoint = response.parse()
-            assert_matches_type(URLEndpointUpdateResponse, url_endpoint, path=["response"])
+            assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -207,7 +205,7 @@ class TestURLEndpoints:
         url_endpoint = client.accounts.url_endpoints.get(
             "id",
         )
-        assert_matches_type(URLEndpointGetResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -219,7 +217,7 @@ class TestURLEndpoints:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         url_endpoint = response.parse()
-        assert_matches_type(URLEndpointGetResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -231,7 +229,7 @@ class TestURLEndpoints:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             url_endpoint = response.parse()
-            assert_matches_type(URLEndpointGetResponse, url_endpoint, path=["response"])
+            assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -255,7 +253,7 @@ class TestAsyncURLEndpoints:
         url_endpoint = await async_client.accounts.url_endpoints.create(
             description="My custom URL endpoint",
         )
-        assert_matches_type(URLEndpointCreateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -269,7 +267,7 @@ class TestAsyncURLEndpoints:
                 "preserve_asset_delivery_types": True,
             },
         )
-        assert_matches_type(URLEndpointCreateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -281,7 +279,7 @@ class TestAsyncURLEndpoints:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         url_endpoint = await response.parse()
-        assert_matches_type(URLEndpointCreateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -293,7 +291,7 @@ class TestAsyncURLEndpoints:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             url_endpoint = await response.parse()
-            assert_matches_type(URLEndpointCreateResponse, url_endpoint, path=["response"])
+            assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -304,7 +302,7 @@ class TestAsyncURLEndpoints:
             id="id",
             description="My custom URL endpoint",
         )
-        assert_matches_type(URLEndpointUpdateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -319,7 +317,7 @@ class TestAsyncURLEndpoints:
                 "preserve_asset_delivery_types": True,
             },
         )
-        assert_matches_type(URLEndpointUpdateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -332,7 +330,7 @@ class TestAsyncURLEndpoints:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         url_endpoint = await response.parse()
-        assert_matches_type(URLEndpointUpdateResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -345,7 +343,7 @@ class TestAsyncURLEndpoints:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             url_endpoint = await response.parse()
-            assert_matches_type(URLEndpointUpdateResponse, url_endpoint, path=["response"])
+            assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -434,7 +432,7 @@ class TestAsyncURLEndpoints:
         url_endpoint = await async_client.accounts.url_endpoints.get(
             "id",
         )
-        assert_matches_type(URLEndpointGetResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -446,7 +444,7 @@ class TestAsyncURLEndpoints:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         url_endpoint = await response.parse()
-        assert_matches_type(URLEndpointGetResponse, url_endpoint, path=["response"])
+        assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -458,7 +456,7 @@ class TestAsyncURLEndpoints:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             url_endpoint = await response.parse()
-            assert_matches_type(URLEndpointGetResponse, url_endpoint, path=["response"])
+            assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

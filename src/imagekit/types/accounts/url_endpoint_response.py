@@ -8,7 +8,7 @@ from pydantic import Field as FieldInfo
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
-__all__ = ["URLEndpointGetResponse", "URLRewriter", "URLRewriterCloudinary", "URLRewriterImgix", "URLRewriterAkamai"]
+__all__ = ["URLEndpointResponse", "URLRewriter", "URLRewriterCloudinary", "URLRewriterImgix", "URLRewriterAkamai"]
 
 
 class URLRewriterCloudinary(BaseModel):
@@ -31,7 +31,7 @@ URLRewriter: TypeAlias = Annotated[
 ]
 
 
-class URLEndpointGetResponse(BaseModel):
+class URLEndpointResponse(BaseModel):
     id: str
     """Unique identifier for the URL-endpoint.
 

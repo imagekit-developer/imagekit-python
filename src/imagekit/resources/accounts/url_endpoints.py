@@ -18,10 +18,8 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.accounts import url_endpoint_create_params, url_endpoint_update_params
-from ...types.accounts.url_endpoint_get_response import URLEndpointGetResponse
+from ...types.accounts.url_endpoint_response import URLEndpointResponse
 from ...types.accounts.url_endpoint_list_response import URLEndpointListResponse
-from ...types.accounts.url_endpoint_create_response import URLEndpointCreateResponse
-from ...types.accounts.url_endpoint_update_response import URLEndpointUpdateResponse
 
 __all__ = ["URLEndpointsResource", "AsyncURLEndpointsResource"]
 
@@ -59,7 +57,7 @@ class URLEndpointsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> URLEndpointCreateResponse:
+    ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -99,7 +97,7 @@ class URLEndpointsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=URLEndpointCreateResponse,
+            cast_to=URLEndpointResponse,
         )
 
     def update(
@@ -116,7 +114,7 @@ class URLEndpointsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> URLEndpointUpdateResponse:
+    ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -162,7 +160,7 @@ class URLEndpointsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=URLEndpointUpdateResponse,
+            cast_to=URLEndpointResponse,
         )
 
     def list(
@@ -240,7 +238,7 @@ class URLEndpointsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> URLEndpointGetResponse:
+    ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -266,7 +264,7 @@ class URLEndpointsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=URLEndpointGetResponse,
+            cast_to=URLEndpointResponse,
         )
 
 
@@ -303,7 +301,7 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> URLEndpointCreateResponse:
+    ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -343,7 +341,7 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=URLEndpointCreateResponse,
+            cast_to=URLEndpointResponse,
         )
 
     async def update(
@@ -360,7 +358,7 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> URLEndpointUpdateResponse:
+    ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -406,7 +404,7 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=URLEndpointUpdateResponse,
+            cast_to=URLEndpointResponse,
         )
 
     async def list(
@@ -484,7 +482,7 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> URLEndpointGetResponse:
+    ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 
 
@@ -510,7 +508,7 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=URLEndpointGetResponse,
+            cast_to=URLEndpointResponse,
         )
 
 

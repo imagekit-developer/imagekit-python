@@ -187,22 +187,16 @@ Methods:
 Types:
 
 ```python
-from imagekit.types.accounts import (
-    URLEndpoint,
-    URLEndpointCreateResponse,
-    URLEndpointUpdateResponse,
-    URLEndpointListResponse,
-    URLEndpointGetResponse,
-)
+from imagekit.types.accounts import URLEndpointRequest, URLEndpointResponse, URLEndpointListResponse
 ```
 
 Methods:
 
-- <code title="post /v1/accounts/url-endpoints">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">create</a>(\*\*<a href="src/imagekit/types/accounts/url_endpoint_create_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/url_endpoint_create_response.py">URLEndpointCreateResponse</a></code>
-- <code title="put /v1/accounts/url-endpoints/{id}">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">update</a>(id, \*\*<a href="src/imagekit/types/accounts/url_endpoint_update_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/url_endpoint_update_response.py">URLEndpointUpdateResponse</a></code>
+- <code title="post /v1/accounts/url-endpoints">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">create</a>(\*\*<a href="src/imagekit/types/accounts/url_endpoint_create_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/url_endpoint_response.py">URLEndpointResponse</a></code>
+- <code title="put /v1/accounts/url-endpoints/{id}">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">update</a>(id, \*\*<a href="src/imagekit/types/accounts/url_endpoint_update_params.py">params</a>) -> <a href="./src/imagekit/types/accounts/url_endpoint_response.py">URLEndpointResponse</a></code>
 - <code title="get /v1/accounts/url-endpoints">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">list</a>() -> <a href="./src/imagekit/types/accounts/url_endpoint_list_response.py">URLEndpointListResponse</a></code>
 - <code title="delete /v1/accounts/url-endpoints/{id}">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">delete</a>(id) -> None</code>
-- <code title="get /v1/accounts/url-endpoints/{id}">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">get</a>(id) -> <a href="./src/imagekit/types/accounts/url_endpoint_get_response.py">URLEndpointGetResponse</a></code>
+- <code title="get /v1/accounts/url-endpoints/{id}">client.accounts.url_endpoints.<a href="./src/imagekit/resources/accounts/url_endpoints.py">get</a>(id) -> <a href="./src/imagekit/types/accounts/url_endpoint_response.py">URLEndpointResponse</a></code>
 
 # Beta
 
