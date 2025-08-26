@@ -303,7 +303,7 @@ class TestCustomMetadataFields(ClientTestCase):
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.field_id)
         headers = create_headers_for_test()
-        responses.add(responses.DELETE, url, status=204, headers=headers, body="{}")
+        responses.add(responses.DELETE, url, status=204, headers=headers)
         resp = self.client.delete_custom_metadata_field(self.field_id)
 
         mock_response_metadata = {

@@ -1298,7 +1298,7 @@ class TestDeleteFile(ClientTestCase):
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
 
-        responses.add(responses.DELETE, url, body="{}", status=204, headers=headers)
+        responses.add(responses.DELETE, url , status=204, headers=headers)
 
         resp = self.client.delete_file(self.file_id)
 
@@ -2466,7 +2466,7 @@ class TestDeleteFileVersion(ClientTestCase):
         )
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
-        responses.add(responses.DELETE, url, status=204, headers=headers, body="{}")
+        responses.add(responses.DELETE, url, status=204, headers=headers )
         resp = self.client.delete_file_version(self.file_id, self.version_id)
 
         mock_response_metadata = {
@@ -2534,7 +2534,7 @@ class TestCopyFile(ClientTestCase):
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
-        responses.add(responses.POST, url, status=204, headers=headers, body="{}")
+        responses.add(responses.POST, url, status=204, headers=headers)
 
         resp = self.client.copy_file(
             options=CopyFileRequestOptions(
@@ -2581,7 +2581,7 @@ class TestCopyFile(ClientTestCase):
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
-        responses.add(responses.POST, url, status=204, headers=headers, body="{}")
+        responses.add(responses.POST, url, status=204, headers=headers )
 
         resp = self.client.copy_file(
             options=CopyFileRequestOptions(
@@ -2663,7 +2663,7 @@ class TestMoveFile(ClientTestCase):
         url = "{}/v1/files/move".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
-        responses.add(responses.POST, url, status=204, headers=headers, body="{}")
+        responses.add(responses.POST, url, status=204, headers=headers )
 
         resp = self.client.move_file(
             options=MoveFileRequestOptions(
