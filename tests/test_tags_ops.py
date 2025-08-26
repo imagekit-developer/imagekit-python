@@ -73,7 +73,7 @@ class TestTags(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "httpStatusCode": 200,
@@ -170,7 +170,7 @@ class TestTags(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "httpStatusCode": 200,
@@ -280,7 +280,7 @@ class TestAITags(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "httpStatusCode": 200,

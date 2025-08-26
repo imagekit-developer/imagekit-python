@@ -422,7 +422,7 @@ class TestCustomMetadataFields(ClientTestCase):
             },
             "httpStatusCode": 201,
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -493,7 +493,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -575,7 +575,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -653,7 +653,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -729,7 +729,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -809,7 +809,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -892,7 +892,7 @@ class TestCustomMetadataFields(ClientTestCase):
             },
             "httpStatusCode": 200,
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },

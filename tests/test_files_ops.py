@@ -1171,7 +1171,7 @@ class TestDeleteFile(ClientTestCase):
             "raw": {"successfullyDeletedFileIds": ["fake_123", "fake_222"]},
             "httpStatusCode": 200,
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
         }
@@ -1212,7 +1212,7 @@ class TestDeleteFile(ClientTestCase):
             "raw": {"successfullyDeletedFileIds": ["fake_123"],"nonDeletedFields":["fake_222"]},
             "httpStatusCode": 200,
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
         }
@@ -1304,7 +1304,7 @@ class TestDeleteFile(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "httpStatusCode": 204,
@@ -1750,7 +1750,7 @@ class TestUpdateFileDetails(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "http_status_code": 200,
@@ -1889,7 +1889,7 @@ class TestUpdateFileDetails(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "http_status_code": 200,
@@ -2228,7 +2228,7 @@ class TestGetFileVersions(ClientTestCase):
             ],
             "http_status_code": 200,
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
         }
@@ -2338,7 +2338,7 @@ class TestGetFileVersions(ClientTestCase):
         resp = self.client.get_file_version_details(self.file_id, self.version_id)
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "http_status_code": 200,
@@ -2471,7 +2471,7 @@ class TestDeleteFileVersion(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2546,7 +2546,7 @@ class TestCopyFile(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2592,7 +2592,7 @@ class TestCopyFile(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2673,7 +2673,7 @@ class TestMoveFile(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2763,7 +2763,7 @@ class TestRenameFile(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2815,7 +2815,7 @@ class TestRenameFile(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2859,7 +2859,7 @@ class TestRenameFile(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2966,7 +2966,7 @@ class TestRestoreFileVersion(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
