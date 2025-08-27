@@ -7,7 +7,7 @@ from typing_extensions import Literal
 from .._models import BaseModel
 
 __all__ = [
-    "VideoTransformationAcceptedWebhookEvent",
+    "VideoTransformationAcceptedEvent",
     "Data",
     "DataAsset",
     "DataTransformation",
@@ -60,7 +60,7 @@ class Request(BaseModel):
     """User-Agent header of the originating request."""
 
 
-class VideoTransformationAcceptedWebhookEvent(BaseModel):
+class VideoTransformationAcceptedEvent(BaseModel):
     id: str
     """Unique identifier for the event."""
 
