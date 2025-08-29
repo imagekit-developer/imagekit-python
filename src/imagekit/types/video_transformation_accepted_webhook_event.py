@@ -7,11 +7,10 @@ from typing_extensions import Literal
 from .._models import BaseModel
 
 __all__ = [
-    "VideoTransformationErrorEvent",
+    "VideoTransformationAcceptedWebhookEvent",
     "Data",
     "DataAsset",
     "DataTransformation",
-    "DataTransformationError",
     "DataTransformationOptions",
     "Request",
 ]
@@ -20,10 +19,6 @@ __all__ = [
 class DataAsset(BaseModel):
     url: str
     """Source asset URL."""
-
-
-class DataTransformationError(BaseModel):
-    reason: Literal["encoding_failed", "download_failed", "internal_server_error"]
 
 
 class DataTransformationOptions(BaseModel):
@@ -45,8 +40,6 @@ class DataTransformationOptions(BaseModel):
 class DataTransformation(BaseModel):
     type: Literal["video-transformation", "gif-to-video", "video-thumbnail"]
 
-    error: Optional[DataTransformationError] = None
-
     options: Optional[DataTransformationOptions] = None
 
 
@@ -67,7 +60,7 @@ class Request(BaseModel):
     """User-Agent header of the originating request."""
 
 
-class VideoTransformationErrorEvent(BaseModel):
+class VideoTransformationAcceptedWebhookEvent(BaseModel):
     id: str
     """Unique identifier for the event."""
 
@@ -77,4 +70,4 @@ class VideoTransformationErrorEvent(BaseModel):
 
     request: Request
 
-    type: Literal["video.transformation.error"]
+    type: Literal["video.transformation.accepted"]

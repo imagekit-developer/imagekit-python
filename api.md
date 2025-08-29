@@ -215,9 +215,12 @@ Types:
 
 ```python
 from imagekit.types import (
-    VideoTransformationAcceptedEvent,
-    VideoTransformationErrorEvent,
-    VideoTransformationReadyEvent,
+    VideoTransformationAcceptedWebhookEvent,
+    VideoTransformationReadyWebhookEvent,
+    VideoTransformationErrorWebhookEvent,
+    VideoTransformationAcceptedWebhookEvent,
+    VideoTransformationReadyWebhookEvent,
+    VideoTransformationErrorWebhookEvent,
     UnsafeUnwrapWebhookEvent,
     UnwrapWebhookEvent,
 )

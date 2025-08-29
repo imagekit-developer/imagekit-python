@@ -3,12 +3,12 @@
 from typing import Union
 from typing_extensions import TypeAlias
 
-from .video_transformation_error_event import VideoTransformationErrorEvent
-from .video_transformation_ready_event import VideoTransformationReadyEvent
-from .video_transformation_accepted_event import VideoTransformationAcceptedEvent
+from .video_transformation_error_webhook_event import VideoTransformationErrorWebhookEvent
+from .video_transformation_ready_webhook_event import VideoTransformationReadyWebhookEvent
+from .video_transformation_accepted_webhook_event import VideoTransformationAcceptedWebhookEvent
 
 __all__ = ["UnsafeUnwrapWebhookEvent"]
 
 UnsafeUnwrapWebhookEvent: TypeAlias = Union[
-    VideoTransformationAcceptedEvent, VideoTransformationReadyEvent, VideoTransformationErrorEvent
+    VideoTransformationAcceptedWebhookEvent, VideoTransformationReadyWebhookEvent, VideoTransformationErrorWebhookEvent
 ]
