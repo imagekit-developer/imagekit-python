@@ -7,7 +7,7 @@ from typing_extensions import Literal
 from .._models import BaseModel
 
 __all__ = [
-    "VideoTransformationReadyWebhookEvent",
+    "VideoTransformationReadyEvent",
     "Data",
     "DataAsset",
     "DataTransformation",
@@ -89,7 +89,7 @@ class Timings(BaseModel):
     """Milliseconds spent encoding."""
 
 
-class VideoTransformationReadyWebhookEvent(BaseModel):
+class VideoTransformationReadyEvent(BaseModel):
     id: str
     """Unique identifier for the event."""
 
