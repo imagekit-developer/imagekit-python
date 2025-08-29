@@ -2,8 +2,28 @@
 
 from __future__ import annotations
 
+from . import shared
+from .. import _compat
 from .file import File as File
 from .folder import Folder as Folder
+from .shared import (
+    Overlay as Overlay,
+    SrcOptions as SrcOptions,
+    BaseOverlay as BaseOverlay,
+    TextOverlay as TextOverlay,
+    ImageOverlay as ImageOverlay,
+    VideoOverlay as VideoOverlay,
+    OverlayTiming as OverlayTiming,
+    Transformation as Transformation,
+    OverlayPosition as OverlayPosition,
+    SubtitleOverlay as SubtitleOverlay,
+    SolidColorOverlay as SolidColorOverlay,
+    StreamingResolution as StreamingResolution,
+    TransformationPosition as TransformationPosition,
+    TextOverlayTransformation as TextOverlayTransformation,
+    SubtitleOverlayTransformation as SubtitleOverlayTransformation,
+    SolidColorOverlayTransformation as SolidColorOverlayTransformation,
+)
 from .metadata import Metadata as Metadata
 from .file_copy_params import FileCopyParams as FileCopyParams
 from .file_move_params import FileMoveParams as FileMoveParams
@@ -40,3 +60,14 @@ from .video_transformation_accepted_event import VideoTransformationAcceptedEven
 from .custom_metadata_field_delete_response import (
     CustomMetadataFieldDeleteResponse as CustomMetadataFieldDeleteResponse,
 )
+
+# Rebuild cyclical models only after all modules are imported.
+# This ensures that, when building the deferred (due to cyclical references) model schema,
+# Pydantic can resolve the necessary references.
+# See: https://github.com/pydantic/pydantic/issues/11250 for more context.
+if _compat.PYDANTIC_V2:
+    shared.src_options.SrcOptions.model_rebuild(_parent_namespace_depth=0)
+    shared.transformation.Transformation.model_rebuild(_parent_namespace_depth=0)
+else:
+    shared.src_options.SrcOptions.update_forward_refs()  # type: ignore
+    shared.transformation.Transformation.update_forward_refs()  # type: ignore
