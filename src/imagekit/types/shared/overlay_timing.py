@@ -1,8 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import TYPE_CHECKING, Dict, Union
-
-from pydantic import Field as FieldInfo
+from typing import Union
 
 from ..._models import BaseModel
 
@@ -34,10 +32,3 @@ class OverlayTiming(BaseModel):
     `20.50`) and arithmetic expressions such as `bdu_mul_0.4` or `bdu_sub_idu`.
     Applies only if the base asset is a video. Maps to `lso` in the URL.
     """
-
-    __pydantic_extra__: Dict[str, str] = FieldInfo(init=False)  # pyright: ignore[reportIncompatibleVariableOverride]
-    if TYPE_CHECKING:
-        # Stub to indicate that arbitrary properties are accepted.
-        # To access properties that are not valid identifiers you can use `getattr`, e.g.
-        # `getattr(obj, '$type')`
-        def __getattr__(self, attr: str) -> str: ...

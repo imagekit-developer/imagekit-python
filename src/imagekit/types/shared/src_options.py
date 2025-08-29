@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict, List, Union, Optional
+from typing import Dict, List, Optional
 
 from pydantic import Field as FieldInfo
 
@@ -26,7 +26,7 @@ class SrcOptions(BaseModel):
     [ImageKit dashboard](https://imagekit.io/dashboard/url-endpoints).
     """
 
-    query_parameters: Optional[Dict[str, Union[str, float]]] = FieldInfo(alias="queryParameters", default=None)
+    query_parameters: Optional[Dict[str, str]] = FieldInfo(alias="queryParameters", default=None)
     """
     These are additional query parameters that you want to add to the final URL.
     They can be any query parameters and not necessarily related to ImageKit. This
@@ -46,13 +46,6 @@ class SrcOptions(BaseModel):
     e.g., `?tr=w-100,h-100`. If you want to add the transformation string in the
     path of the URL, set this to `path`.
     """
-
-    __pydantic_extra__: Dict[str, str] = FieldInfo(init=False)  # pyright: ignore[reportIncompatibleVariableOverride]
-    if TYPE_CHECKING:
-        # Stub to indicate that arbitrary properties are accepted.
-        # To access properties that are not valid identifiers you can use `getattr`, e.g.
-        # `getattr(obj, '$type')`
-        def __getattr__(self, attr: str) -> str: ...
 
 
 from .transformation import Transformation

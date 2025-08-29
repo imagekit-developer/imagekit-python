@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict, List, Optional
-from typing_extensions import Literal, override
-
-from pydantic import Field as FieldInfo
+from typing import List, Optional
+from typing_extensions import Literal
 
 from .base_overlay import BaseOverlay
 
@@ -32,14 +30,6 @@ class ImageOverlay(BaseOverlay):
 
     Supported transformations depends on the base/parent asset.
     """
-
-    __pydantic_extra__: Dict[str, str] = FieldInfo(init=False)  # pyright: ignore[reportIncompatibleVariableOverride]
-    if TYPE_CHECKING:
-        # Stub to indicate that arbitrary properties are accepted.
-        # To access properties that are not valid identifiers you can use `getattr`, e.g.
-        # `getattr(obj, '$type')`
-        @override
-        def __getattr__(self, attr: str) -> str: ...
 
 
 from .transformation import Transformation
