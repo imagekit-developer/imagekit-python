@@ -51,8 +51,8 @@ class DataTransformationOptions(BaseModel):
     variants: Optional[List[str]] = None
     """Array of quality representations for adaptive bitrate streaming."""
 
-    video_codec: Optional[Literal["h264", "vp9"]] = None
-    """Video codec used for encoding (h264 or vp9)."""
+    video_codec: Optional[Literal["h264", "vp9", "av1"]] = None
+    """Video codec used for encoding (h264, vp9, or av1)."""
 
 
 class DataTransformation(BaseModel):
