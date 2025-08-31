@@ -29,6 +29,7 @@ class VideoOverlay(BaseOverlay):
     """Array of transformation to be applied to the overlay video.
 
     Except `streamingResolutions`, all other video transformations are supported.
+    See [Video transformations](https://imagekit.io/docs/video-transformation).
     """
 
 

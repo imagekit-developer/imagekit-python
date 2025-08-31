@@ -23,5 +23,8 @@ class SolidColorOverlay(BaseOverlay):
     transformation: Optional[List[SolidColorOverlayTransformation]] = None
     """Control width and height of the solid color overlay.
 
-    Supported transformations depend on the base/parent asset.
+    Supported transformations depend on the base/parent asset. See overlays on
+    [Images](https://imagekit.io/docs/add-overlays-on-images#apply-transformation-on-solid-color-overlay)
+    and
+    [Videos](https://imagekit.io/docs/add-overlays-on-videos#apply-transformations-on-solid-color-block-overlay).
     """

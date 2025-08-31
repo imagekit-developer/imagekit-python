@@ -28,7 +28,10 @@ class ImageOverlay(BaseOverlay):
     transformation: Optional[List["Transformation"]] = None
     """Array of transformations to be applied to the overlay image.
 
-    Supported transformations depends on the base/parent asset.
+    Supported transformations depends on the base/parent asset. See overlays on
+    [Images](https://imagekit.io/docs/add-overlays-on-images#list-of-supported-image-transformations-in-image-layers)
+    and
+    [Videos](https://imagekit.io/docs/add-overlays-on-videos#list-of-transformations-supported-on-image-overlay).
     """
 
 

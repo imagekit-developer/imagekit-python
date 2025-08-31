@@ -25,4 +25,8 @@ class SubtitleOverlay(BaseOverlay):
     """
 
     transformation: Optional[List[SubtitleOverlayTransformation]] = None
-    """Control styling of the subtitle."""
+    """Control styling of the subtitle.
+
+    See
+    [Styling subtitles](https://imagekit.io/docs/add-overlays-on-videos#styling-controls-for-subtitles-layer).
+    """

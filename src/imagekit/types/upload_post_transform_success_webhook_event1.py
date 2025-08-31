@@ -1,0 +1,54 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from typing import Optional
+from datetime import datetime
+from typing_extensions import Literal
+
+from pydantic import Field as FieldInfo
+
+from .._models import BaseModel
+
+__all__ = ["UploadPostTransformSuccessWebhookEvent", "Data", "Request", "RequestTransformation"]
+
+
+class Data(BaseModel):
+    file_id: str = FieldInfo(alias="fileId")
+    """Unique identifier of the originally uploaded file."""
+
+    name: str
+    """Name of the file."""
+
+    url: str
+    """URL of the generated post-transformation."""
+
+
+class RequestTransformation(BaseModel):
+    type: Literal["transformation", "abs", "gif-to-video", "thumbnail"]
+    """Type of the requested post-transformation."""
+
+    protocol: Optional[Literal["hls", "dash"]] = None
+    """Only applicable if transformation type is 'abs'. Streaming protocol used."""
+
+    value: Optional[str] = None
+    """Value for the requested transformation type."""
+
+
+class Request(BaseModel):
+    transformation: RequestTransformation
+
+    x_request_id: str
+    """Unique identifier for the originating request."""
+
+
+class UploadPostTransformSuccessWebhookEvent(BaseModel):
+    id: str
+    """Unique identifier for the event."""
+
+    created_at: datetime
+    """Timestamp of when the event occurred in ISO8601 format."""
+
+    data: Data
+
+    request: Request
+
+    type: Literal["upload.post-transform.success"]

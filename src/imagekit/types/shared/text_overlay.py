@@ -28,4 +28,8 @@ class TextOverlay(BaseOverlay):
     """
 
     transformation: Optional[List[TextOverlayTransformation]] = None
-    """Control styling of the text overlay."""
+    """Control styling of the text overlay.
+
+    See
+    [Text overlays](https://imagekit.io/docs/add-overlays-on-images#text-overlay).
+    """

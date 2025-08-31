@@ -36,7 +36,10 @@ class TextOverlayTransformation(BaseModel):
     font_family: Optional[str] = FieldInfo(alias="fontFamily", default=None)
     """Specifies the font family of the overlaid text.
 
-    Choose from the supported fonts list or use a custom font.
+    Choose from the supported fonts list or use a custom font. See
+    [Supported fonts](https://imagekit.io/docs/add-overlays-on-images#supported-text-font-list)
+    and
+    [Custom font](https://imagekit.io/docs/add-overlays-on-images#change-font-family-in-text-overlay).
     """
 
     font_size: Union[float, str, None] = FieldInfo(alias="fontSize", default=None)
@@ -52,7 +55,12 @@ class TextOverlayTransformation(BaseModel):
     """
 
     line_height: Union[float, str, None] = FieldInfo(alias="lineHeight", default=None)
-    """Specifies the line height of the text overlay."""
+    """Specifies the line height of the text overlay.
+
+    Accepts integer values representing line height in points. It can also accept
+    [arithmetic expressions](https://imagekit.io/docs/arithmetic-expressions-in-transformations)
+    such as `bw_mul_0.2`, or `bh_div_20`.
+    """
 
     padding: Union[float, str, None] = None
     """
@@ -73,10 +81,12 @@ class TextOverlayTransformation(BaseModel):
     clockwise rotation or a string prefixed with "N" for counter-clockwise rotation.
     """
 
-    typography: Optional[Literal["b", "i", "b_i"]] = None
-    """
-    Specifies the typography style of the text. Supported values: `b` for bold, `i`
-    for italics, and `b_i` for bold with italics.
+    typography: Optional[str] = None
+    """Specifies the typography style of the text. Supported values:
+
+    - Single styles: `b` (bold), `i` (italic), `strikethrough`.
+    - Combinations: Any combination separated by underscores, e.g., `b_i`,
+      `b_i_strikethrough`.
     """
 
     width: Union[float, str, None] = None
@@ -84,5 +94,6 @@ class TextOverlayTransformation(BaseModel):
 
     The text wraps automatically, and arithmetic expressions (e.g., `bw_mul_0.2` or
     `bh_div_2`) are supported. Useful when used in conjunction with the
-    `background`.
+    `background`. Learn about
+    [Arithmetic expressions](https://imagekit.io/docs/arithmetic-expressions-in-transformations).
     """

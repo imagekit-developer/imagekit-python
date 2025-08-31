@@ -60,6 +60,18 @@ from .video_transformation_accepted_event import VideoTransformationAcceptedEven
 from .custom_metadata_field_delete_response import (
     CustomMetadataFieldDeleteResponse as CustomMetadataFieldDeleteResponse,
 )
+from .upload_pre_transform_error_webhook_event import (
+    UploadPreTransformErrorWebhookEvent as UploadPreTransformErrorWebhookEvent,
+)
+from .upload_post_transform_error_webhook_event import (
+    UploadPostTransformErrorWebhookEvent as UploadPostTransformErrorWebhookEvent,
+)
+from .upload_pre_transform_success_webhook_event import (
+    UploadPreTransformSuccessWebhookEvent as UploadPreTransformSuccessWebhookEvent,
+)
+from .upload_post_transform_success_webhook_event import (
+    UploadPostTransformSuccessWebhookEvent as UploadPostTransformSuccessWebhookEvent,
+)
 
 # Rebuild cyclical models only after all modules are imported.
 # This ensures that, when building the deferred (due to cyclical references) model schema,
