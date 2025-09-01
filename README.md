@@ -1,1445 +1,448 @@
-[<img width="250" alt="ImageKit.io" src="https://raw.githubusercontent.com/imagekit-developer/imagekit-javascript/master/assets/imagekit-light-logo.svg"/>](https://imagekit.io)
+# Image Kit Python API library
 
-# ImageKit.io Python SDK
+<!-- prettier-ignore -->
+[![PyPI version](https://img.shields.io/pypi/v/imagekit.svg?label=pypi%20(stable))](https://pypi.org/project/imagekit/)
 
-[![Python CI](https://github.com/imagekit-developer/imagekit-python/workflows/Python%20CI/badge.svg)](https://github.com/imagekit-developer/imagekit-python/)
-[![imagekitio](https://img.shields.io/pypi/v/imagekitio.svg)](https://pypi.org/project/imagekitio)
-[![codecov](https://codecov.io/gh/imagekit-developer/imagekit-python/branch/master/graph/badge.svg?token=CwKWqBIlCu)](https://codecov.io/gh/imagekit-developer/imagekit-python)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
+The Image Kit Python library provides convenient access to the Image Kit REST API from any Python 3.8+
+application. The library includes type definitions for all request params and response fields,
+and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
-Python SDK for [ImageKit](https://imagekit.io/) implements the new APIs and interface for different file operations.
+It is generated with [Stainless](https://www.stainless.com/).
 
-ImageKit is complete media storage, optimization, and transformation solution that comes with an [image and video CDN](https://imagekit.io/features/imagekit-infrastructure). It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
+## Documentation
 
-Supported Python Versions: >=3.6
-
-Table of contents -
-
--   [Installation](#installation)
--   [Initialization](#initialization)
--   [Change Log](#change-log)
--   [Usage](#usage)
-    -   [URL Generation](#url-generation)
-    -   [File Upload](#file-upload)
-    -   [File Management](#file-management)
-    -   [Utility Functions](#utility-functions)
--   [Handling errors](#handling-errors)
--   [Development](#development)
-    -   [Tests](#tests)
-    -   [Sample](#sample)
--   [Support](#support)
--   [Links](#links)
+The REST API documentation can be found on [imagekit.io](https://imagekit.io/docs). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
-Go to your terminal and type the following command.
-
-```bash
-pip install imagekitio
+```sh
+# install from this staging repo
+pip install git+ssh://git@github.com/stainless-sdks/imagekit-python.git
 ```
 
-## Initialization
+> [!NOTE]
+> Once this package is [published to PyPI](https://www.stainless.com/docs/guides/publish), this will become: `pip install imagekit`
+
+## Usage
+
+The full API of this library can be found in [api.md](api.md).
 
 ```python
-from imagekitio import ImageKit
+import os
+from imagekit import ImageKit
 
-imagekit = ImageKit(
-    private_key='your_private_key',
-    public_key='your_public_key',
-    url_endpoint='your_url_endpoint'
+client = ImageKit(
+    private_api_key=os.environ.get(
+        "IMAGEKIT_PRIVATE_API_KEY"
+    ),  # This is the default and can be omitted
+    password=os.environ.get(
+        "OPTIONAL_IMAGEKIT_IGNORES_THIS"
+    ),  # This is the default and can be omitted
 )
+
+response = client.files.upload(
+    file=b"https://www.example.com/public-url.jpg",
+    file_name="file-name.jpg",
+)
+print(response.video_codec)
 ```
 
-## Change log
+While you can provide a `private_api_key` keyword argument,
+we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
+to add `IMAGEKIT_PRIVATE_API_KEY="My Private API Key"` to your `.env` file
+so that your Private API Key is not stored in source control.
 
-This document presents a list of changes that break the existing functionality of previous versions. We try to minimize these disruptions, but they are sometimes unavoidable, especially in significant updates. Therefore, versions are marked semantically and tagged as major upgrades whenever such breaking changes occur.
+## Async usage
 
-### Breaking History:
-
-Changes from `3.2.0 -> 4.0.0` are listed below
-
-1. Overlay syntax update
-
-* In version 4.0.0, we've removed the old overlay syntax parameters for transformations, such as `oi`, `ot`, `obg`, and [more](https://docs.imagekit.io/features/image-transformations/overlay). These parameters are deprecated and will start returning errors when used in URLs. Please migrate to the new layers syntax that supports overlay nesting, provides better positional control, and allows more transformations at the layer level. You can start with [examples](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#examples) to learn quickly.
-* You can migrate to the new layers syntax using the `raw` transformation parameter.
-
-
-Changes from `2.2.8 -> 3.0.0` are listed below
-
-1. Throw an Error:
-
-**What changed**
-
--   Before the upgrade, an `error` dict was coming in the return object of any function call. Now, SDK throws an exception in case of an error.
-
-**Who is affected?**
-
--   This affects any development in your software that calls APIs from ImageKit IO and handles errors based on what's returned.
-
-**How should I update my code?**
-
--   To avoid failures in an application, you could handle errors as [documented here](#handling-errors)
-
-# Usage
-
-You can use this Python SDK for three different kinds of methods:
-
--   [URL Generation](#url-generation)
--   [File Upload](#file-upload)
--   [File Management](#file-management)
--   [Utility Functions](#utility-functions)
-
-## URL Generation
-
-**1. Using Image path and endpoint (hostname)**
-
-This method allows you to create a URL using the relative file path where the image exists and the URL
-endpoint(url_endpoint) you want to use to access the image. You can refer to the documentation
-[here](https://docs.imagekit.io/integration/url-endpoints) to read more about URL endpoints
-in ImageKit and the section about [image origins](https://docs.imagekit.io/integration/configure-origin) to understand
-about paths with different kinds of origins.
-
-The file can be an image, video, or any other static file supported by ImageKit.
+Simply import `AsyncImageKit` instead of `ImageKit` and use `await` with each API call:
 
 ```python
-imagekit_url = imagekit.url({
-    "path": "/default-image.jpg",
-    "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-    "transformation": [{
-        "height": "300",
-        "width": "400",
-        "raw": "ar-4-3,q-40"
-    }],
-})
+import os
+import asyncio
+from imagekit import AsyncImageKit
+
+client = AsyncImageKit(
+    private_api_key=os.environ.get(
+        "IMAGEKIT_PRIVATE_API_KEY"
+    ),  # This is the default and can be omitted
+    password=os.environ.get(
+        "OPTIONAL_IMAGEKIT_IGNORES_THIS"
+    ),  # This is the default and can be omitted
+)
+
+
+async def main() -> None:
+    response = await client.files.upload(
+        file=b"https://www.example.com/public-url.jpg",
+        file_name="file-name.jpg",
+    )
+    print(response.video_codec)
+
+
+asyncio.run(main())
 ```
 
-Sample Result URL -
+Functionality between the synchronous and asynchronous clients is otherwise identical.
 
+### With aiohttp
+
+By default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.
+
+You can enable this by installing `aiohttp`:
+
+```sh
+# install from this staging repo
+pip install 'imagekit[aiohttp] @ git+ssh://git@github.com/stainless-sdks/imagekit-python.git'
 ```
-https://ik.imagekit.io/your_imagekit_id/endpoint/tr:h-300,w-400,ar-4-3,q-40/default-image.jpg
-```
 
-**2. Using full image URL**
-
-This method allows you to add transformation parameters to an absolute URL using the `src` parameter. This method should be
-used if you have the complete image URL stored in your database.
+Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
-image_url = imagekit.url({
-    "src": "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg",
-    "transformation": [{
-        "height": "300",
-        "width": "400",
-        "raw": "ar-4-3,q-40"
-    }]
-})
+import asyncio
+from imagekit import DefaultAioHttpClient
+from imagekit import AsyncImageKit
+
+
+async def main() -> None:
+    async with AsyncImageKit(
+        private_api_key="My Private API Key",
+        password="My Password",
+        http_client=DefaultAioHttpClient(),
+    ) as client:
+        response = await client.files.upload(
+            file=b"https://www.example.com/public-url.jpg",
+            file_name="file-name.jpg",
+        )
+        print(response.video_codec)
+
+
+asyncio.run(main())
 ```
 
-Sample Result URL -
+## Using types
 
-```
-https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cw-400%2Car-4-3%2Cq-40
-```
+Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:
 
-The `.url()` method accepts the following parameters.
+- Serializing back into JSON, `model.to_json()`
+- Converting to a dictionary, `model.to_dict()`
 
-| Option                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| :---------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| url_endpoint            | Optional. The prepended base URL before the path of the image. If not specified, the URL Endpoint specified during SDK initialization gets used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                                             |
-| path                    | Conditional. A path at which the image exists. For example, `/path/to/image.jpg`. Specify a `path` or `src` parameter for URL generation.                                                                                                                                                                                                                                                                                                                                                   |
-| src                     | Conditional. Complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Specify a `path` or `src` parameter for URL generation.                                                                                                                                                                                                                                                                                |
-| transformation          | Optional. Specify an array of objects with name and the value in key-value pair to apply transformation params in the URL. Append different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations) as different objects of the array. This document includes a complete list of supported transformations in the SDK with some examples. If one uses an unspecified transformation name, it gets applied as it is in the URL. |
-| transformation_position | Optional. The default value is `path`, which places the transformation string as a path parameter in the URL. One can also specify it as a query, which adds the transformation string as the query parameter `tr` in the URL. Suppose one uses the `src` parameter to create the URL. In that case, the transformation string is always a query parameter.                                                                                                                                 |
-| query_parameters        | Optional. These are the other query parameters that one wants to add to the final URL. These can be any query parameters and are not necessarily related to ImageKit. Especially useful if one wants to add some versioning parameter to their URLs.                                                                                                                                                                                                                                        |
-| signed                  | Optional. Boolean. The default is `false`. If set to `true`, the SDK generates a signed image URL adding the image signature to the image URL. One can only use this if they create the URL with the `url_endpoint` and `path` parameters, not the `src` parameter.                                                                                                                                                                                                                         |
-| expire_seconds          | Optional. Integer. Used along with the `signed` parameter to specify the time in seconds from `now` when the URL should expire. If specified, the URL contains the expiry timestamp, and the image signature is modified accordingly.                                                                                                                                                                                                                                                       |
+Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
-## Examples of generating URLs
+## Nested params
 
-**1. Chained Transformations as a query parameter**
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
 ```python
-image_url = imagekit.url({
-    "path": "/default-image.jpg",
-    "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-    "transformation": [
-        {
-            "height": "300",
-            "width": "400"
-        },
-        {
-            "rotation": 90
-        }
-    ],
-    "transformation_position": "query"
-})
-```
+from imagekit import ImageKit
 
-Sample Result URL -
+client = ImageKit()
 
-```
-https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=h-300%2Cw-400%3Art-90
-```
-
-**2. Sharpening, contrast transform and progressive JPG image**
-
-Add transformations like [Sharpening](https://docs.imagekit.io/features/image-transformations/image-enhancement-and-color-manipulation) to the URL with or without any other value. To use such transforms without specifying a value, set it as "-" in the transformation object. Otherwise, use the value that one wants to add to this transformation.
-
-```python
-image_url = imagekit.url({
-    "src": "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg",
-    "transformation": [{
-        "format": "jpg",
-        "progressive": "true",
-        "effect_sharpen": "-",
-        "effect_contrast": "1"
-    }]
-})
-```
-
-Sample Result URL -
-
-```
-# Note that because the `src` parameter is in effect, the transformation string gets added as a query parameter `tr`
-
-https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=f-jpg%2Cpr-true%2Ce-sharpen%2Ce-contrast-1
-```
-
-**3. Signed URL that expires in 300 seconds with the default URL endpoint and other query parameters**
-
-```python
-image_url = imagekit.url({
-    "path": "/default-image.jpg",
-    "query_parameters": {
-        "p1": "123",
-        "p2": "345"
+response = client.files.upload(
+    file=b"raw file contents",
+    file_name="fileName",
+    transformation={
+        "post": [
+            {
+                "type": "thumbnail",
+                "value": "w-150,h-150",
+            },
+            {
+                "protocol": "dash",
+                "type": "abs",
+                "value": "sr-240_360_480_720_1080",
+            },
+        ]
     },
-    "transformation": [{
-        "height": "300",
-        "width": "400"
-    }],
-    "signed": True,
-    "expire_seconds": 300
-})
-```
-
-Sample Result URL -
-
-```
-https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400/default-image.jpg?p1=123&p2=345&ik-t=1658899345&ik-s=8f03aca28432d4e87f697a48143efb4497bbed9e
-```
-
-**4. Adding overlays**
-
-ImageKit.io enables you to apply overlays to [images](https://docs.imagekit.io/features/image-transformations/overlay-using-layers) and [videos](https://docs.imagekit.io/features/video-transformation/overlay) using the raw parameter with the concept of [layers](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#layers). The raw parameter facilitates incorporating transformations directly in the URL. A layer is a distinct type of transformation that allows you to define an asset to serve as an overlay, along with its positioning and additional transformations.
-
-**Text as overlays**
-
-You can add any text string over a base video or image using a text layer (l-text).
-
-For example:
-
-```python
-image_url = imagekit.url({
-    "path": "/default-image",
-    "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-    "transformation": [{
-        "height": "300",
-        "width": "400",
-        "raw": "l-text,i-Imagekit,fs-50,l-end"
-    }],
-})
-```
-**Sample Result URL**
-```
-https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-text,i-Imagekit,fs-50,l-end/default-image.jpg
-```
-
-**Image as overlays**
-
-You can add an image over a base video or image using an image layer (l-image).
-
-For example:
-
-```python
-image_url = imagekit.url({
-    "path": "/default-image",
-    "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-    "transformation": [{
-        "height": "300",
-        "width": "400",
-        "raw": "l-image,i-default-image.jpg,w-100,b-10_CDDC39,l-end"
-    }],
-})
-```
-**Sample Result URL**
-```
-https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-image,i-default-image.jpg,w-100,b-10_CDDC39,l-end/default-image.jpg
-```
-
-**Solid color blocks as overlays**
-
-You can add solid color blocks over a base video or image using an image layer (l-image).
-
-For example:
-
-```python
-image_url = imagekit.url({
-    "path": "/img/sample-video",
-    "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-    "transformation": [{
-        "height": "300",
-        "width": "400",
-        "raw": "l-image,i-ik_canvas,bg-FF0000,w-300,h-100,l-end"
-    }],
-})
-```
-**Sample Result URL**
-```
-https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-image,i-ik_canvas,bg-FF0000,w-300,h-100,l-end/img/sample-video.mp4
-```
-
-**5. Arithmetic expressions in transformations**
-
-ImageKit allows use of [arithmetic expressions](https://docs.imagekit.io/features/arithmetic-expressions-in-transformations) in certain dimension and position-related parameters, making media transformations more flexible and dynamic.
-
-For example:
-
-```python
-image_url = imagekit.url({
-    "path": "/default-image.jpg",
-    "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-    "transformation": [{
-        "height": "ih_div_2",
-        "width": "iw_div_4",
-        "border": "cw_mul_0.05_yellow"
-    }],
-})
-```
-
-**Sample Result URL**
-```
-https://ik.imagekit.io/your_imagekit_id/default-image.jpg?tr=w-iw_div_4,h-ih_div_2,b-cw_mul_0.05_yellow
-```
-
-**List of transformations**
-
-The complete list of transformations supported and their usage in ImageKit is available [here](https://docs.imagekit.io/features/image-transformations/resize-crop-and-other-transformations).
-The SDK gives a name to each transformation parameter, making the code simpler, more straightforward, and readable. If a transformation is supported in ImageKit, though it cannot be found in the table below, then use the transformation code from ImageKit docs as the name when using the `URL` function.
-
-If you want to generate transformations in your application and add them to the URL as it is, use the raw parameter.
-
-| Supported Transformation Name | Translates to parameter         |
-| ----------------------------- | ------------------------------- |
-| height                        | h                               |
-| width                         | w                               |
-| aspect_ratio                  | ar                              |
-| quality                       | q                               |
-| crop                          | c                               |
-| crop_mode                     | cm                              |
-| x                             | x                               |
-| y                             | y                               |
-| focus                         | fo                              |
-| format                        | f                               |
-| radius                        | r                               |
-| background                    | bg                              |
-| border                        | b                               |
-| rotation                      | rt                              |
-| blur                          | bl                              |
-| named                         | n                               |
-| progressive                   | pr                              |
-| lossless                      | lo                              |
-| trim                          | t                               |
-| metadata                      | md                              |
-| color_profile                 | cp                              |
-| default_image                 | di                              |
-| dpr                           | dpr                             |
-| effect_sharpen                | e-sharpen                       |
-| effect_usm                    | e-usm                           |
-| effect_contrast               | e-contrast                      |
-| effect_gray                   | e-grayscale                     |
-| effect_shadow                 | e-shadow                        |
-| effect_gradient               | e-gradient                      |
-| original                      | orig                            |
-| raw                           | replaced by the parameter value |
-
-## File Upload
-
-The SDK provides a simple interface using the `.upload_file()` method to upload files to the ImageKit Media library. It
-accepts all the parameters supported by
-the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload).
-
-The `upload_file()` method requires at least the `file` as (URL/Base64/Binary) and the `file_name` parameter to upload a
-file. The method returns a dict data in case of success, or it will throw a custom exception in case of failure.
-Use the `options` parameter to pass other parameters supported by
-the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload). Use the same
-parameter name as specified in the upload API documentation.
-
-Simple usage
-
-```python
-from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
-
-extensions = [
-    {
-        'name': 'remove-bg',
-        'options': {
-            'add_shadow': True,
-            'bg_color': 'pink'
-        }
-    },
-    {
-        'name': 'google-auto-tagging',
-        'minConfidence': 80,
-        'maxTags': 10
-    }
-]
-
-transformation = {
-    'pre': 'l-text,i-Imagekit,fs-50,l-end', 
-    'post': [
-        {
-            'type': 'transformation', 
-            'value': 'w-100'
-        }
-    ]
-}
-
-options = UploadFileRequestOptions(
-    use_unique_file_name=False,
-    tags=['abc', 'def'],
-    folder='/testing-python-folder/',
-    is_private_file=False,
-    custom_coordinates='10,10,20,20',
-    response_fields=['tags', 'custom_coordinates', 'is_private_file',
-                     'embedded_metadata', 'custom_metadata'],
-    extensions=extensions,
-    webhook_url='https://webhook.site/c78d617f-33bc-40d9-9e61-608999721e2e',
-    overwrite_file=True,
-    overwrite_ai_tags=False,
-    overwrite_tags=False,
-    overwrite_custom_metadata=True,
-    custom_metadata={'testss': 12},
-    transformation=transformation,
-    checks="'request.folder' : '/testing-python-folder'", # To run server side checks before uploading files. Notice the quotes around request.folder and /testing-python-folder.
-    is_published=True
 )
-
-result = imagekit.upload_file(file='<url|base_64|binary>', # required
-                              file_name='my_file_name.jpg', # required
-                              options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print that uploaded file's ID
-print(result.file_id)
+print(response.transformation)
 ```
 
-If the upload succeeds, the `result` will be the `UploadFileResult` class.
+## File uploads
 
-If the upload fails, the custom exception will be thrown with:
+Request parameters that correspond to file uploads can be passed as `bytes`, or a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
 
--   `response_help` for any kind of help
--   `response_metadata` with `raw`, `http_status_code` and `headers`
--   `message` can be called to get the error message received from ImageKit's servers.
+```python
+from pathlib import Path
+from imagekit import ImageKit
 
-## File Management
+client = ImageKit()
 
-The SDK provides a simple interface for all
-the [media APIs mentioned here](https://docs.imagekit.io/api-reference/media-api)
-to manage your files. This also returns `result`.
-
-**1. List & Search Files**
-
-Accepts an object specifying the parameters used to list and search files. All parameters specified
-in
-the [documentation here](https://docs.imagekit.io/api-reference/media-api/list-and-search-files#list-and-search-file-api)
-can be passed with the correct values to get the results.
-
-#### Applying Filters
-Filter out the files by specifying the parameters.
-
-```Python
-from imagekitio.models.ListAndSearchFileRequestOptions import ListAndSearchFileRequestOptions
-
-options = ListAndSearchFileRequestOptions(
-    type='file',
-    sort='ASC_CREATED',
-    path='/',
-    file_type='all',
-    limit=5,
-    skip=0,
-    tags='Software, Developer, Engineer',
+client.files.upload(
+    file=Path("/path/to/file"),
+    file_name="fileName",
 )
-
-result = imagekit.list_files(options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the first file's ID
-print(result.list[0].file_id)
 ```
 
-#### Advance Search
-In addition, you can fine-tune your query by specifying various filters by generating a query string in a Lucene-like syntax and providing this generated string as the value of the `search_query`.
-
-```Python
-from imagekitio.models.ListAndSearchFileRequestOptions import ListAndSearchFileRequestOptions
-
-options = ListAndSearchFileRequestOptions(
-    search_query="createdAt >= '2d' OR size < '2mb' OR format='png'",
-)
-
-result = imagekit.list_files(options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the first file's ID
-print(result.list[0].file_id)
-```
-Detailed documentation can be found here for [advance search queries](https://docs.imagekit.io/api-reference/media-api/list-and-search-files#advanced-search-queries).
-
-**2. Get File Details**
-
-Accepts the file ID and fetches the details as per
-the [API documentation here](https://docs.imagekit.io/api-reference/media-api/get-file-details)
-
-```python
-file_id = "your_file_id"
-result = imagekit.get_file_details(file_id=file_id)  # file_id required
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print that file's id
-print(result.file_id)
-```
-
-**3. Get File Versions**
-
-Accepts the file ID and fetches the details as per
-the [API documentation here](https://docs.imagekit.io/api-reference/media-api/get-file-versions)
-
-```python
-file_id = "your_file_id"
-result = imagekit.get_file_versions(file_id=file_id)  # file_id required
-
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print that file's version id
-print(result.list[0].version_info.id)
-```
-
-**4. Get File Version details**
-
-Accepts the `file_id` and `version_id` and fetches the details as per
-the [API documentation here](https://docs.imagekit.io/api-reference/media-api/get-file-version-details)
-
-```python
-result = imagekit.get_file_version_details(
-    file_id='file_id',
-    version_id='version_id'
-)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print that file's id
-print(result.file_id)
-
-# print that file's version id
-print(result.version_info.id)
-```
-
-**5. Update File Details**
-
-Accepts all the parameters as per
-the [API documentation here](https://docs.imagekit.io/api-reference/media-api/update-file-details).
-The first argument to the `update_file_details()` method is the file ID, and a second argument is an object with the
-parameters to be
-updated.
-
-```python
-from imagekitio.models.UpdateFileRequestOptions import UpdateFileRequestOptions
-
-extensions = [
-    {
-        'name': 'remove-bg',
-        'options': {
-            'add_shadow': True,
-            'bg_color': 'red'
-        }
-    },
-    {
-        'name': 'google-auto-tagging',
-        'minConfidence': 80,
-        'maxTags': 10
-    }
-]
-
-options = UpdateFileRequestOptions(
-    remove_ai_tags=['remove-ai-tag-1', 'remove-ai-tag-2'],
-    webhook_url='url',
-    extensions=extensions,
-    tags=['tag-1', 'tag-2'],
-    custom_coordinates='10,10,100,100',
-    custom_metadata={'test': 11},
-)
-
-result = imagekit.update_file_details(file_id='62cfd39819ca454d82a07182'
-        , options=options)  # required
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print that file's id
-print(result.file_id)
-```
-
-**Update publish status**
-
-If `publish` is included in the update options, no other parameters are allowed. If any are present, an error will be returned: `Your request cannot contain any other parameters when publish is present`.
-
-```python
-from imagekitio.models.UpdateFileRequestOptions import UpdateFileRequestOptions
-
-options = UpdateFileRequestOptions(
-    publish={
-        "isPublished": True,
-        "includeFileVersions": True
-    }
-)
-
-result = imagekit.update_file_details(file_id='62cfd39819ca454d82a07182'
-        , options=options)  # required
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print that file's id
-print(result.file_id)
-```
-
-**6. Add tags**
-
-Accepts a list of `file_ids` and `tags` as a parameter to be used to add tags. All parameters specified in
-the [API documentation here](https://docs.imagekit.io/api-reference/media-api/add-tags-bulk) can be passed to
-the `.add_tags()` functions to get the results.
-
-```python
-result = imagekit.add_tags(file_ids=['file-id-1', 'file-id-2'], tags=['add-tag-1', 'add-tag-2'])
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# list successfully updated file ids
-print(result.successfully_updated_file_ids)
-
-# print the first file's id
-print(result.successfully_updated_file_ids[0])
-```
-
-**7. Remove tags**
-
-Accepts a list of `file_ids` and `tags` as a parameter to be used to remove tags. All parameters specified in
-the [API documentation here](https://docs.imagekit.io/api-reference/media-api/remove-tags-bulk) can be passed to
-the `.remove_tags()` functions to get the results.
-
-```python
-result = imagekit.remove_tags(file_ids=['file-id-1', 'file-id-2'], tags=['remove-tag-1', 'remove-tag-2'])
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# list successfully updated file ids
-print(result.successfully_updated_file_ids)
-
-# print the first file's id
-print(result.successfully_updated_file_ids[0])
-```
-
-**8. Remove AI tags**
-
-Accepts a list of `file_ids` and `ai_tags` as a parameter to remove AI tags. All parameters specified in
-the [API documentation here](https://docs.imagekit.io/api-reference/media-api/remove-aitags-bulk) can be passed to
-the `.remove_ai_tags()` functions to get the results.
-
-```python
-result = imagekit.remove_ai_tags(file_ids=['file-id-1', 'file-id-2'], ai_tags=['remove-ai-tag-1', 'remove-ai-tag-2'])
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# list successfully updated file ids
-print(result.successfully_updated_file_ids)
-
-# print the first file's id
-print(result.successfully_updated_file_ids[0])
-```
-
-**9. Delete File**
-
-Delete a file according to the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-file). It accepts the file ID of the File that has to be
-deleted.
-
-```python
-file_id = "file_id"
-result = imagekit.delete_file(file_id=file_id)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-```
-
-**10. Delete FileVersion**
-
-Delete a file version as per
-the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-file-version).
-The method accepts the `file_id` and particular version id of the file that has to be deleted.
-
-```python
-result = imagekit.delete_file_version(file_id="file_id", version_id="version_id")
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-```
-
-**11. Bulk File Delete by IDs**
-
-Delete a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-files-bulk).
-The method accepts a list of file IDs that have to be deleted.
-
-```python
-result = imagekit.bulk_file_delete(file_ids=["file_id1", "file_id2"])
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# list successfully deleted file ids
-print(result.successfully_deleted_file_ids)
-
-# print the first file's id
-print(result.successfully_deleted_file_ids[0])
-```
-
-**12. Copy file**
-
-Copy a file according to the [API documentation here](https://docs.imagekit.io/api-reference/media-api/copy-file).
-The method accepts `source_file_path`, `destination_path`, and `include_file_versions` of the file that has to be copied.
-
-```python
-from imagekitio.models.CopyFileRequestOptions import CopyFileRequestOptions
-
-options = \
-    CopyFileRequestOptions(source_file_path='/source_file_path.jpg',
-                           destination_path='/destination_path',
-                           include_file_versions=True)
-result = imagekit.copy_file(options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-```
-
-**13. Move File**
-
-Move a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/move-file).
-The method accepts `source_file_path` and `destination_path` of the file that has to be moved.
-
-```python
-from imagekitio.models.MoveFileRequestOptions import MoveFileRequestOptions
-
-options = \
-    MoveFileRequestOptions(source_file_path='/source_file_path.jpg',
-                           destination_path='/destination_path')
-result = imagekit.move_file(options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-```
-
-**14. Rename File**
-
-Rename a file per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/rename-file).
-The method accepts the `file_path`, `new_file_name`, and `purge_cache` boolean that has to be renamed.
-
-```python
-from imagekitio.models.RenameFileRequestOptions import RenameFileRequestOptions
-
-options = RenameFileRequestOptions(file_path='/file_path.jpg',
-                                   new_file_name='new_file_name.jpg',
-                                   purge_cache=True)
-result = imagekit.rename_file(options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the purge request id
-print(result.purge_request_id)
-```
-
-**15. Restore file Version**
-
-Restore a file as per
-the [API documentation here](https://docs.imagekit.io/api-reference/media-api/restore-file-version).
-The method accepts the `file_id` and `version_id` of the file that has to be restored.
-
-```python
-result = imagekit.restore_file_version(file_id="file_id", version_id="version_id")
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print that file's id
-print(result.file_id)
-```
-
-**16. Create Folder**
-
-Create a folder per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/create-folder).
-The method accepts `folder_name` and `parent_folder_path` as options that must be created.
-
-```Python
-from imagekitio.models.CreateFolderRequestOptions import CreateFolderRequestOptions
-
-options = CreateFolderRequestOptions(folder_name='test',
-                                     parent_folder_path='/')
-result = imagekit.create_folder(options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-```
-
-**17. Delete Folder**
-
-Delete a folder as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-folder).
-The method accepts `folder_path` as an option that must be deleted.
-
-```python
-from imagekitio.models.DeleteFolderRequestOptions import DeleteFolderRequestOptions
-
-options = DeleteFolderRequestOptions(folder_path='/test/demo')
-result = imagekit.delete_folder(options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-```
-
-**18. Copy Folder**
-
-Copy a folder as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/copy-folder).
-The method accepts the `source_folder_path`, `destination_path`, and `include_file_versions` boolean as options that
-have to be copied.
-
-```python
-from imagekitio.models.CopyFolderRequestOptions import CopyFolderRequestOptions
-options = \
-    CopyFolderRequestOptions(source_folder_path='/source_folder_path',
-                             destination_path='/destination/path',
-                             include_file_versions=True)
-result = imagekit.copy_folder(options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the job's id
-print(result.job_id)
-```
-
-**19. Move Folder**
-
-Move a folder as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/move-folder).
-The method accepts the `source_folder_path` and `destination_path` of a folder as options that must be moved.
-
-```python
-from imagekitio.models.MoveFolderRequestOptions import MoveFolderRequestOptions
-options = \
-    MoveFolderRequestOptions(source_folder_path='/source_folder_path',
-                             destination_path='/destination_path')
-result = imagekit.move_folder(options=options)
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the job's id
-print(result.job_id)
-```
-
-**20. Get Bulk Job Status**
-
-Accepts the `job_id` to get bulk job status as per
-the [API documentation here](https://docs.imagekit.io/api-reference/media-api/copy-move-folder-status).
-The method takes only jobId.
-
-```python
-result = imagekit.get_bulk_job_status(job_id="job_id")
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the job's id
-print(result.job_id)
-
-# print the status
-print(result.status)
-```
-
-**21. Purge Cache**
-
-Programmatically issue an explicit cache request as per
-the [API documentation here](https://docs.imagekit.io/api-reference/media-api/purge-cache).
-Accepts the full URL of the File for which the cache has to be cleared.
-
-```python
-result = imagekit.purge_file_cache(file_url="full_url_of_file")
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the purge file cache request id
-print(result.request_id)
-```
-
-**22. Purge Cache Status**
-
-Get the purge cache request status using the `cache_request_id` returned when a purge cache request gets submitted as per the
-[API documentation here](https://docs.imagekit.io/api-reference/media-api/purge-cache-status)
-
-```python
-result = imagekit.get_purge_file_cache_status(purge_cache_id="cache_request_id")
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the purge file cache status
-print(result.status)
-```
-
-**23. Get File Metadata**
-
-Accepts the `file_id` and fetches the metadata as per
-the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api/get-image-metadata-for-uploaded-media-files)
-
-```python
-result = imagekit.get_file_metadata(file_id="file_id")
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the file metadata fields
-print(result.width)
-print(result.exif.image.x_resolution)
-```
-
-**24. Get File Metadata from remote URL**
-
-Accepts the `remote_file_url` and fetches the metadata as per
-the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api/get-image-metadata-from-remote-url)
-
-```python
-result = imagekit.get_remote_file_url_metadata(remote_file_url="remote_file_url")
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the file metadata fields
-print(result.width)
-print(result.exif.image.x_resolution)
-```
-
-**25. Create CustomMetaDataFields**
-
-Accepts an option specifying the parameters used to create custom metadata fields. All parameters specified in
-the [API documentation here](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/create-custom-metadata-field)
-can be passed as it is with the correct values to get the results.
-
-Check for the [allowed values in the schema](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/create-custom-metadata-field#allowed-values-in-the-schema-object).
-
-**Example:**
-
-```python
-# Example for the type number
-
-from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import CreateCustomMetadataFieldsRequestOptions
-from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
-from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
-schema = CustomMetadataFieldsSchema(type=CustomMetaDataTypeEnum.Number,
-                                    min_value=100,
-                                    max_value=200)
-options = CreateCustomMetadataFieldsRequestOptions(name='test',
-                                                   label='test',
-                                                   schema=schema)
-result = imagekit.create_custom_metadata_fields(options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the id of created custom metadata fields
-print(result.id)
-
-# print the schema's type of created custom metadata fields
-print(result.schema.type)
-
-```
-
-```python
-# MultiSelect type Example
-
-from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import CreateCustomMetadataFieldsRequestOptions
-from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
-from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
-
-schema = \
-    CustomMetadataFieldsSchema(type=CustomMetaDataTypeEnum.MultiSelect,
-                               is_value_required=True,
-                               default_value=['small', 30, True],
-                               select_options=[
-                                    'small',
-                                    'medium',
-                                    'large',
-                                    30,
-                                    40,
-                                    True,
-                                ])
-options = \
-    CreateCustomMetadataFieldsRequestOptions(name='test-MultiSelect',
-        label='test-MultiSelect', schema=schema)
-result = imagekit.create_custom_metadata_fields(options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the name of created custom metadata fields
-print(result.name)
-
-# print the schema's select options of created custom metadata fields
-print(result.schema.select_options)
-
-```
-
-```python
-# Date type Example
-
-from imagekitio.models.CreateCustomMetadataFieldsRequestOptions import CreateCustomMetadataFieldsRequestOptions
-from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
-from imagekitio.models.CustomMetaDataTypeEnum import CustomMetaDataTypeEnum
-
-schema = CustomMetadataFieldsSchema(type=CustomMetaDataTypeEnum.Date,
-                                    min_value='2022-11-29T10:11:10+00:00',
-                                    max_value='2022-11-30T10:11:10+00:00')
-options = CreateCustomMetadataFieldsRequestOptions(name='test-date',
-                                                   label='test-date',
-                                                   schema=schema)
-result = imagekit.create_custom_metadata_fields(options=options)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the label of created custom metadata fields
-print(result.label)
-
-# print the schema's min value of created custom metadata fields
-print(result.schema.min_value)
-
-```
-
-**26. Get CustomMetaDataFields**
-
-Accepts the `include_deleted` boolean as the initial parameter and fetches the metadata as per
-the [API documentation here](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/get-custom-metadata-field)
-.
-
-```python
-result = imagekit.get_custom_metadata_fields()  # in this case, it will consider includeDeleted as a False
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the first customMetadataField's id
-print(result.list[0].id)
-
-# print the first customMetadataField schema's type
-print(result.list[0].schema.type)
-```
-
-```python
-result = imagekit.get_custom_metadata_fields(include_deleted=True)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the first customMetadataField's name
-print(result.list[0].name)
-
-# print the first customMetadataField schema's default value
-print(result.list[0].schema.default_value)
-```
-
-**27. Update CustomMetaDataFields**
-
-Accepts a `field_id` and options for specifying the parameters to be used to edit custom metadata fields
-as per
-the [API documentation here](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/update-custom-metadata-field)
-.
-
-```python
-
-from imagekitio.models.CustomMetadataFieldsSchema import CustomMetadataFieldsSchema
-from imagekitio.models.UpdateCustomMetadataFieldsRequestOptions import UpdateCustomMetadataFieldsRequestOptions
-
-schema = CustomMetadataFieldsSchema(min_value=100, max_value=200)
-options = UpdateCustomMetadataFieldsRequestOptions(
-    label='test-update',
-    schema=schema
-)
-result = imagekit.update_custom_metadata_fields(
-    field_id='id_of_custom_metadata_field',
-    options=options
-)
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-
-# print the label of updated custom metadata fields
-print(result.label)
-
-# print the schema's min value of updated custom metadata fields
-print(result.schema.min_value)
-```
-
-**28. Delete CustomMetaDataFields**
-
-Accepts the id to delete the custom metadata fields as per
-the [API documentation here](https://docs.imagekit.io/api-reference/custom-metadata-fields-api/delete-custom-metadata-field)
-.
-
-```python
-result = imagekit.delete_custom_metadata_field(field_id="id_of_custom_metadata_field")
-
-# Final Result
-print(result)
-
-# Raw Response
-print(result.response_metadata.raw)
-```
-
-## Utility functions
-
-We have included the following commonly used utility functions in this package.
-
-**Authentication parameter generation**
-
-Suppose one wants to implement client-side file upload. In that case, one will need a token, expiry timestamp, and a valid signature for that upload. The SDK provides a simple method that one can use in their code to generate these authentication parameters.
-
-<em>Note: Any client-side code should never expose The Private API Key. One must always generate these authentications parameters on the server-side</em>
-
-authentication
-
-`authentication_parameters = imagekit.get_authentication_parameters(token, expire)`
-
-Returns
-
-```python
-{
-    "token": "unique_token",
-    "expire": "valid_expiry_timestamp",
-    "signature": "generated_signature"
-}
-```
-
-Both the `token` and `expire` parameters are optional. If not specified, the SDK uses the UUID to generate a random token and internally generates a valid expiry timestamp. The `token` and `expire` used to generate `signature` is part of a response returned by the server.
-
-**Distance calculation between two `pHash` values**
-
-Perceptual hashing allows you to construct a has value that uniquely identifies an input image based on the contents
-of an image. [imagekit.io metadata API](https://docs.imagekit.io/api-reference/metadata-api) returns the `pHash`
-value of an image in the response. You can use this value
-to [find a duplicate or similar image](https://docs.imagekit.io/api-reference/metadata-api#using-phash-to-find-similar-or-duplicate-images)
-by calculating the distance between the two images.
-
-This SDK exposes the `phash_distance` function to calculate the distance between two `pHash` values. It accepts two `pHash`
-hexadecimal
-strings and returns a numeric value indicative of the difference between the two images.
-
-```python
-def calculate_distance():
-    # fetch metadata of two uploaded image files
-    ...
-    # extract pHash strings from both: say 'first_hash' and 'second_hash'
-    ...
-    # calculate the distance between them:
-
-    distance = imagekit.phash_distance(first_hash, second_hash)
-    return distance
-
-```
-
-**Distance calculation examples**
-
-```Python
-imagekit.phash_distance('f06830ca9f1e3e90', 'f06830ca9f1e3e90')
-# output: 0 (same image)
-
-imagekit.phash_distance('2d5ad3936d2e015b', '2d6ed293db36a4fb')
-# output: 17 (similar images)
-
-imagekit.phash_distance('a4a65595ac94518b', '7838873e791f8400')
-# output: 37 (dissimilar images)
-```
-
-**HTTP response metadata of Internal API**
-
-HTTP response metadata of the internal API call can be accessed using the \_response_metadata on the Result object.
-Example:
-
-```Python
-result = imagekit.upload_file(
-    file="<url|base_64|binary>",
-    file_name="my_file_name.jpg",
-)
-
-# Final Result
-print(result)
-print(result.response_metadata.raw)
-print(result.response_metadata.http_status_code)
-print(result.response_metadata.headers)
-```
-
-### Sample Code Instruction
-
-To run `sample` code go to the code samples here are hosted on GitHub - https://github.com/imagekit-samples/quickstart/tree/master/python and run.
-
-```shell
-python sample.py
-```
+The async client uses the exact same interface. If you pass a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, the file contents will be read asynchronously automatically.
 
 ## Handling errors
 
-Catch and respond to invalid data, internal problems, and more.
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `imagekit.APIConnectionError` is raised.
 
-ImageKit Python SDK raises exceptions for many reasons, such as not found, invalid parameters, authentication, and
-internal server errors. Therefore, we recommend writing code that gracefully handles all possible API exceptions.
+When the API returns a non-success status code (that is, 4xx or 5xx
+response), a subclass of `imagekit.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-#### Example:
-
-```Python
-from imagekitio.exceptions.BadRequestException import BadRequestException
-from imagekitio.exceptions.UnauthorizedException import UnauthorizedException
-from imagekitio.exceptions.ForbiddenException import ForbiddenException
-from imagekitio.exceptions.TooManyRequestsException import TooManyRequestsException
-from imagekitio.exceptions.InternalServerException import InternalServerException
-from imagekitio.exceptions.PartialSuccessException import PartialSuccessException
-from imagekitio.exceptions.NotFoundException import NotFoundException
-from imagekitio.exceptions.UnknownException import UnknownException
-
-try:
-
-    # Use ImageKit's SDK to make requests...
-    print('Run image kit api')
-except BadRequestException, e:
-    # Missing or Invalid parameters were supplied to Imagekit.io's API
-    print('Status is: ' + e.response_metadata.http_status_code)
-    print('Message is: ' + e.message)
-    print('Headers are: ' + e.response_metadata.headers)
-    print('Raw body is: ' + e.response_metadata.raw)
-except UnauthorizedException, e:
-    print(e)
-except ForbiddenException, e:
-    # No valid API key was provided.
-    print(e)
-except TooManyRequestsException, e:
-    # Can be for the following reasons:
-    # ImageKit could not authenticate your account with the keys provided.
-    # An expired key (public or private) was used with the request.
-    # The account is disabled.
-    # If you use the upload API, the total storage limit (or upload limit) is exceeded.
-    print(e)
-except InternalServerException, e:
-    # Too many requests made to the API too quickly
-    print(e)
-except PartialSuccessException, e:
-    # Something went wrong with ImageKit.io API.
-    print(e)
-except NotFoundException, e:
-    # Error cases on partial success.
-    print(e)
-except UnknownException, e:
-    # If any of the field or parameter is not found in the data
-    print(e)
-
-# Something else happened, which can be unrelated to ImageKit; the reason will be indicated in the message field
-```
-
-## Development
-
-### Tests
-
-Tests are powered by [Tox](https://tox.wiki/en/latest/).
-
-```bash
-$ git clone https://github.com/imagekit-developer/imagekit-python && cd imagekit-python
-$ pip install tox
-$ tox
-```
-
-### Sample
-
-#### Get & Install local ImageKit Python SDK
-
-```bash
-$ git clone https://github.com/imagekit-developer/imagekit-python && cd imagekit-python
-$ pip install -e .
-```
-
-#### Get samples
-
-To integrate ImageKit Samples in the Python, the code samples covered here are hosted on GitHub - https://github.com/imagekit-samples/quickstart/tree/master/python.
-
-Open the `python/sample.py` file and replace placeholder credentials with actual values. You can get the value of [URL-endpoint](https://imagekit.io/dashboard#url-endpoints) from your ImageKit dashboard. API keys can be obtained from the [developer](https://imagekit.io/dashboard/developer/api-keys) section in your ImageKit dashboard.
-
-In the `python/sample.py` file, set the following parameters for authentication:
+All errors inherit from `imagekit.APIError`.
 
 ```python
-from imagekitio import ImageKit
-imagekit = ImageKit(
-    private_key='your private_key',
-    public_key='your public_key',
-    url_endpoint = 'your url_endpoint'
+import imagekit
+from imagekit import ImageKit
+
+client = ImageKit()
+
+try:
+    client.files.upload(
+        file=b"https://www.example.com/public-url.jpg",
+        file_name="file-name.jpg",
+    )
+except imagekit.APIConnectionError as e:
+    print("The server could not be reached")
+    print(e.__cause__)  # an underlying Exception, likely raised within httpx.
+except imagekit.RateLimitError as e:
+    print("A 429 status code was received; we should back off a bit.")
+except imagekit.APIStatusError as e:
+    print("Another non-200-range status code was received")
+    print(e.status_code)
+    print(e.response)
+```
+
+Error codes are as follows:
+
+| Status Code | Error Type                 |
+| ----------- | -------------------------- |
+| 400         | `BadRequestError`          |
+| 401         | `AuthenticationError`      |
+| 403         | `PermissionDeniedError`    |
+| 404         | `NotFoundError`            |
+| 422         | `UnprocessableEntityError` |
+| 429         | `RateLimitError`           |
+| >=500       | `InternalServerError`      |
+| N/A         | `APIConnectionError`       |
+
+### Retries
+
+Certain errors are automatically retried 2 times by default, with a short exponential backoff.
+Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,
+429 Rate Limit, and >=500 Internal errors are all retried by default.
+
+You can use the `max_retries` option to configure or disable retry settings:
+
+```python
+from imagekit import ImageKit
+
+# Configure the default for all requests:
+client = ImageKit(
+    # default is 2
+    max_retries=0,
+)
+
+# Or, configure per-request:
+client.with_options(max_retries=5).files.upload(
+    file=b"https://www.example.com/public-url.jpg",
+    file_name="file-name.jpg",
 )
 ```
 
-To install dependencies that are in the `python/requirements.txt` file, can fire this command to install them:
+### Timeouts
 
-```shell
-pip install -r python/requirements.txt
+By default requests time out after 1 minute. You can configure this with a `timeout` option,
+which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
+
+```python
+from imagekit import ImageKit
+
+# Configure the default for all requests:
+client = ImageKit(
+    # 20 seconds (default is 1 minute)
+    timeout=20.0,
+)
+
+# More granular control:
+client = ImageKit(
+    timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
+)
+
+# Override per-request:
+client.with_options(timeout=5.0).files.upload(
+    file=b"https://www.example.com/public-url.jpg",
+    file_name="file-name.jpg",
+)
 ```
 
-Now run `python/sample.py`. If you are using CLI Tool (Terminal/Command prompt), open the project in CLI and execute it.
+On timeout, an `APITimeoutError` is thrown.
+
+Note that requests that time out are [retried twice by default](#retries).
+
+## Advanced
+
+### Logging
+
+We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
+
+You can enable logging by setting the environment variable `IMAGE_KIT_LOG` to `info`.
 
 ```shell
-# if not installed already
-pip install imagekitio
-
-# if installing local sdk
-pip install -e <path_to_local_sdk>
-
-# to run sample.py file
-python3 python/sample.py
+$ export IMAGE_KIT_LOG=info
 ```
 
-## Support
+Or to `debug` for more verbose logging.
 
-For any feedback or to report any issues or general implementation support, please reach out
-to [support@imagekit.io](https://github.com/imagekit-developer/imagekit-python)
+### How to tell whether `None` means `null` or missing
 
-## Links
+In an API response, a field may be explicitly `null`, or missing entirely; in either case, its value is `None` in this library. You can differentiate the two cases with `.model_fields_set`:
 
--   [Documentation](https://docs.imagekit.io/)
+```py
+if response.my_field is None:
+  if 'my_field' not in response.model_fields_set:
+    print('Got json like {}, without a "my_field" key present at all.')
+  else:
+    print('Got json like {"my_field": null}.')
+```
 
--   [Main Website](https://imagekit.io/)
+### Accessing raw response data (e.g. headers)
 
-## License
+The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
-Released under the MIT license.
+```py
+from imagekit import ImageKit
+
+client = ImageKit()
+response = client.files.with_raw_response.upload(
+    file=b"https://www.example.com/public-url.jpg",
+    file_name="file-name.jpg",
+)
+print(response.headers.get('X-My-Header'))
+
+file = response.parse()  # get the object that `files.upload()` would have returned
+print(file.video_codec)
+```
+
+These methods return an [`APIResponse`](https://github.com/stainless-sdks/imagekit-python/tree/main/src/imagekit/_response.py) object.
+
+The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/imagekit-python/tree/main/src/imagekit/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+
+#### `.with_streaming_response`
+
+The above interface eagerly reads the full response body when you make the request, which may not always be what you want.
+
+To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
+
+```python
+with client.files.with_streaming_response.upload(
+    file=b"https://www.example.com/public-url.jpg",
+    file_name="file-name.jpg",
+) as response:
+    print(response.headers.get("X-My-Header"))
+
+    for line in response.iter_lines():
+        print(line)
+```
+
+The context manager is required so that the response will reliably be closed.
+
+### Making custom/undocumented requests
+
+This library is typed for convenient access to the documented API.
+
+If you need to access undocumented endpoints, params, or response properties, the library can still be used.
+
+#### Undocumented endpoints
+
+To make requests to undocumented endpoints, you can make requests using `client.get`, `client.post`, and other
+http verbs. Options on the client will be respected (such as retries) when making this request.
+
+```py
+import httpx
+
+response = client.post(
+    "/foo",
+    cast_to=httpx.Response,
+    body={"my_param": True},
+)
+
+print(response.headers.get("x-foo"))
+```
+
+#### Undocumented request params
+
+If you want to explicitly send an extra param, you can do so with the `extra_query`, `extra_body`, and `extra_headers` request
+options.
+
+#### Undocumented response properties
+
+To access undocumented response properties, you can access the extra fields like `response.unknown_prop`. You
+can also get all the extra fields on the Pydantic model as a dict with
+[`response.model_extra`](https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel.model_extra).
+
+### Configuring the HTTP client
+
+You can directly override the [httpx client](https://www.python-httpx.org/api/#client) to customize it for your use case, including:
+
+- Support for [proxies](https://www.python-httpx.org/advanced/proxies/)
+- Custom [transports](https://www.python-httpx.org/advanced/transports/)
+- Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
+
+```python
+import httpx
+from imagekit import ImageKit, DefaultHttpxClient
+
+client = ImageKit(
+    # Or use the `IMAGE_KIT_BASE_URL` env var
+    base_url="http://my.test.server.example.com:8083",
+    http_client=DefaultHttpxClient(
+        proxy="http://my.test.proxy.example.com",
+        transport=httpx.HTTPTransport(local_address="0.0.0.0"),
+    ),
+)
+```
+
+You can also customize the client on a per-request basis by using `with_options()`:
+
+```python
+client.with_options(http_client=DefaultHttpxClient(...))
+```
+
+### Managing HTTP resources
+
+By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
+
+```py
+from imagekit import ImageKit
+
+with ImageKit() as client:
+  # make requests here
+  ...
+
+# HTTP client is now closed
+```
+
+## Versioning
+
+This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
+
+1. Changes that only affect static types, without breaking runtime behavior.
+2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_
+3. Changes that we do not expect to impact the vast majority of users in practice.
+
+We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
+
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/imagekit-python/issues) with questions, bugs, or suggestions.
+
+### Determining the installed version
+
+If you've upgraded to the latest version but aren't seeing any new features you were expecting then your python environment is likely still using an older version.
+
+You can determine the version that is being used at runtime with:
+
+```py
+import imagekit
+print(imagekit.__version__)
+```
+
+## Requirements
+
+Python 3.8 or higher.
+
+## Contributing
+
+See [the contributing documentation](./CONTRIBUTING.md).
