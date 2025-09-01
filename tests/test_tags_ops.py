@@ -59,7 +59,7 @@ class TestTags(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/addTags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.POST,
@@ -104,7 +104,7 @@ class TestTags(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/addTags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         try:
             responses.add(
@@ -157,7 +157,7 @@ class TestTags(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/removeTags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.POST,
@@ -202,7 +202,7 @@ class TestTags(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/removeTags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         try:
             responses.add(
@@ -268,7 +268,7 @@ class TestAITags(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/removeAITags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.POST,
@@ -313,7 +313,7 @@ class TestAITags(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/removeAITags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         try:
             responses.add(

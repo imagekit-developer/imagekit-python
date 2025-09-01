@@ -1155,7 +1155,7 @@ class TestDeleteFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
 
         responses.add(
@@ -1197,7 +1197,7 @@ class TestDeleteFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
 
         responses.add(
@@ -1237,7 +1237,7 @@ class TestDeleteFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         try:
             responses.add(
@@ -1269,7 +1269,7 @@ class TestDeleteFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}".format(URL.API_BASE_URL, self.file_id)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         try:
             responses.add(
@@ -1297,7 +1297,7 @@ class TestDeleteFile(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}".format(URL.API_BASE_URL, self.file_id)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
 
         responses.add(responses.DELETE, url , status=204, headers=headers, content_type="application/json")
@@ -1656,7 +1656,7 @@ class TestUpdateFileDetails(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}/details/".format(URL.API_BASE_URL, self.file_id)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.PATCH,
@@ -1818,7 +1818,7 @@ class TestUpdateFileDetails(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}/details/".format(URL.API_BASE_URL, self.file_id)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.PATCH,
@@ -2032,7 +2032,7 @@ class TestGetFileVersions(ClientTestCase):
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}/versions".format(URL.API_BASE_URL, self.file_id)
 
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.GET,
@@ -2300,7 +2300,7 @@ class TestGetFileVersions(ClientTestCase):
             URL.API_BASE_URL, self.file_id, self.version_id
         )
 
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.GET,
@@ -2470,7 +2470,7 @@ class TestDeleteFileVersion(ClientTestCase):
         url = "{}/v1/files/{}/versions/{}".format(
             URL.API_BASE_URL, self.file_id, self.version_id
         )
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(responses.DELETE, url, status=204, headers=headers, content_type="application/json")
         resp = self.client.delete_file_version(self.file_id, self.version_id)
@@ -2506,7 +2506,7 @@ class TestCopyFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.POST,
@@ -2538,7 +2538,7 @@ class TestCopyFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(responses.POST, url, status=204, headers=headers, content_type="application/json")
 
@@ -2585,7 +2585,7 @@ class TestCopyFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(responses.POST, url, status=204, headers=headers, content_type="application/json")
 
@@ -2636,7 +2636,7 @@ class TestMoveFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/move".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.POST,
@@ -2667,7 +2667,7 @@ class TestMoveFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/move".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(responses.POST, url, status=204, headers=headers, content_type="application/json")
 
@@ -2717,7 +2717,7 @@ class TestRenameFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         try:
             responses.add(
@@ -2751,7 +2751,7 @@ class TestRenameFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.PUT,
@@ -2804,7 +2804,7 @@ class TestRenameFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.PUT,
@@ -2857,9 +2857,9 @@ class TestRenameFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
-        responses.add(responses.PUT, url, headers=headers, body="{}")
+        responses.add(responses.PUT, url, headers=headers, body="{}", content_type="application/json")
         resp = self.client.rename_file(
             options=RenameFileRequestOptions(
                 file_path=self.file_path, new_file_name=self.new_file_name
@@ -2929,7 +2929,7 @@ class TestRestoreFileVersion(ClientTestCase):
         url = "{}/v1/files/{}/versions/{}/restore".format(
             URL.API_BASE_URL, self.file_id, self.version_id
         )
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.PUT,
@@ -3018,7 +3018,7 @@ class TestRestoreFileVersion(ClientTestCase):
     def test_get_metadata_with_non_breaking_changes_in_response(self):
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}/metadata".format(URL.API_BASE_URL, self.file_id)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.GET,
