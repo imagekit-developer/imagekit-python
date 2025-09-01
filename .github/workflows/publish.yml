@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -18,7 +18,7 @@ jobs:
             urllib3-line: "ge2"
     steps:
       - uses: actions/checkout@v5
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
@@ -37,6 +37,14 @@ jobs:
           pip install -r requirements/test.txt
       - name: Run Tox
         run: tox -e py
+  release:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
       - name: Install build dependencies
         run: |
           pip install setuptools wheel twine
