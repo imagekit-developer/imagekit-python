@@ -51,7 +51,7 @@ class ClientTestCase(unittest.TestCase):
 
 
 def create_headers_for_test():
-    headers = {"Accept-Encoding": "gzip, deflate", "Content-Type": "application/json"}
+    headers = {"Accept-Encoding": "gzip, deflate"}
     headers.update(get_auth_headers_for_test())
     return headers
 
