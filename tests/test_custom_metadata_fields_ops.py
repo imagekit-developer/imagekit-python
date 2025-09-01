@@ -392,6 +392,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62dfc03b1b02a58936efca37",
                 "name": "test",
@@ -464,6 +465,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62e0d7ae1b02a589360dc1fd",
                 "name": "test",
@@ -550,6 +552,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62dfc9f41b02a58936f0d284",
                 "name": "test-date",
@@ -628,6 +631,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62dfcb801b02a58936f0fc39",
                 "name": "test-boolean",
@@ -706,6 +710,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62dfcdb21b02a58936f14c97",
                 "name": "test",
@@ -782,6 +787,7 @@ class TestCustomMetadataFields(ClientTestCase):
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62dfcf001b02a58936f17808",
                 "name": "test",
@@ -863,6 +869,7 @@ class TestCustomMetadataFields(ClientTestCase):
             responses.PATCH,
             url,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62a9d5f6db485107347bb7f2",
                 "name": "test",

@@ -1163,6 +1163,7 @@ class TestDeleteFile(ClientTestCase):
             url,
             body='{"successfullyDeletedFileIds": ["fake_123", "fake_222"]}',
             headers=headers,
+            content_type="application/json",
         )
 
         resp = self.client.bulk_file_delete(self.bulk_delete_ids)
@@ -1204,6 +1205,7 @@ class TestDeleteFile(ClientTestCase):
             url,
             body='{"successfullyDeletedFileIds": ["fake_123"],"nonDeletedFields":["fake_222"]}',
             headers=headers,
+            content_type="application/json",
         )
 
         resp = self.client.bulk_file_delete(self.bulk_delete_ids)
@@ -1298,7 +1300,7 @@ class TestDeleteFile(ClientTestCase):
         headers = {"Content-Type": "application/json"}
         headers.update(get_auth_headers_for_test())
 
-        responses.add(responses.DELETE, url , status=204, headers=headers)
+        responses.add(responses.DELETE, url , status=204, headers=headers, content_type="application/json")
 
         resp = self.client.delete_file(self.file_id)
 
@@ -1659,6 +1661,7 @@ class TestUpdateFileDetails(ClientTestCase):
         responses.add(
             responses.PATCH,
             url,
+            content_type="application/json",
             body="""{
                     "type": "file",
                     "name": "default-image.jpg",
@@ -1820,6 +1823,7 @@ class TestUpdateFileDetails(ClientTestCase):
         responses.add(
             responses.PATCH,
             url,
+            content_type="application/json",
             body="""{
                     "type": "file",
                     "name": "default-image.jpg",
@@ -2033,6 +2037,7 @@ class TestGetFileVersions(ClientTestCase):
         responses.add(
             responses.GET,
             url,
+            content_type="application/json",
             body="""[{
                 "type": "file",
                 "name": "new_car.jpg",
@@ -2334,6 +2339,7 @@ class TestGetFileVersions(ClientTestCase):
                         "mime": "image/jpeg"
                     }""",
             headers=headers,
+            content_type="application/json",
         )
         resp = self.client.get_file_version_details(self.file_id, self.version_id)
         mock_response_metadata = {
@@ -2466,7 +2472,7 @@ class TestDeleteFileVersion(ClientTestCase):
         )
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
-        responses.add(responses.DELETE, url, status=204, headers=headers )
+        responses.add(responses.DELETE, url, status=204, headers=headers, content_type="application/json")
         resp = self.client.delete_file_version(self.file_id, self.version_id)
 
         mock_response_metadata = {
@@ -2534,7 +2540,7 @@ class TestCopyFile(ClientTestCase):
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
-        responses.add(responses.POST, url, status=204, headers=headers)
+        responses.add(responses.POST, url, status=204, headers=headers, content_type="application/json")
 
         resp = self.client.copy_file(
             options=CopyFileRequestOptions(
@@ -2581,7 +2587,7 @@ class TestCopyFile(ClientTestCase):
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
-        responses.add(responses.POST, url, status=204, headers=headers )
+        responses.add(responses.POST, url, status=204, headers=headers, content_type="application/json")
 
         resp = self.client.copy_file(
             options=CopyFileRequestOptions(
@@ -2663,7 +2669,7 @@ class TestMoveFile(ClientTestCase):
         url = "{}/v1/files/move".format(URL.API_BASE_URL)
         headers = {"Content-Type": "application/json"}
         headers.update(create_headers_for_test())
-        responses.add(responses.POST, url, status=204, headers=headers )
+        responses.add(responses.POST, url, status=204, headers=headers, content_type="application/json")
 
         resp = self.client.move_file(
             options=MoveFileRequestOptions(
@@ -2752,6 +2758,7 @@ class TestRenameFile(ClientTestCase):
             url,
             headers=headers,
             body="{}",
+            content_type="application/json",
         )
         resp = self.client.rename_file(
             options=RenameFileRequestOptions(
@@ -2804,6 +2811,7 @@ class TestRenameFile(ClientTestCase):
             url,
             headers=headers,
             body='{"purgeRequestId": "62de3e986f68334a5a3339fb"}',
+            content_type="application/json",
         )
         resp = self.client.rename_file(
             options=RenameFileRequestOptions(
@@ -2927,6 +2935,7 @@ class TestRestoreFileVersion(ClientTestCase):
             responses.PUT,
             url,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "fileId": "fileId",
                 "type": "file",

@@ -66,6 +66,7 @@ class TestTags(ClientTestCase):
             url,
             body='{"successfullyUpdatedFileIds": ["fake_123"]}',
             headers=headers,
+            content_type="application/json",
         )
 
         resp = self.client.add_tags(
@@ -163,6 +164,7 @@ class TestTags(ClientTestCase):
             url,
             body='{"successfullyUpdatedFileIds": ["fake_123"]}',
             headers=headers,
+            content_type="application/json",
         )
 
         resp = self.client.remove_tags(
@@ -273,6 +275,7 @@ class TestAITags(ClientTestCase):
             url,
             body='{"successfullyUpdatedFileIds": ["fake_123"]}',
             headers=headers,
+            content_type="application/json",
         )
 
         resp = self.client.remove_ai_tags(
