@@ -64,12 +64,14 @@ class ImageKit(SyncAPIClient):
     # client options
     private_api_key: str
     password: str | None
+    webhook_secret: str | None
 
     def __init__(
         self,
         *,
         private_api_key: str | None = None,
         password: str | None = None,
+        webhook_secret: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -94,6 +96,7 @@ class ImageKit(SyncAPIClient):
         This automatically infers the following arguments from their corresponding environment variables if they are not provided:
         - `private_api_key` from `IMAGEKIT_PRIVATE_API_KEY`
         - `password` from `OPTIONAL_IMAGEKIT_IGNORES_THIS`
+        - `webhook_secret` from `IMAGEKIT_WEBHOOK_SECRET`
         """
         if private_api_key is None:
             private_api_key = os.environ.get("IMAGEKIT_PRIVATE_API_KEY")
@@ -106,6 +109,10 @@ class ImageKit(SyncAPIClient):
         if password is None:
             password = os.environ.get("OPTIONAL_IMAGEKIT_IGNORES_THIS") or "do_not_set"
         self.password = password
+
+        if webhook_secret is None:
+            webhook_secret = os.environ.get("IMAGEKIT_WEBHOOK_SECRET")
+        self.webhook_secret = webhook_secret
 
         if base_url is None:
             base_url = os.environ.get("IMAGE_KIT_BASE_URL")
@@ -174,6 +181,7 @@ class ImageKit(SyncAPIClient):
         *,
         private_api_key: str | None = None,
         password: str | None = None,
+        webhook_secret: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -209,6 +217,7 @@ class ImageKit(SyncAPIClient):
         client = self.__class__(
             private_api_key=private_api_key or self.private_api_key,
             password=password or self.password,
+            webhook_secret=webhook_secret or self.webhook_secret,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -273,12 +282,14 @@ class AsyncImageKit(AsyncAPIClient):
     # client options
     private_api_key: str
     password: str | None
+    webhook_secret: str | None
 
     def __init__(
         self,
         *,
         private_api_key: str | None = None,
         password: str | None = None,
+        webhook_secret: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -303,6 +314,7 @@ class AsyncImageKit(AsyncAPIClient):
         This automatically infers the following arguments from their corresponding environment variables if they are not provided:
         - `private_api_key` from `IMAGEKIT_PRIVATE_API_KEY`
         - `password` from `OPTIONAL_IMAGEKIT_IGNORES_THIS`
+        - `webhook_secret` from `IMAGEKIT_WEBHOOK_SECRET`
         """
         if private_api_key is None:
             private_api_key = os.environ.get("IMAGEKIT_PRIVATE_API_KEY")
@@ -315,6 +327,10 @@ class AsyncImageKit(AsyncAPIClient):
         if password is None:
             password = os.environ.get("OPTIONAL_IMAGEKIT_IGNORES_THIS") or "do_not_set"
         self.password = password
+
+        if webhook_secret is None:
+            webhook_secret = os.environ.get("IMAGEKIT_WEBHOOK_SECRET")
+        self.webhook_secret = webhook_secret
 
         if base_url is None:
             base_url = os.environ.get("IMAGE_KIT_BASE_URL")
@@ -383,6 +399,7 @@ class AsyncImageKit(AsyncAPIClient):
         *,
         private_api_key: str | None = None,
         password: str | None = None,
+        webhook_secret: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -418,6 +435,7 @@ class AsyncImageKit(AsyncAPIClient):
         client = self.__class__(
             private_api_key=private_api_key or self.private_api_key,
             password=password or self.password,
+            webhook_secret=webhook_secret or self.webhook_secret,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
