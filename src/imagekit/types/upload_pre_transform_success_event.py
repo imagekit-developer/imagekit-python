@@ -28,6 +28,10 @@ class DataAITag(BaseModel):
 
 
 class DataExtensionStatus(BaseModel):
+    ai_auto_description: Optional[Literal["success", "pending", "failed"]] = FieldInfo(
+        alias="ai-auto-description", default=None
+    )
+
     aws_auto_tagging: Optional[Literal["success", "pending", "failed"]] = FieldInfo(
         alias="aws-auto-tagging", default=None
     )
