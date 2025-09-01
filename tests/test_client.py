@@ -384,7 +384,7 @@ class TestImageKit:
             with update_env(
                 **{
                     "IMAGEKIT_PRIVATE_API_KEY": Omit(),
-                    "ORG_MY_PASSWORD_TOKEN": Omit(),
+                    "OPTIONAL_IMAGEKIT_IGNORES_THIS": Omit(),
                 }
             ):
                 client2 = ImageKit(
@@ -1277,7 +1277,7 @@ class TestAsyncImageKit:
             with update_env(
                 **{
                     "IMAGEKIT_PRIVATE_API_KEY": Omit(),
-                    "ORG_MY_PASSWORD_TOKEN": Omit(),
+                    "OPTIONAL_IMAGEKIT_IGNORES_THIS": Omit(),
                 }
             ):
                 client2 = AsyncImageKit(

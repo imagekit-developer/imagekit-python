@@ -35,7 +35,9 @@ client = ImageKit(
     private_api_key=os.environ.get(
         "IMAGEKIT_PRIVATE_API_KEY"
     ),  # This is the default and can be omitted
-    password=os.environ.get("ORG_MY_PASSWORD_TOKEN"),  # This is the default and can be omitted
+    password=os.environ.get(
+        "OPTIONAL_IMAGEKIT_IGNORES_THIS"
+    ),  # This is the default and can be omitted
 )
 
 response = client.files.upload(
@@ -63,7 +65,9 @@ client = AsyncImageKit(
     private_api_key=os.environ.get(
         "IMAGEKIT_PRIVATE_API_KEY"
     ),  # This is the default and can be omitted
-    password=os.environ.get("ORG_MY_PASSWORD_TOKEN"),  # This is the default and can be omitted
+    password=os.environ.get(
+        "OPTIONAL_IMAGEKIT_IGNORES_THIS"
+    ),  # This is the default and can be omitted
 )
 
 

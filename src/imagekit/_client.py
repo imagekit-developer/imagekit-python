@@ -93,7 +93,7 @@ class ImageKit(SyncAPIClient):
 
         This automatically infers the following arguments from their corresponding environment variables if they are not provided:
         - `private_api_key` from `IMAGEKIT_PRIVATE_API_KEY`
-        - `password` from `ORG_MY_PASSWORD_TOKEN`
+        - `password` from `OPTIONAL_IMAGEKIT_IGNORES_THIS`
         """
         if private_api_key is None:
             private_api_key = os.environ.get("IMAGEKIT_PRIVATE_API_KEY")
@@ -104,7 +104,7 @@ class ImageKit(SyncAPIClient):
         self.private_api_key = private_api_key
 
         if password is None:
-            password = os.environ.get("ORG_MY_PASSWORD_TOKEN") or "does_not_matter"
+            password = os.environ.get("OPTIONAL_IMAGEKIT_IGNORES_THIS") or "do_not_set"
         self.password = password
 
         if base_url is None:
@@ -302,7 +302,7 @@ class AsyncImageKit(AsyncAPIClient):
 
         This automatically infers the following arguments from their corresponding environment variables if they are not provided:
         - `private_api_key` from `IMAGEKIT_PRIVATE_API_KEY`
-        - `password` from `ORG_MY_PASSWORD_TOKEN`
+        - `password` from `OPTIONAL_IMAGEKIT_IGNORES_THIS`
         """
         if private_api_key is None:
             private_api_key = os.environ.get("IMAGEKIT_PRIVATE_API_KEY")
@@ -313,7 +313,7 @@ class AsyncImageKit(AsyncAPIClient):
         self.private_api_key = private_api_key
 
         if password is None:
-            password = os.environ.get("ORG_MY_PASSWORD_TOKEN") or "does_not_matter"
+            password = os.environ.get("OPTIONAL_IMAGEKIT_IGNORES_THIS") or "do_not_set"
         self.password = password
 
         if base_url is None:
