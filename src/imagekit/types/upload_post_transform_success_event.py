@@ -8,7 +8,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["UploadPostTransformSuccessWebhookEvent", "Data", "Request", "RequestTransformation"]
+__all__ = ["UploadPostTransformSuccessEvent", "Data", "Request", "RequestTransformation"]
 
 
 class Data(BaseModel):
@@ -40,7 +40,7 @@ class Request(BaseModel):
     """Unique identifier for the originating request."""
 
 
-class UploadPostTransformSuccessWebhookEvent(BaseModel):
+class UploadPostTransformSuccessEvent(BaseModel):
     id: str
     """Unique identifier for the event."""
 

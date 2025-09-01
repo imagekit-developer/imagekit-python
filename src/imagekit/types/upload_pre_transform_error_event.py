@@ -5,7 +5,7 @@ from typing_extensions import Literal
 
 from .._models import BaseModel
 
-__all__ = ["UploadPreTransformErrorWebhookEvent", "Data", "DataTransformation", "DataTransformationError", "Request"]
+__all__ = ["UploadPreTransformErrorEvent", "Data", "DataTransformation", "DataTransformationError", "Request"]
 
 
 class DataTransformationError(BaseModel):
@@ -35,7 +35,7 @@ class Request(BaseModel):
     """Unique identifier for the originating request."""
 
 
-class UploadPreTransformErrorWebhookEvent(BaseModel):
+class UploadPreTransformErrorEvent(BaseModel):
     id: str
     """Unique identifier for the event."""
 

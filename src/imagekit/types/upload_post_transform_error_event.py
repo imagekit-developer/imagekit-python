@@ -8,7 +8,23 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["UploadPostTransformSuccessWebhookEvent", "Data", "Request", "RequestTransformation"]
+__all__ = [
+    "UploadPostTransformErrorEvent",
+    "Data",
+    "DataTransformation",
+    "DataTransformationError",
+    "Request",
+    "RequestTransformation",
+]
+
+
+class DataTransformationError(BaseModel):
+    reason: str
+    """Reason for the post-transformation failure."""
+
+
+class DataTransformation(BaseModel):
+    error: DataTransformationError
 
 
 class Data(BaseModel):
@@ -18,8 +34,13 @@ class Data(BaseModel):
     name: str
     """Name of the file."""
 
+    path: str
+    """Path of the file."""
+
+    transformation: DataTransformation
+
     url: str
-    """URL of the generated post-transformation."""
+    """URL of the attempted post-transformation."""
 
 
 class RequestTransformation(BaseModel):
@@ -40,7 +61,7 @@ class Request(BaseModel):
     """Unique identifier for the originating request."""
 
 
-class UploadPostTransformSuccessWebhookEvent(BaseModel):
+class UploadPostTransformErrorEvent(BaseModel):
     id: str
     """Unique identifier for the event."""
 
@@ -51,4 +72,4 @@ class UploadPostTransformSuccessWebhookEvent(BaseModel):
 
     request: Request
 
-    type: Literal["upload.post-transform.success"]
+    type: Literal["upload.post-transform.error"]

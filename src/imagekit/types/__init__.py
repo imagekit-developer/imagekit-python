@@ -50,27 +50,19 @@ from .folder_create_response import FolderCreateResponse as FolderCreateResponse
 from .folder_delete_response import FolderDeleteResponse as FolderDeleteResponse
 from .folder_rename_response import FolderRenameResponse as FolderRenameResponse
 from .unsafe_unwrap_webhook_event import UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent
+from .upload_pre_transform_error_event import UploadPreTransformErrorEvent as UploadPreTransformErrorEvent
 from .video_transformation_error_event import VideoTransformationErrorEvent as VideoTransformationErrorEvent
 from .video_transformation_ready_event import VideoTransformationReadyEvent as VideoTransformationReadyEvent
 from .custom_metadata_field_list_params import CustomMetadataFieldListParams as CustomMetadataFieldListParams
+from .upload_post_transform_error_event import UploadPostTransformErrorEvent as UploadPostTransformErrorEvent
+from .upload_pre_transform_success_event import UploadPreTransformSuccessEvent as UploadPreTransformSuccessEvent
 from .custom_metadata_field_create_params import CustomMetadataFieldCreateParams as CustomMetadataFieldCreateParams
 from .custom_metadata_field_list_response import CustomMetadataFieldListResponse as CustomMetadataFieldListResponse
 from .custom_metadata_field_update_params import CustomMetadataFieldUpdateParams as CustomMetadataFieldUpdateParams
+from .upload_post_transform_success_event import UploadPostTransformSuccessEvent as UploadPostTransformSuccessEvent
 from .video_transformation_accepted_event import VideoTransformationAcceptedEvent as VideoTransformationAcceptedEvent
 from .custom_metadata_field_delete_response import (
     CustomMetadataFieldDeleteResponse as CustomMetadataFieldDeleteResponse,
-)
-from .upload_pre_transform_error_webhook_event import (
-    UploadPreTransformErrorWebhookEvent as UploadPreTransformErrorWebhookEvent,
-)
-from .upload_post_transform_error_webhook_event import (
-    UploadPostTransformErrorWebhookEvent as UploadPostTransformErrorWebhookEvent,
-)
-from .upload_pre_transform_success_webhook_event import (
-    UploadPreTransformSuccessWebhookEvent as UploadPreTransformSuccessWebhookEvent,
-)
-from .upload_post_transform_success_webhook_event import (
-    UploadPostTransformSuccessWebhookEvent as UploadPostTransformSuccessWebhookEvent,
 )
 
 # Rebuild cyclical models only after all modules are imported.

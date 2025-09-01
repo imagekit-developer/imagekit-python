@@ -238,17 +238,13 @@ Types:
 
 ```python
 from imagekit.types import (
+    UploadPostTransformErrorEvent,
+    UploadPostTransformSuccessEvent,
+    UploadPreTransformErrorEvent,
+    UploadPreTransformSuccessEvent,
     VideoTransformationAcceptedEvent,
     VideoTransformationErrorEvent,
     VideoTransformationReadyEvent,
-    UploadPreTransformSuccessWebhookEvent,
-    UploadPreTransformErrorWebhookEvent,
-    UploadPostTransformSuccessWebhookEvent,
-    UploadPostTransformErrorWebhookEvent,
-    UploadPreTransformSuccessWebhookEvent,
-    UploadPreTransformErrorWebhookEvent,
-    UploadPostTransformSuccessWebhookEvent,
-    UploadPostTransformErrorWebhookEvent,
     UnsafeUnwrapWebhookEvent,
     UnwrapWebhookEvent,
 )

@@ -9,14 +9,7 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 from .metadata import Metadata
 
-__all__ = [
-    "UploadPreTransformSuccessWebhookEvent",
-    "Data",
-    "DataAITag",
-    "DataExtensionStatus",
-    "DataVersionInfo",
-    "Request",
-]
+__all__ = ["UploadPreTransformSuccessEvent", "Data", "DataAITag", "DataExtensionStatus", "DataVersionInfo", "Request"]
 
 
 class DataAITag(BaseModel):
@@ -188,7 +181,7 @@ class Request(BaseModel):
     """Unique identifier for the originating request."""
 
 
-class UploadPreTransformSuccessWebhookEvent(BaseModel):
+class UploadPreTransformSuccessEvent(BaseModel):
     id: str
     """Unique identifier for the event."""
 
