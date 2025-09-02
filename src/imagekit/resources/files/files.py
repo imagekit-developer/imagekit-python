@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Iterable
+from typing import Dict, List, Mapping, Iterable, cast
 from typing_extensions import Literal
 
 import httpx
@@ -16,8 +16,8 @@ from .bulk import (
     AsyncBulkResourceWithStreamingResponse,
 )
 from ...types import file_copy_params, file_move_params, file_rename_params, file_update_params, file_upload_params
-from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven, FileTypes
+from ..._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .metadata import (
     MetadataResource,
     AsyncMetadataResource,
@@ -368,7 +368,7 @@ class FilesResource(SyncAPIResource):
     def upload(
         self,
         *,
-        file: str,
+        file: FileTypes,
         file_name: str,
         token: str | NotGiven = NOT_GIVEN,
         checks: str | NotGiven = NOT_GIVEN,
@@ -579,6 +579,34 @@ class FilesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        body = deepcopy_minimal(
+            {
+                "file": file,
+                "file_name": file_name,
+                "token": token,
+                "checks": checks,
+                "custom_coordinates": custom_coordinates,
+                "custom_metadata": custom_metadata,
+                "description": description,
+                "expire": expire,
+                "extensions": extensions,
+                "folder": folder,
+                "is_private_file": is_private_file,
+                "is_published": is_published,
+                "overwrite_ai_tags": overwrite_ai_tags,
+                "overwrite_custom_metadata": overwrite_custom_metadata,
+                "overwrite_file": overwrite_file,
+                "overwrite_tags": overwrite_tags,
+                "public_key": public_key,
+                "response_fields": response_fields,
+                "signature": signature,
+                "tags": tags,
+                "transformation": transformation,
+                "use_unique_file_name": use_unique_file_name,
+                "webhook_url": webhook_url,
+            }
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
@@ -587,34 +615,8 @@ class FilesResource(SyncAPIResource):
             "/api/v1/files/upload"
             if self._client._base_url_overridden
             else "https://upload.imagekit.io/api/v1/files/upload",
-            body=maybe_transform(
-                {
-                    "file": file,
-                    "file_name": file_name,
-                    "token": token,
-                    "checks": checks,
-                    "custom_coordinates": custom_coordinates,
-                    "custom_metadata": custom_metadata,
-                    "description": description,
-                    "expire": expire,
-                    "extensions": extensions,
-                    "folder": folder,
-                    "is_private_file": is_private_file,
-                    "is_published": is_published,
-                    "overwrite_ai_tags": overwrite_ai_tags,
-                    "overwrite_custom_metadata": overwrite_custom_metadata,
-                    "overwrite_file": overwrite_file,
-                    "overwrite_tags": overwrite_tags,
-                    "public_key": public_key,
-                    "response_fields": response_fields,
-                    "signature": signature,
-                    "tags": tags,
-                    "transformation": transformation,
-                    "use_unique_file_name": use_unique_file_name,
-                    "webhook_url": webhook_url,
-                },
-                file_upload_params.FileUploadParams,
-            ),
+            body=maybe_transform(body, file_upload_params.FileUploadParams),
+            files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -937,7 +939,7 @@ class AsyncFilesResource(AsyncAPIResource):
     async def upload(
         self,
         *,
-        file: str,
+        file: FileTypes,
         file_name: str,
         token: str | NotGiven = NOT_GIVEN,
         checks: str | NotGiven = NOT_GIVEN,
@@ -1148,6 +1150,34 @@ class AsyncFilesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        body = deepcopy_minimal(
+            {
+                "file": file,
+                "file_name": file_name,
+                "token": token,
+                "checks": checks,
+                "custom_coordinates": custom_coordinates,
+                "custom_metadata": custom_metadata,
+                "description": description,
+                "expire": expire,
+                "extensions": extensions,
+                "folder": folder,
+                "is_private_file": is_private_file,
+                "is_published": is_published,
+                "overwrite_ai_tags": overwrite_ai_tags,
+                "overwrite_custom_metadata": overwrite_custom_metadata,
+                "overwrite_file": overwrite_file,
+                "overwrite_tags": overwrite_tags,
+                "public_key": public_key,
+                "response_fields": response_fields,
+                "signature": signature,
+                "tags": tags,
+                "transformation": transformation,
+                "use_unique_file_name": use_unique_file_name,
+                "webhook_url": webhook_url,
+            }
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
@@ -1156,34 +1186,8 @@ class AsyncFilesResource(AsyncAPIResource):
             "/api/v1/files/upload"
             if self._client._base_url_overridden
             else "https://upload.imagekit.io/api/v1/files/upload",
-            body=await async_maybe_transform(
-                {
-                    "file": file,
-                    "file_name": file_name,
-                    "token": token,
-                    "checks": checks,
-                    "custom_coordinates": custom_coordinates,
-                    "custom_metadata": custom_metadata,
-                    "description": description,
-                    "expire": expire,
-                    "extensions": extensions,
-                    "folder": folder,
-                    "is_private_file": is_private_file,
-                    "is_published": is_published,
-                    "overwrite_ai_tags": overwrite_ai_tags,
-                    "overwrite_custom_metadata": overwrite_custom_metadata,
-                    "overwrite_file": overwrite_file,
-                    "overwrite_tags": overwrite_tags,
-                    "public_key": public_key,
-                    "response_fields": response_fields,
-                    "signature": signature,
-                    "tags": tags,
-                    "transformation": transformation,
-                    "use_unique_file_name": use_unique_file_name,
-                    "webhook_url": webhook_url,
-                },
-                file_upload_params.FileUploadParams,
-            ),
+            body=await async_maybe_transform(body, file_upload_params.FileUploadParams),
+            files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
