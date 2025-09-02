@@ -41,7 +41,7 @@ client = ImageKit(
 )
 
 response = client.files.upload(
-    file=b"https://www.example.com/public-url.jpg",
+    file="https://www.example.com/public-url.jpg",
     file_name="file-name.jpg",
 )
 print(response.video_codec)
@@ -73,7 +73,7 @@ client = AsyncImageKit(
 
 async def main() -> None:
     response = await client.files.upload(
-        file=b"https://www.example.com/public-url.jpg",
+        file="https://www.example.com/public-url.jpg",
         file_name="file-name.jpg",
     )
     print(response.video_codec)
@@ -110,7 +110,7 @@ async def main() -> None:
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.files.upload(
-            file=b"https://www.example.com/public-url.jpg",
+            file="https://www.example.com/public-url.jpg",
             file_name="file-name.jpg",
         )
         print(response.video_codec)
@@ -138,7 +138,7 @@ from imagekit import ImageKit
 client = ImageKit()
 
 response = client.files.upload(
-    file=b"raw file contents",
+    file="https://www.example.com/path/to-image.jpg",
     file_name="fileName",
     transformation={
         "post": [
@@ -167,7 +167,7 @@ from imagekit import ImageKit
 
 client = ImageKit()
 
-client.files.upload(
+client.beta.v2.files.upload(
     file=Path("/path/to/file"),
     file_name="fileName",
 )
@@ -192,7 +192,7 @@ client = ImageKit()
 
 try:
     client.files.upload(
-        file=b"https://www.example.com/public-url.jpg",
+        file="https://www.example.com/public-url.jpg",
         file_name="file-name.jpg",
     )
 except imagekit.APIConnectionError as e:
@@ -238,7 +238,7 @@ client = ImageKit(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).files.upload(
-    file=b"https://www.example.com/public-url.jpg",
+    file="https://www.example.com/public-url.jpg",
     file_name="file-name.jpg",
 )
 ```
@@ -264,7 +264,7 @@ client = ImageKit(
 
 # Override per-request:
 client.with_options(timeout=5.0).files.upload(
-    file=b"https://www.example.com/public-url.jpg",
+    file="https://www.example.com/public-url.jpg",
     file_name="file-name.jpg",
 )
 ```
@@ -308,7 +308,7 @@ from imagekit import ImageKit
 
 client = ImageKit()
 response = client.files.with_raw_response.upload(
-    file=b"https://www.example.com/public-url.jpg",
+    file="https://www.example.com/public-url.jpg",
     file_name="file-name.jpg",
 )
 print(response.headers.get('X-My-Header'))
@@ -329,7 +329,7 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.files.with_streaming_response.upload(
-    file=b"https://www.example.com/public-url.jpg",
+    file="https://www.example.com/public-url.jpg",
     file_name="file-name.jpg",
 ) as response:
     print(response.headers.get("X-My-Header"))
