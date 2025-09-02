@@ -7,27 +7,28 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
+from .base_webhook_event import BaseWebhookEvent
 
 __all__ = [
     "UploadPostTransformErrorEvent",
-    "Data",
-    "DataTransformation",
-    "DataTransformationError",
-    "Request",
-    "RequestTransformation",
+    "UploadPostTransformErrorEventData",
+    "UploadPostTransformErrorEventDataTransformation",
+    "UploadPostTransformErrorEventDataTransformationError",
+    "UploadPostTransformErrorEventRequest",
+    "UploadPostTransformErrorEventRequestTransformation",
 ]
 
 
-class DataTransformationError(BaseModel):
+class UploadPostTransformErrorEventDataTransformationError(BaseModel):
     reason: str
     """Reason for the post-transformation failure."""
 
 
-class DataTransformation(BaseModel):
-    error: DataTransformationError
+class UploadPostTransformErrorEventDataTransformation(BaseModel):
+    error: UploadPostTransformErrorEventDataTransformationError
 
 
-class Data(BaseModel):
+class UploadPostTransformErrorEventData(BaseModel):
     file_id: str = FieldInfo(alias="fileId")
     """Unique identifier of the originally uploaded file."""
 
@@ -37,13 +38,13 @@ class Data(BaseModel):
     path: str
     """Path of the file."""
 
-    transformation: DataTransformation
+    transformation: UploadPostTransformErrorEventDataTransformation
 
     url: str
     """URL of the attempted post-transformation."""
 
 
-class RequestTransformation(BaseModel):
+class UploadPostTransformErrorEventRequestTransformation(BaseModel):
     type: Literal["transformation", "abs", "gif-to-video", "thumbnail"]
     """Type of the requested post-transformation."""
 
@@ -54,22 +55,19 @@ class RequestTransformation(BaseModel):
     """Value for the requested transformation type."""
 
 
-class Request(BaseModel):
-    transformation: RequestTransformation
+class UploadPostTransformErrorEventRequest(BaseModel):
+    transformation: UploadPostTransformErrorEventRequestTransformation
 
     x_request_id: str
     """Unique identifier for the originating request."""
 
 
-class UploadPostTransformErrorEvent(BaseModel):
-    id: str
-    """Unique identifier for the event."""
-
+class UploadPostTransformErrorEvent(BaseWebhookEvent):
     created_at: datetime
     """Timestamp of when the event occurred in ISO8601 format."""
 
-    data: Data
+    data: UploadPostTransformErrorEventData
 
-    request: Request
+    request: UploadPostTransformErrorEventRequest
 
-    type: Literal["upload.post-transform.error"]
+    type: Literal["upload.post-transform.error"]  # type: ignore

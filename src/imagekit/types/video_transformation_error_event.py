@@ -5,24 +5,25 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from .._models import BaseModel
+from .base_webhook_event import BaseWebhookEvent
 
 __all__ = [
     "VideoTransformationErrorEvent",
-    "Data",
-    "DataAsset",
-    "DataTransformation",
-    "DataTransformationError",
-    "DataTransformationOptions",
-    "Request",
+    "VideoTransformationErrorEventData",
+    "VideoTransformationErrorEventDataAsset",
+    "VideoTransformationErrorEventDataTransformation",
+    "VideoTransformationErrorEventDataTransformationError",
+    "VideoTransformationErrorEventDataTransformationOptions",
+    "VideoTransformationErrorEventRequest",
 ]
 
 
-class DataAsset(BaseModel):
+class VideoTransformationErrorEventDataAsset(BaseModel):
     url: str
     """URL to download or access the source video file."""
 
 
-class DataTransformationError(BaseModel):
+class VideoTransformationErrorEventDataTransformationError(BaseModel):
     reason: Literal["encoding_failed", "download_failed", "internal_server_error"]
     """Specific reason for the transformation failure:
 
@@ -32,7 +33,7 @@ class DataTransformationError(BaseModel):
     """
 
 
-class DataTransformationOptions(BaseModel):
+class VideoTransformationErrorEventDataTransformationOptions(BaseModel):
     audio_codec: Optional[Literal["aac", "opus"]] = None
     """Audio codec used for encoding (aac or opus)."""
 
@@ -55,7 +56,7 @@ class DataTransformationOptions(BaseModel):
     """Video codec used for encoding (h264, vp9, or av1)."""
 
 
-class DataTransformation(BaseModel):
+class VideoTransformationErrorEventDataTransformation(BaseModel):
     type: Literal["video-transformation", "gif-to-video", "video-thumbnail"]
     """Type of video transformation:
 
@@ -65,21 +66,21 @@ class DataTransformation(BaseModel):
     - `video-thumbnail`: Generate thumbnail image from video
     """
 
-    error: Optional[DataTransformationError] = None
+    error: Optional[VideoTransformationErrorEventDataTransformationError] = None
     """Details about the transformation error."""
 
-    options: Optional[DataTransformationOptions] = None
+    options: Optional[VideoTransformationErrorEventDataTransformationOptions] = None
     """Configuration options for video transformations."""
 
 
-class Data(BaseModel):
-    asset: DataAsset
+class VideoTransformationErrorEventData(BaseModel):
+    asset: VideoTransformationErrorEventDataAsset
     """Information about the source video asset being transformed."""
 
-    transformation: DataTransformation
+    transformation: VideoTransformationErrorEventDataTransformation
 
 
-class Request(BaseModel):
+class VideoTransformationErrorEventRequest(BaseModel):
     url: str
     """Full URL of the transformation request that was submitted."""
 
@@ -90,16 +91,13 @@ class Request(BaseModel):
     """User-Agent header from the original request that triggered the transformation."""
 
 
-class VideoTransformationErrorEvent(BaseModel):
-    id: str
-    """Unique identifier for the event."""
-
+class VideoTransformationErrorEvent(BaseWebhookEvent):
     created_at: datetime
     """Timestamp when the event was created in ISO8601 format."""
 
-    data: Data
+    data: VideoTransformationErrorEventData
 
-    request: Request
+    request: VideoTransformationErrorEventRequest
     """Information about the original request that triggered the video transformation."""
 
-    type: Literal["video.transformation.error"]
+    type: Literal["video.transformation.error"]  # type: ignore

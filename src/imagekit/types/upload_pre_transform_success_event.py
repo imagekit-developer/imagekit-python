@@ -8,11 +8,19 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 from .metadata import Metadata
+from .base_webhook_event import BaseWebhookEvent
 
-__all__ = ["UploadPreTransformSuccessEvent", "Data", "DataAITag", "DataExtensionStatus", "DataVersionInfo", "Request"]
+__all__ = [
+    "UploadPreTransformSuccessEvent",
+    "UploadPreTransformSuccessEventData",
+    "UploadPreTransformSuccessEventDataAITag",
+    "UploadPreTransformSuccessEventDataExtensionStatus",
+    "UploadPreTransformSuccessEventDataVersionInfo",
+    "UploadPreTransformSuccessEventRequest",
+]
 
 
-class DataAITag(BaseModel):
+class UploadPreTransformSuccessEventDataAITag(BaseModel):
     confidence: Optional[float] = None
     """Confidence score of the tag."""
 
@@ -27,7 +35,7 @@ class DataAITag(BaseModel):
     """
 
 
-class DataExtensionStatus(BaseModel):
+class UploadPreTransformSuccessEventDataExtensionStatus(BaseModel):
     ai_auto_description: Optional[Literal["success", "pending", "failed"]] = FieldInfo(
         alias="ai-auto-description", default=None
     )
@@ -43,7 +51,7 @@ class DataExtensionStatus(BaseModel):
     remove_bg: Optional[Literal["success", "pending", "failed"]] = FieldInfo(alias="remove-bg", default=None)
 
 
-class DataVersionInfo(BaseModel):
+class UploadPreTransformSuccessEventDataVersionInfo(BaseModel):
     id: Optional[str] = None
     """Unique identifier of the file version."""
 
@@ -51,8 +59,8 @@ class DataVersionInfo(BaseModel):
     """Name of the file version."""
 
 
-class Data(BaseModel):
-    ai_tags: Optional[List[DataAITag]] = FieldInfo(alias="AITags", default=None)
+class UploadPreTransformSuccessEventData(BaseModel):
+    ai_tags: Optional[List[UploadPreTransformSuccessEventDataAITag]] = FieldInfo(alias="AITags", default=None)
     """An array of tags assigned to the uploaded file by auto tagging."""
 
     audio_codec: Optional[str] = FieldInfo(alias="audioCodec", default=None)
@@ -95,7 +103,9 @@ class Data(BaseModel):
     response.
     """
 
-    extension_status: Optional[DataExtensionStatus] = FieldInfo(alias="extensionStatus", default=None)
+    extension_status: Optional[UploadPreTransformSuccessEventDataExtensionStatus] = FieldInfo(
+        alias="extensionStatus", default=None
+    )
     """
     Extension names with their processing status at the time of completion of the
     request. It could have one of the following status values:
@@ -167,7 +177,7 @@ class Data(BaseModel):
     url: Optional[str] = None
     """A publicly accessible URL of the file."""
 
-    version_info: Optional[DataVersionInfo] = FieldInfo(alias="versionInfo", default=None)
+    version_info: Optional[UploadPreTransformSuccessEventDataVersionInfo] = FieldInfo(alias="versionInfo", default=None)
     """An object containing the file or file version's `id` (versionId) and `name`."""
 
     video_codec: Optional[str] = FieldInfo(alias="videoCodec", default=None)
@@ -177,7 +187,7 @@ class Data(BaseModel):
     """Width of the image in pixels (Only for Images)"""
 
 
-class Request(BaseModel):
+class UploadPreTransformSuccessEventRequest(BaseModel):
     transformation: str
     """The requested pre-transformation string."""
 
@@ -185,16 +195,13 @@ class Request(BaseModel):
     """Unique identifier for the originating request."""
 
 
-class UploadPreTransformSuccessEvent(BaseModel):
-    id: str
-    """Unique identifier for the event."""
-
+class UploadPreTransformSuccessEvent(BaseWebhookEvent):
     created_at: datetime
     """Timestamp of when the event occurred in ISO8601 format."""
 
-    data: Data
+    data: UploadPreTransformSuccessEventData
     """Object containing details of a successful upload."""
 
-    request: Request
+    request: UploadPreTransformSuccessEventRequest
 
-    type: Literal["upload.pre-transform.success"]
+    type: Literal["upload.pre-transform.success"]  # type: ignore

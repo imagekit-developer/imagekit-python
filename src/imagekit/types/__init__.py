@@ -28,6 +28,7 @@ from .metadata import Metadata as Metadata
 from .file_copy_params import FileCopyParams as FileCopyParams
 from .file_move_params import FileMoveParams as FileMoveParams
 from .asset_list_params import AssetListParams as AssetListParams
+from .base_webhook_event import BaseWebhookEvent as BaseWebhookEvent
 from .file_copy_response import FileCopyResponse as FileCopyResponse
 from .file_move_response import FileMoveResponse as FileMoveResponse
 from .file_rename_params import FileRenameParams as FileRenameParams

@@ -5,23 +5,24 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from .._models import BaseModel
+from .base_webhook_event import BaseWebhookEvent
 
 __all__ = [
     "VideoTransformationAcceptedEvent",
-    "Data",
-    "DataAsset",
-    "DataTransformation",
-    "DataTransformationOptions",
-    "Request",
+    "VideoTransformationAcceptedEventData",
+    "VideoTransformationAcceptedEventDataAsset",
+    "VideoTransformationAcceptedEventDataTransformation",
+    "VideoTransformationAcceptedEventDataTransformationOptions",
+    "VideoTransformationAcceptedEventRequest",
 ]
 
 
-class DataAsset(BaseModel):
+class VideoTransformationAcceptedEventDataAsset(BaseModel):
     url: str
     """URL to download or access the source video file."""
 
 
-class DataTransformationOptions(BaseModel):
+class VideoTransformationAcceptedEventDataTransformationOptions(BaseModel):
     audio_codec: Optional[Literal["aac", "opus"]] = None
     """Audio codec used for encoding (aac or opus)."""
 
@@ -44,7 +45,7 @@ class DataTransformationOptions(BaseModel):
     """Video codec used for encoding (h264, vp9, or av1)."""
 
 
-class DataTransformation(BaseModel):
+class VideoTransformationAcceptedEventDataTransformation(BaseModel):
     type: Literal["video-transformation", "gif-to-video", "video-thumbnail"]
     """Type of video transformation:
 
@@ -54,19 +55,19 @@ class DataTransformation(BaseModel):
     - `video-thumbnail`: Generate thumbnail image from video
     """
 
-    options: Optional[DataTransformationOptions] = None
+    options: Optional[VideoTransformationAcceptedEventDataTransformationOptions] = None
     """Configuration options for video transformations."""
 
 
-class Data(BaseModel):
-    asset: DataAsset
+class VideoTransformationAcceptedEventData(BaseModel):
+    asset: VideoTransformationAcceptedEventDataAsset
     """Information about the source video asset being transformed."""
 
-    transformation: DataTransformation
+    transformation: VideoTransformationAcceptedEventDataTransformation
     """Base information about a video transformation request."""
 
 
-class Request(BaseModel):
+class VideoTransformationAcceptedEventRequest(BaseModel):
     url: str
     """Full URL of the transformation request that was submitted."""
 
@@ -77,16 +78,13 @@ class Request(BaseModel):
     """User-Agent header from the original request that triggered the transformation."""
 
 
-class VideoTransformationAcceptedEvent(BaseModel):
-    id: str
-    """Unique identifier for the event."""
-
+class VideoTransformationAcceptedEvent(BaseWebhookEvent):
     created_at: datetime
     """Timestamp when the event was created in ISO8601 format."""
 
-    data: Data
+    data: VideoTransformationAcceptedEventData
 
-    request: Request
+    request: VideoTransformationAcceptedEventRequest
     """Information about the original request that triggered the video transformation."""
 
-    type: Literal["video.transformation.accepted"]
+    type: Literal["video.transformation.accepted"]  # type: ignore
