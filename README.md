@@ -138,7 +138,7 @@ from imagekit import ImageKit
 client = ImageKit()
 
 response = client.files.upload(
-    file="https://www.example.com/path/to-image.jpg",
+    file="file",
     file_name="fileName",
     transformation={
         "post": [
