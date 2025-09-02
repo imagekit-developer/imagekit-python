@@ -4,30 +4,37 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from .._models import BaseModel
+from .base_webhook_event import BaseWebhookEvent
 
-__all__ = ["UploadPreTransformErrorEvent", "Data", "DataTransformation", "DataTransformationError", "Request"]
+__all__ = [
+    "UploadPreTransformErrorEvent",
+    "UploadPreTransformErrorEventData",
+    "UploadPreTransformErrorEventDataTransformation",
+    "UploadPreTransformErrorEventDataTransformationError",
+    "UploadPreTransformErrorEventRequest",
+]
 
 
-class DataTransformationError(BaseModel):
+class UploadPreTransformErrorEventDataTransformationError(BaseModel):
     reason: str
     """Reason for the pre-transformation failure."""
 
 
-class DataTransformation(BaseModel):
-    error: DataTransformationError
+class UploadPreTransformErrorEventDataTransformation(BaseModel):
+    error: UploadPreTransformErrorEventDataTransformationError
 
 
-class Data(BaseModel):
+class UploadPreTransformErrorEventData(BaseModel):
     name: str
     """Name of the file."""
 
     path: str
     """Path of the file."""
 
-    transformation: DataTransformation
+    transformation: UploadPreTransformErrorEventDataTransformation
 
 
-class Request(BaseModel):
+class UploadPreTransformErrorEventRequest(BaseModel):
     transformation: str
     """The requested pre-transformation string."""
 
@@ -35,15 +42,12 @@ class Request(BaseModel):
     """Unique identifier for the originating request."""
 
 
-class UploadPreTransformErrorEvent(BaseModel):
-    id: str
-    """Unique identifier for the event."""
-
+class UploadPreTransformErrorEvent(BaseWebhookEvent):
     created_at: datetime
     """Timestamp of when the event occurred in ISO8601 format."""
 
-    data: Data
+    data: UploadPreTransformErrorEventData
 
-    request: Request
+    request: UploadPreTransformErrorEventRequest
 
-    type: Literal["upload.pre-transform.error"]
+    type: Literal["upload.pre-transform.error"]  # type: ignore

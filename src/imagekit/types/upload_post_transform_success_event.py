@@ -7,11 +7,17 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
+from .base_webhook_event import BaseWebhookEvent
 
-__all__ = ["UploadPostTransformSuccessEvent", "Data", "Request", "RequestTransformation"]
+__all__ = [
+    "UploadPostTransformSuccessEvent",
+    "UploadPostTransformSuccessEventData",
+    "UploadPostTransformSuccessEventRequest",
+    "UploadPostTransformSuccessEventRequestTransformation",
+]
 
 
-class Data(BaseModel):
+class UploadPostTransformSuccessEventData(BaseModel):
     file_id: str = FieldInfo(alias="fileId")
     """Unique identifier of the originally uploaded file."""
 
@@ -22,7 +28,7 @@ class Data(BaseModel):
     """URL of the generated post-transformation."""
 
 
-class RequestTransformation(BaseModel):
+class UploadPostTransformSuccessEventRequestTransformation(BaseModel):
     type: Literal["transformation", "abs", "gif-to-video", "thumbnail"]
     """Type of the requested post-transformation."""
 
@@ -33,22 +39,19 @@ class RequestTransformation(BaseModel):
     """Value for the requested transformation type."""
 
 
-class Request(BaseModel):
-    transformation: RequestTransformation
+class UploadPostTransformSuccessEventRequest(BaseModel):
+    transformation: UploadPostTransformSuccessEventRequestTransformation
 
     x_request_id: str
     """Unique identifier for the originating request."""
 
 
-class UploadPostTransformSuccessEvent(BaseModel):
-    id: str
-    """Unique identifier for the event."""
-
+class UploadPostTransformSuccessEvent(BaseWebhookEvent):
     created_at: datetime
     """Timestamp of when the event occurred in ISO8601 format."""
 
-    data: Data
+    data: UploadPostTransformSuccessEventData
 
-    request: Request
+    request: UploadPostTransformSuccessEventRequest
 
-    type: Literal["upload.post-transform.success"]
+    type: Literal["upload.post-transform.success"]  # type: ignore

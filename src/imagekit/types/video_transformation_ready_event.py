@@ -5,26 +5,27 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from .._models import BaseModel
+from .base_webhook_event import BaseWebhookEvent
 
 __all__ = [
     "VideoTransformationReadyEvent",
-    "Data",
-    "DataAsset",
-    "DataTransformation",
-    "DataTransformationOptions",
-    "DataTransformationOutput",
-    "DataTransformationOutputVideoMetadata",
-    "Request",
-    "Timings",
+    "VideoTransformationReadyEventData",
+    "VideoTransformationReadyEventDataAsset",
+    "VideoTransformationReadyEventDataTransformation",
+    "VideoTransformationReadyEventDataTransformationOptions",
+    "VideoTransformationReadyEventDataTransformationOutput",
+    "VideoTransformationReadyEventDataTransformationOutputVideoMetadata",
+    "VideoTransformationReadyEventRequest",
+    "VideoTransformationReadyEventTimings",
 ]
 
 
-class DataAsset(BaseModel):
+class VideoTransformationReadyEventDataAsset(BaseModel):
     url: str
     """URL to download or access the source video file."""
 
 
-class DataTransformationOptions(BaseModel):
+class VideoTransformationReadyEventDataTransformationOptions(BaseModel):
     audio_codec: Optional[Literal["aac", "opus"]] = None
     """Audio codec used for encoding (aac or opus)."""
 
@@ -47,7 +48,7 @@ class DataTransformationOptions(BaseModel):
     """Video codec used for encoding (h264, vp9, or av1)."""
 
 
-class DataTransformationOutputVideoMetadata(BaseModel):
+class VideoTransformationReadyEventDataTransformationOutputVideoMetadata(BaseModel):
     bitrate: int
     """Bitrate of the output video in bits per second."""
 
@@ -61,15 +62,15 @@ class DataTransformationOutputVideoMetadata(BaseModel):
     """Width of the output video in pixels."""
 
 
-class DataTransformationOutput(BaseModel):
+class VideoTransformationReadyEventDataTransformationOutput(BaseModel):
     url: str
     """URL to access the transformed video."""
 
-    video_metadata: Optional[DataTransformationOutputVideoMetadata] = None
+    video_metadata: Optional[VideoTransformationReadyEventDataTransformationOutputVideoMetadata] = None
     """Metadata of the output video file."""
 
 
-class DataTransformation(BaseModel):
+class VideoTransformationReadyEventDataTransformation(BaseModel):
     type: Literal["video-transformation", "gif-to-video", "video-thumbnail"]
     """Type of video transformation:
 
@@ -79,21 +80,21 @@ class DataTransformation(BaseModel):
     - `video-thumbnail`: Generate thumbnail image from video
     """
 
-    options: Optional[DataTransformationOptions] = None
+    options: Optional[VideoTransformationReadyEventDataTransformationOptions] = None
     """Configuration options for video transformations."""
 
-    output: Optional[DataTransformationOutput] = None
+    output: Optional[VideoTransformationReadyEventDataTransformationOutput] = None
     """Information about the transformed output video."""
 
 
-class Data(BaseModel):
-    asset: DataAsset
+class VideoTransformationReadyEventData(BaseModel):
+    asset: VideoTransformationReadyEventDataAsset
     """Information about the source video asset being transformed."""
 
-    transformation: DataTransformation
+    transformation: VideoTransformationReadyEventDataTransformation
 
 
-class Request(BaseModel):
+class VideoTransformationReadyEventRequest(BaseModel):
     url: str
     """Full URL of the transformation request that was submitted."""
 
@@ -104,7 +105,7 @@ class Request(BaseModel):
     """User-Agent header from the original request that triggered the transformation."""
 
 
-class Timings(BaseModel):
+class VideoTransformationReadyEventTimings(BaseModel):
     download_duration: Optional[int] = None
     """
     Time spent downloading the source video from your origin or media library, in
@@ -115,19 +116,16 @@ class Timings(BaseModel):
     """Time spent encoding the video, in milliseconds."""
 
 
-class VideoTransformationReadyEvent(BaseModel):
-    id: str
-    """Unique identifier for the event."""
-
+class VideoTransformationReadyEvent(BaseWebhookEvent):
     created_at: datetime
     """Timestamp when the event was created in ISO8601 format."""
 
-    data: Data
+    data: VideoTransformationReadyEventData
 
-    request: Request
+    request: VideoTransformationReadyEventRequest
     """Information about the original request that triggered the video transformation."""
 
-    type: Literal["video.transformation.ready"]
+    type: Literal["video.transformation.ready"]  # type: ignore
 
-    timings: Optional[Timings] = None
+    timings: Optional[VideoTransformationReadyEventTimings] = None
     """Performance metrics for the transformation process."""

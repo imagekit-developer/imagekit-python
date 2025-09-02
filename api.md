@@ -238,6 +238,7 @@ Types:
 
 ```python
 from imagekit.types import (
+    BaseWebhookEvent,
     UploadPostTransformErrorEvent,
     UploadPostTransformSuccessEvent,
     UploadPreTransformErrorEvent,
