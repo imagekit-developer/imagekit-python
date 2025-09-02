@@ -806,7 +806,9 @@ class TestImageKit:
         respx_mock.post("/api/v1/files/upload").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            client.files.with_streaming_response.upload(file=b"raw file contents", file_name="fileName").__enter__()
+            client.files.with_streaming_response.upload(
+                file="https://www.example.com/path/to-image.jpg", file_name="fileName"
+            ).__enter__()
 
         assert _get_open_connections(self.client) == 0
 
@@ -816,7 +818,9 @@ class TestImageKit:
         respx_mock.post("/api/v1/files/upload").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.files.with_streaming_response.upload(file=b"raw file contents", file_name="fileName").__enter__()
+            client.files.with_streaming_response.upload(
+                file="https://www.example.com/path/to-image.jpg", file_name="fileName"
+            ).__enter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -845,7 +849,9 @@ class TestImageKit:
 
         respx_mock.post("/api/v1/files/upload").mock(side_effect=retry_handler)
 
-        response = client.files.with_raw_response.upload(file=b"raw file contents", file_name="fileName")
+        response = client.files.with_raw_response.upload(
+            file="https://www.example.com/path/to-image.jpg", file_name="fileName"
+        )
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -870,7 +876,9 @@ class TestImageKit:
         respx_mock.post("/api/v1/files/upload").mock(side_effect=retry_handler)
 
         response = client.files.with_raw_response.upload(
-            file=b"raw file contents", file_name="fileName", extra_headers={"x-stainless-retry-count": Omit()}
+            file="https://www.example.com/path/to-image.jpg",
+            file_name="fileName",
+            extra_headers={"x-stainless-retry-count": Omit()},
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -895,7 +903,9 @@ class TestImageKit:
         respx_mock.post("/api/v1/files/upload").mock(side_effect=retry_handler)
 
         response = client.files.with_raw_response.upload(
-            file=b"raw file contents", file_name="fileName", extra_headers={"x-stainless-retry-count": "42"}
+            file="https://www.example.com/path/to-image.jpg",
+            file_name="fileName",
+            extra_headers={"x-stainless-retry-count": "42"},
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
@@ -1706,7 +1716,7 @@ class TestAsyncImageKit:
 
         with pytest.raises(APITimeoutError):
             await async_client.files.with_streaming_response.upload(
-                file=b"raw file contents", file_name="fileName"
+                file="https://www.example.com/path/to-image.jpg", file_name="fileName"
             ).__aenter__()
 
         assert _get_open_connections(self.client) == 0
@@ -1720,7 +1730,7 @@ class TestAsyncImageKit:
 
         with pytest.raises(APIStatusError):
             await async_client.files.with_streaming_response.upload(
-                file=b"raw file contents", file_name="fileName"
+                file="https://www.example.com/path/to-image.jpg", file_name="fileName"
             ).__aenter__()
         assert _get_open_connections(self.client) == 0
 
@@ -1751,7 +1761,9 @@ class TestAsyncImageKit:
 
         respx_mock.post("/api/v1/files/upload").mock(side_effect=retry_handler)
 
-        response = await client.files.with_raw_response.upload(file=b"raw file contents", file_name="fileName")
+        response = await client.files.with_raw_response.upload(
+            file="https://www.example.com/path/to-image.jpg", file_name="fileName"
+        )
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1777,7 +1789,9 @@ class TestAsyncImageKit:
         respx_mock.post("/api/v1/files/upload").mock(side_effect=retry_handler)
 
         response = await client.files.with_raw_response.upload(
-            file=b"raw file contents", file_name="fileName", extra_headers={"x-stainless-retry-count": Omit()}
+            file="https://www.example.com/path/to-image.jpg",
+            file_name="fileName",
+            extra_headers={"x-stainless-retry-count": Omit()},
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -1803,7 +1817,9 @@ class TestAsyncImageKit:
         respx_mock.post("/api/v1/files/upload").mock(side_effect=retry_handler)
 
         response = await client.files.with_raw_response.upload(
-            file=b"raw file contents", file_name="fileName", extra_headers={"x-stainless-retry-count": "42"}
+            file="https://www.example.com/path/to-image.jpg",
+            file_name="fileName",
+            extra_headers={"x-stainless-retry-count": "42"},
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"

@@ -5,7 +5,6 @@ from __future__ import annotations
 from typing import Dict, List, Union, Iterable
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
-from .._types import FileTypes
 from .._utils import PropertyInfo
 
 __all__ = [
@@ -25,7 +24,7 @@ __all__ = [
 
 
 class FileUploadParams(TypedDict, total=False):
-    file: Required[FileTypes]
+    file: Required[str]
     """The API accepts any of the following:
 
     - **Binary data** – send the raw bytes as `multipart/form-data`.
