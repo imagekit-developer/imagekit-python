@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List, Union
+from typing import Union
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
+from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
 __all__ = ["URLEndpointUpdateParams", "URLRewriter", "URLRewriterCloudinary", "URLRewriterImgix", "URLRewriterAkamai"]
@@ -14,7 +15,7 @@ class URLEndpointUpdateParams(TypedDict, total=False):
     description: Required[str]
     """Description of the URL endpoint."""
 
-    origins: List[str]
+    origins: SequenceNotStr[str]
     """
     Ordered list of origin IDs to try when the file isn’t in the Media Library;
     ImageKit checks them in the sequence provided. Origin must be created before it

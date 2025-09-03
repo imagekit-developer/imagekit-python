@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Dict, List, Union, Iterable
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
-from .._types import FileTypes
+from .._types import FileTypes, SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = [
@@ -189,7 +189,7 @@ class FileUploadParams(TypedDict, total=False):
     authentication when uploading a file from the client side.
     """
 
-    tags: List[str]
+    tags: SequenceNotStr[str]
     """Set the tags while uploading the file. Provide an array of tag strings (e.g.
 
     `["tag1", "tag2", "tag3"]`). The combined length of all tag characters must not

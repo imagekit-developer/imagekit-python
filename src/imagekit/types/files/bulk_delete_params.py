@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from typing import List
 from typing_extensions import Required, Annotated, TypedDict
 
+from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
 __all__ = ["BulkDeleteParams"]
 
 
 class BulkDeleteParams(TypedDict, total=False):
-    file_ids: Required[Annotated[List[str], PropertyInfo(alias="fileIds")]]
+    file_ids: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="fileIds")]]
     """An array of fileIds which you want to delete."""

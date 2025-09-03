@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
+from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes, SequenceNotStr
 from ...._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -74,7 +74,7 @@ class FilesResource(SyncAPIResource):
             ]
         ]
         | NotGiven = NOT_GIVEN,
-        tags: List[str] | NotGiven = NOT_GIVEN,
+        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
         transformation: file_upload_params.Transformation | NotGiven = NOT_GIVEN,
         use_unique_file_name: bool | NotGiven = NOT_GIVEN,
         webhook_url: str | NotGiven = NOT_GIVEN,
@@ -326,7 +326,7 @@ class AsyncFilesResource(AsyncAPIResource):
             ]
         ]
         | NotGiven = NOT_GIVEN,
-        tags: List[str] | NotGiven = NOT_GIVEN,
+        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
         transformation: file_upload_params.Transformation | NotGiven = NOT_GIVEN,
         use_unique_file_name: bool | NotGiven = NOT_GIVEN,
         webhook_url: str | NotGiven = NOT_GIVEN,
