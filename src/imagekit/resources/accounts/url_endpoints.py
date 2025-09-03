@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-from typing import List
-
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
+from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven, SequenceNotStr
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -48,7 +46,7 @@ class URLEndpointsResource(SyncAPIResource):
         self,
         *,
         description: str,
-        origins: List[str] | NotGiven = NOT_GIVEN,
+        origins: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
         url_prefix: str | NotGiven = NOT_GIVEN,
         url_rewriter: url_endpoint_create_params.URLRewriter | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -105,7 +103,7 @@ class URLEndpointsResource(SyncAPIResource):
         id: str,
         *,
         description: str,
-        origins: List[str] | NotGiven = NOT_GIVEN,
+        origins: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
         url_prefix: str | NotGiven = NOT_GIVEN,
         url_rewriter: url_endpoint_update_params.URLRewriter | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -292,7 +290,7 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
         self,
         *,
         description: str,
-        origins: List[str] | NotGiven = NOT_GIVEN,
+        origins: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
         url_prefix: str | NotGiven = NOT_GIVEN,
         url_rewriter: url_endpoint_create_params.URLRewriter | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -349,7 +347,7 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
         id: str,
         *,
         description: str,
-        origins: List[str] | NotGiven = NOT_GIVEN,
+        origins: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
         url_prefix: str | NotGiven = NOT_GIVEN,
         url_rewriter: url_endpoint_update_params.URLRewriter | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.

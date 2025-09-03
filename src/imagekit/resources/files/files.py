@@ -16,7 +16,7 @@ from .bulk import (
     AsyncBulkResourceWithStreamingResponse,
 )
 from ...types import file_copy_params, file_move_params, file_rename_params, file_update_params, file_upload_params
-from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven, FileTypes
+from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven, FileTypes, SequenceNotStr
 from ..._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .metadata import (
     MetadataResource,
@@ -398,7 +398,7 @@ class FilesResource(SyncAPIResource):
         ]
         | NotGiven = NOT_GIVEN,
         signature: str | NotGiven = NOT_GIVEN,
-        tags: List[str] | NotGiven = NOT_GIVEN,
+        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
         transformation: file_upload_params.Transformation | NotGiven = NOT_GIVEN,
         use_unique_file_name: bool | NotGiven = NOT_GIVEN,
         webhook_url: str | NotGiven = NOT_GIVEN,
@@ -969,7 +969,7 @@ class AsyncFilesResource(AsyncAPIResource):
         ]
         | NotGiven = NOT_GIVEN,
         signature: str | NotGiven = NOT_GIVEN,
-        tags: List[str] | NotGiven = NOT_GIVEN,
+        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
         transformation: file_upload_params.Transformation | NotGiven = NOT_GIVEN,
         use_unique_file_name: bool | NotGiven = NOT_GIVEN,
         webhook_url: str | NotGiven = NOT_GIVEN,

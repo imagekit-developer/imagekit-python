@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List, Union
+from typing import Union
 from typing_extensions import Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["CustomMetadataFieldUpdateParams", "Schema"]
@@ -30,7 +31,9 @@ class CustomMetadataFieldUpdateParams(TypedDict, total=False):
 
 
 class Schema(TypedDict, total=False):
-    default_value: Annotated[Union[str, float, bool, List[Union[str, float, bool]]], PropertyInfo(alias="defaultValue")]
+    default_value: Annotated[
+        Union[str, float, bool, SequenceNotStr[Union[str, float, bool]]], PropertyInfo(alias="defaultValue")
+    ]
     """The default value for this custom metadata field.
 
     This property is only required if `isValueRequired` property is set to `true`.
@@ -72,7 +75,7 @@ class Schema(TypedDict, total=False):
     set the minimum numeric value.
     """
 
-    select_options: Annotated[List[Union[str, float, bool]], PropertyInfo(alias="selectOptions")]
+    select_options: Annotated[SequenceNotStr[Union[str, float, bool]], PropertyInfo(alias="selectOptions")]
     """An array of allowed values.
 
     This property is only required if `type` property is set to `SingleSelect` or

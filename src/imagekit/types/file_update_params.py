@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable, Optional
+from typing import Dict, Union, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = [
@@ -109,7 +110,7 @@ class UpdateUpdateFileDetails(TypedDict, total=False):
     type.
     """
 
-    remove_ai_tags: Annotated[Union[List[str], Literal["all"]], PropertyInfo(alias="removeAITags")]
+    remove_ai_tags: Annotated[Union[SequenceNotStr[str], Literal["all"]], PropertyInfo(alias="removeAITags")]
     """An array of AITags associated with the file that you want to remove, e.g.
 
     `["car", "vehicle", "motorsports"]`.
@@ -121,7 +122,7 @@ class UpdateUpdateFileDetails(TypedDict, total=False):
     are processed.
     """
 
-    tags: Optional[List[str]]
+    tags: Optional[SequenceNotStr[str]]
     """An array of tags associated with the file, such as `["tag1", "tag2"]`.
 
     Send `null` to unset all tags associated with the file.
