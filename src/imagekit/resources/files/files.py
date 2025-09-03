@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, List, Mapping, Iterable, cast
-from typing_extensions import Literal
+from typing_extensions import Literal, overload
 
 import httpx
 
@@ -17,7 +17,7 @@ from .bulk import (
 )
 from ...types import file_copy_params, file_move_params, file_rename_params, file_update_params, file_upload_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven, FileTypes, SequenceNotStr
-from ..._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from ..._utils import extract_files, required_args, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .metadata import (
     MetadataResource,
     AsyncMetadataResource,
@@ -365,6 +365,7 @@ class FilesResource(SyncAPIResource):
             cast_to=FileRenameResponse,
         )
 
+    @overload
     def upload(
         self,
         *,
@@ -376,7 +377,7 @@ class FilesResource(SyncAPIResource):
         custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
         expire: int | NotGiven = NOT_GIVEN,
-        extensions: Iterable[file_upload_params.Extension] | NotGiven = NOT_GIVEN,
+        extensions: Iterable[file_upload_params.FileUploadV1Extension] | NotGiven = NOT_GIVEN,
         folder: str | NotGiven = NOT_GIVEN,
         is_private_file: bool | NotGiven = NOT_GIVEN,
         is_published: bool | NotGiven = NOT_GIVEN,
@@ -399,7 +400,7 @@ class FilesResource(SyncAPIResource):
         | NotGiven = NOT_GIVEN,
         signature: str | NotGiven = NOT_GIVEN,
         tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
-        transformation: file_upload_params.Transformation | NotGiven = NOT_GIVEN,
+        transformation: file_upload_params.FileUploadV1Transformation | NotGiven = NOT_GIVEN,
         use_unique_file_name: bool | NotGiven = NOT_GIVEN,
         webhook_url: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -579,6 +580,263 @@ class FilesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def upload(
+        self,
+        *,
+        file: str,
+        file_name: str,
+        token: str | NotGiven = NOT_GIVEN,
+        checks: str | NotGiven = NOT_GIVEN,
+        custom_coordinates: str | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
+        description: str | NotGiven = NOT_GIVEN,
+        expire: int | NotGiven = NOT_GIVEN,
+        extensions: Iterable[file_upload_params.FileUploadByUrlv1Extension] | NotGiven = NOT_GIVEN,
+        folder: str | NotGiven = NOT_GIVEN,
+        is_private_file: bool | NotGiven = NOT_GIVEN,
+        is_published: bool | NotGiven = NOT_GIVEN,
+        overwrite_ai_tags: bool | NotGiven = NOT_GIVEN,
+        overwrite_custom_metadata: bool | NotGiven = NOT_GIVEN,
+        overwrite_file: bool | NotGiven = NOT_GIVEN,
+        overwrite_tags: bool | NotGiven = NOT_GIVEN,
+        public_key: str | NotGiven = NOT_GIVEN,
+        response_fields: List[
+            Literal[
+                "tags",
+                "customCoordinates",
+                "isPrivateFile",
+                "embeddedMetadata",
+                "isPublished",
+                "customMetadata",
+                "metadata",
+            ]
+        ]
+        | NotGiven = NOT_GIVEN,
+        signature: str | NotGiven = NOT_GIVEN,
+        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
+        transformation: file_upload_params.FileUploadByUrlv1Transformation | NotGiven = NOT_GIVEN,
+        use_unique_file_name: bool | NotGiven = NOT_GIVEN,
+        webhook_url: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> FileUploadResponse:
+        """
+        ImageKit.io allows you to upload files directly from both the server and client
+        sides. For server-side uploads, private API key authentication is used. For
+        client-side uploads, generate a one-time `token`, `signature`, and `expire` from
+        your secure backend using private API.
+        [Learn more](/docs/api-reference/upload-file/upload-file#how-to-implement-client-side-file-upload)
+        about how to implement client-side file upload.
+
+        The [V2 API](/docs/api-reference/upload-file/upload-file-v2) enhances security
+        by verifying the entire payload using JWT.
+
+        **File size limit** \\
+        On the free plan, the maximum upload file sizes are 20MB for images, audio, and raw
+        files and 100MB for videos. On the paid plan, these limits increase to 40MB for images,
+        audio, and raw files and 2GB for videos. These limits can be further increased with
+        higher-tier plans.
+
+        **Version limit** \\
+        A file can have a maximum of 100 versions.
+
+        **Demo applications**
+
+        - A full-fledged
+          [upload widget using Uppy](https://github.com/imagekit-samples/uppy-uploader),
+          supporting file selections from local storage, URL, Dropbox, Google Drive,
+          Instagram, and more.
+        - [Quick start guides](/docs/quick-start-guides) for various frameworks and
+          technologies.
+
+        Args:
+          file: The URL of the file to upload. A publicly reachable URL that ImageKit servers
+              can fetch. The server must receive the response headers within 8 seconds;
+              otherwise the request fails with 400 Bad Request.
+
+          file_name:
+              The name with which the file has to be uploaded. The file name can contain:
+
+              - Alphanumeric Characters: `a-z`, `A-Z`, `0-9`.
+              - Special Characters: `.`, `-`
+
+              Any other character including space will be replaced by `_`
+
+          token: A unique value that the ImageKit.io server will use to recognize and prevent
+              subsequent retries for the same request. We suggest using V4 UUIDs, or another
+              random string with enough entropy to avoid collisions. This field is only
+              required for authentication when uploading a file from the client side.
+
+              **Note**: Sending a value that has been used in the past will result in a
+              validation error. Even if your previous request resulted in an error, you should
+              always send a new value for this field.
+
+          checks: Server-side checks to run on the asset. Read more about
+              [Upload API checks](/docs/api-reference/upload-file/upload-file#upload-api-checks).
+
+          custom_coordinates: Define an important area in the image. This is only relevant for image type
+              files.
+
+              - To be passed as a string with the x and y coordinates of the top-left corner,
+                and width and height of the area of interest in the format `x,y,width,height`.
+                For example - `10,10,100,100`
+              - Can be used with fo-customtransformation.
+              - If this field is not specified and the file is overwritten, then
+                customCoordinates will be removed.
+
+          custom_metadata: JSON key-value pairs to associate with the asset. Create the custom metadata
+              fields before setting these values.
+
+          description: Optional text to describe the contents of the file.
+
+          expire: The time until your signature is valid. It must be a
+              [Unix time](https://en.wikipedia.org/wiki/Unix_time) in less than 1 hour into
+              the future. It should be in seconds. This field is only required for
+              authentication when uploading a file from the client side.
+
+          extensions: Array of extensions to be applied to the image. Each extension can be configured
+              with specific parameters based on the extension type.
+
+          folder: The folder path in which the image has to be uploaded. If the folder(s) didn't
+              exist before, a new folder(s) is created.
+
+              The folder name can contain:
+
+              - Alphanumeric Characters: `a-z` , `A-Z` , `0-9`
+              - Special Characters: `/` , `_` , `-`
+
+              Using multiple `/` creates a nested folder.
+
+          is_private_file: Whether to mark the file as private or not.
+
+              If `true`, the file is marked as private and is accessible only using named
+              transformation or signed URL.
+
+          is_published: Whether to upload file as published or not.
+
+              If `false`, the file is marked as unpublished, which restricts access to the
+              file only via the media library. Files in draft or unpublished state can only be
+              publicly accessed after being published.
+
+              The option to upload in draft state is only available in custom enterprise
+              pricing plans.
+
+          overwrite_ai_tags: If set to `true` and a file already exists at the exact location, its AITags
+              will be removed. Set `overwriteAITags` to `false` to preserve AITags.
+
+          overwrite_custom_metadata: If the request does not have `customMetadata`, and a file already exists at the
+              exact location, existing customMetadata will be removed.
+
+          overwrite_file: If `false` and `useUniqueFileName` is also `false`, and a file already exists at
+              the exact location, upload API will return an error immediately.
+
+          overwrite_tags: If the request does not have `tags`, and a file already exists at the exact
+              location, existing tags will be removed.
+
+          public_key: Your ImageKit.io public key. This field is only required for authentication when
+              uploading a file from the client side.
+
+          response_fields: Array of response field keys to include in the API response body.
+
+          signature: HMAC-SHA1 digest of the token+expire using your ImageKit.io private API key as a
+              key. Learn how to create a signature on the page below. This should be in
+              lowercase.
+
+              Signature must be calculated on the server-side. This field is only required for
+              authentication when uploading a file from the client side.
+
+          tags: Set the tags while uploading the file. Provide an array of tag strings (e.g.
+              `["tag1", "tag2", "tag3"]`). The combined length of all tag characters must not
+              exceed 500, and the `%` character is not allowed. If this field is not specified
+              and the file is overwritten, the existing tags will be removed.
+
+          transformation: Configure pre-processing (`pre`) and post-processing (`post`) transformations.
+
+              - `pre` — applied before the file is uploaded to the Media Library.
+                Useful for reducing file size or applying basic optimizations upfront (e.g.,
+                resize, compress).
+
+              - `post` — applied immediately after upload.
+                Ideal for generating transformed versions (like video encodes or thumbnails)
+                in advance, so they're ready for delivery without delay.
+
+              You can mix and match any combination of post-processing types.
+
+          use_unique_file_name: Whether to use a unique filename for this file or not.
+
+              If `true`, ImageKit.io will add a unique suffix to the filename parameter to get
+              a unique filename.
+
+              If `false`, then the image is uploaded with the provided filename parameter, and
+              any existing file with the same name is replaced.
+
+          webhook_url: The final status of extensions after they have completed execution will be
+              delivered to this endpoint as a POST request.
+              [Learn more](/docs/api-reference/digital-asset-management-dam/managing-assets/update-file-details#webhook-payload-structure)
+              about the webhook payload structure.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["file", "file_name"])
+    def upload(
+        self,
+        *,
+        file: FileTypes | str,
+        file_name: str,
+        token: str | NotGiven = NOT_GIVEN,
+        checks: str | NotGiven = NOT_GIVEN,
+        custom_coordinates: str | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
+        description: str | NotGiven = NOT_GIVEN,
+        expire: int | NotGiven = NOT_GIVEN,
+        extensions: Iterable[file_upload_params.FileUploadV1Extension] | NotGiven = NOT_GIVEN,
+        folder: str | NotGiven = NOT_GIVEN,
+        is_private_file: bool | NotGiven = NOT_GIVEN,
+        is_published: bool | NotGiven = NOT_GIVEN,
+        overwrite_ai_tags: bool | NotGiven = NOT_GIVEN,
+        overwrite_custom_metadata: bool | NotGiven = NOT_GIVEN,
+        overwrite_file: bool | NotGiven = NOT_GIVEN,
+        overwrite_tags: bool | NotGiven = NOT_GIVEN,
+        public_key: str | NotGiven = NOT_GIVEN,
+        response_fields: List[
+            Literal[
+                "tags",
+                "customCoordinates",
+                "isPrivateFile",
+                "embeddedMetadata",
+                "isPublished",
+                "customMetadata",
+                "metadata",
+            ]
+        ]
+        | NotGiven = NOT_GIVEN,
+        signature: str | NotGiven = NOT_GIVEN,
+        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
+        transformation: file_upload_params.FileUploadV1Transformation | NotGiven = NOT_GIVEN,
+        use_unique_file_name: bool | NotGiven = NOT_GIVEN,
+        webhook_url: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> FileUploadResponse:
         body = deepcopy_minimal(
             {
                 "file": file,
@@ -936,6 +1194,7 @@ class AsyncFilesResource(AsyncAPIResource):
             cast_to=FileRenameResponse,
         )
 
+    @overload
     async def upload(
         self,
         *,
@@ -947,7 +1206,7 @@ class AsyncFilesResource(AsyncAPIResource):
         custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
         expire: int | NotGiven = NOT_GIVEN,
-        extensions: Iterable[file_upload_params.Extension] | NotGiven = NOT_GIVEN,
+        extensions: Iterable[file_upload_params.FileUploadV1Extension] | NotGiven = NOT_GIVEN,
         folder: str | NotGiven = NOT_GIVEN,
         is_private_file: bool | NotGiven = NOT_GIVEN,
         is_published: bool | NotGiven = NOT_GIVEN,
@@ -970,7 +1229,7 @@ class AsyncFilesResource(AsyncAPIResource):
         | NotGiven = NOT_GIVEN,
         signature: str | NotGiven = NOT_GIVEN,
         tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
-        transformation: file_upload_params.Transformation | NotGiven = NOT_GIVEN,
+        transformation: file_upload_params.FileUploadV1Transformation | NotGiven = NOT_GIVEN,
         use_unique_file_name: bool | NotGiven = NOT_GIVEN,
         webhook_url: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1150,6 +1409,263 @@ class AsyncFilesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def upload(
+        self,
+        *,
+        file: str,
+        file_name: str,
+        token: str | NotGiven = NOT_GIVEN,
+        checks: str | NotGiven = NOT_GIVEN,
+        custom_coordinates: str | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
+        description: str | NotGiven = NOT_GIVEN,
+        expire: int | NotGiven = NOT_GIVEN,
+        extensions: Iterable[file_upload_params.FileUploadByUrlv1Extension] | NotGiven = NOT_GIVEN,
+        folder: str | NotGiven = NOT_GIVEN,
+        is_private_file: bool | NotGiven = NOT_GIVEN,
+        is_published: bool | NotGiven = NOT_GIVEN,
+        overwrite_ai_tags: bool | NotGiven = NOT_GIVEN,
+        overwrite_custom_metadata: bool | NotGiven = NOT_GIVEN,
+        overwrite_file: bool | NotGiven = NOT_GIVEN,
+        overwrite_tags: bool | NotGiven = NOT_GIVEN,
+        public_key: str | NotGiven = NOT_GIVEN,
+        response_fields: List[
+            Literal[
+                "tags",
+                "customCoordinates",
+                "isPrivateFile",
+                "embeddedMetadata",
+                "isPublished",
+                "customMetadata",
+                "metadata",
+            ]
+        ]
+        | NotGiven = NOT_GIVEN,
+        signature: str | NotGiven = NOT_GIVEN,
+        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
+        transformation: file_upload_params.FileUploadByUrlv1Transformation | NotGiven = NOT_GIVEN,
+        use_unique_file_name: bool | NotGiven = NOT_GIVEN,
+        webhook_url: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> FileUploadResponse:
+        """
+        ImageKit.io allows you to upload files directly from both the server and client
+        sides. For server-side uploads, private API key authentication is used. For
+        client-side uploads, generate a one-time `token`, `signature`, and `expire` from
+        your secure backend using private API.
+        [Learn more](/docs/api-reference/upload-file/upload-file#how-to-implement-client-side-file-upload)
+        about how to implement client-side file upload.
+
+        The [V2 API](/docs/api-reference/upload-file/upload-file-v2) enhances security
+        by verifying the entire payload using JWT.
+
+        **File size limit** \\
+        On the free plan, the maximum upload file sizes are 20MB for images, audio, and raw
+        files and 100MB for videos. On the paid plan, these limits increase to 40MB for images,
+        audio, and raw files and 2GB for videos. These limits can be further increased with
+        higher-tier plans.
+
+        **Version limit** \\
+        A file can have a maximum of 100 versions.
+
+        **Demo applications**
+
+        - A full-fledged
+          [upload widget using Uppy](https://github.com/imagekit-samples/uppy-uploader),
+          supporting file selections from local storage, URL, Dropbox, Google Drive,
+          Instagram, and more.
+        - [Quick start guides](/docs/quick-start-guides) for various frameworks and
+          technologies.
+
+        Args:
+          file: The URL of the file to upload. A publicly reachable URL that ImageKit servers
+              can fetch. The server must receive the response headers within 8 seconds;
+              otherwise the request fails with 400 Bad Request.
+
+          file_name:
+              The name with which the file has to be uploaded. The file name can contain:
+
+              - Alphanumeric Characters: `a-z`, `A-Z`, `0-9`.
+              - Special Characters: `.`, `-`
+
+              Any other character including space will be replaced by `_`
+
+          token: A unique value that the ImageKit.io server will use to recognize and prevent
+              subsequent retries for the same request. We suggest using V4 UUIDs, or another
+              random string with enough entropy to avoid collisions. This field is only
+              required for authentication when uploading a file from the client side.
+
+              **Note**: Sending a value that has been used in the past will result in a
+              validation error. Even if your previous request resulted in an error, you should
+              always send a new value for this field.
+
+          checks: Server-side checks to run on the asset. Read more about
+              [Upload API checks](/docs/api-reference/upload-file/upload-file#upload-api-checks).
+
+          custom_coordinates: Define an important area in the image. This is only relevant for image type
+              files.
+
+              - To be passed as a string with the x and y coordinates of the top-left corner,
+                and width and height of the area of interest in the format `x,y,width,height`.
+                For example - `10,10,100,100`
+              - Can be used with fo-customtransformation.
+              - If this field is not specified and the file is overwritten, then
+                customCoordinates will be removed.
+
+          custom_metadata: JSON key-value pairs to associate with the asset. Create the custom metadata
+              fields before setting these values.
+
+          description: Optional text to describe the contents of the file.
+
+          expire: The time until your signature is valid. It must be a
+              [Unix time](https://en.wikipedia.org/wiki/Unix_time) in less than 1 hour into
+              the future. It should be in seconds. This field is only required for
+              authentication when uploading a file from the client side.
+
+          extensions: Array of extensions to be applied to the image. Each extension can be configured
+              with specific parameters based on the extension type.
+
+          folder: The folder path in which the image has to be uploaded. If the folder(s) didn't
+              exist before, a new folder(s) is created.
+
+              The folder name can contain:
+
+              - Alphanumeric Characters: `a-z` , `A-Z` , `0-9`
+              - Special Characters: `/` , `_` , `-`
+
+              Using multiple `/` creates a nested folder.
+
+          is_private_file: Whether to mark the file as private or not.
+
+              If `true`, the file is marked as private and is accessible only using named
+              transformation or signed URL.
+
+          is_published: Whether to upload file as published or not.
+
+              If `false`, the file is marked as unpublished, which restricts access to the
+              file only via the media library. Files in draft or unpublished state can only be
+              publicly accessed after being published.
+
+              The option to upload in draft state is only available in custom enterprise
+              pricing plans.
+
+          overwrite_ai_tags: If set to `true` and a file already exists at the exact location, its AITags
+              will be removed. Set `overwriteAITags` to `false` to preserve AITags.
+
+          overwrite_custom_metadata: If the request does not have `customMetadata`, and a file already exists at the
+              exact location, existing customMetadata will be removed.
+
+          overwrite_file: If `false` and `useUniqueFileName` is also `false`, and a file already exists at
+              the exact location, upload API will return an error immediately.
+
+          overwrite_tags: If the request does not have `tags`, and a file already exists at the exact
+              location, existing tags will be removed.
+
+          public_key: Your ImageKit.io public key. This field is only required for authentication when
+              uploading a file from the client side.
+
+          response_fields: Array of response field keys to include in the API response body.
+
+          signature: HMAC-SHA1 digest of the token+expire using your ImageKit.io private API key as a
+              key. Learn how to create a signature on the page below. This should be in
+              lowercase.
+
+              Signature must be calculated on the server-side. This field is only required for
+              authentication when uploading a file from the client side.
+
+          tags: Set the tags while uploading the file. Provide an array of tag strings (e.g.
+              `["tag1", "tag2", "tag3"]`). The combined length of all tag characters must not
+              exceed 500, and the `%` character is not allowed. If this field is not specified
+              and the file is overwritten, the existing tags will be removed.
+
+          transformation: Configure pre-processing (`pre`) and post-processing (`post`) transformations.
+
+              - `pre` — applied before the file is uploaded to the Media Library.
+                Useful for reducing file size or applying basic optimizations upfront (e.g.,
+                resize, compress).
+
+              - `post` — applied immediately after upload.
+                Ideal for generating transformed versions (like video encodes or thumbnails)
+                in advance, so they're ready for delivery without delay.
+
+              You can mix and match any combination of post-processing types.
+
+          use_unique_file_name: Whether to use a unique filename for this file or not.
+
+              If `true`, ImageKit.io will add a unique suffix to the filename parameter to get
+              a unique filename.
+
+              If `false`, then the image is uploaded with the provided filename parameter, and
+              any existing file with the same name is replaced.
+
+          webhook_url: The final status of extensions after they have completed execution will be
+              delivered to this endpoint as a POST request.
+              [Learn more](/docs/api-reference/digital-asset-management-dam/managing-assets/update-file-details#webhook-payload-structure)
+              about the webhook payload structure.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["file", "file_name"])
+    async def upload(
+        self,
+        *,
+        file: FileTypes | str,
+        file_name: str,
+        token: str | NotGiven = NOT_GIVEN,
+        checks: str | NotGiven = NOT_GIVEN,
+        custom_coordinates: str | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
+        description: str | NotGiven = NOT_GIVEN,
+        expire: int | NotGiven = NOT_GIVEN,
+        extensions: Iterable[file_upload_params.FileUploadV1Extension] | NotGiven = NOT_GIVEN,
+        folder: str | NotGiven = NOT_GIVEN,
+        is_private_file: bool | NotGiven = NOT_GIVEN,
+        is_published: bool | NotGiven = NOT_GIVEN,
+        overwrite_ai_tags: bool | NotGiven = NOT_GIVEN,
+        overwrite_custom_metadata: bool | NotGiven = NOT_GIVEN,
+        overwrite_file: bool | NotGiven = NOT_GIVEN,
+        overwrite_tags: bool | NotGiven = NOT_GIVEN,
+        public_key: str | NotGiven = NOT_GIVEN,
+        response_fields: List[
+            Literal[
+                "tags",
+                "customCoordinates",
+                "isPrivateFile",
+                "embeddedMetadata",
+                "isPublished",
+                "customMetadata",
+                "metadata",
+            ]
+        ]
+        | NotGiven = NOT_GIVEN,
+        signature: str | NotGiven = NOT_GIVEN,
+        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
+        transformation: file_upload_params.FileUploadV1Transformation | NotGiven = NOT_GIVEN,
+        use_unique_file_name: bool | NotGiven = NOT_GIVEN,
+        webhook_url: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> FileUploadResponse:
         body = deepcopy_minimal(
             {
                 "file": file,

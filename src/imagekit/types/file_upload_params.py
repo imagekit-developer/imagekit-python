@@ -10,21 +10,34 @@ from .._utils import PropertyInfo
 
 __all__ = [
     "FileUploadParams",
-    "Extension",
-    "ExtensionRemoveBg",
-    "ExtensionRemoveBgOptions",
-    "ExtensionAutoTaggingExtension",
-    "ExtensionAIAutoDescription",
-    "Transformation",
-    "TransformationPost",
-    "TransformationPostTransformation",
-    "TransformationPostGifToVideo",
-    "TransformationPostThumbnail",
-    "TransformationPostAbs",
+    "FileUploadV1",
+    "FileUploadV1Extension",
+    "FileUploadV1ExtensionRemoveBg",
+    "FileUploadV1ExtensionRemoveBgOptions",
+    "FileUploadV1ExtensionAutoTaggingExtension",
+    "FileUploadV1ExtensionAIAutoDescription",
+    "FileUploadV1Transformation",
+    "FileUploadV1TransformationPost",
+    "FileUploadV1TransformationPostTransformation",
+    "FileUploadV1TransformationPostGifToVideo",
+    "FileUploadV1TransformationPostThumbnail",
+    "FileUploadV1TransformationPostAbs",
+    "FileUploadByUrlv1",
+    "FileUploadByUrlv1Extension",
+    "FileUploadByUrlv1ExtensionRemoveBg",
+    "FileUploadByUrlv1ExtensionRemoveBgOptions",
+    "FileUploadByUrlv1ExtensionAutoTaggingExtension",
+    "FileUploadByUrlv1ExtensionAIAutoDescription",
+    "FileUploadByUrlv1Transformation",
+    "FileUploadByUrlv1TransformationPost",
+    "FileUploadByUrlv1TransformationPostTransformation",
+    "FileUploadByUrlv1TransformationPostGifToVideo",
+    "FileUploadByUrlv1TransformationPostThumbnail",
+    "FileUploadByUrlv1TransformationPostAbs",
 ]
 
 
-class FileUploadParams(TypedDict, total=False):
+class FileUploadV1(TypedDict, total=False):
     file: Required[FileTypes]
     """The API accepts any of the following:
 
@@ -94,7 +107,7 @@ class FileUploadParams(TypedDict, total=False):
     authentication when uploading a file from the client side.
     """
 
-    extensions: Iterable[Extension]
+    extensions: Iterable[FileUploadV1Extension]
     """Array of extensions to be applied to the image.
 
     Each extension can be configured with specific parameters based on the extension
@@ -197,7 +210,7 @@ class FileUploadParams(TypedDict, total=False):
     and the file is overwritten, the existing tags will be removed.
     """
 
-    transformation: Transformation
+    transformation: FileUploadV1Transformation
     """Configure pre-processing (`pre`) and post-processing (`post`) transformations.
 
     - `pre` — applied before the file is uploaded to the Media Library.
@@ -230,7 +243,7 @@ class FileUploadParams(TypedDict, total=False):
     """
 
 
-class ExtensionRemoveBgOptions(TypedDict, total=False):
+class FileUploadV1ExtensionRemoveBgOptions(TypedDict, total=False):
     add_shadow: bool
     """Whether to add an artificial shadow to the result.
 
@@ -259,14 +272,14 @@ class ExtensionRemoveBgOptions(TypedDict, total=False):
     """
 
 
-class ExtensionRemoveBg(TypedDict, total=False):
+class FileUploadV1ExtensionRemoveBg(TypedDict, total=False):
     name: Required[Literal["remove-bg"]]
     """Specifies the background removal extension."""
 
-    options: ExtensionRemoveBgOptions
+    options: FileUploadV1ExtensionRemoveBgOptions
 
 
-class ExtensionAutoTaggingExtension(TypedDict, total=False):
+class FileUploadV1ExtensionAutoTaggingExtension(TypedDict, total=False):
     max_tags: Required[Annotated[int, PropertyInfo(alias="maxTags")]]
     """Maximum number of tags to attach to the asset."""
 
@@ -277,15 +290,17 @@ class ExtensionAutoTaggingExtension(TypedDict, total=False):
     """Specifies the auto-tagging extension used."""
 
 
-class ExtensionAIAutoDescription(TypedDict, total=False):
+class FileUploadV1ExtensionAIAutoDescription(TypedDict, total=False):
     name: Required[Literal["ai-auto-description"]]
     """Specifies the auto description extension."""
 
 
-Extension: TypeAlias = Union[ExtensionRemoveBg, ExtensionAutoTaggingExtension, ExtensionAIAutoDescription]
+FileUploadV1Extension: TypeAlias = Union[
+    FileUploadV1ExtensionRemoveBg, FileUploadV1ExtensionAutoTaggingExtension, FileUploadV1ExtensionAIAutoDescription
+]
 
 
-class TransformationPostTransformation(TypedDict, total=False):
+class FileUploadV1TransformationPostTransformation(TypedDict, total=False):
     type: Required[Literal["transformation"]]
     """Transformation type."""
 
@@ -297,7 +312,7 @@ class TransformationPostTransformation(TypedDict, total=False):
     """
 
 
-class TransformationPostGifToVideo(TypedDict, total=False):
+class FileUploadV1TransformationPostGifToVideo(TypedDict, total=False):
     type: Required[Literal["gif-to-video"]]
     """Converts an animated GIF into an MP4."""
 
@@ -308,7 +323,7 @@ class TransformationPostGifToVideo(TypedDict, total=False):
     """
 
 
-class TransformationPostThumbnail(TypedDict, total=False):
+class FileUploadV1TransformationPostThumbnail(TypedDict, total=False):
     type: Required[Literal["thumbnail"]]
     """Generates a thumbnail image."""
 
@@ -319,7 +334,7 @@ class TransformationPostThumbnail(TypedDict, total=False):
     """
 
 
-class TransformationPostAbs(TypedDict, total=False):
+class FileUploadV1TransformationPostAbs(TypedDict, total=False):
     protocol: Required[Literal["hls", "dash"]]
     """Streaming protocol to use (`hls` or `dash`)."""
 
@@ -332,13 +347,16 @@ class TransformationPostAbs(TypedDict, total=False):
     """
 
 
-TransformationPost: TypeAlias = Union[
-    TransformationPostTransformation, TransformationPostGifToVideo, TransformationPostThumbnail, TransformationPostAbs
+FileUploadV1TransformationPost: TypeAlias = Union[
+    FileUploadV1TransformationPostTransformation,
+    FileUploadV1TransformationPostGifToVideo,
+    FileUploadV1TransformationPostThumbnail,
+    FileUploadV1TransformationPostAbs,
 ]
 
 
-class Transformation(TypedDict, total=False):
-    post: Iterable[TransformationPost]
+class FileUploadV1Transformation(TypedDict, total=False):
+    post: Iterable[FileUploadV1TransformationPost]
     """List of transformations to apply _after_ the file is uploaded.
 
     Each item must match one of the following types: `transformation`,
@@ -350,3 +368,337 @@ class Transformation(TypedDict, total=False):
 
     Useful for optimizing files at ingestion.
     """
+
+
+class FileUploadByUrlv1(TypedDict, total=False):
+    file: Required[str]
+    """The URL of the file to upload.
+
+    A publicly reachable URL that ImageKit servers can fetch. The server must
+    receive the response headers within 8 seconds; otherwise the request fails with
+    400 Bad Request.
+    """
+
+    file_name: Required[Annotated[str, PropertyInfo(alias="fileName")]]
+    """The name with which the file has to be uploaded. The file name can contain:
+
+    - Alphanumeric Characters: `a-z`, `A-Z`, `0-9`.
+    - Special Characters: `.`, `-`
+
+    Any other character including space will be replaced by `_`
+    """
+
+    token: str
+    """
+    A unique value that the ImageKit.io server will use to recognize and prevent
+    subsequent retries for the same request. We suggest using V4 UUIDs, or another
+    random string with enough entropy to avoid collisions. This field is only
+    required for authentication when uploading a file from the client side.
+
+    **Note**: Sending a value that has been used in the past will result in a
+    validation error. Even if your previous request resulted in an error, you should
+    always send a new value for this field.
+    """
+
+    checks: str
+    """
+    Server-side checks to run on the asset. Read more about
+    [Upload API checks](/docs/api-reference/upload-file/upload-file#upload-api-checks).
+    """
+
+    custom_coordinates: Annotated[str, PropertyInfo(alias="customCoordinates")]
+    """Define an important area in the image.
+
+    This is only relevant for image type files.
+
+    - To be passed as a string with the x and y coordinates of the top-left corner,
+      and width and height of the area of interest in the format `x,y,width,height`.
+      For example - `10,10,100,100`
+    - Can be used with fo-customtransformation.
+    - If this field is not specified and the file is overwritten, then
+      customCoordinates will be removed.
+    """
+
+    custom_metadata: Annotated[Dict[str, object], PropertyInfo(alias="customMetadata")]
+    """JSON key-value pairs to associate with the asset.
+
+    Create the custom metadata fields before setting these values.
+    """
+
+    description: str
+    """Optional text to describe the contents of the file."""
+
+    expire: int
+    """The time until your signature is valid.
+
+    It must be a [Unix time](https://en.wikipedia.org/wiki/Unix_time) in less than 1
+    hour into the future. It should be in seconds. This field is only required for
+    authentication when uploading a file from the client side.
+    """
+
+    extensions: Iterable[FileUploadByUrlv1Extension]
+    """Array of extensions to be applied to the image.
+
+    Each extension can be configured with specific parameters based on the extension
+    type.
+    """
+
+    folder: str
+    """The folder path in which the image has to be uploaded.
+
+    If the folder(s) didn't exist before, a new folder(s) is created.
+
+    The folder name can contain:
+
+    - Alphanumeric Characters: `a-z` , `A-Z` , `0-9`
+    - Special Characters: `/` , `_` , `-`
+
+    Using multiple `/` creates a nested folder.
+    """
+
+    is_private_file: Annotated[bool, PropertyInfo(alias="isPrivateFile")]
+    """Whether to mark the file as private or not.
+
+    If `true`, the file is marked as private and is accessible only using named
+    transformation or signed URL.
+    """
+
+    is_published: Annotated[bool, PropertyInfo(alias="isPublished")]
+    """Whether to upload file as published or not.
+
+    If `false`, the file is marked as unpublished, which restricts access to the
+    file only via the media library. Files in draft or unpublished state can only be
+    publicly accessed after being published.
+
+    The option to upload in draft state is only available in custom enterprise
+    pricing plans.
+    """
+
+    overwrite_ai_tags: Annotated[bool, PropertyInfo(alias="overwriteAITags")]
+    """
+    If set to `true` and a file already exists at the exact location, its AITags
+    will be removed. Set `overwriteAITags` to `false` to preserve AITags.
+    """
+
+    overwrite_custom_metadata: Annotated[bool, PropertyInfo(alias="overwriteCustomMetadata")]
+    """
+    If the request does not have `customMetadata`, and a file already exists at the
+    exact location, existing customMetadata will be removed.
+    """
+
+    overwrite_file: Annotated[bool, PropertyInfo(alias="overwriteFile")]
+    """
+    If `false` and `useUniqueFileName` is also `false`, and a file already exists at
+    the exact location, upload API will return an error immediately.
+    """
+
+    overwrite_tags: Annotated[bool, PropertyInfo(alias="overwriteTags")]
+    """
+    If the request does not have `tags`, and a file already exists at the exact
+    location, existing tags will be removed.
+    """
+
+    public_key: Annotated[str, PropertyInfo(alias="publicKey")]
+    """Your ImageKit.io public key.
+
+    This field is only required for authentication when uploading a file from the
+    client side.
+    """
+
+    response_fields: Annotated[
+        List[
+            Literal[
+                "tags",
+                "customCoordinates",
+                "isPrivateFile",
+                "embeddedMetadata",
+                "isPublished",
+                "customMetadata",
+                "metadata",
+            ]
+        ],
+        PropertyInfo(alias="responseFields"),
+    ]
+    """Array of response field keys to include in the API response body."""
+
+    signature: str
+    """
+    HMAC-SHA1 digest of the token+expire using your ImageKit.io private API key as a
+    key. Learn how to create a signature on the page below. This should be in
+    lowercase.
+
+    Signature must be calculated on the server-side. This field is only required for
+    authentication when uploading a file from the client side.
+    """
+
+    tags: SequenceNotStr[str]
+    """Set the tags while uploading the file. Provide an array of tag strings (e.g.
+
+    `["tag1", "tag2", "tag3"]`). The combined length of all tag characters must not
+    exceed 500, and the `%` character is not allowed. If this field is not specified
+    and the file is overwritten, the existing tags will be removed.
+    """
+
+    transformation: FileUploadByUrlv1Transformation
+    """Configure pre-processing (`pre`) and post-processing (`post`) transformations.
+
+    - `pre` — applied before the file is uploaded to the Media Library.
+      Useful for reducing file size or applying basic optimizations upfront (e.g.,
+      resize, compress).
+
+    - `post` — applied immediately after upload.
+      Ideal for generating transformed versions (like video encodes or thumbnails)
+      in advance, so they're ready for delivery without delay.
+
+    You can mix and match any combination of post-processing types.
+    """
+
+    use_unique_file_name: Annotated[bool, PropertyInfo(alias="useUniqueFileName")]
+    """Whether to use a unique filename for this file or not.
+
+    If `true`, ImageKit.io will add a unique suffix to the filename parameter to get
+    a unique filename.
+
+    If `false`, then the image is uploaded with the provided filename parameter, and
+    any existing file with the same name is replaced.
+    """
+
+    webhook_url: Annotated[str, PropertyInfo(alias="webhookUrl")]
+    """
+    The final status of extensions after they have completed execution will be
+    delivered to this endpoint as a POST request.
+    [Learn more](/docs/api-reference/digital-asset-management-dam/managing-assets/update-file-details#webhook-payload-structure)
+    about the webhook payload structure.
+    """
+
+
+class FileUploadByUrlv1ExtensionRemoveBgOptions(TypedDict, total=False):
+    add_shadow: bool
+    """Whether to add an artificial shadow to the result.
+
+    Default is false. Note: Adding shadows is currently only supported for car
+    photos.
+    """
+
+    bg_color: str
+    """
+    Specifies a solid color background using hex code (e.g., "81d4fa", "fff") or
+    color name (e.g., "green"). If this parameter is set, `bg_image_url` must be
+    empty.
+    """
+
+    bg_image_url: str
+    """Sets a background image from a URL.
+
+    If this parameter is set, `bg_color` must be empty.
+    """
+
+    semitransparency: bool
+    """Allows semi-transparent regions in the result.
+
+    Default is true. Note: Semitransparency is currently only supported for car
+    windows.
+    """
+
+
+class FileUploadByUrlv1ExtensionRemoveBg(TypedDict, total=False):
+    name: Required[Literal["remove-bg"]]
+    """Specifies the background removal extension."""
+
+    options: FileUploadByUrlv1ExtensionRemoveBgOptions
+
+
+class FileUploadByUrlv1ExtensionAutoTaggingExtension(TypedDict, total=False):
+    max_tags: Required[Annotated[int, PropertyInfo(alias="maxTags")]]
+    """Maximum number of tags to attach to the asset."""
+
+    min_confidence: Required[Annotated[int, PropertyInfo(alias="minConfidence")]]
+    """Minimum confidence level for tags to be considered valid."""
+
+    name: Required[Literal["google-auto-tagging", "aws-auto-tagging"]]
+    """Specifies the auto-tagging extension used."""
+
+
+class FileUploadByUrlv1ExtensionAIAutoDescription(TypedDict, total=False):
+    name: Required[Literal["ai-auto-description"]]
+    """Specifies the auto description extension."""
+
+
+FileUploadByUrlv1Extension: TypeAlias = Union[
+    FileUploadByUrlv1ExtensionRemoveBg,
+    FileUploadByUrlv1ExtensionAutoTaggingExtension,
+    FileUploadByUrlv1ExtensionAIAutoDescription,
+]
+
+
+class FileUploadByUrlv1TransformationPostTransformation(TypedDict, total=False):
+    type: Required[Literal["transformation"]]
+    """Transformation type."""
+
+    value: Required[str]
+    """Transformation string (e.g.
+
+    `w-200,h-200`).
+    Same syntax as ImageKit URL-based transformations.
+    """
+
+
+class FileUploadByUrlv1TransformationPostGifToVideo(TypedDict, total=False):
+    type: Required[Literal["gif-to-video"]]
+    """Converts an animated GIF into an MP4."""
+
+    value: str
+    """Optional transformation string to apply to the output video.
+
+    **Example**: `q-80`
+    """
+
+
+class FileUploadByUrlv1TransformationPostThumbnail(TypedDict, total=False):
+    type: Required[Literal["thumbnail"]]
+    """Generates a thumbnail image."""
+
+    value: str
+    """Optional transformation string.
+
+    **Example**: `w-150,h-150`
+    """
+
+
+class FileUploadByUrlv1TransformationPostAbs(TypedDict, total=False):
+    protocol: Required[Literal["hls", "dash"]]
+    """Streaming protocol to use (`hls` or `dash`)."""
+
+    type: Required[Literal["abs"]]
+    """Adaptive Bitrate Streaming (ABS) setup."""
+
+    value: Required[str]
+    """
+    List of different representations you want to create separated by an underscore.
+    """
+
+
+FileUploadByUrlv1TransformationPost: TypeAlias = Union[
+    FileUploadByUrlv1TransformationPostTransformation,
+    FileUploadByUrlv1TransformationPostGifToVideo,
+    FileUploadByUrlv1TransformationPostThumbnail,
+    FileUploadByUrlv1TransformationPostAbs,
+]
+
+
+class FileUploadByUrlv1Transformation(TypedDict, total=False):
+    post: Iterable[FileUploadByUrlv1TransformationPost]
+    """List of transformations to apply _after_ the file is uploaded.
+
+    Each item must match one of the following types: `transformation`,
+    `gif-to-video`, `thumbnail`, `abs`.
+    """
+
+    pre: str
+    """Transformation string to apply before uploading the file to the Media Library.
+
+    Useful for optimizing files at ingestion.
+    """
+
+
+FileUploadParams: TypeAlias = Union[FileUploadV1, FileUploadByUrlv1]
