@@ -8,6 +8,7 @@ from .file import File as File
 from .folder import Folder as Folder
 from .shared import (
     Overlay as Overlay,
+    Extensions as Extensions,
     SrcOptions as SrcOptions,
     BaseOverlay as BaseOverlay,
     TextOverlay as TextOverlay,

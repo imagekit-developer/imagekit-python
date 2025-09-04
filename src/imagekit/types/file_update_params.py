@@ -2,21 +2,17 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable, Optional
+from typing import Dict, Union, Optional
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
+from .shared_params.extensions import Extensions
 
 __all__ = [
     "FileUpdateParams",
     "Update",
     "UpdateUpdateFileDetails",
-    "UpdateUpdateFileDetailsExtension",
-    "UpdateUpdateFileDetailsExtensionRemoveBg",
-    "UpdateUpdateFileDetailsExtensionRemoveBgOptions",
-    "UpdateUpdateFileDetailsExtensionAutoTaggingExtension",
-    "UpdateUpdateFileDetailsExtensionAIAutoDescription",
     "UpdateChangePublicationStatus",
     "UpdateChangePublicationStatusPublish",
 ]
@@ -24,65 +20,6 @@ __all__ = [
 
 class FileUpdateParams(TypedDict, total=False):
     update: Update
-
-
-class UpdateUpdateFileDetailsExtensionRemoveBgOptions(TypedDict, total=False):
-    add_shadow: bool
-    """Whether to add an artificial shadow to the result.
-
-    Default is false. Note: Adding shadows is currently only supported for car
-    photos.
-    """
-
-    bg_color: str
-    """
-    Specifies a solid color background using hex code (e.g., "81d4fa", "fff") or
-    color name (e.g., "green"). If this parameter is set, `bg_image_url` must be
-    empty.
-    """
-
-    bg_image_url: str
-    """Sets a background image from a URL.
-
-    If this parameter is set, `bg_color` must be empty.
-    """
-
-    semitransparency: bool
-    """Allows semi-transparent regions in the result.
-
-    Default is true. Note: Semitransparency is currently only supported for car
-    windows.
-    """
-
-
-class UpdateUpdateFileDetailsExtensionRemoveBg(TypedDict, total=False):
-    name: Required[Literal["remove-bg"]]
-    """Specifies the background removal extension."""
-
-    options: UpdateUpdateFileDetailsExtensionRemoveBgOptions
-
-
-class UpdateUpdateFileDetailsExtensionAutoTaggingExtension(TypedDict, total=False):
-    max_tags: Required[Annotated[int, PropertyInfo(alias="maxTags")]]
-    """Maximum number of tags to attach to the asset."""
-
-    min_confidence: Required[Annotated[int, PropertyInfo(alias="minConfidence")]]
-    """Minimum confidence level for tags to be considered valid."""
-
-    name: Required[Literal["google-auto-tagging", "aws-auto-tagging"]]
-    """Specifies the auto-tagging extension used."""
-
-
-class UpdateUpdateFileDetailsExtensionAIAutoDescription(TypedDict, total=False):
-    name: Required[Literal["ai-auto-description"]]
-    """Specifies the auto description extension."""
-
-
-UpdateUpdateFileDetailsExtension: TypeAlias = Union[
-    UpdateUpdateFileDetailsExtensionRemoveBg,
-    UpdateUpdateFileDetailsExtensionAutoTaggingExtension,
-    UpdateUpdateFileDetailsExtensionAIAutoDescription,
-]
 
 
 class UpdateUpdateFileDetails(TypedDict, total=False):
@@ -103,7 +40,7 @@ class UpdateUpdateFileDetails(TypedDict, total=False):
     description: str
     """Optional text to describe the contents of the file."""
 
-    extensions: Iterable[UpdateUpdateFileDetailsExtension]
+    extensions: Extensions
     """Array of extensions to be applied to the asset.
 
     Each extension can be configured with specific parameters based on the extension

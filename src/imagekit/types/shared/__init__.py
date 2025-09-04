@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from .overlay import Overlay as Overlay
+from .extensions import Extensions as Extensions
 from .src_options import SrcOptions as SrcOptions
 from .base_overlay import BaseOverlay as BaseOverlay
 from .text_overlay import TextOverlay as TextOverlay

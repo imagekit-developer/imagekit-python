@@ -3,6 +3,7 @@
 ```python
 from imagekit.types import (
     BaseOverlay,
+    Extensions,
     ImageOverlay,
     Overlay,
     OverlayPosition,

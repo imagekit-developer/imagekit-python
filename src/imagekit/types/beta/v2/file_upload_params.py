@@ -7,14 +7,10 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from ...._types import FileTypes, SequenceNotStr
 from ...._utils import PropertyInfo
+from ...shared_params.extensions import Extensions
 
 __all__ = [
     "FileUploadParams",
-    "Extension",
-    "ExtensionRemoveBg",
-    "ExtensionRemoveBgOptions",
-    "ExtensionAutoTaggingExtension",
-    "ExtensionAIAutoDescription",
     "Transformation",
     "TransformationPost",
     "TransformationPostTransformation",
@@ -85,7 +81,7 @@ class FileUploadParams(TypedDict, total=False):
     description: str
     """Optional text to describe the contents of the file."""
 
-    extensions: Iterable[Extension]
+    extensions: Extensions
     """Array of extensions to be applied to the asset.
 
     Each extension can be configured with specific parameters based on the extension
@@ -196,61 +192,6 @@ class FileUploadParams(TypedDict, total=False):
     [Learn more](/docs/api-reference/digital-asset-management-dam/managing-assets/update-file-details#webhook-payload-structure)
     about the webhook payload structure.
     """
-
-
-class ExtensionRemoveBgOptions(TypedDict, total=False):
-    add_shadow: bool
-    """Whether to add an artificial shadow to the result.
-
-    Default is false. Note: Adding shadows is currently only supported for car
-    photos.
-    """
-
-    bg_color: str
-    """
-    Specifies a solid color background using hex code (e.g., "81d4fa", "fff") or
-    color name (e.g., "green"). If this parameter is set, `bg_image_url` must be
-    empty.
-    """
-
-    bg_image_url: str
-    """Sets a background image from a URL.
-
-    If this parameter is set, `bg_color` must be empty.
-    """
-
-    semitransparency: bool
-    """Allows semi-transparent regions in the result.
-
-    Default is true. Note: Semitransparency is currently only supported for car
-    windows.
-    """
-
-
-class ExtensionRemoveBg(TypedDict, total=False):
-    name: Required[Literal["remove-bg"]]
-    """Specifies the background removal extension."""
-
-    options: ExtensionRemoveBgOptions
-
-
-class ExtensionAutoTaggingExtension(TypedDict, total=False):
-    max_tags: Required[Annotated[int, PropertyInfo(alias="maxTags")]]
-    """Maximum number of tags to attach to the asset."""
-
-    min_confidence: Required[Annotated[int, PropertyInfo(alias="minConfidence")]]
-    """Minimum confidence level for tags to be considered valid."""
-
-    name: Required[Literal["google-auto-tagging", "aws-auto-tagging"]]
-    """Specifies the auto-tagging extension used."""
-
-
-class ExtensionAIAutoDescription(TypedDict, total=False):
-    name: Required[Literal["ai-auto-description"]]
-    """Specifies the auto description extension."""
-
-
-Extension: TypeAlias = Union[ExtensionRemoveBg, ExtensionAutoTaggingExtension, ExtensionAIAutoDescription]
 
 
 class TransformationPostTransformation(TypedDict, total=False):
