@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Mapping, Iterable, cast
+from typing import Dict, List, Mapping, cast
 from typing_extensions import Literal
 
 import httpx
@@ -15,7 +15,13 @@ from .bulk import (
     BulkResourceWithStreamingResponse,
     AsyncBulkResourceWithStreamingResponse,
 )
-from ...types import file_copy_params, file_move_params, file_rename_params, file_update_params, file_upload_params
+from ...types import (
+    file_copy_params,
+    file_move_params,
+    file_rename_params,
+    file_update_params,
+    file_upload_params,
+)
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven, FileTypes, SequenceNotStr
 from ..._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .metadata import (
@@ -49,6 +55,7 @@ from ...types.file_move_response import FileMoveResponse
 from ...types.file_rename_response import FileRenameResponse
 from ...types.file_update_response import FileUpdateResponse
 from ...types.file_upload_response import FileUploadResponse
+from ...types.shared_params.extensions import Extensions
 
 __all__ = ["FilesResource", "AsyncFilesResource"]
 
@@ -376,7 +383,7 @@ class FilesResource(SyncAPIResource):
         custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
         expire: int | NotGiven = NOT_GIVEN,
-        extensions: Iterable[file_upload_params.Extension] | NotGiven = NOT_GIVEN,
+        extensions: Extensions | NotGiven = NOT_GIVEN,
         folder: str | NotGiven = NOT_GIVEN,
         is_private_file: bool | NotGiven = NOT_GIVEN,
         is_published: bool | NotGiven = NOT_GIVEN,
@@ -947,7 +954,7 @@ class AsyncFilesResource(AsyncAPIResource):
         custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
         expire: int | NotGiven = NOT_GIVEN,
-        extensions: Iterable[file_upload_params.Extension] | NotGiven = NOT_GIVEN,
+        extensions: Extensions | NotGiven = NOT_GIVEN,
         folder: str | NotGiven = NOT_GIVEN,
         is_private_file: bool | NotGiven = NOT_GIVEN,
         is_published: bool | NotGiven = NOT_GIVEN,
