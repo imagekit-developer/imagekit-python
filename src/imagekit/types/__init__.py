@@ -70,9 +70,9 @@ from .custom_metadata_field_delete_response import (
 # This ensures that, when building the deferred (due to cyclical references) model schema,
 # Pydantic can resolve the necessary references.
 # See: https://github.com/pydantic/pydantic/issues/11250 for more context.
-if _compat.PYDANTIC_V2:
-    shared.src_options.SrcOptions.model_rebuild(_parent_namespace_depth=0)
-    shared.transformation.Transformation.model_rebuild(_parent_namespace_depth=0)
-else:
+if _compat.PYDANTIC_V1:
     shared.src_options.SrcOptions.update_forward_refs()  # type: ignore
     shared.transformation.Transformation.update_forward_refs()  # type: ignore
+else:
+    shared.src_options.SrcOptions.model_rebuild(_parent_namespace_depth=0)
+    shared.transformation.Transformation.model_rebuild(_parent_namespace_depth=0)

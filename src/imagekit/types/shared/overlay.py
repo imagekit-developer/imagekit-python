@@ -6,14 +6,14 @@ from typing import TYPE_CHECKING, Union
 from typing_extensions import Annotated, TypeAlias, TypeAliasType
 
 from ..._utils import PropertyInfo
-from ..._compat import PYDANTIC_V2
+from ..._compat import PYDANTIC_V1
 from .text_overlay import TextOverlay
 from .subtitle_overlay import SubtitleOverlay
 from .solid_color_overlay import SolidColorOverlay
 
 __all__ = ["Overlay"]
 
-if TYPE_CHECKING or PYDANTIC_V2:
+if TYPE_CHECKING or not PYDANTIC_V1:
     Overlay = TypeAliasType(
         "Overlay",
         Annotated[
