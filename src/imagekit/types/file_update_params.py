@@ -9,20 +9,10 @@ from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 from .shared_params.extensions import Extensions
 
-__all__ = [
-    "FileUpdateParams",
-    "Update",
-    "UpdateUpdateFileDetails",
-    "UpdateChangePublicationStatus",
-    "UpdateChangePublicationStatusPublish",
-]
+__all__ = ["FileUpdateParams", "UpdateFileDetails", "ChangePublicationStatus", "ChangePublicationStatusPublish"]
 
 
-class FileUpdateParams(TypedDict, total=False):
-    update: Update
-
-
-class UpdateUpdateFileDetails(TypedDict, total=False):
+class UpdateFileDetails(TypedDict, total=False):
     custom_coordinates: Annotated[Optional[str], PropertyInfo(alias="customCoordinates")]
     """Define an important area in the image in the format `x,y,width,height` e.g.
 
@@ -74,7 +64,12 @@ class UpdateUpdateFileDetails(TypedDict, total=False):
     """
 
 
-class UpdateChangePublicationStatusPublish(TypedDict, total=False):
+class ChangePublicationStatus(TypedDict, total=False):
+    publish: ChangePublicationStatusPublish
+    """Configure the publication status of a file and its versions."""
+
+
+class ChangePublicationStatusPublish(TypedDict, total=False):
     is_published: Required[Annotated[bool, PropertyInfo(alias="isPublished")]]
     """Set to `true` to publish the file. Set to `false` to unpublish the file."""
 
@@ -85,9 +80,4 @@ class UpdateChangePublicationStatusPublish(TypedDict, total=False):
     """
 
 
-class UpdateChangePublicationStatus(TypedDict, total=False):
-    publish: UpdateChangePublicationStatusPublish
-    """Configure the publication status of a file and its versions."""
-
-
-Update: TypeAlias = Union[UpdateUpdateFileDetails, UpdateChangePublicationStatus]
+FileUpdateParams: TypeAlias = Union[UpdateFileDetails, ChangePublicationStatus]
