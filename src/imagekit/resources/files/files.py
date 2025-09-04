@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Mapping, cast
-from typing_extensions import Literal
+from typing import Dict, List, Union, Mapping, Optional, cast
+from typing_extensions import Literal, overload
 
 import httpx
 
@@ -92,11 +92,18 @@ class FilesResource(SyncAPIResource):
         """
         return FilesResourceWithStreamingResponse(self)
 
+    @overload
     def update(
         self,
         file_id: str,
         *,
-        update: file_update_params.Update | NotGiven = NOT_GIVEN,
+        custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
+        description: str | NotGiven = NOT_GIVEN,
+        extensions: Extensions | NotGiven = NOT_GIVEN,
+        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | NotGiven = NOT_GIVEN,
+        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        webhook_url: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -110,6 +117,35 @@ class FilesResource(SyncAPIResource):
         status, remove existing `AITags` and apply extensions using this API.
 
         Args:
+          custom_coordinates: Define an important area in the image in the format `x,y,width,height` e.g.
+              `10,10,100,100`. Send `null` to unset this value.
+
+          custom_metadata: A key-value data to be associated with the asset. To unset a key, send `null`
+              value for that key. Before setting any custom metadata on an asset you have to
+              create the field using custom metadata fields API.
+
+          description: Optional text to describe the contents of the file.
+
+          extensions: Array of extensions to be applied to the asset. Each extension can be configured
+              with specific parameters based on the extension type.
+
+          remove_ai_tags: An array of AITags associated with the file that you want to remove, e.g.
+              `["car", "vehicle", "motorsports"]`.
+
+              If you want to remove all AITags associated with the file, send a string -
+              "all".
+
+              Note: The remove operation for `AITags` executes before any of the `extensions`
+              are processed.
+
+          tags: An array of tags associated with the file, such as `["tag1", "tag2"]`. Send
+              `null` to unset all tags associated with the file.
+
+          webhook_url: The final status of extensions after they have completed execution will be
+              delivered to this endpoint as a POST request.
+              [Learn more](/docs/api-reference/digital-asset-management-dam/managing-assets/update-file-details#webhook-payload-structure)
+              about the webhook payload structure.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -118,11 +154,75 @@ class FilesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def update(
+        self,
+        file_id: str,
+        *,
+        publish: file_update_params.ChangePublicationStatusPublish | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> FileUpdateResponse:
+        """
+        This API updates the details or attributes of the current version of the file.
+        You can update `tags`, `customCoordinates`, `customMetadata`, publication
+        status, remove existing `AITags` and apply extensions using this API.
+
+        Args:
+          publish: Configure the publication status of a file and its versions.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    def update(
+        self,
+        file_id: str,
+        *,
+        custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
+        description: str | NotGiven = NOT_GIVEN,
+        extensions: Extensions | NotGiven = NOT_GIVEN,
+        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | NotGiven = NOT_GIVEN,
+        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        webhook_url: str | NotGiven = NOT_GIVEN,
+        publish: file_update_params.ChangePublicationStatusPublish | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> FileUpdateResponse:
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return self._patch(
             f"/v1/files/{file_id}/details",
-            body=maybe_transform(update, file_update_params.FileUpdateParams),
+            body=maybe_transform(
+                {
+                    "custom_coordinates": custom_coordinates,
+                    "custom_metadata": custom_metadata,
+                    "description": description,
+                    "extensions": extensions,
+                    "remove_ai_tags": remove_ai_tags,
+                    "tags": tags,
+                    "webhook_url": webhook_url,
+                    "publish": publish,
+                },
+                file_update_params.FileUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -663,11 +763,18 @@ class AsyncFilesResource(AsyncAPIResource):
         """
         return AsyncFilesResourceWithStreamingResponse(self)
 
+    @overload
     async def update(
         self,
         file_id: str,
         *,
-        update: file_update_params.Update | NotGiven = NOT_GIVEN,
+        custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
+        description: str | NotGiven = NOT_GIVEN,
+        extensions: Extensions | NotGiven = NOT_GIVEN,
+        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | NotGiven = NOT_GIVEN,
+        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        webhook_url: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -681,6 +788,35 @@ class AsyncFilesResource(AsyncAPIResource):
         status, remove existing `AITags` and apply extensions using this API.
 
         Args:
+          custom_coordinates: Define an important area in the image in the format `x,y,width,height` e.g.
+              `10,10,100,100`. Send `null` to unset this value.
+
+          custom_metadata: A key-value data to be associated with the asset. To unset a key, send `null`
+              value for that key. Before setting any custom metadata on an asset you have to
+              create the field using custom metadata fields API.
+
+          description: Optional text to describe the contents of the file.
+
+          extensions: Array of extensions to be applied to the asset. Each extension can be configured
+              with specific parameters based on the extension type.
+
+          remove_ai_tags: An array of AITags associated with the file that you want to remove, e.g.
+              `["car", "vehicle", "motorsports"]`.
+
+              If you want to remove all AITags associated with the file, send a string -
+              "all".
+
+              Note: The remove operation for `AITags` executes before any of the `extensions`
+              are processed.
+
+          tags: An array of tags associated with the file, such as `["tag1", "tag2"]`. Send
+              `null` to unset all tags associated with the file.
+
+          webhook_url: The final status of extensions after they have completed execution will be
+              delivered to this endpoint as a POST request.
+              [Learn more](/docs/api-reference/digital-asset-management-dam/managing-assets/update-file-details#webhook-payload-structure)
+              about the webhook payload structure.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -689,11 +825,75 @@ class AsyncFilesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def update(
+        self,
+        file_id: str,
+        *,
+        publish: file_update_params.ChangePublicationStatusPublish | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> FileUpdateResponse:
+        """
+        This API updates the details or attributes of the current version of the file.
+        You can update `tags`, `customCoordinates`, `customMetadata`, publication
+        status, remove existing `AITags` and apply extensions using this API.
+
+        Args:
+          publish: Configure the publication status of a file and its versions.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    async def update(
+        self,
+        file_id: str,
+        *,
+        custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
+        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
+        description: str | NotGiven = NOT_GIVEN,
+        extensions: Extensions | NotGiven = NOT_GIVEN,
+        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | NotGiven = NOT_GIVEN,
+        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        webhook_url: str | NotGiven = NOT_GIVEN,
+        publish: file_update_params.ChangePublicationStatusPublish | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> FileUpdateResponse:
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return await self._patch(
             f"/v1/files/{file_id}/details",
-            body=await async_maybe_transform(update, file_update_params.FileUpdateParams),
+            body=await async_maybe_transform(
+                {
+                    "custom_coordinates": custom_coordinates,
+                    "custom_metadata": custom_metadata,
+                    "description": description,
+                    "extensions": extensions,
+                    "remove_ai_tags": remove_ai_tags,
+                    "tags": tags,
+                    "webhook_url": webhook_url,
+                    "publish": publish,
+                },
+                file_update_params.FileUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

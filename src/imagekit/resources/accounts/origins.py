@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 from typing import Any, cast
+from typing_extensions import Literal, overload
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import required_args, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -20,7 +21,6 @@ from ..._base_client import make_request_options
 from ...types.accounts import origin_create_params, origin_update_params
 from ...types.accounts.origin_response import OriginResponse
 from ...types.accounts.origin_list_response import OriginListResponse
-from ...types.accounts.origin_request_param import OriginRequestParam
 
 __all__ = ["OriginsResource", "AsyncOriginsResource"]
 
@@ -45,10 +45,18 @@ class OriginsResource(SyncAPIResource):
         """
         return OriginsResourceWithStreamingResponse(self)
 
+    @overload
     def create(
         self,
         *,
-        origin: OriginRequestParam,
+        access_key: str,
+        bucket: str,
+        name: str,
+        secret_key: str,
+        type: Literal["S3"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -62,7 +70,19 @@ class OriginsResource(SyncAPIResource):
         Creates a new origin and returns the origin object.
 
         Args:
-          origin: Schema for origin request resources.
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
 
           extra_headers: Send extra headers
 
@@ -72,11 +92,403 @@ class OriginsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        access_key: str,
+        bucket: str,
+        endpoint: str,
+        name: str,
+        secret_key: str,
+        type: Literal["S3_COMPATIBLE"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          endpoint: Custom S3-compatible endpoint.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
+
+          s3_force_path_style: Use path-style S3 URLs?
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        access_key: str,
+        bucket: str,
+        name: str,
+        secret_key: str,
+        type: Literal["CLOUDINARY_BACKUP"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        base_url: str,
+        name: str,
+        type: Literal["WEB_FOLDER"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          base_url: Root URL for the web folder origin.
+
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          forward_host_header_to_origin: Forward the Host header to origin?
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        name: str,
+        type: Literal["WEB_PROXY"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        bucket: str,
+        client_email: str,
+        name: str,
+        private_key: str,
+        type: Literal["GCS"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        account_name: str,
+        container: str,
+        name: str,
+        sas_token: str,
+        type: Literal["AZURE_BLOB"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        base_url: str,
+        client_id: str,
+        client_secret: str,
+        name: str,
+        password: str,
+        type: Literal["AKENEO_PIM"],
+        username: str,
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          base_url: Akeneo instance base URL.
+
+          client_id: Akeneo API client ID.
+
+          client_secret: Akeneo API client secret.
+
+          name: Display name of the origin.
+
+          password: Akeneo API password.
+
+          username: Akeneo API username.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(
+        ["access_key", "bucket", "name", "secret_key", "type"],
+        ["access_key", "bucket", "endpoint", "name", "secret_key", "type"],
+        ["base_url", "name", "type"],
+        ["name", "type"],
+        ["bucket", "client_email", "name", "private_key", "type"],
+        ["account_name", "container", "name", "sas_token", "type"],
+        ["base_url", "client_id", "client_secret", "name", "password", "type", "username"],
+    )
+    def create(
+        self,
+        *,
+        access_key: str | NotGiven = NOT_GIVEN,
+        bucket: str | NotGiven = NOT_GIVEN,
+        name: str,
+        secret_key: str | NotGiven = NOT_GIVEN,
+        type: Literal["S3"]
+        | Literal["S3_COMPATIBLE"]
+        | Literal["CLOUDINARY_BACKUP"]
+        | Literal["WEB_FOLDER"]
+        | Literal["WEB_PROXY"]
+        | Literal["GCS"]
+        | Literal["AZURE_BLOB"]
+        | Literal["AKENEO_PIM"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        endpoint: str | NotGiven = NOT_GIVEN,
+        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        base_url: str | NotGiven = NOT_GIVEN,
+        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
+        client_email: str | NotGiven = NOT_GIVEN,
+        private_key: str | NotGiven = NOT_GIVEN,
+        account_name: str | NotGiven = NOT_GIVEN,
+        container: str | NotGiven = NOT_GIVEN,
+        sas_token: str | NotGiven = NOT_GIVEN,
+        client_id: str | NotGiven = NOT_GIVEN,
+        client_secret: str | NotGiven = NOT_GIVEN,
+        password: str | NotGiven = NOT_GIVEN,
+        username: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
         return cast(
             OriginResponse,
             self._post(
                 "/v1/accounts/origins",
-                body=maybe_transform(origin, origin_create_params.OriginCreateParams),
+                body=maybe_transform(
+                    {
+                        "access_key": access_key,
+                        "bucket": bucket,
+                        "name": name,
+                        "secret_key": secret_key,
+                        "type": type,
+                        "base_url_for_canonical_header": base_url_for_canonical_header,
+                        "include_canonical_header": include_canonical_header,
+                        "prefix": prefix,
+                        "endpoint": endpoint,
+                        "s3_force_path_style": s3_force_path_style,
+                        "base_url": base_url,
+                        "forward_host_header_to_origin": forward_host_header_to_origin,
+                        "client_email": client_email,
+                        "private_key": private_key,
+                        "account_name": account_name,
+                        "container": container,
+                        "sas_token": sas_token,
+                        "client_id": client_id,
+                        "client_secret": client_secret,
+                        "password": password,
+                        "username": username,
+                    },
+                    origin_create_params.OriginCreateParams,
+                ),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
@@ -84,11 +496,19 @@ class OriginsResource(SyncAPIResource):
             ),
         )
 
+    @overload
     def update(
         self,
         id: str,
         *,
-        origin: OriginRequestParam,
+        access_key: str,
+        bucket: str,
+        name: str,
+        secret_key: str,
+        type: Literal["S3"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -105,7 +525,19 @@ class OriginsResource(SyncAPIResource):
           id: Unique identifier for the origin. This is generated by ImageKit when you create
               a new origin.
 
-          origin: Schema for origin request resources.
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
 
           extra_headers: Send extra headers
 
@@ -115,13 +547,434 @@ class OriginsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def update(
+        self,
+        id: str,
+        *,
+        access_key: str,
+        bucket: str,
+        endpoint: str,
+        name: str,
+        secret_key: str,
+        type: Literal["S3_COMPATIBLE"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          endpoint: Custom S3-compatible endpoint.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
+
+          s3_force_path_style: Use path-style S3 URLs?
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        id: str,
+        *,
+        access_key: str,
+        bucket: str,
+        name: str,
+        secret_key: str,
+        type: Literal["CLOUDINARY_BACKUP"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        id: str,
+        *,
+        base_url: str,
+        name: str,
+        type: Literal["WEB_FOLDER"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          base_url: Root URL for the web folder origin.
+
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          forward_host_header_to_origin: Forward the Host header to origin?
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        id: str,
+        *,
+        name: str,
+        type: Literal["WEB_PROXY"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        id: str,
+        *,
+        bucket: str,
+        client_email: str,
+        name: str,
+        private_key: str,
+        type: Literal["GCS"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        id: str,
+        *,
+        account_name: str,
+        container: str,
+        name: str,
+        sas_token: str,
+        type: Literal["AZURE_BLOB"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        id: str,
+        *,
+        base_url: str,
+        client_id: str,
+        client_secret: str,
+        name: str,
+        password: str,
+        type: Literal["AKENEO_PIM"],
+        username: str,
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          base_url: Akeneo instance base URL.
+
+          client_id: Akeneo API client ID.
+
+          client_secret: Akeneo API client secret.
+
+          name: Display name of the origin.
+
+          password: Akeneo API password.
+
+          username: Akeneo API username.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(
+        ["access_key", "bucket", "name", "secret_key", "type"],
+        ["access_key", "bucket", "endpoint", "name", "secret_key", "type"],
+        ["base_url", "name", "type"],
+        ["name", "type"],
+        ["bucket", "client_email", "name", "private_key", "type"],
+        ["account_name", "container", "name", "sas_token", "type"],
+        ["base_url", "client_id", "client_secret", "name", "password", "type", "username"],
+    )
+    def update(
+        self,
+        id: str,
+        *,
+        access_key: str | NotGiven = NOT_GIVEN,
+        bucket: str | NotGiven = NOT_GIVEN,
+        name: str,
+        secret_key: str | NotGiven = NOT_GIVEN,
+        type: Literal["S3"]
+        | Literal["S3_COMPATIBLE"]
+        | Literal["CLOUDINARY_BACKUP"]
+        | Literal["WEB_FOLDER"]
+        | Literal["WEB_PROXY"]
+        | Literal["GCS"]
+        | Literal["AZURE_BLOB"]
+        | Literal["AKENEO_PIM"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        endpoint: str | NotGiven = NOT_GIVEN,
+        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        base_url: str | NotGiven = NOT_GIVEN,
+        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
+        client_email: str | NotGiven = NOT_GIVEN,
+        private_key: str | NotGiven = NOT_GIVEN,
+        account_name: str | NotGiven = NOT_GIVEN,
+        container: str | NotGiven = NOT_GIVEN,
+        sas_token: str | NotGiven = NOT_GIVEN,
+        client_id: str | NotGiven = NOT_GIVEN,
+        client_secret: str | NotGiven = NOT_GIVEN,
+        password: str | NotGiven = NOT_GIVEN,
+        username: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return cast(
             OriginResponse,
             self._put(
                 f"/v1/accounts/origins/{id}",
-                body=maybe_transform(origin, origin_update_params.OriginUpdateParams),
+                body=maybe_transform(
+                    {
+                        "access_key": access_key,
+                        "bucket": bucket,
+                        "name": name,
+                        "secret_key": secret_key,
+                        "type": type,
+                        "base_url_for_canonical_header": base_url_for_canonical_header,
+                        "include_canonical_header": include_canonical_header,
+                        "prefix": prefix,
+                        "endpoint": endpoint,
+                        "s3_force_path_style": s3_force_path_style,
+                        "base_url": base_url,
+                        "forward_host_header_to_origin": forward_host_header_to_origin,
+                        "client_email": client_email,
+                        "private_key": private_key,
+                        "account_name": account_name,
+                        "container": container,
+                        "sas_token": sas_token,
+                        "client_id": client_id,
+                        "client_secret": client_secret,
+                        "password": password,
+                        "username": username,
+                    },
+                    origin_update_params.OriginUpdateParams,
+                ),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
@@ -254,10 +1107,18 @@ class AsyncOriginsResource(AsyncAPIResource):
         """
         return AsyncOriginsResourceWithStreamingResponse(self)
 
+    @overload
     async def create(
         self,
         *,
-        origin: OriginRequestParam,
+        access_key: str,
+        bucket: str,
+        name: str,
+        secret_key: str,
+        type: Literal["S3"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -271,7 +1132,19 @@ class AsyncOriginsResource(AsyncAPIResource):
         Creates a new origin and returns the origin object.
 
         Args:
-          origin: Schema for origin request resources.
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
 
           extra_headers: Send extra headers
 
@@ -281,11 +1154,403 @@ class AsyncOriginsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def create(
+        self,
+        *,
+        access_key: str,
+        bucket: str,
+        endpoint: str,
+        name: str,
+        secret_key: str,
+        type: Literal["S3_COMPATIBLE"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          endpoint: Custom S3-compatible endpoint.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
+
+          s3_force_path_style: Use path-style S3 URLs?
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        *,
+        access_key: str,
+        bucket: str,
+        name: str,
+        secret_key: str,
+        type: Literal["CLOUDINARY_BACKUP"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        *,
+        base_url: str,
+        name: str,
+        type: Literal["WEB_FOLDER"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          base_url: Root URL for the web folder origin.
+
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          forward_host_header_to_origin: Forward the Host header to origin?
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        *,
+        name: str,
+        type: Literal["WEB_PROXY"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        *,
+        bucket: str,
+        client_email: str,
+        name: str,
+        private_key: str,
+        type: Literal["GCS"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        *,
+        account_name: str,
+        container: str,
+        name: str,
+        sas_token: str,
+        type: Literal["AZURE_BLOB"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        *,
+        base_url: str,
+        client_id: str,
+        client_secret: str,
+        name: str,
+        password: str,
+        type: Literal["AKENEO_PIM"],
+        username: str,
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Creates a new origin and returns the origin object.
+
+        Args:
+          base_url: Akeneo instance base URL.
+
+          client_id: Akeneo API client ID.
+
+          client_secret: Akeneo API client secret.
+
+          name: Display name of the origin.
+
+          password: Akeneo API password.
+
+          username: Akeneo API username.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(
+        ["access_key", "bucket", "name", "secret_key", "type"],
+        ["access_key", "bucket", "endpoint", "name", "secret_key", "type"],
+        ["base_url", "name", "type"],
+        ["name", "type"],
+        ["bucket", "client_email", "name", "private_key", "type"],
+        ["account_name", "container", "name", "sas_token", "type"],
+        ["base_url", "client_id", "client_secret", "name", "password", "type", "username"],
+    )
+    async def create(
+        self,
+        *,
+        access_key: str | NotGiven = NOT_GIVEN,
+        bucket: str | NotGiven = NOT_GIVEN,
+        name: str,
+        secret_key: str | NotGiven = NOT_GIVEN,
+        type: Literal["S3"]
+        | Literal["S3_COMPATIBLE"]
+        | Literal["CLOUDINARY_BACKUP"]
+        | Literal["WEB_FOLDER"]
+        | Literal["WEB_PROXY"]
+        | Literal["GCS"]
+        | Literal["AZURE_BLOB"]
+        | Literal["AKENEO_PIM"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        endpoint: str | NotGiven = NOT_GIVEN,
+        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        base_url: str | NotGiven = NOT_GIVEN,
+        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
+        client_email: str | NotGiven = NOT_GIVEN,
+        private_key: str | NotGiven = NOT_GIVEN,
+        account_name: str | NotGiven = NOT_GIVEN,
+        container: str | NotGiven = NOT_GIVEN,
+        sas_token: str | NotGiven = NOT_GIVEN,
+        client_id: str | NotGiven = NOT_GIVEN,
+        client_secret: str | NotGiven = NOT_GIVEN,
+        password: str | NotGiven = NOT_GIVEN,
+        username: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
         return cast(
             OriginResponse,
             await self._post(
                 "/v1/accounts/origins",
-                body=await async_maybe_transform(origin, origin_create_params.OriginCreateParams),
+                body=await async_maybe_transform(
+                    {
+                        "access_key": access_key,
+                        "bucket": bucket,
+                        "name": name,
+                        "secret_key": secret_key,
+                        "type": type,
+                        "base_url_for_canonical_header": base_url_for_canonical_header,
+                        "include_canonical_header": include_canonical_header,
+                        "prefix": prefix,
+                        "endpoint": endpoint,
+                        "s3_force_path_style": s3_force_path_style,
+                        "base_url": base_url,
+                        "forward_host_header_to_origin": forward_host_header_to_origin,
+                        "client_email": client_email,
+                        "private_key": private_key,
+                        "account_name": account_name,
+                        "container": container,
+                        "sas_token": sas_token,
+                        "client_id": client_id,
+                        "client_secret": client_secret,
+                        "password": password,
+                        "username": username,
+                    },
+                    origin_create_params.OriginCreateParams,
+                ),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
@@ -293,11 +1558,19 @@ class AsyncOriginsResource(AsyncAPIResource):
             ),
         )
 
+    @overload
     async def update(
         self,
         id: str,
         *,
-        origin: OriginRequestParam,
+        access_key: str,
+        bucket: str,
+        name: str,
+        secret_key: str,
+        type: Literal["S3"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -314,7 +1587,19 @@ class AsyncOriginsResource(AsyncAPIResource):
           id: Unique identifier for the origin. This is generated by ImageKit when you create
               a new origin.
 
-          origin: Schema for origin request resources.
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
 
           extra_headers: Send extra headers
 
@@ -324,13 +1609,434 @@ class AsyncOriginsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def update(
+        self,
+        id: str,
+        *,
+        access_key: str,
+        bucket: str,
+        endpoint: str,
+        name: str,
+        secret_key: str,
+        type: Literal["S3_COMPATIBLE"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          endpoint: Custom S3-compatible endpoint.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
+
+          s3_force_path_style: Use path-style S3 URLs?
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        id: str,
+        *,
+        access_key: str,
+        bucket: str,
+        name: str,
+        secret_key: str,
+        type: Literal["CLOUDINARY_BACKUP"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          access_key: Access key for the bucket.
+
+          bucket: S3 bucket name.
+
+          name: Display name of the origin.
+
+          secret_key: Secret key for the bucket.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          prefix: Path prefix inside the bucket.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        id: str,
+        *,
+        base_url: str,
+        name: str,
+        type: Literal["WEB_FOLDER"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          base_url: Root URL for the web folder origin.
+
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          forward_host_header_to_origin: Forward the Host header to origin?
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        id: str,
+        *,
+        name: str,
+        type: Literal["WEB_PROXY"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        id: str,
+        *,
+        bucket: str,
+        client_email: str,
+        name: str,
+        private_key: str,
+        type: Literal["GCS"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        id: str,
+        *,
+        account_name: str,
+        container: str,
+        name: str,
+        sas_token: str,
+        type: Literal["AZURE_BLOB"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          name: Display name of the origin.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        id: str,
+        *,
+        base_url: str,
+        client_id: str,
+        client_secret: str,
+        name: str,
+        password: str,
+        type: Literal["AKENEO_PIM"],
+        username: str,
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
+        """**Note:** This API is currently in beta.
+
+
+        Updates the origin identified by `id` and returns the updated origin object.
+
+        Args:
+          id: Unique identifier for the origin. This is generated by ImageKit when you create
+              a new origin.
+
+          base_url: Akeneo instance base URL.
+
+          client_id: Akeneo API client ID.
+
+          client_secret: Akeneo API client secret.
+
+          name: Display name of the origin.
+
+          password: Akeneo API password.
+
+          username: Akeneo API username.
+
+          base_url_for_canonical_header: URL used in the Canonical header (if enabled).
+
+          include_canonical_header: Whether to send a Canonical header.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(
+        ["access_key", "bucket", "name", "secret_key", "type"],
+        ["access_key", "bucket", "endpoint", "name", "secret_key", "type"],
+        ["base_url", "name", "type"],
+        ["name", "type"],
+        ["bucket", "client_email", "name", "private_key", "type"],
+        ["account_name", "container", "name", "sas_token", "type"],
+        ["base_url", "client_id", "client_secret", "name", "password", "type", "username"],
+    )
+    async def update(
+        self,
+        id: str,
+        *,
+        access_key: str | NotGiven = NOT_GIVEN,
+        bucket: str | NotGiven = NOT_GIVEN,
+        name: str,
+        secret_key: str | NotGiven = NOT_GIVEN,
+        type: Literal["S3"]
+        | Literal["S3_COMPATIBLE"]
+        | Literal["CLOUDINARY_BACKUP"]
+        | Literal["WEB_FOLDER"]
+        | Literal["WEB_PROXY"]
+        | Literal["GCS"]
+        | Literal["AZURE_BLOB"]
+        | Literal["AKENEO_PIM"],
+        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
+        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        prefix: str | NotGiven = NOT_GIVEN,
+        endpoint: str | NotGiven = NOT_GIVEN,
+        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        base_url: str | NotGiven = NOT_GIVEN,
+        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
+        client_email: str | NotGiven = NOT_GIVEN,
+        private_key: str | NotGiven = NOT_GIVEN,
+        account_name: str | NotGiven = NOT_GIVEN,
+        container: str | NotGiven = NOT_GIVEN,
+        sas_token: str | NotGiven = NOT_GIVEN,
+        client_id: str | NotGiven = NOT_GIVEN,
+        client_secret: str | NotGiven = NOT_GIVEN,
+        password: str | NotGiven = NOT_GIVEN,
+        username: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> OriginResponse:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return cast(
             OriginResponse,
             await self._put(
                 f"/v1/accounts/origins/{id}",
-                body=await async_maybe_transform(origin, origin_update_params.OriginUpdateParams),
+                body=await async_maybe_transform(
+                    {
+                        "access_key": access_key,
+                        "bucket": bucket,
+                        "name": name,
+                        "secret_key": secret_key,
+                        "type": type,
+                        "base_url_for_canonical_header": base_url_for_canonical_header,
+                        "include_canonical_header": include_canonical_header,
+                        "prefix": prefix,
+                        "endpoint": endpoint,
+                        "s3_force_path_style": s3_force_path_style,
+                        "base_url": base_url,
+                        "forward_host_header_to_origin": forward_host_header_to_origin,
+                        "client_email": client_email,
+                        "private_key": private_key,
+                        "account_name": account_name,
+                        "container": container,
+                        "sas_token": sas_token,
+                        "client_id": client_id,
+                        "client_secret": client_secret,
+                        "password": password,
+                        "username": username,
+                    },
+                    origin_update_params.OriginUpdateParams,
+                ),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),

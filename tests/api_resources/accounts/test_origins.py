@@ -9,10 +9,7 @@ import pytest
 
 from imagekit import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
-from imagekit.types.accounts import (
-    OriginResponse,
-    OriginListResponse,
-)
+from imagekit.types.accounts import OriginResponse, OriginListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -22,46 +19,40 @@ class TestOrigins:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create(self, client: ImageKit) -> None:
+    def test_method_create_overload_1(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_with_all_params(self, client: ImageKit) -> None:
+    def test_method_create_with_all_params_overload_1(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-                "base_url_for_canonical_header": "https://cdn.example.com",
-                "include_canonical_header": False,
-                "prefix": "images",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create(self, client: ImageKit) -> None:
+    def test_raw_response_create_overload_1(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.create(
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
         )
 
         assert response.is_closed is True
@@ -71,15 +62,13 @@ class TestOrigins:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create(self, client: ImageKit) -> None:
+    def test_streaming_response_create_overload_1(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.create(
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -91,49 +80,461 @@ class TestOrigins:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_update(self, client: ImageKit) -> None:
-        origin = client.accounts.origins.update(
-            id="id",
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+    def test_method_create_overload_2(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_update_with_all_params(self, client: ImageKit) -> None:
-        origin = client.accounts.origins.update(
-            id="id",
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-                "base_url_for_canonical_header": "https://cdn.example.com",
-                "include_canonical_header": False,
-                "prefix": "images",
-            },
+    def test_method_create_with_all_params_overload_2(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
+            s3_force_path_style=True,
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_update(self, client: ImageKit) -> None:
+    def test_raw_response_create_overload_2(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_create_overload_2(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_overload_3(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params_overload_3(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_create_overload_3(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_create_overload_3(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_overload_4(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params_overload_4(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+            base_url_for_canonical_header="https://cdn.example.com",
+            forward_host_header_to_origin=False,
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_create_overload_4(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.create(
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_create_overload_4(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.create(
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_overload_5(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params_overload_5(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            name="US S3 Storage",
+            type="WEB_PROXY",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_create_overload_5(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.create(
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_create_overload_5(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.create(
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_overload_6(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params_overload_6(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="products",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_create_overload_6(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.create(
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_create_overload_6(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.create(
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_overload_7(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params_overload_7(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="uploads",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_create_overload_7(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.create(
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_create_overload_7(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.create(
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_overload_8(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params_overload_8(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.create(
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_create_overload_8(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.create(
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_create_overload_8(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.create(
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_overload_1(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params_overload_1(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update_overload_1(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.update(
             id="id",
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
         )
 
         assert response.is_closed is True
@@ -143,16 +544,14 @@ class TestOrigins:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_update(self, client: ImageKit) -> None:
+    def test_streaming_response_update_overload_1(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.update(
             id="id",
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -164,17 +563,550 @@ class TestOrigins:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_update(self, client: ImageKit) -> None:
+    def test_path_params_update_overload_1(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.accounts.origins.with_raw_response.update(
                 id="",
-                origin={
-                    "access_key": "AKIATEST123",
-                    "bucket": "test-bucket",
-                    "name": "My S3 Origin",
-                    "secret_key": "secrettest123",
-                    "type": "S3",
-                },
+                access_key="AKIAIOSFODNN7EXAMPLE",
+                bucket="product-images",
+                name="US S3 Storage",
+                secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+                type="S3",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_overload_2(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params_overload_2(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
+            s3_force_path_style=True,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update_overload_2(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_update_overload_2(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update_overload_2(self, client: ImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.accounts.origins.with_raw_response.update(
+                id="",
+                access_key="AKIAIOSFODNN7EXAMPLE",
+                bucket="product-images",
+                endpoint="https://s3.eu-central-1.wasabisys.com",
+                name="US S3 Storage",
+                secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+                type="S3_COMPATIBLE",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_overload_3(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params_overload_3(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update_overload_3(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_update_overload_3(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update_overload_3(self, client: ImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.accounts.origins.with_raw_response.update(
+                id="",
+                access_key="AKIAIOSFODNN7EXAMPLE",
+                bucket="product-images",
+                name="US S3 Storage",
+                secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+                type="CLOUDINARY_BACKUP",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_overload_4(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params_overload_4(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+            base_url_for_canonical_header="https://cdn.example.com",
+            forward_host_header_to_origin=False,
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update_overload_4(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.update(
+            id="id",
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_update_overload_4(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.update(
+            id="id",
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update_overload_4(self, client: ImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.accounts.origins.with_raw_response.update(
+                id="",
+                base_url="https://images.example.com/assets",
+                name="US S3 Storage",
+                type="WEB_FOLDER",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_overload_5(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params_overload_5(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            name="US S3 Storage",
+            type="WEB_PROXY",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update_overload_5(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.update(
+            id="id",
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_update_overload_5(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.update(
+            id="id",
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update_overload_5(self, client: ImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.accounts.origins.with_raw_response.update(
+                id="",
+                name="US S3 Storage",
+                type="WEB_PROXY",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_overload_6(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params_overload_6(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="products",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update_overload_6(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.update(
+            id="id",
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_update_overload_6(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.update(
+            id="id",
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update_overload_6(self, client: ImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.accounts.origins.with_raw_response.update(
+                id="",
+                bucket="gcs-media",
+                client_email="service-account@project.iam.gserviceaccount.com",
+                name="US S3 Storage",
+                private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+                type="GCS",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_overload_7(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params_overload_7(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="uploads",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update_overload_7(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.update(
+            id="id",
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_update_overload_7(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.update(
+            id="id",
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update_overload_7(self, client: ImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.accounts.origins.with_raw_response.update(
+                id="",
+                account_name="account123",
+                container="images",
+                name="US S3 Storage",
+                sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+                type="AZURE_BLOB",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_overload_8(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params_overload_8(self, client: ImageKit) -> None:
+        origin = client.accounts.origins.update(
+            id="id",
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update_overload_8(self, client: ImageKit) -> None:
+        response = client.accounts.origins.with_raw_response.update(
+            id="id",
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_update_overload_8(self, client: ImageKit) -> None:
+        with client.accounts.origins.with_streaming_response.update(
+            id="id",
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update_overload_8(self, client: ImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.accounts.origins.with_raw_response.update(
+                id="",
+                base_url="https://akeneo.company.com",
+                client_id="akeneo-client-id",
+                client_secret="akeneo-client-secret",
+                name="US S3 Storage",
+                password="strongpassword123",
+                type="AKENEO_PIM",
+                username="integration-user",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -297,46 +1229,40 @@ class TestAsyncOrigins:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create(self, async_client: AsyncImageKit) -> None:
+    async def test_method_create_overload_1(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncImageKit) -> None:
+    async def test_method_create_with_all_params_overload_1(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-                "base_url_for_canonical_header": "https://cdn.example.com",
-                "include_canonical_header": False,
-                "prefix": "images",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncImageKit) -> None:
+    async def test_raw_response_create_overload_1(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.create(
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
         )
 
         assert response.is_closed is True
@@ -346,15 +1272,13 @@ class TestAsyncOrigins:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncImageKit) -> None:
+    async def test_streaming_response_create_overload_1(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.create(
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -366,49 +1290,461 @@ class TestAsyncOrigins:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_update(self, async_client: AsyncImageKit) -> None:
-        origin = await async_client.accounts.origins.update(
-            id="id",
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+    async def test_method_create_overload_2(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncImageKit) -> None:
-        origin = await async_client.accounts.origins.update(
-            id="id",
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-                "base_url_for_canonical_header": "https://cdn.example.com",
-                "include_canonical_header": False,
-                "prefix": "images",
-            },
+    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
+            s3_force_path_style=True,
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncImageKit) -> None:
+    async def test_raw_response_create_overload_2(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_create_overload_2(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_overload_3(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params_overload_3(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_create_overload_3(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_create_overload_3(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.create(
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_overload_4(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params_overload_4(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+            base_url_for_canonical_header="https://cdn.example.com",
+            forward_host_header_to_origin=False,
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_create_overload_4(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.create(
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_create_overload_4(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.create(
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_overload_5(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params_overload_5(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            name="US S3 Storage",
+            type="WEB_PROXY",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_create_overload_5(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.create(
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_create_overload_5(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.create(
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_overload_6(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params_overload_6(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="products",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_create_overload_6(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.create(
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_create_overload_6(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.create(
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_overload_7(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params_overload_7(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="uploads",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_create_overload_7(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.create(
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_create_overload_7(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.create(
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_overload_8(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params_overload_8(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.create(
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_create_overload_8(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.create(
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_create_overload_8(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.create(
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_overload_1(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params_overload_1(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update_overload_1(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.update(
             id="id",
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
         )
 
         assert response.is_closed is True
@@ -418,16 +1754,14 @@ class TestAsyncOrigins:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncImageKit) -> None:
+    async def test_streaming_response_update_overload_1(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.update(
             id="id",
-            origin={
-                "access_key": "AKIATEST123",
-                "bucket": "test-bucket",
-                "name": "My S3 Origin",
-                "secret_key": "secrettest123",
-                "type": "S3",
-            },
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -439,17 +1773,550 @@ class TestAsyncOrigins:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_update(self, async_client: AsyncImageKit) -> None:
+    async def test_path_params_update_overload_1(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.accounts.origins.with_raw_response.update(
                 id="",
-                origin={
-                    "access_key": "AKIATEST123",
-                    "bucket": "test-bucket",
-                    "name": "My S3 Origin",
-                    "secret_key": "secrettest123",
-                    "type": "S3",
-                },
+                access_key="AKIAIOSFODNN7EXAMPLE",
+                bucket="product-images",
+                name="US S3 Storage",
+                secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+                type="S3",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_overload_2(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params_overload_2(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
+            s3_force_path_style=True,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            endpoint="https://s3.eu-central-1.wasabisys.com",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="S3_COMPATIBLE",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update_overload_2(self, async_client: AsyncImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.accounts.origins.with_raw_response.update(
+                id="",
+                access_key="AKIAIOSFODNN7EXAMPLE",
+                bucket="product-images",
+                endpoint="https://s3.eu-central-1.wasabisys.com",
+                name="US S3 Storage",
+                secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+                type="S3_COMPATIBLE",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_overload_3(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params_overload_3(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="raw-assets",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update_overload_3(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_update_overload_3(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.update(
+            id="id",
+            access_key="AKIAIOSFODNN7EXAMPLE",
+            bucket="product-images",
+            name="US S3 Storage",
+            secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            type="CLOUDINARY_BACKUP",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update_overload_3(self, async_client: AsyncImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.accounts.origins.with_raw_response.update(
+                id="",
+                access_key="AKIAIOSFODNN7EXAMPLE",
+                bucket="product-images",
+                name="US S3 Storage",
+                secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+                type="CLOUDINARY_BACKUP",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_overload_4(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params_overload_4(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+            base_url_for_canonical_header="https://cdn.example.com",
+            forward_host_header_to_origin=False,
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update_overload_4(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.update(
+            id="id",
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_update_overload_4(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.update(
+            id="id",
+            base_url="https://images.example.com/assets",
+            name="US S3 Storage",
+            type="WEB_FOLDER",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update_overload_4(self, async_client: AsyncImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.accounts.origins.with_raw_response.update(
+                id="",
+                base_url="https://images.example.com/assets",
+                name="US S3 Storage",
+                type="WEB_FOLDER",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_overload_5(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params_overload_5(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            name="US S3 Storage",
+            type="WEB_PROXY",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update_overload_5(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.update(
+            id="id",
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_update_overload_5(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.update(
+            id="id",
+            name="US S3 Storage",
+            type="WEB_PROXY",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update_overload_5(self, async_client: AsyncImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.accounts.origins.with_raw_response.update(
+                id="",
+                name="US S3 Storage",
+                type="WEB_PROXY",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_overload_6(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params_overload_6(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="products",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update_overload_6(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.update(
+            id="id",
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_update_overload_6(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.update(
+            id="id",
+            bucket="gcs-media",
+            client_email="service-account@project.iam.gserviceaccount.com",
+            name="US S3 Storage",
+            private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+            type="GCS",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update_overload_6(self, async_client: AsyncImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.accounts.origins.with_raw_response.update(
+                id="",
+                bucket="gcs-media",
+                client_email="service-account@project.iam.gserviceaccount.com",
+                name="US S3 Storage",
+                private_key="-----BEGIN PRIVATE KEY-----\\nMIIEv...",
+                type="GCS",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_overload_7(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params_overload_7(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+            prefix="uploads",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update_overload_7(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.update(
+            id="id",
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_update_overload_7(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.update(
+            id="id",
+            account_name="account123",
+            container="images",
+            name="US S3 Storage",
+            sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+            type="AZURE_BLOB",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update_overload_7(self, async_client: AsyncImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.accounts.origins.with_raw_response.update(
+                id="",
+                account_name="account123",
+                container="images",
+                name="US S3 Storage",
+                sas_token="?sv=2023-01-03&sr=c&sig=abc123",
+                type="AZURE_BLOB",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_overload_8(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params_overload_8(self, async_client: AsyncImageKit) -> None:
+        origin = await async_client.accounts.origins.update(
+            id="id",
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+            base_url_for_canonical_header="https://cdn.example.com",
+            include_canonical_header=False,
+        )
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update_overload_8(self, async_client: AsyncImageKit) -> None:
+        response = await async_client.accounts.origins.with_raw_response.update(
+            id="id",
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        origin = await response.parse()
+        assert_matches_type(OriginResponse, origin, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_update_overload_8(self, async_client: AsyncImageKit) -> None:
+        async with async_client.accounts.origins.with_streaming_response.update(
+            id="id",
+            base_url="https://akeneo.company.com",
+            client_id="akeneo-client-id",
+            client_secret="akeneo-client-secret",
+            name="US S3 Storage",
+            password="strongpassword123",
+            type="AKENEO_PIM",
+            username="integration-user",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            origin = await response.parse()
+            assert_matches_type(OriginResponse, origin, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update_overload_8(self, async_client: AsyncImageKit) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.accounts.origins.with_raw_response.update(
+                id="",
+                base_url="https://akeneo.company.com",
+                client_id="akeneo-client-id",
+                client_secret="akeneo-client-secret",
+                name="US S3 Storage",
+                password="strongpassword123",
+                type="AKENEO_PIM",
+                username="integration-user",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
