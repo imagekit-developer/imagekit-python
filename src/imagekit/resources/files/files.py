@@ -490,7 +490,7 @@ class FilesResource(SyncAPIResource):
               the future. It should be in seconds. This field is only required for
               authentication when uploading a file from the client side.
 
-          extensions: Array of extensions to be applied to the image. Each extension can be configured
+          extensions: Array of extensions to be applied to the asset. Each extension can be configured
               with specific parameters based on the extension type.
 
           folder: The folder path in which the image has to be uploaded. If the folder(s) didn't
@@ -1061,7 +1061,7 @@ class AsyncFilesResource(AsyncAPIResource):
               the future. It should be in seconds. This field is only required for
               authentication when uploading a file from the client side.
 
-          extensions: Array of extensions to be applied to the image. Each extension can be configured
+          extensions: Array of extensions to be applied to the asset. Each extension can be configured
               with specific parameters based on the extension type.
 
           folder: The folder path in which the image has to be uploaded. If the folder(s) didn't

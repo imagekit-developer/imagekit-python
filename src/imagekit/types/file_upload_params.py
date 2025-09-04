@@ -95,7 +95,7 @@ class FileUploadParams(TypedDict, total=False):
     """
 
     extensions: Iterable[Extension]
-    """Array of extensions to be applied to the image.
+    """Array of extensions to be applied to the asset.
 
     Each extension can be configured with specific parameters based on the extension
     type.

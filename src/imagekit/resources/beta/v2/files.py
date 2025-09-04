@@ -161,7 +161,7 @@ class FilesResource(SyncAPIResource):
 
           description: Optional text to describe the contents of the file.
 
-          extensions: Array of extensions to be applied to the image. Each extension can be configured
+          extensions: Array of extensions to be applied to the asset. Each extension can be configured
               with specific parameters based on the extension type.
 
           folder: The folder path in which the image has to be uploaded. If the folder(s) didn't
@@ -413,7 +413,7 @@ class AsyncFilesResource(AsyncAPIResource):
 
           description: Optional text to describe the contents of the file.
 
-          extensions: Array of extensions to be applied to the image. Each extension can be configured
+          extensions: Array of extensions to be applied to the asset. Each extension can be configured
               with specific parameters based on the extension type.
 
           folder: The folder path in which the image has to be uploaded. If the folder(s) didn't
