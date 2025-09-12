@@ -59,13 +59,14 @@ class TestTags(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/addTags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.POST,
             url,
             body='{"successfullyUpdatedFileIds": ["fake_123"]}',
             headers=headers,
+            content_type="application/json",
         )
 
         resp = self.client.add_tags(
@@ -73,7 +74,7 @@ class TestTags(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "httpStatusCode": 200,
@@ -103,7 +104,7 @@ class TestTags(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/addTags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         try:
             responses.add(
@@ -156,13 +157,14 @@ class TestTags(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/removeTags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.POST,
             url,
             body='{"successfullyUpdatedFileIds": ["fake_123"]}',
             headers=headers,
+            content_type="application/json",
         )
 
         resp = self.client.remove_tags(
@@ -170,7 +172,7 @@ class TestTags(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "httpStatusCode": 200,
@@ -200,7 +202,7 @@ class TestTags(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/removeTags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         try:
             responses.add(
@@ -266,13 +268,14 @@ class TestAITags(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/removeAITags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.POST,
             url,
             body='{"successfullyUpdatedFileIds": ["fake_123"]}',
             headers=headers,
+            content_type="application/json",
         )
 
         resp = self.client.remove_ai_tags(
@@ -280,7 +283,7 @@ class TestAITags(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "httpStatusCode": 200,
@@ -310,7 +313,7 @@ class TestAITags(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/removeAITags".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         try:
             responses.add(

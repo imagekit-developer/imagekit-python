@@ -1155,7 +1155,7 @@ class TestDeleteFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
 
         responses.add(
@@ -1163,6 +1163,7 @@ class TestDeleteFile(ClientTestCase):
             url,
             body='{"successfullyDeletedFileIds": ["fake_123", "fake_222"]}',
             headers=headers,
+            content_type="application/json",
         )
 
         resp = self.client.bulk_file_delete(self.bulk_delete_ids)
@@ -1171,7 +1172,7 @@ class TestDeleteFile(ClientTestCase):
             "raw": {"successfullyDeletedFileIds": ["fake_123", "fake_222"]},
             "httpStatusCode": 200,
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
         }
@@ -1196,7 +1197,7 @@ class TestDeleteFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
 
         responses.add(
@@ -1204,6 +1205,7 @@ class TestDeleteFile(ClientTestCase):
             url,
             body='{"successfullyDeletedFileIds": ["fake_123"],"nonDeletedFields":["fake_222"]}',
             headers=headers,
+            content_type="application/json",
         )
 
         resp = self.client.bulk_file_delete(self.bulk_delete_ids)
@@ -1212,7 +1214,7 @@ class TestDeleteFile(ClientTestCase):
             "raw": {"successfullyDeletedFileIds": ["fake_123"],"nonDeletedFields":["fake_222"]},
             "httpStatusCode": 200,
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
         }
@@ -1235,7 +1237,7 @@ class TestDeleteFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = URL.API_BASE_URL + "/v1/files" + URL.BULK_FILE_DELETE
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         try:
             responses.add(
@@ -1267,7 +1269,7 @@ class TestDeleteFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}".format(URL.API_BASE_URL, self.file_id)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         try:
             responses.add(
@@ -1295,16 +1297,16 @@ class TestDeleteFile(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}".format(URL.API_BASE_URL, self.file_id)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
 
-        responses.add(responses.DELETE, url, body="{}", status=204, headers=headers)
+        responses.add(responses.DELETE, url , status=204, headers=headers, content_type="application/json")
 
         resp = self.client.delete_file(self.file_id)
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "httpStatusCode": 204,
@@ -1654,11 +1656,12 @@ class TestUpdateFileDetails(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}/details/".format(URL.API_BASE_URL, self.file_id)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.PATCH,
             url,
+            content_type="application/json",
             body="""{
                     "type": "file",
                     "name": "default-image.jpg",
@@ -1750,7 +1753,7 @@ class TestUpdateFileDetails(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "http_status_code": 200,
@@ -1815,11 +1818,12 @@ class TestUpdateFileDetails(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}/details/".format(URL.API_BASE_URL, self.file_id)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.PATCH,
             url,
+            content_type="application/json",
             body="""{
                     "type": "file",
                     "name": "default-image.jpg",
@@ -1889,7 +1893,7 @@ class TestUpdateFileDetails(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "http_status_code": 200,
@@ -2028,11 +2032,12 @@ class TestGetFileVersions(ClientTestCase):
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}/versions".format(URL.API_BASE_URL, self.file_id)
 
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.GET,
             url,
+            content_type="application/json",
             body="""[{
                 "type": "file",
                 "name": "new_car.jpg",
@@ -2228,7 +2233,7 @@ class TestGetFileVersions(ClientTestCase):
             ],
             "http_status_code": 200,
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
         }
@@ -2295,7 +2300,7 @@ class TestGetFileVersions(ClientTestCase):
             URL.API_BASE_URL, self.file_id, self.version_id
         )
 
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(get_auth_headers_for_test())
         responses.add(
             responses.GET,
@@ -2334,11 +2339,12 @@ class TestGetFileVersions(ClientTestCase):
                         "mime": "image/jpeg"
                     }""",
             headers=headers,
+            content_type="application/json",
         )
         resp = self.client.get_file_version_details(self.file_id, self.version_id)
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
             "http_status_code": 200,
@@ -2464,14 +2470,14 @@ class TestDeleteFileVersion(ClientTestCase):
         url = "{}/v1/files/{}/versions/{}".format(
             URL.API_BASE_URL, self.file_id, self.version_id
         )
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
-        responses.add(responses.DELETE, url, status=204, headers=headers, body="{}")
+        responses.add(responses.DELETE, url, status=204, headers=headers, content_type="application/json")
         resp = self.client.delete_file_version(self.file_id, self.version_id)
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2500,7 +2506,7 @@ class TestCopyFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.POST,
@@ -2532,9 +2538,9 @@ class TestCopyFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
-        responses.add(responses.POST, url, status=204, headers=headers, body="{}")
+        responses.add(responses.POST, url, status=204, headers=headers, content_type="application/json")
 
         resp = self.client.copy_file(
             options=CopyFileRequestOptions(
@@ -2546,7 +2552,7 @@ class TestCopyFile(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2579,9 +2585,9 @@ class TestCopyFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/copy".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
-        responses.add(responses.POST, url, status=204, headers=headers, body="{}")
+        responses.add(responses.POST, url, status=204, headers=headers, content_type="application/json")
 
         resp = self.client.copy_file(
             options=CopyFileRequestOptions(
@@ -2592,7 +2598,7 @@ class TestCopyFile(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2630,7 +2636,7 @@ class TestMoveFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/move".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.POST,
@@ -2661,9 +2667,9 @@ class TestMoveFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/move".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
-        responses.add(responses.POST, url, status=204, headers=headers, body="{}")
+        responses.add(responses.POST, url, status=204, headers=headers, content_type="application/json")
 
         resp = self.client.move_file(
             options=MoveFileRequestOptions(
@@ -2673,7 +2679,7 @@ class TestMoveFile(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2711,7 +2717,7 @@ class TestRenameFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         try:
             responses.add(
@@ -2745,13 +2751,14 @@ class TestRenameFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.PUT,
             url,
             headers=headers,
             body="{}",
+            content_type="application/json",
         )
         resp = self.client.rename_file(
             options=RenameFileRequestOptions(
@@ -2763,7 +2770,7 @@ class TestRenameFile(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2797,13 +2804,14 @@ class TestRenameFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.PUT,
             url,
             headers=headers,
             body='{"purgeRequestId": "62de3e986f68334a5a3339fb"}',
+            content_type="application/json",
         )
         resp = self.client.rename_file(
             options=RenameFileRequestOptions(
@@ -2815,7 +2823,7 @@ class TestRenameFile(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2849,9 +2857,9 @@ class TestRenameFile(ClientTestCase):
 
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/rename".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
-        responses.add(responses.PUT, url, headers=headers, body="{}")
+        responses.add(responses.PUT, url, headers=headers, body="{}", content_type="application/json")
         resp = self.client.rename_file(
             options=RenameFileRequestOptions(
                 file_path=self.file_path, new_file_name=self.new_file_name
@@ -2859,7 +2867,7 @@ class TestRenameFile(ClientTestCase):
         )
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -2921,12 +2929,13 @@ class TestRestoreFileVersion(ClientTestCase):
         url = "{}/v1/files/{}/versions/{}/restore".format(
             URL.API_BASE_URL, self.file_id, self.version_id
         )
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.PUT,
             url,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "fileId": "fileId",
                 "type": "file",
@@ -2966,7 +2975,7 @@ class TestRestoreFileVersion(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -3009,7 +3018,7 @@ class TestRestoreFileVersion(ClientTestCase):
     def test_get_metadata_with_non_breaking_changes_in_response(self):
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/files/{}/metadata".format(URL.API_BASE_URL, self.file_id)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.GET,

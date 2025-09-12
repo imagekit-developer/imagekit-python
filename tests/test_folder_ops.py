@@ -154,7 +154,6 @@ class TestFolders(ClientTestCase):
             responses.DELETE,
             url,
             status=204,
-            body="{}",
         )
         resp = self.client.delete_folder(
             options=DeleteFolderRequestOptions(folder_path="/folderName")

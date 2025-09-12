@@ -5,23 +5,46 @@ on:
     types: [published]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-20.04
+  build:
+    runs-on: ubuntu-22.04
     strategy:
-            matrix:
-                python: [3.7, 3.8, 3.9, '3.10']
+      matrix:
+        python: [3.7, 3.8, 3.9, '3.10', '3.11', '3.12']
+        urllib3-line: ["lt2", "ge2"]
+        exclude:
+          - python: "3.7"
+            urllib3-line: "ge2"
+          - python: "3.8"
+            urllib3-line: "ge2"
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python
-        uses: actions/setup-python@v1
+      - uses: actions/checkout@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      - name: Install deps
+        run: |
+          pip install -r requirements/requirements.txt
+          if [ "${{ matrix.urllib3-line }}" = "lt2" ]; then
+            pip install "urllib3<2"
+          else
+            pip install "urllib3!=2.0.0,<3"
+          fi
+          pip install -e .
       - name: Install Tox and any other packages
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements/test.txt
       - name: Run Tox
         run: tox -e py
+  release:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
       - name: Install build dependencies
         run: |
           pip install setuptools wheel twine

@@ -62,6 +62,7 @@ class TestCustomMetadataFields(ClientTestCase):
         responses.add(
             responses.GET,
             url,
+            content_type="application/json",
             body="""[{
                         "id": "62a9d5f6db485107347bb7f2",
                         "name": "test10",
@@ -115,7 +116,7 @@ class TestCustomMetadataFields(ClientTestCase):
             ],
             "httpStatusCode": 200,
             "headers": {
-                "Content-Type": "text/plain",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -303,7 +304,7 @@ class TestCustomMetadataFields(ClientTestCase):
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.field_id)
         headers = create_headers_for_test()
-        responses.add(responses.DELETE, url, status=204, headers=headers, body="{}")
+        responses.add(responses.DELETE, url, status=204, headers=headers)
         resp = self.client.delete_custom_metadata_field(self.field_id)
 
         mock_response_metadata = {
@@ -385,13 +386,14 @@ class TestCustomMetadataFields(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.POST,
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62dfc03b1b02a58936efca37",
                 "name": "test",
@@ -422,7 +424,7 @@ class TestCustomMetadataFields(ClientTestCase):
             },
             "httpStatusCode": 201,
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -457,13 +459,14 @@ class TestCustomMetadataFields(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.POST,
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62e0d7ae1b02a589360dc1fd",
                 "name": "test",
@@ -493,7 +496,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -543,13 +546,14 @@ class TestCustomMetadataFields(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.POST,
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62dfc9f41b02a58936f0d284",
                 "name": "test-date",
@@ -575,7 +579,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -621,13 +625,14 @@ class TestCustomMetadataFields(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.POST,
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62dfcb801b02a58936f0fc39",
                 "name": "test-boolean",
@@ -653,7 +658,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -699,13 +704,14 @@ class TestCustomMetadataFields(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.POST,
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62dfcdb21b02a58936f14c97",
                 "name": "test",
@@ -729,7 +735,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -775,13 +781,14 @@ class TestCustomMetadataFields(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/customMetadataFields".format(URL.API_BASE_URL)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.POST,
             url,
             status=201,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62dfcf001b02a58936f17808",
                 "name": "test",
@@ -809,7 +816,7 @@ class TestCustomMetadataFields(ClientTestCase):
 
         mock_response_metadata = {
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
@@ -857,12 +864,13 @@ class TestCustomMetadataFields(ClientTestCase):
         """
         URL.API_BASE_URL = "http://test.com"
         url = "{}/v1/customMetadataFields/{}".format(URL.API_BASE_URL, self.field_id)
-        headers = {"Content-Type": "application/json"}
+        headers = {}
         headers.update(create_headers_for_test())
         responses.add(
             responses.PATCH,
             url,
             headers=headers,
+            content_type="application/json",
             body="""{
                 "id": "62a9d5f6db485107347bb7f2",
                 "name": "test",
@@ -892,7 +900,7 @@ class TestCustomMetadataFields(ClientTestCase):
             },
             "httpStatusCode": 200,
             "headers": {
-                "Content-Type": "text/plain, application/json",
+                "Content-Type": "application/json",
                 "Accept-Encoding": "gzip, deflate",
                 "Authorization": "Basic ZmFrZTEyMjo=",
             },
