@@ -22,7 +22,18 @@ from ...types import (
     file_update_params,
     file_upload_params,
 )
-from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven, FileTypes, SequenceNotStr
+from ..._types import (
+    Body,
+    Omit,
+    Query,
+    Headers,
+    NoneType,
+    NotGiven,
+    FileTypes,
+    SequenceNotStr,
+    omit,
+    not_given,
+)
 from ..._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .metadata import (
     MetadataResource,
@@ -97,19 +108,19 @@ class FilesResource(SyncAPIResource):
         self,
         file_id: str,
         *,
-        custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
-        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        extensions: Extensions | NotGiven = NOT_GIVEN,
-        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | NotGiven = NOT_GIVEN,
-        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        webhook_url: str | NotGiven = NOT_GIVEN,
+        custom_coordinates: Optional[str] | Omit = omit,
+        custom_metadata: Dict[str, object] | Omit = omit,
+        description: str | Omit = omit,
+        extensions: Extensions | Omit = omit,
+        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | Omit = omit,
+        tags: Optional[SequenceNotStr[str]] | Omit = omit,
+        webhook_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUpdateResponse:
         """
         This API updates the details or attributes of the current version of the file.
@@ -161,13 +172,13 @@ class FilesResource(SyncAPIResource):
         self,
         file_id: str,
         *,
-        publish: file_update_params.ChangePublicationStatusPublish | NotGiven = NOT_GIVEN,
+        publish: file_update_params.ChangePublicationStatusPublish | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUpdateResponse:
         """
         This API updates the details or attributes of the current version of the file.
@@ -191,20 +202,20 @@ class FilesResource(SyncAPIResource):
         self,
         file_id: str,
         *,
-        custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
-        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        extensions: Extensions | NotGiven = NOT_GIVEN,
-        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | NotGiven = NOT_GIVEN,
-        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        webhook_url: str | NotGiven = NOT_GIVEN,
-        publish: file_update_params.ChangePublicationStatusPublish | NotGiven = NOT_GIVEN,
+        custom_coordinates: Optional[str] | Omit = omit,
+        custom_metadata: Dict[str, object] | Omit = omit,
+        description: str | Omit = omit,
+        extensions: Extensions | Omit = omit,
+        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | Omit = omit,
+        tags: Optional[SequenceNotStr[str]] | Omit = omit,
+        webhook_url: str | Omit = omit,
+        publish: file_update_params.ChangePublicationStatusPublish | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUpdateResponse:
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
@@ -238,7 +249,7 @@ class FilesResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
         This API deletes the file and all its file versions permanently.
@@ -272,13 +283,13 @@ class FilesResource(SyncAPIResource):
         *,
         destination_path: str,
         source_file_path: str,
-        include_file_versions: bool | NotGiven = NOT_GIVEN,
+        include_file_versions: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileCopyResponse:
         """
         This will copy a file from one folder to another.
@@ -329,7 +340,7 @@ class FilesResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> File:
         """
         This API returns an object with details or attributes about the current version
@@ -364,7 +375,7 @@ class FilesResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileMoveResponse:
         """
         This will move a file and all its versions from one folder to another.
@@ -405,13 +416,13 @@ class FilesResource(SyncAPIResource):
         *,
         file_path: str,
         new_file_name: str,
-        purge_cache: bool | NotGiven = NOT_GIVEN,
+        purge_cache: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileRenameResponse:
         """
         You can rename an already existing file in the media library using rename file
@@ -477,21 +488,21 @@ class FilesResource(SyncAPIResource):
         *,
         file: FileTypes,
         file_name: str,
-        token: str | NotGiven = NOT_GIVEN,
-        checks: str | NotGiven = NOT_GIVEN,
-        custom_coordinates: str | NotGiven = NOT_GIVEN,
-        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        expire: int | NotGiven = NOT_GIVEN,
-        extensions: Extensions | NotGiven = NOT_GIVEN,
-        folder: str | NotGiven = NOT_GIVEN,
-        is_private_file: bool | NotGiven = NOT_GIVEN,
-        is_published: bool | NotGiven = NOT_GIVEN,
-        overwrite_ai_tags: bool | NotGiven = NOT_GIVEN,
-        overwrite_custom_metadata: bool | NotGiven = NOT_GIVEN,
-        overwrite_file: bool | NotGiven = NOT_GIVEN,
-        overwrite_tags: bool | NotGiven = NOT_GIVEN,
-        public_key: str | NotGiven = NOT_GIVEN,
+        token: str | Omit = omit,
+        checks: str | Omit = omit,
+        custom_coordinates: str | Omit = omit,
+        custom_metadata: Dict[str, object] | Omit = omit,
+        description: str | Omit = omit,
+        expire: int | Omit = omit,
+        extensions: Extensions | Omit = omit,
+        folder: str | Omit = omit,
+        is_private_file: bool | Omit = omit,
+        is_published: bool | Omit = omit,
+        overwrite_ai_tags: bool | Omit = omit,
+        overwrite_custom_metadata: bool | Omit = omit,
+        overwrite_file: bool | Omit = omit,
+        overwrite_tags: bool | Omit = omit,
+        public_key: str | Omit = omit,
         response_fields: List[
             Literal[
                 "tags",
@@ -503,18 +514,18 @@ class FilesResource(SyncAPIResource):
                 "metadata",
             ]
         ]
-        | NotGiven = NOT_GIVEN,
-        signature: str | NotGiven = NOT_GIVEN,
-        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
-        transformation: file_upload_params.Transformation | NotGiven = NOT_GIVEN,
-        use_unique_file_name: bool | NotGiven = NOT_GIVEN,
-        webhook_url: str | NotGiven = NOT_GIVEN,
+        | Omit = omit,
+        signature: str | Omit = omit,
+        tags: SequenceNotStr[str] | Omit = omit,
+        transformation: file_upload_params.Transformation | Omit = omit,
+        use_unique_file_name: bool | Omit = omit,
+        webhook_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUploadResponse:
         """
         ImageKit.io allows you to upload files directly from both the server and client
@@ -768,19 +779,19 @@ class AsyncFilesResource(AsyncAPIResource):
         self,
         file_id: str,
         *,
-        custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
-        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        extensions: Extensions | NotGiven = NOT_GIVEN,
-        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | NotGiven = NOT_GIVEN,
-        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        webhook_url: str | NotGiven = NOT_GIVEN,
+        custom_coordinates: Optional[str] | Omit = omit,
+        custom_metadata: Dict[str, object] | Omit = omit,
+        description: str | Omit = omit,
+        extensions: Extensions | Omit = omit,
+        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | Omit = omit,
+        tags: Optional[SequenceNotStr[str]] | Omit = omit,
+        webhook_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUpdateResponse:
         """
         This API updates the details or attributes of the current version of the file.
@@ -832,13 +843,13 @@ class AsyncFilesResource(AsyncAPIResource):
         self,
         file_id: str,
         *,
-        publish: file_update_params.ChangePublicationStatusPublish | NotGiven = NOT_GIVEN,
+        publish: file_update_params.ChangePublicationStatusPublish | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUpdateResponse:
         """
         This API updates the details or attributes of the current version of the file.
@@ -862,20 +873,20 @@ class AsyncFilesResource(AsyncAPIResource):
         self,
         file_id: str,
         *,
-        custom_coordinates: Optional[str] | NotGiven = NOT_GIVEN,
-        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        extensions: Extensions | NotGiven = NOT_GIVEN,
-        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | NotGiven = NOT_GIVEN,
-        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        webhook_url: str | NotGiven = NOT_GIVEN,
-        publish: file_update_params.ChangePublicationStatusPublish | NotGiven = NOT_GIVEN,
+        custom_coordinates: Optional[str] | Omit = omit,
+        custom_metadata: Dict[str, object] | Omit = omit,
+        description: str | Omit = omit,
+        extensions: Extensions | Omit = omit,
+        remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | Omit = omit,
+        tags: Optional[SequenceNotStr[str]] | Omit = omit,
+        webhook_url: str | Omit = omit,
+        publish: file_update_params.ChangePublicationStatusPublish | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUpdateResponse:
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
@@ -909,7 +920,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
         This API deletes the file and all its file versions permanently.
@@ -943,13 +954,13 @@ class AsyncFilesResource(AsyncAPIResource):
         *,
         destination_path: str,
         source_file_path: str,
-        include_file_versions: bool | NotGiven = NOT_GIVEN,
+        include_file_versions: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileCopyResponse:
         """
         This will copy a file from one folder to another.
@@ -1000,7 +1011,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> File:
         """
         This API returns an object with details or attributes about the current version
@@ -1035,7 +1046,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileMoveResponse:
         """
         This will move a file and all its versions from one folder to another.
@@ -1076,13 +1087,13 @@ class AsyncFilesResource(AsyncAPIResource):
         *,
         file_path: str,
         new_file_name: str,
-        purge_cache: bool | NotGiven = NOT_GIVEN,
+        purge_cache: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileRenameResponse:
         """
         You can rename an already existing file in the media library using rename file
@@ -1148,21 +1159,21 @@ class AsyncFilesResource(AsyncAPIResource):
         *,
         file: FileTypes,
         file_name: str,
-        token: str | NotGiven = NOT_GIVEN,
-        checks: str | NotGiven = NOT_GIVEN,
-        custom_coordinates: str | NotGiven = NOT_GIVEN,
-        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        expire: int | NotGiven = NOT_GIVEN,
-        extensions: Extensions | NotGiven = NOT_GIVEN,
-        folder: str | NotGiven = NOT_GIVEN,
-        is_private_file: bool | NotGiven = NOT_GIVEN,
-        is_published: bool | NotGiven = NOT_GIVEN,
-        overwrite_ai_tags: bool | NotGiven = NOT_GIVEN,
-        overwrite_custom_metadata: bool | NotGiven = NOT_GIVEN,
-        overwrite_file: bool | NotGiven = NOT_GIVEN,
-        overwrite_tags: bool | NotGiven = NOT_GIVEN,
-        public_key: str | NotGiven = NOT_GIVEN,
+        token: str | Omit = omit,
+        checks: str | Omit = omit,
+        custom_coordinates: str | Omit = omit,
+        custom_metadata: Dict[str, object] | Omit = omit,
+        description: str | Omit = omit,
+        expire: int | Omit = omit,
+        extensions: Extensions | Omit = omit,
+        folder: str | Omit = omit,
+        is_private_file: bool | Omit = omit,
+        is_published: bool | Omit = omit,
+        overwrite_ai_tags: bool | Omit = omit,
+        overwrite_custom_metadata: bool | Omit = omit,
+        overwrite_file: bool | Omit = omit,
+        overwrite_tags: bool | Omit = omit,
+        public_key: str | Omit = omit,
         response_fields: List[
             Literal[
                 "tags",
@@ -1174,18 +1185,18 @@ class AsyncFilesResource(AsyncAPIResource):
                 "metadata",
             ]
         ]
-        | NotGiven = NOT_GIVEN,
-        signature: str | NotGiven = NOT_GIVEN,
-        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
-        transformation: file_upload_params.Transformation | NotGiven = NOT_GIVEN,
-        use_unique_file_name: bool | NotGiven = NOT_GIVEN,
-        webhook_url: str | NotGiven = NOT_GIVEN,
+        | Omit = omit,
+        signature: str | Omit = omit,
+        tags: SequenceNotStr[str] | Omit = omit,
+        transformation: file_upload_params.Transformation | Omit = omit,
+        use_unique_file_name: bool | Omit = omit,
+        webhook_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUploadResponse:
         """
         ImageKit.io allows you to upload files directly from both the server and client

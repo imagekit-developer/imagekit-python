@@ -7,7 +7,17 @@ from typing_extensions import Literal
 
 import httpx
 
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes, SequenceNotStr
+from ...._types import (
+    Body,
+    Omit,
+    Query,
+    Headers,
+    NotGiven,
+    FileTypes,
+    SequenceNotStr,
+    omit,
+    not_given,
+)
 from ...._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -50,19 +60,19 @@ class FilesResource(SyncAPIResource):
         *,
         file: FileTypes,
         file_name: str,
-        token: str | NotGiven = NOT_GIVEN,
-        checks: str | NotGiven = NOT_GIVEN,
-        custom_coordinates: str | NotGiven = NOT_GIVEN,
-        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        extensions: Extensions | NotGiven = NOT_GIVEN,
-        folder: str | NotGiven = NOT_GIVEN,
-        is_private_file: bool | NotGiven = NOT_GIVEN,
-        is_published: bool | NotGiven = NOT_GIVEN,
-        overwrite_ai_tags: bool | NotGiven = NOT_GIVEN,
-        overwrite_custom_metadata: bool | NotGiven = NOT_GIVEN,
-        overwrite_file: bool | NotGiven = NOT_GIVEN,
-        overwrite_tags: bool | NotGiven = NOT_GIVEN,
+        token: str | Omit = omit,
+        checks: str | Omit = omit,
+        custom_coordinates: str | Omit = omit,
+        custom_metadata: Dict[str, object] | Omit = omit,
+        description: str | Omit = omit,
+        extensions: Extensions | Omit = omit,
+        folder: str | Omit = omit,
+        is_private_file: bool | Omit = omit,
+        is_published: bool | Omit = omit,
+        overwrite_ai_tags: bool | Omit = omit,
+        overwrite_custom_metadata: bool | Omit = omit,
+        overwrite_file: bool | Omit = omit,
+        overwrite_tags: bool | Omit = omit,
         response_fields: List[
             Literal[
                 "tags",
@@ -74,17 +84,17 @@ class FilesResource(SyncAPIResource):
                 "metadata",
             ]
         ]
-        | NotGiven = NOT_GIVEN,
-        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
-        transformation: file_upload_params.Transformation | NotGiven = NOT_GIVEN,
-        use_unique_file_name: bool | NotGiven = NOT_GIVEN,
-        webhook_url: str | NotGiven = NOT_GIVEN,
+        | Omit = omit,
+        tags: SequenceNotStr[str] | Omit = omit,
+        transformation: file_upload_params.Transformation | Omit = omit,
+        use_unique_file_name: bool | Omit = omit,
+        webhook_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUploadResponse:
         """The V2 API enhances security by verifying the entire payload using JWT.
 
@@ -302,19 +312,19 @@ class AsyncFilesResource(AsyncAPIResource):
         *,
         file: FileTypes,
         file_name: str,
-        token: str | NotGiven = NOT_GIVEN,
-        checks: str | NotGiven = NOT_GIVEN,
-        custom_coordinates: str | NotGiven = NOT_GIVEN,
-        custom_metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        extensions: Extensions | NotGiven = NOT_GIVEN,
-        folder: str | NotGiven = NOT_GIVEN,
-        is_private_file: bool | NotGiven = NOT_GIVEN,
-        is_published: bool | NotGiven = NOT_GIVEN,
-        overwrite_ai_tags: bool | NotGiven = NOT_GIVEN,
-        overwrite_custom_metadata: bool | NotGiven = NOT_GIVEN,
-        overwrite_file: bool | NotGiven = NOT_GIVEN,
-        overwrite_tags: bool | NotGiven = NOT_GIVEN,
+        token: str | Omit = omit,
+        checks: str | Omit = omit,
+        custom_coordinates: str | Omit = omit,
+        custom_metadata: Dict[str, object] | Omit = omit,
+        description: str | Omit = omit,
+        extensions: Extensions | Omit = omit,
+        folder: str | Omit = omit,
+        is_private_file: bool | Omit = omit,
+        is_published: bool | Omit = omit,
+        overwrite_ai_tags: bool | Omit = omit,
+        overwrite_custom_metadata: bool | Omit = omit,
+        overwrite_file: bool | Omit = omit,
+        overwrite_tags: bool | Omit = omit,
         response_fields: List[
             Literal[
                 "tags",
@@ -326,17 +336,17 @@ class AsyncFilesResource(AsyncAPIResource):
                 "metadata",
             ]
         ]
-        | NotGiven = NOT_GIVEN,
-        tags: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
-        transformation: file_upload_params.Transformation | NotGiven = NOT_GIVEN,
-        use_unique_file_name: bool | NotGiven = NOT_GIVEN,
-        webhook_url: str | NotGiven = NOT_GIVEN,
+        | Omit = omit,
+        tags: SequenceNotStr[str] | Omit = omit,
+        transformation: file_upload_params.Transformation | Omit = omit,
+        use_unique_file_name: bool | Omit = omit,
+        webhook_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUploadResponse:
         """The V2 API enhances security by verifying the entire payload using JWT.
 
