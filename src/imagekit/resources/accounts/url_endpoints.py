@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven, SequenceNotStr
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -46,15 +46,15 @@ class URLEndpointsResource(SyncAPIResource):
         self,
         *,
         description: str,
-        origins: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
-        url_prefix: str | NotGiven = NOT_GIVEN,
-        url_rewriter: url_endpoint_create_params.URLRewriter | NotGiven = NOT_GIVEN,
+        origins: SequenceNotStr[str] | Omit = omit,
+        url_prefix: str | Omit = omit,
+        url_rewriter: url_endpoint_create_params.URLRewriter | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 
@@ -103,15 +103,15 @@ class URLEndpointsResource(SyncAPIResource):
         id: str,
         *,
         description: str,
-        origins: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
-        url_prefix: str | NotGiven = NOT_GIVEN,
-        url_rewriter: url_endpoint_update_params.URLRewriter | NotGiven = NOT_GIVEN,
+        origins: SequenceNotStr[str] | Omit = omit,
+        url_prefix: str | Omit = omit,
+        url_rewriter: url_endpoint_update_params.URLRewriter | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 
@@ -169,7 +169,7 @@ class URLEndpointsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> URLEndpointListResponse:
         """**Note:** This API is currently in beta.
 
@@ -194,7 +194,7 @@ class URLEndpointsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """**Note:** This API is currently in beta.
 
@@ -235,7 +235,7 @@ class URLEndpointsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 
@@ -290,15 +290,15 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
         self,
         *,
         description: str,
-        origins: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
-        url_prefix: str | NotGiven = NOT_GIVEN,
-        url_rewriter: url_endpoint_create_params.URLRewriter | NotGiven = NOT_GIVEN,
+        origins: SequenceNotStr[str] | Omit = omit,
+        url_prefix: str | Omit = omit,
+        url_rewriter: url_endpoint_create_params.URLRewriter | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 
@@ -347,15 +347,15 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
         id: str,
         *,
         description: str,
-        origins: SequenceNotStr[str] | NotGiven = NOT_GIVEN,
-        url_prefix: str | NotGiven = NOT_GIVEN,
-        url_rewriter: url_endpoint_update_params.URLRewriter | NotGiven = NOT_GIVEN,
+        origins: SequenceNotStr[str] | Omit = omit,
+        url_prefix: str | Omit = omit,
+        url_rewriter: url_endpoint_update_params.URLRewriter | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 
@@ -413,7 +413,7 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> URLEndpointListResponse:
         """**Note:** This API is currently in beta.
 
@@ -438,7 +438,7 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """**Note:** This API is currently in beta.
 
@@ -479,7 +479,7 @@ class AsyncURLEndpointsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> URLEndpointResponse:
         """**Note:** This API is currently in beta.
 

@@ -7,7 +7,7 @@ from typing_extensions import Literal, overload
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import required_args, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -54,15 +54,15 @@ class OriginsResource(SyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["S3"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -104,16 +104,16 @@ class OriginsResource(SyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["S3_COMPATIBLE"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
-        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
+        s3_force_path_style: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -158,15 +158,15 @@ class OriginsResource(SyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["CLOUDINARY_BACKUP"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -205,15 +205,15 @@ class OriginsResource(SyncAPIResource):
         base_url: str,
         name: str,
         type: Literal["WEB_FOLDER"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        forward_host_header_to_origin: bool | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -247,14 +247,14 @@ class OriginsResource(SyncAPIResource):
         *,
         name: str,
         type: Literal["WEB_PROXY"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -287,15 +287,15 @@ class OriginsResource(SyncAPIResource):
         name: str,
         private_key: str,
         type: Literal["GCS"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -328,15 +328,15 @@ class OriginsResource(SyncAPIResource):
         name: str,
         sas_token: str,
         type: Literal["AZURE_BLOB"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -371,14 +371,14 @@ class OriginsResource(SyncAPIResource):
         password: str,
         type: Literal["AKENEO_PIM"],
         username: str,
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -424,10 +424,10 @@ class OriginsResource(SyncAPIResource):
     def create(
         self,
         *,
-        access_key: str | NotGiven = NOT_GIVEN,
-        bucket: str | NotGiven = NOT_GIVEN,
+        access_key: str | Omit = omit,
+        bucket: str | Omit = omit,
         name: str,
-        secret_key: str | NotGiven = NOT_GIVEN,
+        secret_key: str | Omit = omit,
         type: Literal["S3"]
         | Literal["S3_COMPATIBLE"]
         | Literal["CLOUDINARY_BACKUP"]
@@ -436,28 +436,28 @@ class OriginsResource(SyncAPIResource):
         | Literal["GCS"]
         | Literal["AZURE_BLOB"]
         | Literal["AKENEO_PIM"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
-        endpoint: str | NotGiven = NOT_GIVEN,
-        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
-        base_url: str | NotGiven = NOT_GIVEN,
-        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
-        client_email: str | NotGiven = NOT_GIVEN,
-        private_key: str | NotGiven = NOT_GIVEN,
-        account_name: str | NotGiven = NOT_GIVEN,
-        container: str | NotGiven = NOT_GIVEN,
-        sas_token: str | NotGiven = NOT_GIVEN,
-        client_id: str | NotGiven = NOT_GIVEN,
-        client_secret: str | NotGiven = NOT_GIVEN,
-        password: str | NotGiven = NOT_GIVEN,
-        username: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
+        endpoint: str | Omit = omit,
+        s3_force_path_style: bool | Omit = omit,
+        base_url: str | Omit = omit,
+        forward_host_header_to_origin: bool | Omit = omit,
+        client_email: str | Omit = omit,
+        private_key: str | Omit = omit,
+        account_name: str | Omit = omit,
+        container: str | Omit = omit,
+        sas_token: str | Omit = omit,
+        client_id: str | Omit = omit,
+        client_secret: str | Omit = omit,
+        password: str | Omit = omit,
+        username: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         return cast(
             OriginResponse,
@@ -506,15 +506,15 @@ class OriginsResource(SyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["S3"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -560,16 +560,16 @@ class OriginsResource(SyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["S3_COMPATIBLE"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
-        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
+        s3_force_path_style: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -618,15 +618,15 @@ class OriginsResource(SyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["CLOUDINARY_BACKUP"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -669,15 +669,15 @@ class OriginsResource(SyncAPIResource):
         base_url: str,
         name: str,
         type: Literal["WEB_FOLDER"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        forward_host_header_to_origin: bool | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -715,14 +715,14 @@ class OriginsResource(SyncAPIResource):
         *,
         name: str,
         type: Literal["WEB_PROXY"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -759,15 +759,15 @@ class OriginsResource(SyncAPIResource):
         name: str,
         private_key: str,
         type: Literal["GCS"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -804,15 +804,15 @@ class OriginsResource(SyncAPIResource):
         name: str,
         sas_token: str,
         type: Literal["AZURE_BLOB"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -851,14 +851,14 @@ class OriginsResource(SyncAPIResource):
         password: str,
         type: Literal["AKENEO_PIM"],
         username: str,
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -908,10 +908,10 @@ class OriginsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        access_key: str | NotGiven = NOT_GIVEN,
-        bucket: str | NotGiven = NOT_GIVEN,
+        access_key: str | Omit = omit,
+        bucket: str | Omit = omit,
         name: str,
-        secret_key: str | NotGiven = NOT_GIVEN,
+        secret_key: str | Omit = omit,
         type: Literal["S3"]
         | Literal["S3_COMPATIBLE"]
         | Literal["CLOUDINARY_BACKUP"]
@@ -920,28 +920,28 @@ class OriginsResource(SyncAPIResource):
         | Literal["GCS"]
         | Literal["AZURE_BLOB"]
         | Literal["AKENEO_PIM"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
-        endpoint: str | NotGiven = NOT_GIVEN,
-        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
-        base_url: str | NotGiven = NOT_GIVEN,
-        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
-        client_email: str | NotGiven = NOT_GIVEN,
-        private_key: str | NotGiven = NOT_GIVEN,
-        account_name: str | NotGiven = NOT_GIVEN,
-        container: str | NotGiven = NOT_GIVEN,
-        sas_token: str | NotGiven = NOT_GIVEN,
-        client_id: str | NotGiven = NOT_GIVEN,
-        client_secret: str | NotGiven = NOT_GIVEN,
-        password: str | NotGiven = NOT_GIVEN,
-        username: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
+        endpoint: str | Omit = omit,
+        s3_force_path_style: bool | Omit = omit,
+        base_url: str | Omit = omit,
+        forward_host_header_to_origin: bool | Omit = omit,
+        client_email: str | Omit = omit,
+        private_key: str | Omit = omit,
+        account_name: str | Omit = omit,
+        container: str | Omit = omit,
+        sas_token: str | Omit = omit,
+        client_id: str | Omit = omit,
+        client_secret: str | Omit = omit,
+        password: str | Omit = omit,
+        username: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
@@ -990,7 +990,7 @@ class OriginsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginListResponse:
         """**Note:** This API is currently in beta.
 
@@ -1014,7 +1014,7 @@ class OriginsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """**Note:** This API is currently in beta.
 
@@ -1054,7 +1054,7 @@ class OriginsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1116,15 +1116,15 @@ class AsyncOriginsResource(AsyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["S3"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1166,16 +1166,16 @@ class AsyncOriginsResource(AsyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["S3_COMPATIBLE"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
-        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
+        s3_force_path_style: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1220,15 +1220,15 @@ class AsyncOriginsResource(AsyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["CLOUDINARY_BACKUP"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1267,15 +1267,15 @@ class AsyncOriginsResource(AsyncAPIResource):
         base_url: str,
         name: str,
         type: Literal["WEB_FOLDER"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        forward_host_header_to_origin: bool | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1309,14 +1309,14 @@ class AsyncOriginsResource(AsyncAPIResource):
         *,
         name: str,
         type: Literal["WEB_PROXY"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1349,15 +1349,15 @@ class AsyncOriginsResource(AsyncAPIResource):
         name: str,
         private_key: str,
         type: Literal["GCS"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1390,15 +1390,15 @@ class AsyncOriginsResource(AsyncAPIResource):
         name: str,
         sas_token: str,
         type: Literal["AZURE_BLOB"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1433,14 +1433,14 @@ class AsyncOriginsResource(AsyncAPIResource):
         password: str,
         type: Literal["AKENEO_PIM"],
         username: str,
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1486,10 +1486,10 @@ class AsyncOriginsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        access_key: str | NotGiven = NOT_GIVEN,
-        bucket: str | NotGiven = NOT_GIVEN,
+        access_key: str | Omit = omit,
+        bucket: str | Omit = omit,
         name: str,
-        secret_key: str | NotGiven = NOT_GIVEN,
+        secret_key: str | Omit = omit,
         type: Literal["S3"]
         | Literal["S3_COMPATIBLE"]
         | Literal["CLOUDINARY_BACKUP"]
@@ -1498,28 +1498,28 @@ class AsyncOriginsResource(AsyncAPIResource):
         | Literal["GCS"]
         | Literal["AZURE_BLOB"]
         | Literal["AKENEO_PIM"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
-        endpoint: str | NotGiven = NOT_GIVEN,
-        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
-        base_url: str | NotGiven = NOT_GIVEN,
-        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
-        client_email: str | NotGiven = NOT_GIVEN,
-        private_key: str | NotGiven = NOT_GIVEN,
-        account_name: str | NotGiven = NOT_GIVEN,
-        container: str | NotGiven = NOT_GIVEN,
-        sas_token: str | NotGiven = NOT_GIVEN,
-        client_id: str | NotGiven = NOT_GIVEN,
-        client_secret: str | NotGiven = NOT_GIVEN,
-        password: str | NotGiven = NOT_GIVEN,
-        username: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
+        endpoint: str | Omit = omit,
+        s3_force_path_style: bool | Omit = omit,
+        base_url: str | Omit = omit,
+        forward_host_header_to_origin: bool | Omit = omit,
+        client_email: str | Omit = omit,
+        private_key: str | Omit = omit,
+        account_name: str | Omit = omit,
+        container: str | Omit = omit,
+        sas_token: str | Omit = omit,
+        client_id: str | Omit = omit,
+        client_secret: str | Omit = omit,
+        password: str | Omit = omit,
+        username: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         return cast(
             OriginResponse,
@@ -1568,15 +1568,15 @@ class AsyncOriginsResource(AsyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["S3"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1622,16 +1622,16 @@ class AsyncOriginsResource(AsyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["S3_COMPATIBLE"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
-        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
+        s3_force_path_style: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1680,15 +1680,15 @@ class AsyncOriginsResource(AsyncAPIResource):
         name: str,
         secret_key: str,
         type: Literal["CLOUDINARY_BACKUP"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1731,15 +1731,15 @@ class AsyncOriginsResource(AsyncAPIResource):
         base_url: str,
         name: str,
         type: Literal["WEB_FOLDER"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        forward_host_header_to_origin: bool | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1777,14 +1777,14 @@ class AsyncOriginsResource(AsyncAPIResource):
         *,
         name: str,
         type: Literal["WEB_PROXY"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1821,15 +1821,15 @@ class AsyncOriginsResource(AsyncAPIResource):
         name: str,
         private_key: str,
         type: Literal["GCS"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1866,15 +1866,15 @@ class AsyncOriginsResource(AsyncAPIResource):
         name: str,
         sas_token: str,
         type: Literal["AZURE_BLOB"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1913,14 +1913,14 @@ class AsyncOriginsResource(AsyncAPIResource):
         password: str,
         type: Literal["AKENEO_PIM"],
         username: str,
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 
@@ -1970,10 +1970,10 @@ class AsyncOriginsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        access_key: str | NotGiven = NOT_GIVEN,
-        bucket: str | NotGiven = NOT_GIVEN,
+        access_key: str | Omit = omit,
+        bucket: str | Omit = omit,
         name: str,
-        secret_key: str | NotGiven = NOT_GIVEN,
+        secret_key: str | Omit = omit,
         type: Literal["S3"]
         | Literal["S3_COMPATIBLE"]
         | Literal["CLOUDINARY_BACKUP"]
@@ -1982,28 +1982,28 @@ class AsyncOriginsResource(AsyncAPIResource):
         | Literal["GCS"]
         | Literal["AZURE_BLOB"]
         | Literal["AKENEO_PIM"],
-        base_url_for_canonical_header: str | NotGiven = NOT_GIVEN,
-        include_canonical_header: bool | NotGiven = NOT_GIVEN,
-        prefix: str | NotGiven = NOT_GIVEN,
-        endpoint: str | NotGiven = NOT_GIVEN,
-        s3_force_path_style: bool | NotGiven = NOT_GIVEN,
-        base_url: str | NotGiven = NOT_GIVEN,
-        forward_host_header_to_origin: bool | NotGiven = NOT_GIVEN,
-        client_email: str | NotGiven = NOT_GIVEN,
-        private_key: str | NotGiven = NOT_GIVEN,
-        account_name: str | NotGiven = NOT_GIVEN,
-        container: str | NotGiven = NOT_GIVEN,
-        sas_token: str | NotGiven = NOT_GIVEN,
-        client_id: str | NotGiven = NOT_GIVEN,
-        client_secret: str | NotGiven = NOT_GIVEN,
-        password: str | NotGiven = NOT_GIVEN,
-        username: str | NotGiven = NOT_GIVEN,
+        base_url_for_canonical_header: str | Omit = omit,
+        include_canonical_header: bool | Omit = omit,
+        prefix: str | Omit = omit,
+        endpoint: str | Omit = omit,
+        s3_force_path_style: bool | Omit = omit,
+        base_url: str | Omit = omit,
+        forward_host_header_to_origin: bool | Omit = omit,
+        client_email: str | Omit = omit,
+        private_key: str | Omit = omit,
+        account_name: str | Omit = omit,
+        container: str | Omit = omit,
+        sas_token: str | Omit = omit,
+        client_id: str | Omit = omit,
+        client_secret: str | Omit = omit,
+        password: str | Omit = omit,
+        username: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
@@ -2052,7 +2052,7 @@ class AsyncOriginsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginListResponse:
         """**Note:** This API is currently in beta.
 
@@ -2076,7 +2076,7 @@ class AsyncOriginsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """**Note:** This API is currently in beta.
 
@@ -2116,7 +2116,7 @@ class AsyncOriginsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OriginResponse:
         """**Note:** This API is currently in beta.
 

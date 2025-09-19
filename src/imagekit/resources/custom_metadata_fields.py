@@ -9,7 +9,7 @@ from ..types import (
     custom_metadata_field_create_params,
     custom_metadata_field_update_params,
 )
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -58,7 +58,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomMetadataField:
         """This API creates a new custom metadata field.
 
@@ -104,14 +104,14 @@ class CustomMetadataFieldsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        label: str | NotGiven = NOT_GIVEN,
-        schema: custom_metadata_field_update_params.Schema | NotGiven = NOT_GIVEN,
+        label: str | Omit = omit,
+        schema: custom_metadata_field_update_params.Schema | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomMetadataField:
         """
         This API updates the label or schema of an existing custom metadata field.
@@ -155,13 +155,13 @@ class CustomMetadataFieldsResource(SyncAPIResource):
     def list(
         self,
         *,
-        include_deleted: bool | NotGiven = NOT_GIVEN,
+        include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomMetadataFieldListResponse:
         """This API returns the array of created custom metadata field objects.
 
@@ -204,7 +204,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomMetadataFieldDeleteResponse:
         """This API deletes a custom metadata field.
 
@@ -262,7 +262,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomMetadataField:
         """This API creates a new custom metadata field.
 
@@ -308,14 +308,14 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        label: str | NotGiven = NOT_GIVEN,
-        schema: custom_metadata_field_update_params.Schema | NotGiven = NOT_GIVEN,
+        label: str | Omit = omit,
+        schema: custom_metadata_field_update_params.Schema | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomMetadataField:
         """
         This API updates the label or schema of an existing custom metadata field.
@@ -359,13 +359,13 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        include_deleted: bool | NotGiven = NOT_GIVEN,
+        include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomMetadataFieldListResponse:
         """This API returns the array of created custom metadata field objects.
 
@@ -408,7 +408,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomMetadataFieldDeleteResponse:
         """This API deletes a custom metadata field.
 
