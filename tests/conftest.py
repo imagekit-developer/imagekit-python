@@ -45,7 +45,7 @@ def pytest_collection_modifyitems(items: list[pytest.Function]) -> None:
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-private_api_key = "My Private API Key"
+private_key = "My Private Key"
 password = "My Password"
 
 
@@ -56,7 +56,7 @@ def client(request: FixtureRequest) -> Iterator[ImageKit]:
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
     with ImageKit(
-        base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=strict
+        base_url=base_url, private_key=private_key, password=password, _strict_response_validation=strict
     ) as client:
         yield client
 
@@ -83,7 +83,7 @@ async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncImageKit]:
 
     async with AsyncImageKit(
         base_url=base_url,
-        private_api_key=private_api_key,
+        private_key=private_key,
         password=password,
         _strict_response_validation=strict,
         http_client=http_client,

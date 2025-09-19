@@ -62,14 +62,14 @@ class ImageKit(SyncAPIClient):
     with_streaming_response: ImageKitWithStreamedResponse
 
     # client options
-    private_api_key: str
+    private_key: str
     password: str | None
     webhook_secret: str | None
 
     def __init__(
         self,
         *,
-        private_api_key: str | None = None,
+        private_key: str | None = None,
         password: str | None = None,
         webhook_secret: str | None = None,
         base_url: str | httpx.URL | None = None,
@@ -94,17 +94,17 @@ class ImageKit(SyncAPIClient):
         """Construct a new synchronous ImageKit client instance.
 
         This automatically infers the following arguments from their corresponding environment variables if they are not provided:
-        - `private_api_key` from `IMAGEKIT_PRIVATE_API_KEY`
+        - `private_key` from `IMAGEKIT_PRIVATE_API_KEY`
         - `password` from `OPTIONAL_IMAGEKIT_IGNORES_THIS`
         - `webhook_secret` from `IMAGEKIT_WEBHOOK_SECRET`
         """
-        if private_api_key is None:
-            private_api_key = os.environ.get("IMAGEKIT_PRIVATE_API_KEY")
-        if private_api_key is None:
+        if private_key is None:
+            private_key = os.environ.get("IMAGEKIT_PRIVATE_API_KEY")
+        if private_key is None:
             raise ImageKitError(
-                "The private_api_key client option must be set either by passing private_api_key to the client or by setting the IMAGEKIT_PRIVATE_API_KEY environment variable"
+                "The private_key client option must be set either by passing private_key to the client or by setting the IMAGEKIT_PRIVATE_API_KEY environment variable"
             )
-        self.private_api_key = private_api_key
+        self.private_key = private_key
 
         if password is None:
             password = os.environ.get("OPTIONAL_IMAGEKIT_IGNORES_THIS") or "do_not_set"
@@ -152,7 +152,7 @@ class ImageKit(SyncAPIClient):
     def auth_headers(self) -> dict[str, str]:
         if self.password is None:
             return {}
-        credentials = f"{self.private_api_key}:{self.password}".encode("ascii")
+        credentials = f"{self.private_key}:{self.password}".encode("ascii")
         header = f"Basic {base64.b64encode(credentials).decode('ascii')}"
         return {"Authorization": header}
 
@@ -167,19 +167,19 @@ class ImageKit(SyncAPIClient):
 
     @override
     def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
-        if self.private_api_key and self.password and headers.get("Authorization"):
+        if self.private_key and self.password and headers.get("Authorization"):
             return
         if isinstance(custom_headers.get("Authorization"), Omit):
             return
 
         raise TypeError(
-            '"Could not resolve authentication method. Expected the private_api_key or password to be set. Or for the `Authorization` headers to be explicitly omitted"'
+            '"Could not resolve authentication method. Expected the private_key or password to be set. Or for the `Authorization` headers to be explicitly omitted"'
         )
 
     def copy(
         self,
         *,
-        private_api_key: str | None = None,
+        private_key: str | None = None,
         password: str | None = None,
         webhook_secret: str | None = None,
         base_url: str | httpx.URL | None = None,
@@ -215,7 +215,7 @@ class ImageKit(SyncAPIClient):
 
         http_client = http_client or self._client
         client = self.__class__(
-            private_api_key=private_api_key or self.private_api_key,
+            private_key=private_key or self.private_key,
             password=password or self.password,
             webhook_secret=webhook_secret or self.webhook_secret,
             base_url=base_url or self.base_url,
@@ -280,14 +280,14 @@ class AsyncImageKit(AsyncAPIClient):
     with_streaming_response: AsyncImageKitWithStreamedResponse
 
     # client options
-    private_api_key: str
+    private_key: str
     password: str | None
     webhook_secret: str | None
 
     def __init__(
         self,
         *,
-        private_api_key: str | None = None,
+        private_key: str | None = None,
         password: str | None = None,
         webhook_secret: str | None = None,
         base_url: str | httpx.URL | None = None,
@@ -312,17 +312,17 @@ class AsyncImageKit(AsyncAPIClient):
         """Construct a new async AsyncImageKit client instance.
 
         This automatically infers the following arguments from their corresponding environment variables if they are not provided:
-        - `private_api_key` from `IMAGEKIT_PRIVATE_API_KEY`
+        - `private_key` from `IMAGEKIT_PRIVATE_API_KEY`
         - `password` from `OPTIONAL_IMAGEKIT_IGNORES_THIS`
         - `webhook_secret` from `IMAGEKIT_WEBHOOK_SECRET`
         """
-        if private_api_key is None:
-            private_api_key = os.environ.get("IMAGEKIT_PRIVATE_API_KEY")
-        if private_api_key is None:
+        if private_key is None:
+            private_key = os.environ.get("IMAGEKIT_PRIVATE_API_KEY")
+        if private_key is None:
             raise ImageKitError(
-                "The private_api_key client option must be set either by passing private_api_key to the client or by setting the IMAGEKIT_PRIVATE_API_KEY environment variable"
+                "The private_key client option must be set either by passing private_key to the client or by setting the IMAGEKIT_PRIVATE_API_KEY environment variable"
             )
-        self.private_api_key = private_api_key
+        self.private_key = private_key
 
         if password is None:
             password = os.environ.get("OPTIONAL_IMAGEKIT_IGNORES_THIS") or "do_not_set"
@@ -370,7 +370,7 @@ class AsyncImageKit(AsyncAPIClient):
     def auth_headers(self) -> dict[str, str]:
         if self.password is None:
             return {}
-        credentials = f"{self.private_api_key}:{self.password}".encode("ascii")
+        credentials = f"{self.private_key}:{self.password}".encode("ascii")
         header = f"Basic {base64.b64encode(credentials).decode('ascii')}"
         return {"Authorization": header}
 
@@ -385,19 +385,19 @@ class AsyncImageKit(AsyncAPIClient):
 
     @override
     def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
-        if self.private_api_key and self.password and headers.get("Authorization"):
+        if self.private_key and self.password and headers.get("Authorization"):
             return
         if isinstance(custom_headers.get("Authorization"), Omit):
             return
 
         raise TypeError(
-            '"Could not resolve authentication method. Expected the private_api_key or password to be set. Or for the `Authorization` headers to be explicitly omitted"'
+            '"Could not resolve authentication method. Expected the private_key or password to be set. Or for the `Authorization` headers to be explicitly omitted"'
         )
 
     def copy(
         self,
         *,
-        private_api_key: str | None = None,
+        private_key: str | None = None,
         password: str | None = None,
         webhook_secret: str | None = None,
         base_url: str | httpx.URL | None = None,
@@ -433,7 +433,7 @@ class AsyncImageKit(AsyncAPIClient):
 
         http_client = http_client or self._client
         client = self.__class__(
-            private_api_key=private_api_key or self.private_api_key,
+            private_key=private_key or self.private_key,
             password=password or self.password,
             webhook_secret=webhook_secret or self.webhook_secret,
             base_url=base_url or self.base_url,

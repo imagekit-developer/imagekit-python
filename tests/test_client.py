@@ -37,7 +37,7 @@ from imagekit._base_client import (
 from .utils import update_env
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
-private_api_key = "My Private API Key"
+private_key = "My Private Key"
 password = "My Password"
 
 
@@ -60,9 +60,7 @@ def _get_open_connections(client: ImageKit | AsyncImageKit) -> int:
 
 
 class TestImageKit:
-    client = ImageKit(
-        base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
-    )
+    client = ImageKit(base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -88,9 +86,9 @@ class TestImageKit:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(private_api_key="another My Private API Key")
-        assert copied.private_api_key == "another My Private API Key"
-        assert self.client.private_api_key == "My Private API Key"
+        copied = self.client.copy(private_key="another My Private Key")
+        assert copied.private_key == "another My Private Key"
+        assert self.client.private_key == "My Private Key"
 
         copied = self.client.copy(password="another My Password")
         assert copied.password == "another My Password"
@@ -115,7 +113,7 @@ class TestImageKit:
     def test_copy_default_headers(self) -> None:
         client = ImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             default_headers={"X-Foo": "bar"},
@@ -153,7 +151,7 @@ class TestImageKit:
     def test_copy_default_query(self) -> None:
         client = ImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             default_query={"foo": "bar"},
@@ -283,7 +281,7 @@ class TestImageKit:
     def test_client_timeout_option(self) -> None:
         client = ImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             timeout=httpx.Timeout(0),
@@ -298,7 +296,7 @@ class TestImageKit:
         with httpx.Client(timeout=None) as http_client:
             client = ImageKit(
                 base_url=base_url,
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=http_client,
@@ -312,7 +310,7 @@ class TestImageKit:
         with httpx.Client() as http_client:
             client = ImageKit(
                 base_url=base_url,
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=http_client,
@@ -326,7 +324,7 @@ class TestImageKit:
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = ImageKit(
                 base_url=base_url,
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=http_client,
@@ -341,7 +339,7 @@ class TestImageKit:
             async with httpx.AsyncClient() as http_client:
                 ImageKit(
                     base_url=base_url,
-                    private_api_key=private_api_key,
+                    private_key=private_key,
                     password=password,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
@@ -350,7 +348,7 @@ class TestImageKit:
     def test_default_headers_option(self) -> None:
         client = ImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             default_headers={"X-Foo": "bar"},
@@ -361,7 +359,7 @@ class TestImageKit:
 
         client2 = ImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             default_headers={
@@ -375,7 +373,7 @@ class TestImageKit:
 
     def test_validate_headers(self) -> None:
         client = ImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert "Basic" in request.headers.get("Authorization")
@@ -387,15 +385,13 @@ class TestImageKit:
                     "OPTIONAL_IMAGEKIT_IGNORES_THIS": Omit(),
                 }
             ):
-                client2 = ImageKit(
-                    base_url=base_url, private_api_key=None, password=None, _strict_response_validation=True
-                )
+                client2 = ImageKit(base_url=base_url, private_key=None, password=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
         client = ImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             default_query={"query_param": "bar"},
@@ -600,7 +596,7 @@ class TestImageKit:
     def test_base_url_setter(self) -> None:
         client = ImageKit(
             base_url="https://example.com/from_init",
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
         )
@@ -612,7 +608,7 @@ class TestImageKit:
 
     def test_base_url_env(self) -> None:
         with update_env(IMAGE_KIT_BASE_URL="http://localhost:5000/from/env"):
-            client = ImageKit(private_api_key=private_api_key, password=password, _strict_response_validation=True)
+            client = ImageKit(private_key=private_key, password=password, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
@@ -620,13 +616,13 @@ class TestImageKit:
         [
             ImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
             ),
             ImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
@@ -649,13 +645,13 @@ class TestImageKit:
         [
             ImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
             ),
             ImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
@@ -678,13 +674,13 @@ class TestImageKit:
         [
             ImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
             ),
             ImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
@@ -704,7 +700,7 @@ class TestImageKit:
 
     def test_copied_client_does_not_close_http(self) -> None:
         client = ImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True
         )
         assert not client.is_closed()
 
@@ -717,7 +713,7 @@ class TestImageKit:
 
     def test_client_context_manager(self) -> None:
         client = ImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True
         )
         with client as c2:
             assert c2 is client
@@ -741,7 +737,7 @@ class TestImageKit:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             ImageKit(
                 base_url=base_url,
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 max_retries=cast(Any, None),
@@ -755,14 +751,14 @@ class TestImageKit:
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
         strict_client = ImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True
         )
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
         client = ImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=False
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=False
         )
 
         response = client.get("/foo", cast_to=Model)
@@ -792,7 +788,7 @@ class TestImageKit:
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
         client = ImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True
         )
 
         headers = httpx.Headers({"retry-after": retry_after})
@@ -952,7 +948,7 @@ class TestImageKit:
 
 class TestAsyncImageKit:
     client = AsyncImageKit(
-        base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
+        base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True
     )
 
     @pytest.mark.respx(base_url=base_url)
@@ -981,9 +977,9 @@ class TestAsyncImageKit:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(private_api_key="another My Private API Key")
-        assert copied.private_api_key == "another My Private API Key"
-        assert self.client.private_api_key == "My Private API Key"
+        copied = self.client.copy(private_key="another My Private Key")
+        assert copied.private_key == "another My Private Key"
+        assert self.client.private_key == "My Private Key"
 
         copied = self.client.copy(password="another My Password")
         assert copied.password == "another My Password"
@@ -1008,7 +1004,7 @@ class TestAsyncImageKit:
     def test_copy_default_headers(self) -> None:
         client = AsyncImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             default_headers={"X-Foo": "bar"},
@@ -1046,7 +1042,7 @@ class TestAsyncImageKit:
     def test_copy_default_query(self) -> None:
         client = AsyncImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             default_query={"foo": "bar"},
@@ -1176,7 +1172,7 @@ class TestAsyncImageKit:
     async def test_client_timeout_option(self) -> None:
         client = AsyncImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             timeout=httpx.Timeout(0),
@@ -1191,7 +1187,7 @@ class TestAsyncImageKit:
         async with httpx.AsyncClient(timeout=None) as http_client:
             client = AsyncImageKit(
                 base_url=base_url,
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=http_client,
@@ -1205,7 +1201,7 @@ class TestAsyncImageKit:
         async with httpx.AsyncClient() as http_client:
             client = AsyncImageKit(
                 base_url=base_url,
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=http_client,
@@ -1219,7 +1215,7 @@ class TestAsyncImageKit:
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = AsyncImageKit(
                 base_url=base_url,
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=http_client,
@@ -1234,7 +1230,7 @@ class TestAsyncImageKit:
             with httpx.Client() as http_client:
                 AsyncImageKit(
                     base_url=base_url,
-                    private_api_key=private_api_key,
+                    private_key=private_key,
                     password=password,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
@@ -1243,7 +1239,7 @@ class TestAsyncImageKit:
     def test_default_headers_option(self) -> None:
         client = AsyncImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             default_headers={"X-Foo": "bar"},
@@ -1254,7 +1250,7 @@ class TestAsyncImageKit:
 
         client2 = AsyncImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             default_headers={
@@ -1268,7 +1264,7 @@ class TestAsyncImageKit:
 
     def test_validate_headers(self) -> None:
         client = AsyncImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert "Basic" in request.headers.get("Authorization")
@@ -1281,14 +1277,14 @@ class TestAsyncImageKit:
                 }
             ):
                 client2 = AsyncImageKit(
-                    base_url=base_url, private_api_key=None, password=None, _strict_response_validation=True
+                    base_url=base_url, private_key=None, password=None, _strict_response_validation=True
                 )
             _ = client2
 
     def test_default_query_option(self) -> None:
         client = AsyncImageKit(
             base_url=base_url,
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
             default_query={"query_param": "bar"},
@@ -1493,7 +1489,7 @@ class TestAsyncImageKit:
     def test_base_url_setter(self) -> None:
         client = AsyncImageKit(
             base_url="https://example.com/from_init",
-            private_api_key=private_api_key,
+            private_key=private_key,
             password=password,
             _strict_response_validation=True,
         )
@@ -1505,7 +1501,7 @@ class TestAsyncImageKit:
 
     def test_base_url_env(self) -> None:
         with update_env(IMAGE_KIT_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncImageKit(private_api_key=private_api_key, password=password, _strict_response_validation=True)
+            client = AsyncImageKit(private_key=private_key, password=password, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
@@ -1513,13 +1509,13 @@ class TestAsyncImageKit:
         [
             AsyncImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
             ),
             AsyncImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
@@ -1542,13 +1538,13 @@ class TestAsyncImageKit:
         [
             AsyncImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
             ),
             AsyncImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
@@ -1571,13 +1567,13 @@ class TestAsyncImageKit:
         [
             AsyncImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
             ),
             AsyncImageKit(
                 base_url="http://localhost:5000/custom/path/",
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
@@ -1597,7 +1593,7 @@ class TestAsyncImageKit:
 
     async def test_copied_client_does_not_close_http(self) -> None:
         client = AsyncImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True
         )
         assert not client.is_closed()
 
@@ -1611,7 +1607,7 @@ class TestAsyncImageKit:
 
     async def test_client_context_manager(self) -> None:
         client = AsyncImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True
         )
         async with client as c2:
             assert c2 is client
@@ -1636,7 +1632,7 @@ class TestAsyncImageKit:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             AsyncImageKit(
                 base_url=base_url,
-                private_api_key=private_api_key,
+                private_key=private_key,
                 password=password,
                 _strict_response_validation=True,
                 max_retries=cast(Any, None),
@@ -1651,14 +1647,14 @@ class TestAsyncImageKit:
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
         strict_client = AsyncImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True
         )
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
         client = AsyncImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=False
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=False
         )
 
         response = await client.get("/foo", cast_to=Model)
@@ -1689,7 +1685,7 @@ class TestAsyncImageKit:
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
         client = AsyncImageKit(
-            base_url=base_url, private_api_key=private_api_key, password=password, _strict_response_validation=True
+            base_url=base_url, private_key=private_key, password=password, _strict_response_validation=True
         )
 
         headers = httpx.Headers({"retry-after": retry_after})
