@@ -172,7 +172,7 @@ class FilesResource(SyncAPIResource):
         self,
         file_id: str,
         *,
-        publish: file_update_params.ChangePublicationStatusPublish | Omit = omit,
+        body: object,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -186,8 +186,6 @@ class FilesResource(SyncAPIResource):
         status, remove existing `AITags` and apply extensions using this API.
 
         Args:
-          publish: Configure the publication status of a file and its versions.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -209,7 +207,7 @@ class FilesResource(SyncAPIResource):
         remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | Omit = omit,
         tags: Optional[SequenceNotStr[str]] | Omit = omit,
         webhook_url: str | Omit = omit,
-        publish: file_update_params.ChangePublicationStatusPublish | Omit = omit,
+        body: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -230,7 +228,7 @@ class FilesResource(SyncAPIResource):
                     "remove_ai_tags": remove_ai_tags,
                     "tags": tags,
                     "webhook_url": webhook_url,
-                    "publish": publish,
+                    "body": body,
                 },
                 file_update_params.FileUpdateParams,
             ),
@@ -843,7 +841,7 @@ class AsyncFilesResource(AsyncAPIResource):
         self,
         file_id: str,
         *,
-        publish: file_update_params.ChangePublicationStatusPublish | Omit = omit,
+        body: object,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -857,8 +855,6 @@ class AsyncFilesResource(AsyncAPIResource):
         status, remove existing `AITags` and apply extensions using this API.
 
         Args:
-          publish: Configure the publication status of a file and its versions.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -880,7 +876,7 @@ class AsyncFilesResource(AsyncAPIResource):
         remove_ai_tags: Union[SequenceNotStr[str], Literal["all"]] | Omit = omit,
         tags: Optional[SequenceNotStr[str]] | Omit = omit,
         webhook_url: str | Omit = omit,
-        publish: file_update_params.ChangePublicationStatusPublish | Omit = omit,
+        body: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -901,7 +897,7 @@ class AsyncFilesResource(AsyncAPIResource):
                     "remove_ai_tags": remove_ai_tags,
                     "tags": tags,
                     "webhook_url": webhook_url,
-                    "publish": publish,
+                    "body": body,
                 },
                 file_update_params.FileUpdateParams,
             ),

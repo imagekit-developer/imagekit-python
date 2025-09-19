@@ -50,7 +50,7 @@ from imagekit.types import (
     File,
     Folder,
     Metadata,
-    UpdateFileDetailsRequest,
+    UpdateFileRequest,
     FileUpdateResponse,
     FileCopyResponse,
     FileMoveResponse,

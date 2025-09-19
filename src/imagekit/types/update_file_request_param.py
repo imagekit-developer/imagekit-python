@@ -3,18 +3,13 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Optional
-from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
+from typing_extensions import Literal, Annotated, TypeAlias, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 from .shared_params.extensions import Extensions
 
-__all__ = [
-    "UpdateFileDetailsRequestParam",
-    "UpdateFileDetails",
-    "ChangePublicationStatus",
-    "ChangePublicationStatusPublish",
-]
+__all__ = ["UpdateFileRequestParam", "UpdateFileDetails"]
 
 
 class UpdateFileDetails(TypedDict, total=False):
@@ -69,20 +64,4 @@ class UpdateFileDetails(TypedDict, total=False):
     """
 
 
-class ChangePublicationStatusPublish(TypedDict, total=False):
-    is_published: Required[Annotated[bool, PropertyInfo(alias="isPublished")]]
-    """Set to `true` to publish the file. Set to `false` to unpublish the file."""
-
-    include_file_versions: Annotated[bool, PropertyInfo(alias="includeFileVersions")]
-    """Set to `true` to publish/unpublish all versions of the file.
-
-    Set to `false` to publish/unpublish only the current version of the file.
-    """
-
-
-class ChangePublicationStatus(TypedDict, total=False):
-    publish: ChangePublicationStatusPublish
-    """Configure the publication status of a file and its versions."""
-
-
-UpdateFileDetailsRequestParam: TypeAlias = Union[UpdateFileDetails, ChangePublicationStatus]
+UpdateFileRequestParam: TypeAlias = Union[UpdateFileDetails, object]
