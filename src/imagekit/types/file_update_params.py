@@ -9,7 +9,7 @@ from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 from .shared_params.extensions import Extensions
 
-__all__ = ["FileUpdateParams", "UpdateFileDetails", "ChangePublicationStatus"]
+__all__ = ["FileUpdateParams", "UpdateFileDetails", "ChangePublicationStatus", "ChangePublicationStatusPublish"]
 
 
 class UpdateFileDetails(TypedDict, total=False):
@@ -65,7 +65,19 @@ class UpdateFileDetails(TypedDict, total=False):
 
 
 class ChangePublicationStatus(TypedDict, total=False):
-    body: Required[object]
+    publish: ChangePublicationStatusPublish
+    """Configure the publication status of a file and its versions."""
+
+
+class ChangePublicationStatusPublish(TypedDict, total=False):
+    is_published: Required[Annotated[bool, PropertyInfo(alias="isPublished")]]
+    """Set to `true` to publish the file. Set to `false` to unpublish the file."""
+
+    include_file_versions: Annotated[bool, PropertyInfo(alias="includeFileVersions")]
+    """Set to `true` to publish/unpublish all versions of the file.
+
+    Set to `false` to publish/unpublish only the current version of the file.
+    """
 
 
 FileUpdateParams: TypeAlias = Union[UpdateFileDetails, ChangePublicationStatus]

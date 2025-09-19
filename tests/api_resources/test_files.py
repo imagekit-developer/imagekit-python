@@ -102,7 +102,18 @@ class TestFiles:
     def test_method_update_overload_2(self, client: ImageKit) -> None:
         file = client.files.update(
             file_id="fileId",
-            body={},
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params_overload_2(self, client: ImageKit) -> None:
+        file = client.files.update(
+            file_id="fileId",
+            publish={
+                "is_published": True,
+                "include_file_versions": True,
+            },
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
@@ -111,7 +122,6 @@ class TestFiles:
     def test_raw_response_update_overload_2(self, client: ImageKit) -> None:
         response = client.files.with_raw_response.update(
             file_id="fileId",
-            body={},
         )
 
         assert response.is_closed is True
@@ -124,7 +134,6 @@ class TestFiles:
     def test_streaming_response_update_overload_2(self, client: ImageKit) -> None:
         with client.files.with_streaming_response.update(
             file_id="fileId",
-            body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -140,7 +149,6 @@ class TestFiles:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             client.files.with_raw_response.update(
                 file_id="",
-                body={},
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -541,7 +549,18 @@ class TestAsyncFiles:
     async def test_method_update_overload_2(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.update(
             file_id="fileId",
-            body={},
+        )
+        assert_matches_type(FileUpdateResponse, file, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params_overload_2(self, async_client: AsyncImageKit) -> None:
+        file = await async_client.files.update(
+            file_id="fileId",
+            publish={
+                "is_published": True,
+                "include_file_versions": True,
+            },
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
@@ -550,7 +569,6 @@ class TestAsyncFiles:
     async def test_raw_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
         response = await async_client.files.with_raw_response.update(
             file_id="fileId",
-            body={},
         )
 
         assert response.is_closed is True
@@ -563,7 +581,6 @@ class TestAsyncFiles:
     async def test_streaming_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
         async with async_client.files.with_streaming_response.update(
             file_id="fileId",
-            body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -579,7 +596,6 @@ class TestAsyncFiles:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             await async_client.files.with_raw_response.update(
                 file_id="",
-                body={},
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
