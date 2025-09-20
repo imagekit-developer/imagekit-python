@@ -381,7 +381,7 @@ class TestImageKit:
         with pytest.raises(ImageKitError):
             with update_env(
                 **{
-                    "IMAGEKIT_PRIVATE_API_KEY": Omit(),
+                    "IMAGEKIT_PRIVATE_KEY": Omit(),
                     "OPTIONAL_IMAGEKIT_IGNORES_THIS": Omit(),
                 }
             ):
@@ -1272,7 +1272,7 @@ class TestAsyncImageKit:
         with pytest.raises(ImageKitError):
             with update_env(
                 **{
-                    "IMAGEKIT_PRIVATE_API_KEY": Omit(),
+                    "IMAGEKIT_PRIVATE_KEY": Omit(),
                     "OPTIONAL_IMAGEKIT_IGNORES_THIS": Omit(),
                 }
             ):

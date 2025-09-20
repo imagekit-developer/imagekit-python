@@ -94,15 +94,15 @@ class ImageKit(SyncAPIClient):
         """Construct a new synchronous ImageKit client instance.
 
         This automatically infers the following arguments from their corresponding environment variables if they are not provided:
-        - `private_key` from `IMAGEKIT_PRIVATE_API_KEY`
+        - `private_key` from `IMAGEKIT_PRIVATE_KEY`
         - `password` from `OPTIONAL_IMAGEKIT_IGNORES_THIS`
         - `webhook_secret` from `IMAGEKIT_WEBHOOK_SECRET`
         """
         if private_key is None:
-            private_key = os.environ.get("IMAGEKIT_PRIVATE_API_KEY")
+            private_key = os.environ.get("IMAGEKIT_PRIVATE_KEY")
         if private_key is None:
             raise ImageKitError(
-                "The private_key client option must be set either by passing private_key to the client or by setting the IMAGEKIT_PRIVATE_API_KEY environment variable"
+                "The private_key client option must be set either by passing private_key to the client or by setting the IMAGEKIT_PRIVATE_KEY environment variable"
             )
         self.private_key = private_key
 
@@ -312,15 +312,15 @@ class AsyncImageKit(AsyncAPIClient):
         """Construct a new async AsyncImageKit client instance.
 
         This automatically infers the following arguments from their corresponding environment variables if they are not provided:
-        - `private_key` from `IMAGEKIT_PRIVATE_API_KEY`
+        - `private_key` from `IMAGEKIT_PRIVATE_KEY`
         - `password` from `OPTIONAL_IMAGEKIT_IGNORES_THIS`
         - `webhook_secret` from `IMAGEKIT_WEBHOOK_SECRET`
         """
         if private_key is None:
-            private_key = os.environ.get("IMAGEKIT_PRIVATE_API_KEY")
+            private_key = os.environ.get("IMAGEKIT_PRIVATE_KEY")
         if private_key is None:
             raise ImageKitError(
-                "The private_key client option must be set either by passing private_key to the client or by setting the IMAGEKIT_PRIVATE_API_KEY environment variable"
+                "The private_key client option must be set either by passing private_key to the client or by setting the IMAGEKIT_PRIVATE_KEY environment variable"
             )
         self.private_key = private_key
 

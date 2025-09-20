@@ -32,9 +32,7 @@ import os
 from imagekit import ImageKit
 
 client = ImageKit(
-    private_key=os.environ.get(
-        "IMAGEKIT_PRIVATE_API_KEY"
-    ),  # This is the default and can be omitted
+    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),  # This is the default and can be omitted
     password=os.environ.get(
         "OPTIONAL_IMAGEKIT_IGNORES_THIS"
     ),  # This is the default and can be omitted
@@ -49,7 +47,7 @@ print(response.video_codec)
 
 While you can provide a `private_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `IMAGEKIT_PRIVATE_API_KEY="My Private Key"` to your `.env` file
+to add `IMAGEKIT_PRIVATE_KEY="My Private Key"` to your `.env` file
 so that your Private Key is not stored in source control.
 
 ## Async usage
@@ -62,9 +60,7 @@ import asyncio
 from imagekit import AsyncImageKit
 
 client = AsyncImageKit(
-    private_key=os.environ.get(
-        "IMAGEKIT_PRIVATE_API_KEY"
-    ),  # This is the default and can be omitted
+    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),  # This is the default and can be omitted
     password=os.environ.get(
         "OPTIONAL_IMAGEKIT_IGNORES_THIS"
     ),  # This is the default and can be omitted
