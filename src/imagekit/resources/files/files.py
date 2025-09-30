@@ -516,7 +516,6 @@ class FilesResource(SyncAPIResource):
             ]
         ]
         | Omit = omit,
-        selected_fields_schema: Dict[str, file_upload_params.SelectedFieldsSchema] | Omit = omit,
         signature: str | Omit = omit,
         tags: SequenceNotStr[str] | Omit = omit,
         transformation: file_upload_params.Transformation | Omit = omit,
@@ -654,14 +653,6 @@ class FilesResource(SyncAPIResource):
 
           response_fields: Array of response field keys to include in the API response body.
 
-          selected_fields_schema: This field is included in the response only if the Path policy feature is
-              available in the plan. It contains schema definitions for the custom metadata
-              fields selected for the specified file path. Field selection can only be done
-              when the Path policy feature is enabled.
-
-              Keys are the names of the custom metadata fields; the value object has details
-              about the custom metadata schema.
-
           signature: HMAC-SHA1 digest of the token+expire using your ImageKit.io private API key as a
               key. Learn how to create a signature on the page below. This should be in
               lowercase.
@@ -727,7 +718,6 @@ class FilesResource(SyncAPIResource):
                 "overwrite_tags": overwrite_tags,
                 "public_key": public_key,
                 "response_fields": response_fields,
-                "selected_fields_schema": selected_fields_schema,
                 "signature": signature,
                 "tags": tags,
                 "transformation": transformation,
@@ -1198,7 +1188,6 @@ class AsyncFilesResource(AsyncAPIResource):
             ]
         ]
         | Omit = omit,
-        selected_fields_schema: Dict[str, file_upload_params.SelectedFieldsSchema] | Omit = omit,
         signature: str | Omit = omit,
         tags: SequenceNotStr[str] | Omit = omit,
         transformation: file_upload_params.Transformation | Omit = omit,
@@ -1336,14 +1325,6 @@ class AsyncFilesResource(AsyncAPIResource):
 
           response_fields: Array of response field keys to include in the API response body.
 
-          selected_fields_schema: This field is included in the response only if the Path policy feature is
-              available in the plan. It contains schema definitions for the custom metadata
-              fields selected for the specified file path. Field selection can only be done
-              when the Path policy feature is enabled.
-
-              Keys are the names of the custom metadata fields; the value object has details
-              about the custom metadata schema.
-
           signature: HMAC-SHA1 digest of the token+expire using your ImageKit.io private API key as a
               key. Learn how to create a signature on the page below. This should be in
               lowercase.
@@ -1409,7 +1390,6 @@ class AsyncFilesResource(AsyncAPIResource):
                 "overwrite_tags": overwrite_tags,
                 "public_key": public_key,
                 "response_fields": response_fields,
-                "selected_fields_schema": selected_fields_schema,
                 "signature": signature,
                 "tags": tags,
                 "transformation": transformation,

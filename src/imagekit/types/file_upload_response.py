@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Union, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -8,7 +8,7 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 from .metadata import Metadata
 
-__all__ = ["FileUploadResponse", "AITag", "ExtensionStatus", "VersionInfo"]
+__all__ = ["FileUploadResponse", "AITag", "ExtensionStatus", "SelectedFieldsSchema", "VersionInfo"]
 
 
 class AITag(BaseModel):
@@ -40,6 +40,60 @@ class ExtensionStatus(BaseModel):
     )
 
     remove_bg: Optional[Literal["success", "pending", "failed"]] = FieldInfo(alias="remove-bg", default=None)
+
+
+class SelectedFieldsSchema(BaseModel):
+    type: Literal["Text", "Textarea", "Number", "Date", "Boolean", "SingleSelect", "MultiSelect"]
+    """Type of the custom metadata field."""
+
+    default_value: Union[str, float, bool, List[Union[str, float, bool]], None] = FieldInfo(
+        alias="defaultValue", default=None
+    )
+    """The default value for this custom metadata field.
+
+    The value should match the `type` of custom metadata field.
+    """
+
+    is_value_required: Optional[bool] = FieldInfo(alias="isValueRequired", default=None)
+    """Specifies if the custom metadata field is required or not."""
+
+    max_length: Optional[float] = FieldInfo(alias="maxLength", default=None)
+    """Maximum length of string. Only set if `type` is set to `Text` or `Textarea`."""
+
+    max_value: Union[str, float, None] = FieldInfo(alias="maxValue", default=None)
+    """Maximum value of the field.
+
+    Only set if field type is `Date` or `Number`. For `Date` type field, the value
+    will be in ISO8601 string format. For `Number` type field, it will be a numeric
+    value.
+    """
+
+    min_length: Optional[float] = FieldInfo(alias="minLength", default=None)
+    """Minimum length of string. Only set if `type` is set to `Text` or `Textarea`."""
+
+    min_value: Union[str, float, None] = FieldInfo(alias="minValue", default=None)
+    """Minimum value of the field.
+
+    Only set if field type is `Date` or `Number`. For `Date` type field, the value
+    will be in ISO8601 string format. For `Number` type field, it will be a numeric
+    value.
+    """
+
+    read_only: Optional[bool] = FieldInfo(alias="readOnly", default=None)
+    """Indicates whether the custom metadata field is read only.
+
+    A read only field cannot be modified after being set. This field is configurable
+    only via the **Path policy** feature.
+    """
+
+    select_options: Optional[List[Union[str, float, bool]]] = FieldInfo(alias="selectOptions", default=None)
+    """An array of allowed values when field type is `SingleSelect` or `MultiSelect`."""
+
+    select_options_truncated: Optional[bool] = FieldInfo(alias="selectOptionsTruncated", default=None)
+    """Specifies if the selectOptions array is truncated.
+
+    It is truncated when number of options are > 100.
+    """
 
 
 class VersionInfo(BaseModel):
@@ -149,6 +203,19 @@ class FileUploadResponse(BaseModel):
 
     name: Optional[str] = None
     """Name of the asset."""
+
+    selected_fields_schema: Optional[Dict[str, SelectedFieldsSchema]] = FieldInfo(
+        alias="selectedFieldsSchema", default=None
+    )
+    """
+    This field is included in the response only if the Path policy feature is
+    available in the plan. It contains schema definitions for the custom metadata
+    fields selected for the specified file path. Field selection can only be done
+    when the Path policy feature is enabled.
+
+    Keys are the names of the custom metadata fields; the value object has details
+    about the custom metadata schema.
+    """
 
     size: Optional[float] = None
     """Size of the image file in Bytes."""
