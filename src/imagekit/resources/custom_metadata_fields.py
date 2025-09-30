@@ -155,6 +155,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
     def list(
         self,
         *,
+        folder_path: str | Omit = omit,
         include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -169,7 +170,17 @@ class CustomMetadataFieldsResource(SyncAPIResource):
         the API returns only non deleted field objects, but you can include deleted
         fields in the API response.
 
+        You can also filter results by a specific folder path to retrieve custom
+        metadata fields applicable at that location. This path-specific filtering is
+        useful when using the **Path policy** feature to determine which custom metadata
+        fields are selected for a given path.
+
         Args:
+          folder_path: The folder path (e.g., `/path/to/folder`) for which to retrieve applicable
+              custom metadata fields.
+              Useful for determining path-specific field selections when the
+              [Path policy](https://imagekit.io/docs/dam/path-policy) feature is in use.
+
           include_deleted: Set it to `true` to include deleted field objects in the API response.
 
           extra_headers: Send extra headers
@@ -188,7 +199,10 @@ class CustomMetadataFieldsResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"include_deleted": include_deleted},
+                    {
+                        "folder_path": folder_path,
+                        "include_deleted": include_deleted,
+                    },
                     custom_metadata_field_list_params.CustomMetadataFieldListParams,
                 ),
             ),
@@ -359,6 +373,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        folder_path: str | Omit = omit,
         include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -373,7 +388,17 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
         the API returns only non deleted field objects, but you can include deleted
         fields in the API response.
 
+        You can also filter results by a specific folder path to retrieve custom
+        metadata fields applicable at that location. This path-specific filtering is
+        useful when using the **Path policy** feature to determine which custom metadata
+        fields are selected for a given path.
+
         Args:
+          folder_path: The folder path (e.g., `/path/to/folder`) for which to retrieve applicable
+              custom metadata fields.
+              Useful for determining path-specific field selections when the
+              [Path policy](https://imagekit.io/docs/dam/path-policy) feature is in use.
+
           include_deleted: Set it to `true` to include deleted field objects in the API response.
 
           extra_headers: Send extra headers
@@ -392,7 +417,10 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"include_deleted": include_deleted},
+                    {
+                        "folder_path": folder_path,
+                        "include_deleted": include_deleted,
+                    },
                     custom_metadata_field_list_params.CustomMetadataFieldListParams,
                 ),
             ),

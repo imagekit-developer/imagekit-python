@@ -82,6 +82,7 @@ class FilesResource(SyncAPIResource):
                 "isPublished",
                 "customMetadata",
                 "metadata",
+                "selectedFieldsSchema",
             ]
         ]
         | Omit = omit,
@@ -334,6 +335,7 @@ class AsyncFilesResource(AsyncAPIResource):
                 "isPublished",
                 "customMetadata",
                 "metadata",
+                "selectedFieldsSchema",
             ]
         ]
         | Omit = omit,

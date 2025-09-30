@@ -150,6 +150,7 @@ class TestCustomMetadataFields:
     @parametrize
     def test_method_list_with_all_params(self, client: ImageKit) -> None:
         custom_metadata_field = client.custom_metadata_fields.list(
+            folder_path="folderPath",
             include_deleted=True,
         )
         assert_matches_type(CustomMetadataFieldListResponse, custom_metadata_field, path=["response"])
@@ -353,6 +354,7 @@ class TestAsyncCustomMetadataFields:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncImageKit) -> None:
         custom_metadata_field = await async_client.custom_metadata_fields.list(
+            folder_path="folderPath",
             include_deleted=True,
         )
         assert_matches_type(CustomMetadataFieldListResponse, custom_metadata_field, path=["response"])

@@ -169,6 +169,7 @@ class FileUploadParams(TypedDict, total=False):
                 "isPublished",
                 "customMetadata",
                 "metadata",
+                "selectedFieldsSchema",
             ]
         ],
         PropertyInfo(alias="responseFields"),
