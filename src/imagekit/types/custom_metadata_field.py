@@ -19,7 +19,7 @@ class Schema(BaseModel):
     )
     """The default value for this custom metadata field.
 
-    Date type of default value depends on the field type.
+    Data type of default value depends on the field type.
     """
 
     is_value_required: Optional[bool] = FieldInfo(alias="isValueRequired", default=None)
