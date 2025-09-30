@@ -86,6 +86,7 @@ class FilesResource(SyncAPIResource):
             ]
         ]
         | Omit = omit,
+        selected_fields_schema: Dict[str, file_upload_params.SelectedFieldsSchema] | Omit = omit,
         tags: SequenceNotStr[str] | Omit = omit,
         transformation: file_upload_params.Transformation | Omit = omit,
         use_unique_file_name: bool | Omit = omit,
@@ -208,6 +209,14 @@ class FilesResource(SyncAPIResource):
 
           response_fields: Array of response field keys to include in the API response body.
 
+          selected_fields_schema: This field is included in the response only if the Path policy feature is
+              available in the plan. It contains schema definitions for the custom metadata
+              fields selected for the specified file path. Field selection can only be done
+              when the Path policy feature is enabled.
+
+              Keys are the names of the custom metadata fields; the value object has details
+              about the custom metadata schema.
+
           tags: Set the tags while uploading the file. Provide an array of tag strings (e.g.
               `["tag1", "tag2", "tag3"]`). The combined length of all tag characters must not
               exceed 500, and the `%` character is not allowed. If this field is not specified
@@ -264,6 +273,7 @@ class FilesResource(SyncAPIResource):
                 "overwrite_file": overwrite_file,
                 "overwrite_tags": overwrite_tags,
                 "response_fields": response_fields,
+                "selected_fields_schema": selected_fields_schema,
                 "tags": tags,
                 "transformation": transformation,
                 "use_unique_file_name": use_unique_file_name,
@@ -339,6 +349,7 @@ class AsyncFilesResource(AsyncAPIResource):
             ]
         ]
         | Omit = omit,
+        selected_fields_schema: Dict[str, file_upload_params.SelectedFieldsSchema] | Omit = omit,
         tags: SequenceNotStr[str] | Omit = omit,
         transformation: file_upload_params.Transformation | Omit = omit,
         use_unique_file_name: bool | Omit = omit,
@@ -461,6 +472,14 @@ class AsyncFilesResource(AsyncAPIResource):
 
           response_fields: Array of response field keys to include in the API response body.
 
+          selected_fields_schema: This field is included in the response only if the Path policy feature is
+              available in the plan. It contains schema definitions for the custom metadata
+              fields selected for the specified file path. Field selection can only be done
+              when the Path policy feature is enabled.
+
+              Keys are the names of the custom metadata fields; the value object has details
+              about the custom metadata schema.
+
           tags: Set the tags while uploading the file. Provide an array of tag strings (e.g.
               `["tag1", "tag2", "tag3"]`). The combined length of all tag characters must not
               exceed 500, and the `%` character is not allowed. If this field is not specified
@@ -517,6 +536,7 @@ class AsyncFilesResource(AsyncAPIResource):
                 "overwrite_file": overwrite_file,
                 "overwrite_tags": overwrite_tags,
                 "response_fields": response_fields,
+                "selected_fields_schema": selected_fields_schema,
                 "tags": tags,
                 "transformation": transformation,
                 "use_unique_file_name": use_unique_file_name,

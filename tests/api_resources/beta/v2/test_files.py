@@ -65,6 +65,20 @@ class TestFiles:
             overwrite_file=True,
             overwrite_tags=True,
             response_fields=["tags", "customCoordinates", "isPrivateFile"],
+            selected_fields_schema={
+                "foo": {
+                    "type": "Text",
+                    "default_value": "string",
+                    "is_value_required": True,
+                    "max_length": 0,
+                    "max_value": "string",
+                    "min_length": 0,
+                    "min_value": "string",
+                    "read_only": True,
+                    "select_options": ["small", "medium", "large", 30, 40, True],
+                    "select_options_truncated": True,
+                }
+            },
             tags=["t-shirt", "round-neck", "men"],
             transformation={
                 "post": [
@@ -167,6 +181,20 @@ class TestAsyncFiles:
             overwrite_file=True,
             overwrite_tags=True,
             response_fields=["tags", "customCoordinates", "isPrivateFile"],
+            selected_fields_schema={
+                "foo": {
+                    "type": "Text",
+                    "default_value": "string",
+                    "is_value_required": True,
+                    "max_length": 0,
+                    "max_value": "string",
+                    "min_length": 0,
+                    "min_value": "string",
+                    "read_only": True,
+                    "select_options": ["small", "medium", "large", 30, 40, True],
+                    "select_options_truncated": True,
+                }
+            },
             tags=["t-shirt", "round-neck", "men"],
             transformation={
                 "post": [

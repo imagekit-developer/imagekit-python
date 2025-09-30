@@ -416,6 +416,20 @@ class TestFiles:
             overwrite_tags=True,
             public_key="publicKey",
             response_fields=["tags", "customCoordinates", "isPrivateFile"],
+            selected_fields_schema={
+                "foo": {
+                    "type": "Text",
+                    "default_value": "string",
+                    "is_value_required": True,
+                    "max_length": 0,
+                    "max_value": "string",
+                    "min_length": 0,
+                    "min_value": "string",
+                    "read_only": True,
+                    "select_options": ["small", "medium", "large", 30, 40, True],
+                    "select_options_truncated": True,
+                }
+            },
             signature="signature",
             tags=["t-shirt", "round-neck", "men"],
             transformation={
@@ -863,6 +877,20 @@ class TestAsyncFiles:
             overwrite_tags=True,
             public_key="publicKey",
             response_fields=["tags", "customCoordinates", "isPrivateFile"],
+            selected_fields_schema={
+                "foo": {
+                    "type": "Text",
+                    "default_value": "string",
+                    "is_value_required": True,
+                    "max_length": 0,
+                    "max_value": "string",
+                    "min_length": 0,
+                    "min_value": "string",
+                    "read_only": True,
+                    "select_options": ["small", "medium", "large", 30, 40, True],
+                    "select_options_truncated": True,
+                }
+            },
             signature="signature",
             tags=["t-shirt", "round-neck", "men"],
             transformation={

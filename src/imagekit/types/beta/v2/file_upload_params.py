@@ -11,6 +11,7 @@ from ...shared_params.extensions import Extensions
 
 __all__ = [
     "FileUploadParams",
+    "SelectedFieldsSchema",
     "Transformation",
     "TransformationPost",
     "TransformationPostTransformation",
@@ -154,6 +155,17 @@ class FileUploadParams(TypedDict, total=False):
     ]
     """Array of response field keys to include in the API response body."""
 
+    selected_fields_schema: Annotated[Dict[str, SelectedFieldsSchema], PropertyInfo(alias="selectedFieldsSchema")]
+    """
+    This field is included in the response only if the Path policy feature is
+    available in the plan. It contains schema definitions for the custom metadata
+    fields selected for the specified file path. Field selection can only be done
+    when the Path policy feature is enabled.
+
+    Keys are the names of the custom metadata fields; the value object has details
+    about the custom metadata schema.
+    """
+
     tags: SequenceNotStr[str]
     """Set the tags while uploading the file. Provide an array of tag strings (e.g.
 
@@ -192,6 +204,60 @@ class FileUploadParams(TypedDict, total=False):
     delivered to this endpoint as a POST request.
     [Learn more](/docs/api-reference/digital-asset-management-dam/managing-assets/update-file-details#webhook-payload-structure)
     about the webhook payload structure.
+    """
+
+
+class SelectedFieldsSchema(TypedDict, total=False):
+    type: Required[Literal["Text", "Textarea", "Number", "Date", "Boolean", "SingleSelect", "MultiSelect"]]
+    """Type of the custom metadata field."""
+
+    default_value: Annotated[
+        Union[str, float, bool, SequenceNotStr[Union[str, float, bool]]], PropertyInfo(alias="defaultValue")
+    ]
+    """The default value for this custom metadata field.
+
+    The value should match the `type` of custom metadata field.
+    """
+
+    is_value_required: Annotated[bool, PropertyInfo(alias="isValueRequired")]
+    """Specifies if the custom metadata field is required or not."""
+
+    max_length: Annotated[float, PropertyInfo(alias="maxLength")]
+    """Maximum length of string. Only set if `type` is set to `Text` or `Textarea`."""
+
+    max_value: Annotated[Union[str, float], PropertyInfo(alias="maxValue")]
+    """Maximum value of the field.
+
+    Only set if field type is `Date` or `Number`. For `Date` type field, the value
+    will be in ISO8601 string format. For `Number` type field, it will be a numeric
+    value.
+    """
+
+    min_length: Annotated[float, PropertyInfo(alias="minLength")]
+    """Minimum length of string. Only set if `type` is set to `Text` or `Textarea`."""
+
+    min_value: Annotated[Union[str, float], PropertyInfo(alias="minValue")]
+    """Minimum value of the field.
+
+    Only set if field type is `Date` or `Number`. For `Date` type field, the value
+    will be in ISO8601 string format. For `Number` type field, it will be a numeric
+    value.
+    """
+
+    read_only: Annotated[bool, PropertyInfo(alias="readOnly")]
+    """Indicates whether the custom metadata field is read only.
+
+    A read only field cannot be modified after being set. This field is configurable
+    only via the **Path policy** feature.
+    """
+
+    select_options: Annotated[SequenceNotStr[Union[str, float, bool]], PropertyInfo(alias="selectOptions")]
+    """An array of allowed values when field type is `SingleSelect` or `MultiSelect`."""
+
+    select_options_truncated: Annotated[bool, PropertyInfo(alias="selectOptionsTruncated")]
+    """Specifies if the selectOptions array is truncated.
+
+    It is truncated when number of options are > 100.
     """
 
 
