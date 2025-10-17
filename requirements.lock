@@ -47,7 +47,7 @@ httpx==0.28.1
     # via httpx-aiohttp
     # via imagekit
     # via standardwebhooks
-httpx-aiohttp==0.1.8
+httpx-aiohttp==0.1.9
     # via imagekit
 idna==3.4
     # via anyio
