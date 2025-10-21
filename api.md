@@ -4,10 +4,12 @@
 from imagekit.types import (
     BaseOverlay,
     Extensions,
+    GetImageAttributesOptions,
     ImageOverlay,
     Overlay,
     OverlayPosition,
     OverlayTiming,
+    ResponsiveImageAttributes,
     SolidColorOverlay,
     SolidColorOverlayTransformation,
     SrcOptions,

@@ -21,6 +21,8 @@ from .shared import (
     SolidColorOverlay as SolidColorOverlay,
     StreamingResolution as StreamingResolution,
     TransformationPosition as TransformationPosition,
+    GetImageAttributesOptions as GetImageAttributesOptions,
+    ResponsiveImageAttributes as ResponsiveImageAttributes,
     TextOverlayTransformation as TextOverlayTransformation,
     SubtitleOverlayTransformation as SubtitleOverlayTransformation,
     SolidColorOverlayTransformation as SolidColorOverlayTransformation,
