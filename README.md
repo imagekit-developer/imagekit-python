@@ -92,6 +92,7 @@ pip install 'imagekit[aiohttp] @ git+ssh://git@github.com/stainless-sdks/imageki
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from imagekit import DefaultAioHttpClient
 from imagekit import AsyncImageKit
@@ -99,8 +100,12 @@ from imagekit import AsyncImageKit
 
 async def main() -> None:
     async with AsyncImageKit(
-        private_key="My Private Key",
-        password="My Password",
+        private_key=os.environ.get(
+            "IMAGEKIT_PRIVATE_KEY"
+        ),  # This is the default and can be omitted
+        password=os.environ.get(
+            "OPTIONAL_IMAGEKIT_IGNORES_THIS"
+        ),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.files.upload(
