@@ -12,6 +12,11 @@ __all__ = ["SrcOptions"]
 
 
 class SrcOptions(TypedDict, total=False):
+    """Options for generating ImageKit URLs with transformations.
+
+    See the [Transformations guide](https://imagekit.io/docs/transformations).
+    """
+
     src: Required[str]
     """Accepts a relative or absolute path of the resource.
 

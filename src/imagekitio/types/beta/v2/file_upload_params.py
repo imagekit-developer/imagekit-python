@@ -248,6 +248,17 @@ TransformationPost: TypeAlias = Union[
 
 
 class Transformation(TypedDict, total=False):
+    """Configure pre-processing (`pre`) and post-processing (`post`) transformations.
+
+    - `pre` — applied before the file is uploaded to the Media Library.
+      Useful for reducing file size or applying basic optimizations upfront (e.g., resize, compress).
+
+    - `post` — applied immediately after upload.
+      Ideal for generating transformed versions (like video encodes or thumbnails) in advance, so they're ready for delivery without delay.
+
+    You can mix and match any combination of post-processing types.
+    """
+
     post: Iterable[TransformationPost]
     """List of transformations to apply _after_ the file is uploaded.
 

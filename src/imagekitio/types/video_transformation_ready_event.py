@@ -21,11 +21,15 @@ __all__ = [
 
 
 class VideoTransformationReadyEventDataAsset(BaseModel):
+    """Information about the source video asset being transformed."""
+
     url: str
     """URL to download or access the source video file."""
 
 
 class VideoTransformationReadyEventDataTransformationOptions(BaseModel):
+    """Configuration options for video transformations."""
+
     audio_codec: Optional[Literal["aac", "opus"]] = None
     """Audio codec used for encoding (aac or opus)."""
 
@@ -49,6 +53,8 @@ class VideoTransformationReadyEventDataTransformationOptions(BaseModel):
 
 
 class VideoTransformationReadyEventDataTransformationOutputVideoMetadata(BaseModel):
+    """Metadata of the output video file."""
+
     bitrate: int
     """Bitrate of the output video in bits per second."""
 
@@ -63,6 +69,8 @@ class VideoTransformationReadyEventDataTransformationOutputVideoMetadata(BaseMod
 
 
 class VideoTransformationReadyEventDataTransformationOutput(BaseModel):
+    """Information about the transformed output video."""
+
     url: str
     """URL to access the transformed video."""
 
@@ -95,6 +103,8 @@ class VideoTransformationReadyEventData(BaseModel):
 
 
 class VideoTransformationReadyEventRequest(BaseModel):
+    """Information about the original request that triggered the video transformation."""
+
     url: str
     """Full URL of the transformation request that was submitted."""
 
@@ -106,6 +116,8 @@ class VideoTransformationReadyEventRequest(BaseModel):
 
 
 class VideoTransformationReadyEventTimings(BaseModel):
+    """Performance metrics for the transformation process."""
+
     download_duration: Optional[int] = None
     """
     Time spent downloading the source video from your origin or media library, in
@@ -117,6 +129,10 @@ class VideoTransformationReadyEventTimings(BaseModel):
 
 
 class VideoTransformationReadyEvent(BaseWebhookEvent):
+    """
+    Triggered when video encoding is finished and the transformed resource is ready to be served. This is the key event to listen for - update your database or CMS flags when you receive this so your application can start showing the transformed video to users.
+    """
+
     created_at: datetime
     """Timestamp when the event was created in ISO8601 format."""
 

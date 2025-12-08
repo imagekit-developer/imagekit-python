@@ -27,6 +27,16 @@ class AITag(BaseModel):
 
 
 class ExtensionStatus(BaseModel):
+    """
+    Extension names with their processing status at the time of completion of the request. It could have one of the following status values:
+
+    `success`: The extension has been successfully applied.
+    `failed`: The extension has failed and will not be retried.
+    `pending`: The extension will finish processing in some time. On completion, the final status (success / failed) will be sent to the `webhookUrl` provided.
+
+    If no extension was requested, then this parameter is not returned.
+    """
+
     ai_auto_description: Optional[Literal["success", "pending", "failed"]] = FieldInfo(
         alias="ai-auto-description", default=None
     )
@@ -97,6 +107,8 @@ class SelectedFieldsSchema(BaseModel):
 
 
 class VersionInfo(BaseModel):
+    """An object containing the file or file version's `id` (versionId) and `name`."""
+
     id: Optional[str] = None
     """Unique identifier of the file version."""
 
@@ -105,6 +117,8 @@ class VersionInfo(BaseModel):
 
 
 class FileUploadResponse(BaseModel):
+    """Object containing details of a successful upload."""
+
     ai_tags: Optional[List[AITag]] = FieldInfo(alias="AITags", default=None)
     """An array of tags assigned to the uploaded file by auto tagging."""
 

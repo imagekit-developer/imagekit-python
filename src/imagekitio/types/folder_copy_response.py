@@ -8,6 +8,8 @@ __all__ = ["FolderCopyResponse"]
 
 
 class FolderCopyResponse(BaseModel):
+    """Job submitted successfully. A `jobId` will be returned."""
+
     job_id: str = FieldInfo(alias="jobId")
     """Unique identifier of the bulk job.
 

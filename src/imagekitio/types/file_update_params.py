@@ -70,6 +70,8 @@ class ChangePublicationStatus(TypedDict, total=False):
 
 
 class ChangePublicationStatusPublish(TypedDict, total=False):
+    """Configure the publication status of a file and its versions."""
+
     is_published: Required[Annotated[bool, PropertyInfo(alias="isPublished")]]
     """Set to `true` to publish the file. Set to `false` to unpublish the file."""
 

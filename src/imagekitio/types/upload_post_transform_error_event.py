@@ -63,6 +63,11 @@ class UploadPostTransformErrorEventRequest(BaseModel):
 
 
 class UploadPostTransformErrorEvent(BaseWebhookEvent):
+    """Triggered when a post-transformation fails.
+
+    The original file remains available, but the requested transformation could not be generated.
+    """
+
     created_at: datetime
     """Timestamp of when the event occurred in ISO8601 format."""
 

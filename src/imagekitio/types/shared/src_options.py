@@ -13,6 +13,11 @@ __all__ = ["SrcOptions"]
 
 
 class SrcOptions(BaseModel):
+    """Options for generating ImageKit URLs with transformations.
+
+    See the [Transformations guide](https://imagekit.io/docs/transformations).
+    """
+
     src: str
     """Accepts a relative or absolute path of the resource.
 

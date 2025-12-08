@@ -19,11 +19,15 @@ __all__ = [
 
 
 class VideoTransformationErrorEventDataAsset(BaseModel):
+    """Information about the source video asset being transformed."""
+
     url: str
     """URL to download or access the source video file."""
 
 
 class VideoTransformationErrorEventDataTransformationError(BaseModel):
+    """Details about the transformation error."""
+
     reason: Literal["encoding_failed", "download_failed", "internal_server_error"]
     """Specific reason for the transformation failure:
 
@@ -34,6 +38,8 @@ class VideoTransformationErrorEventDataTransformationError(BaseModel):
 
 
 class VideoTransformationErrorEventDataTransformationOptions(BaseModel):
+    """Configuration options for video transformations."""
+
     audio_codec: Optional[Literal["aac", "opus"]] = None
     """Audio codec used for encoding (aac or opus)."""
 
@@ -81,6 +87,8 @@ class VideoTransformationErrorEventData(BaseModel):
 
 
 class VideoTransformationErrorEventRequest(BaseModel):
+    """Information about the original request that triggered the video transformation."""
+
     url: str
     """Full URL of the transformation request that was submitted."""
 
@@ -92,6 +100,11 @@ class VideoTransformationErrorEventRequest(BaseModel):
 
 
 class VideoTransformationErrorEvent(BaseWebhookEvent):
+    """Triggered when an error occurs during video encoding.
+
+    Listen to this webhook to log error reasons and debug issues. Check your origin and URL endpoint settings if the reason is related to download failure. For other errors, contact ImageKit support.
+    """
+
     created_at: datetime
     """Timestamp when the event was created in ISO8601 format."""
 

@@ -31,6 +31,11 @@ class CustomMetadataFieldUpdateParams(TypedDict, total=False):
 
 
 class Schema(TypedDict, total=False):
+    """An object that describes the rules for the custom metadata key.
+
+    This parameter is required if `label` is not provided. Note: `type` cannot be updated and will be ignored if sent with the `schema`. The schema will be validated as per the existing `type`.
+    """
+
     default_value: Annotated[
         Union[str, float, bool, SequenceNotStr[Union[str, float, bool]]], PropertyInfo(alias="defaultValue")
     ]

@@ -43,6 +43,11 @@ class UploadPreTransformErrorEventRequest(BaseModel):
 
 
 class UploadPreTransformErrorEvent(BaseWebhookEvent):
+    """Triggered when a pre-transformation fails.
+
+    The file upload may have been accepted, but the requested transformation could not be applied.
+    """
+
     created_at: datetime
     """Timestamp of when the event occurred in ISO8601 format."""
 

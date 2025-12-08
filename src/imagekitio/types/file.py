@@ -80,6 +80,8 @@ class SelectedFieldsSchema(BaseModel):
 
 
 class VersionInfo(BaseModel):
+    """An object with details of the file version."""
+
     id: Optional[str] = None
     """Unique identifier of the file version."""
 
@@ -88,6 +90,8 @@ class VersionInfo(BaseModel):
 
 
 class File(BaseModel):
+    """Object containing details of a file or file version."""
+
     ai_tags: Optional[List[AITag]] = FieldInfo(alias="AITags", default=None)
     """An array of tags assigned to the file by auto tagging."""
 

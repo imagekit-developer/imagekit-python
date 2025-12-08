@@ -32,6 +32,8 @@ URLRewriter: TypeAlias = Annotated[
 
 
 class URLEndpointResponse(BaseModel):
+    """URL‑endpoint object as returned by the API."""
+
     id: str
     """Unique identifier for the URL-endpoint.
 

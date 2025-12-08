@@ -10,6 +10,11 @@ __all__ = ["ResponsiveImageAttributes"]
 
 
 class ResponsiveImageAttributes(BaseModel):
+    """
+    Resulting set of attributes suitable for an HTML `<img>` element.
+    Useful for enabling responsive image loading with `srcSet` and `sizes`.
+    """
+
     src: str
     """URL for the _largest_ candidate (assigned to plain `src`)."""
 

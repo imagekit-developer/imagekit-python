@@ -11,6 +11,8 @@ __all__ = ["CustomMetadataField", "Schema"]
 
 
 class Schema(BaseModel):
+    """An object that describes the rules for the custom metadata field value."""
+
     type: Literal["Text", "Textarea", "Number", "Date", "Boolean", "SingleSelect", "MultiSelect"]
     """Type of the custom metadata field."""
 
@@ -52,6 +54,8 @@ class Schema(BaseModel):
 
 
 class CustomMetadataField(BaseModel):
+    """Object containing details of a custom metadata field."""
+
     id: str
     """Unique identifier for the custom metadata field. Use this to update the field."""
 

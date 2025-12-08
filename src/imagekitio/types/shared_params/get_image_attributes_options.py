@@ -12,6 +12,11 @@ __all__ = ["GetImageAttributesOptions"]
 
 
 class GetImageAttributesOptions(SrcOptions, total=False):
+    """
+    Options for generating responsive image attributes including `src`, `srcSet`, and `sizes` for HTML `<img>` elements.
+    This schema extends `SrcOptions` to add support for responsive image generation with breakpoints.
+    """
+
     device_breakpoints: Annotated[Iterable[float], PropertyInfo(alias="deviceBreakpoints")]
     """
     Custom list of **device-width breakpoints** in pixels. These define common

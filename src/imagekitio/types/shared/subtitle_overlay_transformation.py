@@ -11,6 +11,11 @@ __all__ = ["SubtitleOverlayTransformation"]
 
 
 class SubtitleOverlayTransformation(BaseModel):
+    """Subtitle styling options.
+
+    [Learn more](https://imagekit.io/docs/add-overlays-on-videos#styling-controls-for-subtitles-layer) from the docs.
+    """
+
     background: Optional[str] = None
     """
     Specifies the subtitle background color using a standard color name, an RGB

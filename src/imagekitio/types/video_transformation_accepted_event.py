@@ -18,11 +18,15 @@ __all__ = [
 
 
 class VideoTransformationAcceptedEventDataAsset(BaseModel):
+    """Information about the source video asset being transformed."""
+
     url: str
     """URL to download or access the source video file."""
 
 
 class VideoTransformationAcceptedEventDataTransformationOptions(BaseModel):
+    """Configuration options for video transformations."""
+
     audio_codec: Optional[Literal["aac", "opus"]] = None
     """Audio codec used for encoding (aac or opus)."""
 
@@ -46,6 +50,8 @@ class VideoTransformationAcceptedEventDataTransformationOptions(BaseModel):
 
 
 class VideoTransformationAcceptedEventDataTransformation(BaseModel):
+    """Base information about a video transformation request."""
+
     type: Literal["video-transformation", "gif-to-video", "video-thumbnail"]
     """Type of video transformation:
 
@@ -68,6 +74,8 @@ class VideoTransformationAcceptedEventData(BaseModel):
 
 
 class VideoTransformationAcceptedEventRequest(BaseModel):
+    """Information about the original request that triggered the video transformation."""
+
     url: str
     """Full URL of the transformation request that was submitted."""
 
@@ -79,6 +87,11 @@ class VideoTransformationAcceptedEventRequest(BaseModel):
 
 
 class VideoTransformationAcceptedEvent(BaseWebhookEvent):
+    """Triggered when a new video transformation request is accepted for processing.
+
+    This event confirms that ImageKit has received and queued your transformation request. Use this for debugging and tracking transformation lifecycle.
+    """
+
     created_at: datetime
     """Timestamp when the event was created in ISO8601 format."""
 

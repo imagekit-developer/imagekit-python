@@ -10,6 +10,8 @@ __all__ = ["Metadata", "Exif", "ExifExif", "ExifGps", "ExifImage", "ExifInterope
 
 
 class ExifExif(BaseModel):
+    """Object containing Exif details."""
+
     aperture_value: Optional[float] = FieldInfo(alias="ApertureValue", default=None)
 
     color_space: Optional[int] = FieldInfo(alias="ColorSpace", default=None)
@@ -64,10 +66,14 @@ class ExifExif(BaseModel):
 
 
 class ExifGps(BaseModel):
+    """Object containing GPS information."""
+
     gps_version_id: Optional[List[int]] = FieldInfo(alias="GPSVersionID", default=None)
 
 
 class ExifImage(BaseModel):
+    """Object containing EXIF image information."""
+
     exif_offset: Optional[int] = FieldInfo(alias="ExifOffset", default=None)
 
     gps_info: Optional[int] = FieldInfo(alias="GPSInfo", default=None)
@@ -92,12 +98,16 @@ class ExifImage(BaseModel):
 
 
 class ExifInteroperability(BaseModel):
+    """JSON object."""
+
     interop_index: Optional[str] = FieldInfo(alias="InteropIndex", default=None)
 
     interop_version: Optional[str] = FieldInfo(alias="InteropVersion", default=None)
 
 
 class ExifThumbnail(BaseModel):
+    """Object containing Thumbnail information."""
+
     compression: Optional[int] = FieldInfo(alias="Compression", default=None)
 
     resolution_unit: Optional[int] = FieldInfo(alias="ResolutionUnit", default=None)
@@ -131,6 +141,8 @@ class Exif(BaseModel):
 
 
 class Metadata(BaseModel):
+    """JSON object containing metadata."""
+
     audio_codec: Optional[str] = FieldInfo(alias="audioCodec", default=None)
     """The audio codec used in the video (only for video)."""
 

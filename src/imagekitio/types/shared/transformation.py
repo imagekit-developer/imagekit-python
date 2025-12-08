@@ -14,6 +14,14 @@ __all__ = ["Transformation"]
 
 
 class Transformation(BaseModel):
+    """The SDK provides easy-to-use names for transformations.
+
+    These names are converted to the corresponding transformation string before being added to the URL.
+    SDKs are updated regularly to support new transformations. If you want to use a transformation that is not supported by the SDK,
+    You can use the `raw` parameter to pass the transformation string directly.
+    See the [Transformations documentation](https://imagekit.io/docs/transformations).
+    """
+
     ai_change_background: Optional[str] = FieldInfo(alias="aiChangeBackground", default=None)
     """Uses AI to change the background.
 

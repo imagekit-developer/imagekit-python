@@ -28,4 +28,6 @@ class FileUpdateResponseExtensionStatus(BaseModel):
 
 
 class FileUpdateResponse(File):
+    """Object containing details of a file or file version."""
+
     extension_status: Optional[FileUpdateResponseExtensionStatus] = FieldInfo(alias="extensionStatus", default=None)
