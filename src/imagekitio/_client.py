@@ -23,7 +23,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import assets, webhooks, custom_metadata_fields
+from .resources import dummy, assets, webhooks, custom_metadata_fields
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import ImageKitError, APIStatusError
 from ._base_client import (
@@ -50,6 +50,7 @@ __all__ = [
 
 
 class ImageKit(SyncAPIClient):
+    dummy: dummy.DummyResource
     custom_metadata_fields: custom_metadata_fields.CustomMetadataFieldsResource
     files: files.FilesResource
     assets: assets.AssetsResource
@@ -131,6 +132,7 @@ class ImageKit(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
+        self.dummy = dummy.DummyResource(self)
         self.custom_metadata_fields = custom_metadata_fields.CustomMetadataFieldsResource(self)
         self.files = files.FilesResource(self)
         self.assets = assets.AssetsResource(self)
@@ -268,6 +270,7 @@ class ImageKit(SyncAPIClient):
 
 
 class AsyncImageKit(AsyncAPIClient):
+    dummy: dummy.AsyncDummyResource
     custom_metadata_fields: custom_metadata_fields.AsyncCustomMetadataFieldsResource
     files: files.AsyncFilesResource
     assets: assets.AsyncAssetsResource
@@ -349,6 +352,7 @@ class AsyncImageKit(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
+        self.dummy = dummy.AsyncDummyResource(self)
         self.custom_metadata_fields = custom_metadata_fields.AsyncCustomMetadataFieldsResource(self)
         self.files = files.AsyncFilesResource(self)
         self.assets = assets.AsyncAssetsResource(self)
@@ -487,6 +491,7 @@ class AsyncImageKit(AsyncAPIClient):
 
 class ImageKitWithRawResponse:
     def __init__(self, client: ImageKit) -> None:
+        self.dummy = dummy.DummyResourceWithRawResponse(client.dummy)
         self.custom_metadata_fields = custom_metadata_fields.CustomMetadataFieldsResourceWithRawResponse(
             client.custom_metadata_fields
         )
@@ -500,6 +505,7 @@ class ImageKitWithRawResponse:
 
 class AsyncImageKitWithRawResponse:
     def __init__(self, client: AsyncImageKit) -> None:
+        self.dummy = dummy.AsyncDummyResourceWithRawResponse(client.dummy)
         self.custom_metadata_fields = custom_metadata_fields.AsyncCustomMetadataFieldsResourceWithRawResponse(
             client.custom_metadata_fields
         )
@@ -513,6 +519,7 @@ class AsyncImageKitWithRawResponse:
 
 class ImageKitWithStreamedResponse:
     def __init__(self, client: ImageKit) -> None:
+        self.dummy = dummy.DummyResourceWithStreamingResponse(client.dummy)
         self.custom_metadata_fields = custom_metadata_fields.CustomMetadataFieldsResourceWithStreamingResponse(
             client.custom_metadata_fields
         )
@@ -526,6 +533,7 @@ class ImageKitWithStreamedResponse:
 
 class AsyncImageKitWithStreamedResponse:
     def __init__(self, client: AsyncImageKit) -> None:
+        self.dummy = dummy.AsyncDummyResourceWithStreamingResponse(client.dummy)
         self.custom_metadata_fields = custom_metadata_fields.AsyncCustomMetadataFieldsResourceWithStreamingResponse(
             client.custom_metadata_fields
         )

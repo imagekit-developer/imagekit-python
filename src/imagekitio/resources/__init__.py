@@ -16,6 +16,14 @@ from .cache import (
     CacheResourceWithStreamingResponse,
     AsyncCacheResourceWithStreamingResponse,
 )
+from .dummy import (
+    DummyResource,
+    AsyncDummyResource,
+    DummyResourceWithRawResponse,
+    AsyncDummyResourceWithRawResponse,
+    DummyResourceWithStreamingResponse,
+    AsyncDummyResourceWithStreamingResponse,
+)
 from .files import (
     FilesResource,
     AsyncFilesResource,
@@ -59,6 +67,12 @@ from .custom_metadata_fields import (
 )
 
 __all__ = [
+    "DummyResource",
+    "AsyncDummyResource",
+    "DummyResourceWithRawResponse",
+    "AsyncDummyResourceWithRawResponse",
+    "DummyResourceWithStreamingResponse",
+    "AsyncDummyResourceWithStreamingResponse",
     "CustomMetadataFieldsResource",
     "AsyncCustomMetadataFieldsResource",
     "CustomMetadataFieldsResourceWithRawResponse",

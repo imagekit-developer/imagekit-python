@@ -24,6 +24,12 @@ from imagekitio.types import (
 )
 ```
 
+# Dummy
+
+Methods:
+
+- <code title="post /v1/dummy/test">client.dummy.<a href="./src/imagekitio/resources/dummy.py">create</a>(\*\*<a href="src/imagekitio/types/dummy_create_params.py">params</a>) -> None</code>
+
 # CustomMetadataFields
 
 Types:
