@@ -4,7 +4,7 @@ from urllib.parse import unquote
 
 import pytest
 
-from imagekit._qs import Querystring, stringify
+from imagekitio._qs import Querystring, stringify
 
 
 def test_empty() -> None:

@@ -7,17 +7,17 @@ from ._proxy import LazyProxy
 
 
 class ResourcesProxy(LazyProxy[Any]):
-    """A proxy for the `imagekit.resources` module.
+    """A proxy for the `imagekitio.resources` module.
 
-    This is used so that we can lazily import `imagekit.resources` only when
-    needed *and* so that users can just import `imagekit` and reference `imagekit.resources`
+    This is used so that we can lazily import `imagekitio.resources` only when
+    needed *and* so that users can just import `imagekitio` and reference `imagekitio.resources`
     """
 
     @override
     def __load__(self) -> Any:
         import importlib
 
-        mod = importlib.import_module("imagekit.resources")
+        mod = importlib.import_module("imagekitio.resources")
         return mod
 
 

@@ -5,8 +5,8 @@ from typing import Iterator, AsyncIterator
 import httpx
 import pytest
 
-from imagekit import ImageKit, AsyncImageKit
-from imagekit._streaming import Stream, AsyncStream, ServerSentEvent
+from imagekitio import ImageKit, AsyncImageKit
+from imagekitio._streaming import Stream, AsyncStream, ServerSentEvent
 
 
 @pytest.mark.asyncio

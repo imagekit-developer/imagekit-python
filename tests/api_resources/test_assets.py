@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from imagekit import ImageKit, AsyncImageKit
+from imagekitio import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
-from imagekit.types import AssetListResponse
+from imagekitio.types import AssetListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

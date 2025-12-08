@@ -7,9 +7,9 @@ import pytest
 import pydantic
 from pydantic import Field
 
-from imagekit._utils import PropertyInfo
-from imagekit._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
-from imagekit._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
+from imagekitio._utils import PropertyInfo
+from imagekitio._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
+from imagekitio._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
 
 
 class BasicModel(BaseModel):

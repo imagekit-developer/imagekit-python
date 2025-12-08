@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from imagekit import ImageKit, AsyncImageKit
+from imagekitio import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
-from imagekit.types import (
+from imagekitio.types import (
     CustomMetadataField,
     CustomMetadataFieldListResponse,
     CustomMetadataFieldDeleteResponse,

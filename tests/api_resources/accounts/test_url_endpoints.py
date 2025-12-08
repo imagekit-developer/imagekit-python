@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from imagekit import ImageKit, AsyncImageKit
+from imagekitio import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
-from imagekit.types.accounts import (
+from imagekitio.types.accounts import (
     URLEndpointResponse,
     URLEndpointListResponse,
 )

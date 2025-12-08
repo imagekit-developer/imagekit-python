@@ -8,15 +8,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from imagekit._types import Base64FileInput, omit, not_given
-from imagekit._utils import (
+from imagekitio._types import Base64FileInput, omit, not_given
+from imagekitio._utils import (
     PropertyInfo,
     transform as _transform,
     parse_datetime,
     async_transform as _async_transform,
 )
-from imagekit._compat import PYDANTIC_V1
-from imagekit._models import BaseModel
+from imagekitio._compat import PYDANTIC_V1
+from imagekitio._models import BaseModel
 
 _T = TypeVar("_T")
 

@@ -4,8 +4,8 @@ from typing import Sequence
 
 import pytest
 
-from imagekit._types import FileTypes
-from imagekit._utils import extract_files
+from imagekitio._types import FileTypes
+from imagekitio._utils import extract_files
 
 
 def test_removes_files_from_input() -> None:

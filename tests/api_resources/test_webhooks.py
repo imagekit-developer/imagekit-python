@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 import pytest
 import standardwebhooks
 
-from imagekit import ImageKit
+from imagekitio import ImageKit
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

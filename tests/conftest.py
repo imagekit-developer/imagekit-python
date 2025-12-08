@@ -10,15 +10,15 @@ import httpx
 import pytest
 from pytest_asyncio import is_async_test
 
-from imagekit import ImageKit, AsyncImageKit, DefaultAioHttpClient
-from imagekit._utils import is_dict
+from imagekitio import ImageKit, AsyncImageKit, DefaultAioHttpClient
+from imagekitio._utils import is_dict
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest  # pyright: ignore[reportPrivateImportUsage]
 
 pytest.register_assert_rewrite("tests.utils")
 
-logging.getLogger("imagekit").setLevel(logging.DEBUG)
+logging.getLogger("imagekitio").setLevel(logging.DEBUG)
 
 
 # automatically add `pytest.mark.asyncio()` to all of our async tests

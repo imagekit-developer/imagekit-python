@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from imagekit import ImageKit, AsyncImageKit
+from imagekitio import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
-from imagekit.types.cache import InvalidationGetResponse, InvalidationCreateResponse
+from imagekitio.types.cache import InvalidationGetResponse, InvalidationCreateResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

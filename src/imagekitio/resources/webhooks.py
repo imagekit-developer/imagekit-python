@@ -28,7 +28,7 @@ class WebhooksResource(SyncAPIResource):
         try:
             from standardwebhooks import Webhook
         except ImportError as exc:
-            raise ImageKitError("You need to install `imagekit[webhooks]` to use this method") from exc
+            raise ImageKitError("You need to install `imagekitio[webhooks]` to use this method") from exc
 
         if key is None:
             key = self._client.webhook_secret
@@ -65,7 +65,7 @@ class AsyncWebhooksResource(AsyncAPIResource):
         try:
             from standardwebhooks import Webhook
         except ImportError as exc:
-            raise ImageKitError("You need to install `imagekit[webhooks]` to use this method") from exc
+            raise ImageKitError("You need to install `imagekitio[webhooks]` to use this method") from exc
 
         if key is None:
             key = self._client.webhook_secret
