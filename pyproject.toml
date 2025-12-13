@@ -1,6 +1,6 @@
 [project]
 name = "imagekitio"
-version = "0.0.1"
+version = "5.0.0"
 description = "The official Python library for the ImageKit API"
 dynamic = ["readme"]
 license = "Apache-2.0"
