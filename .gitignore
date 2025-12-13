@@ -1,58 +1,17 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+.prism.log
+_dev
 
-# C extensions
-*.so
+__pycache__
+.mypy_cache
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-sample/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+dist
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# pyenv
-.python-version
-
-# Environments
-.env
 .venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+.idea
 
-# Visual Studio Code
-.vscode/
-htmlcov/
+.env
+.envrc
+codegen.log
+Brewfile.lock.json
+
+examples/temp

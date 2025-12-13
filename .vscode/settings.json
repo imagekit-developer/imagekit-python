@@ -1,0 +1,4 @@
+{
+    "python.analysis.importFormat": "relative",
+    "python.analysis.typeCheckingMode": "basic"
+}
