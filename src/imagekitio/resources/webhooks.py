@@ -25,7 +25,7 @@ class WebhooksResource(SyncAPIResource):
             ),
         )
 
-    def unwrap(self, payload: str, *, headers: Mapping[str, str], key: str | None = None) -> UnwrapWebhookEvent:
+    def unwrap(self, payload: str, *, headers: Mapping[str, str], key: str | bytes | None = None) -> UnwrapWebhookEvent:
         try:
             from standardwebhooks import Webhook
         except ImportError as exc:
@@ -41,7 +41,11 @@ class WebhooksResource(SyncAPIResource):
         if not isinstance(headers, dict):
             headers = dict(headers)
 
-        encoded_key = base64.b64encode(key.encode("utf-8")).decode("ascii")
+        if isinstance(key, str):
+            key_bytes = key.encode("utf-8")
+        else:
+            key_bytes = key
+        encoded_key = base64.b64encode(key_bytes).decode("ascii")
 
         Webhook(encoded_key).verify(payload, headers)
 
@@ -64,7 +68,7 @@ class AsyncWebhooksResource(AsyncAPIResource):
             ),
         )
 
-    def unwrap(self, payload: str, *, headers: Mapping[str, str], key: str | None = None) -> UnwrapWebhookEvent:
+    def unwrap(self, payload: str, *, headers: Mapping[str, str], key: str | bytes | None = None) -> UnwrapWebhookEvent:
         try:
             from standardwebhooks import Webhook
         except ImportError as exc:
@@ -80,7 +84,11 @@ class AsyncWebhooksResource(AsyncAPIResource):
         if not isinstance(headers, dict):
             headers = dict(headers)
 
-        encoded_key = base64.b64encode(key.encode("utf-8")).decode("ascii")
+        if isinstance(key, str):
+            key_bytes = key.encode("utf-8")
+        else:
+            key_bytes = key
+        encoded_key = base64.b64encode(key_bytes).decode("ascii")
 
         Webhook(encoded_key).verify(payload, headers)
 
