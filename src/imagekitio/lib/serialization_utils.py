@@ -37,7 +37,7 @@ def serialize_upload_options(upload_options: Dict[str, Any]) -> Dict[str, Any]:
             elif key == "extensions" and isinstance(value, list):
                 # Extensions should be JSON stringified
                 serialized[key] = json.dumps(value)
-            elif key == "custom_metadata" and isinstance(value, dict) and not isinstance(value, (list, tuple)):
+            elif key == "custom_metadata" and isinstance(value, dict):
                 # Custom metadata should be JSON stringified
                 serialized[key] = json.dumps(value)
             elif key == "transformation" and isinstance(value, dict):
