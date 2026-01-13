@@ -4,14 +4,13 @@ from __future__ import annotations
 
 import os
 import base64
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 from typing_extensions import Self, override
 
 import httpx
 
 from . import _exceptions
 from ._qs import Querystring
-from .lib import helper
 from ._types import (
     Omit,
     Headers,
@@ -23,8 +22,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import dummy, assets, webhooks, custom_metadata_fields
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import ImageKitError, APIStatusError
 from ._base_client import (
@@ -32,11 +31,19 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.beta import beta
-from .resources.cache import cache
-from .resources.files import files
-from .resources.folders import folders
-from .resources.accounts import accounts
+
+if TYPE_CHECKING:
+    from .resources import beta, cache, dummy, files, assets, folders, accounts, custom_metadata_fields
+    from .resources.dummy import DummyResource, AsyncDummyResource
+    from .resources.assets import AssetsResource, AsyncAssetsResource
+    from .resources.webhooks import WebhooksResource, AsyncWebhooksResource
+    from .resources.beta.beta import BetaResource, AsyncBetaResource
+    from .resources.cache.cache import CacheResource, AsyncCacheResource
+    from .resources.files.files import FilesResource, AsyncFilesResource
+    from .resources.folders.folders import FoldersResource, AsyncFoldersResource
+    from .resources.accounts.accounts import AccountsResource, AsyncAccountsResource
+    from .resources.custom_metadata_fields import CustomMetadataFieldsResource, AsyncCustomMetadataFieldsResource
+    from .lib.helper import HelperResource, AsyncHelperResource
 
 __all__ = [
     "Timeout",
@@ -51,19 +58,6 @@ __all__ = [
 
 
 class ImageKit(SyncAPIClient):
-    dummy: dummy.DummyResource
-    custom_metadata_fields: custom_metadata_fields.CustomMetadataFieldsResource
-    files: files.FilesResource
-    assets: assets.AssetsResource
-    cache: cache.CacheResource
-    folders: folders.FoldersResource
-    accounts: accounts.AccountsResource
-    beta: beta.BetaResource
-    webhooks: webhooks.WebhooksResource
-    helper: helper.HelperResource
-    with_raw_response: ImageKitWithRawResponse
-    with_streaming_response: ImageKitWithStreamedResponse
-
     # client options
     private_key: str
     password: str | None
@@ -134,18 +128,73 @@ class ImageKit(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.dummy = dummy.DummyResource(self)
-        self.custom_metadata_fields = custom_metadata_fields.CustomMetadataFieldsResource(self)
-        self.files = files.FilesResource(self)
-        self.assets = assets.AssetsResource(self)
-        self.cache = cache.CacheResource(self)
-        self.folders = folders.FoldersResource(self)
-        self.accounts = accounts.AccountsResource(self)
-        self.beta = beta.BetaResource(self)
-        self.webhooks = webhooks.WebhooksResource(self)
-        self.helper = helper.HelperResource(self)
-        self.with_raw_response = ImageKitWithRawResponse(self)
-        self.with_streaming_response = ImageKitWithStreamedResponse(self)
+    @cached_property
+    def dummy(self) -> DummyResource:
+        from .resources.dummy import DummyResource
+
+        return DummyResource(self)
+
+    @cached_property
+    def custom_metadata_fields(self) -> CustomMetadataFieldsResource:
+        from .resources.custom_metadata_fields import CustomMetadataFieldsResource
+
+        return CustomMetadataFieldsResource(self)
+
+    @cached_property
+    def files(self) -> FilesResource:
+        from .resources.files import FilesResource
+
+        return FilesResource(self)
+
+    @cached_property
+    def assets(self) -> AssetsResource:
+        from .resources.assets import AssetsResource
+
+        return AssetsResource(self)
+
+    @cached_property
+    def cache(self) -> CacheResource:
+        from .resources.cache import CacheResource
+
+        return CacheResource(self)
+
+    @cached_property
+    def folders(self) -> FoldersResource:
+        from .resources.folders import FoldersResource
+
+        return FoldersResource(self)
+
+    @cached_property
+    def accounts(self) -> AccountsResource:
+        from .resources.accounts import AccountsResource
+
+        return AccountsResource(self)
+
+    @cached_property
+    def beta(self) -> BetaResource:
+        from .resources.beta import BetaResource
+
+        return BetaResource(self)
+
+    @cached_property
+    def webhooks(self) -> WebhooksResource:
+        from .resources.webhooks import WebhooksResource
+
+        return WebhooksResource(self)
+
+    @cached_property
+    def helper(self) -> HelperResource:
+        from .lib.helper import HelperResource
+
+        return HelperResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> ImageKitWithRawResponse:
+        return ImageKitWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> ImageKitWithStreamedResponse:
+        return ImageKitWithStreamedResponse(self)
 
     @property
     @override
@@ -273,19 +322,6 @@ class ImageKit(SyncAPIClient):
 
 
 class AsyncImageKit(AsyncAPIClient):
-    dummy: dummy.AsyncDummyResource
-    custom_metadata_fields: custom_metadata_fields.AsyncCustomMetadataFieldsResource
-    files: files.AsyncFilesResource
-    assets: assets.AsyncAssetsResource
-    cache: cache.AsyncCacheResource
-    folders: folders.AsyncFoldersResource
-    accounts: accounts.AsyncAccountsResource
-    beta: beta.AsyncBetaResource
-    webhooks: webhooks.AsyncWebhooksResource
-    helper: helper.AsyncHelperResource
-    with_raw_response: AsyncImageKitWithRawResponse
-    with_streaming_response: AsyncImageKitWithStreamedResponse
-
     # client options
     private_key: str
     password: str | None
@@ -356,18 +392,73 @@ class AsyncImageKit(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.dummy = dummy.AsyncDummyResource(self)
-        self.custom_metadata_fields = custom_metadata_fields.AsyncCustomMetadataFieldsResource(self)
-        self.files = files.AsyncFilesResource(self)
-        self.assets = assets.AsyncAssetsResource(self)
-        self.cache = cache.AsyncCacheResource(self)
-        self.folders = folders.AsyncFoldersResource(self)
-        self.accounts = accounts.AsyncAccountsResource(self)
-        self.beta = beta.AsyncBetaResource(self)
-        self.webhooks = webhooks.AsyncWebhooksResource(self)
-        self.helper = helper.AsyncHelperResource(self)
-        self.with_raw_response = AsyncImageKitWithRawResponse(self)
-        self.with_streaming_response = AsyncImageKitWithStreamedResponse(self)
+    @cached_property
+    def dummy(self) -> AsyncDummyResource:
+        from .resources.dummy import AsyncDummyResource
+
+        return AsyncDummyResource(self)
+
+    @cached_property
+    def custom_metadata_fields(self) -> AsyncCustomMetadataFieldsResource:
+        from .resources.custom_metadata_fields import AsyncCustomMetadataFieldsResource
+
+        return AsyncCustomMetadataFieldsResource(self)
+
+    @cached_property
+    def files(self) -> AsyncFilesResource:
+        from .resources.files import AsyncFilesResource
+
+        return AsyncFilesResource(self)
+
+    @cached_property
+    def assets(self) -> AsyncAssetsResource:
+        from .resources.assets import AsyncAssetsResource
+
+        return AsyncAssetsResource(self)
+
+    @cached_property
+    def cache(self) -> AsyncCacheResource:
+        from .resources.cache import AsyncCacheResource
+
+        return AsyncCacheResource(self)
+
+    @cached_property
+    def folders(self) -> AsyncFoldersResource:
+        from .resources.folders import AsyncFoldersResource
+
+        return AsyncFoldersResource(self)
+
+    @cached_property
+    def accounts(self) -> AsyncAccountsResource:
+        from .resources.accounts import AsyncAccountsResource
+
+        return AsyncAccountsResource(self)
+
+    @cached_property
+    def beta(self) -> AsyncBetaResource:
+        from .resources.beta import AsyncBetaResource
+
+        return AsyncBetaResource(self)
+
+    @cached_property
+    def webhooks(self) -> AsyncWebhooksResource:
+        from .resources.webhooks import AsyncWebhooksResource
+
+        return AsyncWebhooksResource(self)
+
+    @cached_property
+    def helper(self) -> AsyncHelperResource:
+        from .lib.helper import AsyncHelperResource
+
+        return AsyncHelperResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncImageKitWithRawResponse:
+        return AsyncImageKitWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncImageKitWithStreamedResponse:
+        return AsyncImageKitWithStreamedResponse(self)
 
     @property
     @override
@@ -495,59 +586,223 @@ class AsyncImageKit(AsyncAPIClient):
 
 
 class ImageKitWithRawResponse:
+    _client: ImageKit
+
     def __init__(self, client: ImageKit) -> None:
-        self.dummy = dummy.DummyResourceWithRawResponse(client.dummy)
-        self.custom_metadata_fields = custom_metadata_fields.CustomMetadataFieldsResourceWithRawResponse(
-            client.custom_metadata_fields
-        )
-        self.files = files.FilesResourceWithRawResponse(client.files)
-        self.assets = assets.AssetsResourceWithRawResponse(client.assets)
-        self.cache = cache.CacheResourceWithRawResponse(client.cache)
-        self.folders = folders.FoldersResourceWithRawResponse(client.folders)
-        self.accounts = accounts.AccountsResourceWithRawResponse(client.accounts)
-        self.beta = beta.BetaResourceWithRawResponse(client.beta)
+        self._client = client
+
+    @cached_property
+    def dummy(self) -> dummy.DummyResourceWithRawResponse:
+        from .resources.dummy import DummyResourceWithRawResponse
+
+        return DummyResourceWithRawResponse(self._client.dummy)
+
+    @cached_property
+    def custom_metadata_fields(self) -> custom_metadata_fields.CustomMetadataFieldsResourceWithRawResponse:
+        from .resources.custom_metadata_fields import CustomMetadataFieldsResourceWithRawResponse
+
+        return CustomMetadataFieldsResourceWithRawResponse(self._client.custom_metadata_fields)
+
+    @cached_property
+    def files(self) -> files.FilesResourceWithRawResponse:
+        from .resources.files import FilesResourceWithRawResponse
+
+        return FilesResourceWithRawResponse(self._client.files)
+
+    @cached_property
+    def assets(self) -> assets.AssetsResourceWithRawResponse:
+        from .resources.assets import AssetsResourceWithRawResponse
+
+        return AssetsResourceWithRawResponse(self._client.assets)
+
+    @cached_property
+    def cache(self) -> cache.CacheResourceWithRawResponse:
+        from .resources.cache import CacheResourceWithRawResponse
+
+        return CacheResourceWithRawResponse(self._client.cache)
+
+    @cached_property
+    def folders(self) -> folders.FoldersResourceWithRawResponse:
+        from .resources.folders import FoldersResourceWithRawResponse
+
+        return FoldersResourceWithRawResponse(self._client.folders)
+
+    @cached_property
+    def accounts(self) -> accounts.AccountsResourceWithRawResponse:
+        from .resources.accounts import AccountsResourceWithRawResponse
+
+        return AccountsResourceWithRawResponse(self._client.accounts)
+
+    @cached_property
+    def beta(self) -> beta.BetaResourceWithRawResponse:
+        from .resources.beta import BetaResourceWithRawResponse
+
+        return BetaResourceWithRawResponse(self._client.beta)
 
 
 class AsyncImageKitWithRawResponse:
+    _client: AsyncImageKit
+
     def __init__(self, client: AsyncImageKit) -> None:
-        self.dummy = dummy.AsyncDummyResourceWithRawResponse(client.dummy)
-        self.custom_metadata_fields = custom_metadata_fields.AsyncCustomMetadataFieldsResourceWithRawResponse(
-            client.custom_metadata_fields
-        )
-        self.files = files.AsyncFilesResourceWithRawResponse(client.files)
-        self.assets = assets.AsyncAssetsResourceWithRawResponse(client.assets)
-        self.cache = cache.AsyncCacheResourceWithRawResponse(client.cache)
-        self.folders = folders.AsyncFoldersResourceWithRawResponse(client.folders)
-        self.accounts = accounts.AsyncAccountsResourceWithRawResponse(client.accounts)
-        self.beta = beta.AsyncBetaResourceWithRawResponse(client.beta)
+        self._client = client
+
+    @cached_property
+    def dummy(self) -> dummy.AsyncDummyResourceWithRawResponse:
+        from .resources.dummy import AsyncDummyResourceWithRawResponse
+
+        return AsyncDummyResourceWithRawResponse(self._client.dummy)
+
+    @cached_property
+    def custom_metadata_fields(self) -> custom_metadata_fields.AsyncCustomMetadataFieldsResourceWithRawResponse:
+        from .resources.custom_metadata_fields import AsyncCustomMetadataFieldsResourceWithRawResponse
+
+        return AsyncCustomMetadataFieldsResourceWithRawResponse(self._client.custom_metadata_fields)
+
+    @cached_property
+    def files(self) -> files.AsyncFilesResourceWithRawResponse:
+        from .resources.files import AsyncFilesResourceWithRawResponse
+
+        return AsyncFilesResourceWithRawResponse(self._client.files)
+
+    @cached_property
+    def assets(self) -> assets.AsyncAssetsResourceWithRawResponse:
+        from .resources.assets import AsyncAssetsResourceWithRawResponse
+
+        return AsyncAssetsResourceWithRawResponse(self._client.assets)
+
+    @cached_property
+    def cache(self) -> cache.AsyncCacheResourceWithRawResponse:
+        from .resources.cache import AsyncCacheResourceWithRawResponse
+
+        return AsyncCacheResourceWithRawResponse(self._client.cache)
+
+    @cached_property
+    def folders(self) -> folders.AsyncFoldersResourceWithRawResponse:
+        from .resources.folders import AsyncFoldersResourceWithRawResponse
+
+        return AsyncFoldersResourceWithRawResponse(self._client.folders)
+
+    @cached_property
+    def accounts(self) -> accounts.AsyncAccountsResourceWithRawResponse:
+        from .resources.accounts import AsyncAccountsResourceWithRawResponse
+
+        return AsyncAccountsResourceWithRawResponse(self._client.accounts)
+
+    @cached_property
+    def beta(self) -> beta.AsyncBetaResourceWithRawResponse:
+        from .resources.beta import AsyncBetaResourceWithRawResponse
+
+        return AsyncBetaResourceWithRawResponse(self._client.beta)
 
 
 class ImageKitWithStreamedResponse:
+    _client: ImageKit
+
     def __init__(self, client: ImageKit) -> None:
-        self.dummy = dummy.DummyResourceWithStreamingResponse(client.dummy)
-        self.custom_metadata_fields = custom_metadata_fields.CustomMetadataFieldsResourceWithStreamingResponse(
-            client.custom_metadata_fields
-        )
-        self.files = files.FilesResourceWithStreamingResponse(client.files)
-        self.assets = assets.AssetsResourceWithStreamingResponse(client.assets)
-        self.cache = cache.CacheResourceWithStreamingResponse(client.cache)
-        self.folders = folders.FoldersResourceWithStreamingResponse(client.folders)
-        self.accounts = accounts.AccountsResourceWithStreamingResponse(client.accounts)
-        self.beta = beta.BetaResourceWithStreamingResponse(client.beta)
+        self._client = client
+
+    @cached_property
+    def dummy(self) -> dummy.DummyResourceWithStreamingResponse:
+        from .resources.dummy import DummyResourceWithStreamingResponse
+
+        return DummyResourceWithStreamingResponse(self._client.dummy)
+
+    @cached_property
+    def custom_metadata_fields(self) -> custom_metadata_fields.CustomMetadataFieldsResourceWithStreamingResponse:
+        from .resources.custom_metadata_fields import CustomMetadataFieldsResourceWithStreamingResponse
+
+        return CustomMetadataFieldsResourceWithStreamingResponse(self._client.custom_metadata_fields)
+
+    @cached_property
+    def files(self) -> files.FilesResourceWithStreamingResponse:
+        from .resources.files import FilesResourceWithStreamingResponse
+
+        return FilesResourceWithStreamingResponse(self._client.files)
+
+    @cached_property
+    def assets(self) -> assets.AssetsResourceWithStreamingResponse:
+        from .resources.assets import AssetsResourceWithStreamingResponse
+
+        return AssetsResourceWithStreamingResponse(self._client.assets)
+
+    @cached_property
+    def cache(self) -> cache.CacheResourceWithStreamingResponse:
+        from .resources.cache import CacheResourceWithStreamingResponse
+
+        return CacheResourceWithStreamingResponse(self._client.cache)
+
+    @cached_property
+    def folders(self) -> folders.FoldersResourceWithStreamingResponse:
+        from .resources.folders import FoldersResourceWithStreamingResponse
+
+        return FoldersResourceWithStreamingResponse(self._client.folders)
+
+    @cached_property
+    def accounts(self) -> accounts.AccountsResourceWithStreamingResponse:
+        from .resources.accounts import AccountsResourceWithStreamingResponse
+
+        return AccountsResourceWithStreamingResponse(self._client.accounts)
+
+    @cached_property
+    def beta(self) -> beta.BetaResourceWithStreamingResponse:
+        from .resources.beta import BetaResourceWithStreamingResponse
+
+        return BetaResourceWithStreamingResponse(self._client.beta)
 
 
 class AsyncImageKitWithStreamedResponse:
+    _client: AsyncImageKit
+
     def __init__(self, client: AsyncImageKit) -> None:
-        self.dummy = dummy.AsyncDummyResourceWithStreamingResponse(client.dummy)
-        self.custom_metadata_fields = custom_metadata_fields.AsyncCustomMetadataFieldsResourceWithStreamingResponse(
-            client.custom_metadata_fields
-        )
-        self.files = files.AsyncFilesResourceWithStreamingResponse(client.files)
-        self.assets = assets.AsyncAssetsResourceWithStreamingResponse(client.assets)
-        self.cache = cache.AsyncCacheResourceWithStreamingResponse(client.cache)
-        self.folders = folders.AsyncFoldersResourceWithStreamingResponse(client.folders)
-        self.accounts = accounts.AsyncAccountsResourceWithStreamingResponse(client.accounts)
-        self.beta = beta.AsyncBetaResourceWithStreamingResponse(client.beta)
+        self._client = client
+
+    @cached_property
+    def dummy(self) -> dummy.AsyncDummyResourceWithStreamingResponse:
+        from .resources.dummy import AsyncDummyResourceWithStreamingResponse
+
+        return AsyncDummyResourceWithStreamingResponse(self._client.dummy)
+
+    @cached_property
+    def custom_metadata_fields(self) -> custom_metadata_fields.AsyncCustomMetadataFieldsResourceWithStreamingResponse:
+        from .resources.custom_metadata_fields import AsyncCustomMetadataFieldsResourceWithStreamingResponse
+
+        return AsyncCustomMetadataFieldsResourceWithStreamingResponse(self._client.custom_metadata_fields)
+
+    @cached_property
+    def files(self) -> files.AsyncFilesResourceWithStreamingResponse:
+        from .resources.files import AsyncFilesResourceWithStreamingResponse
+
+        return AsyncFilesResourceWithStreamingResponse(self._client.files)
+
+    @cached_property
+    def assets(self) -> assets.AsyncAssetsResourceWithStreamingResponse:
+        from .resources.assets import AsyncAssetsResourceWithStreamingResponse
+
+        return AsyncAssetsResourceWithStreamingResponse(self._client.assets)
+
+    @cached_property
+    def cache(self) -> cache.AsyncCacheResourceWithStreamingResponse:
+        from .resources.cache import AsyncCacheResourceWithStreamingResponse
+
+        return AsyncCacheResourceWithStreamingResponse(self._client.cache)
+
+    @cached_property
+    def folders(self) -> folders.AsyncFoldersResourceWithStreamingResponse:
+        from .resources.folders import AsyncFoldersResourceWithStreamingResponse
+
+        return AsyncFoldersResourceWithStreamingResponse(self._client.folders)
+
+    @cached_property
+    def accounts(self) -> accounts.AsyncAccountsResourceWithStreamingResponse:
+        from .resources.accounts import AsyncAccountsResourceWithStreamingResponse
+
+        return AsyncAccountsResourceWithStreamingResponse(self._client.accounts)
+
+    @cached_property
+    def beta(self) -> beta.AsyncBetaResourceWithStreamingResponse:
+        from .resources.beta import AsyncBetaResourceWithStreamingResponse
+
+        return AsyncBetaResourceWithStreamingResponse(self._client.beta)
 
 
 Client = ImageKit
