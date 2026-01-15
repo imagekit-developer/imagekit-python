@@ -56,6 +56,59 @@ class TestFiles:
                     "name": "google-auto-tagging",
                 },
                 {"name": "ai-auto-description"},
+                {
+                    "name": "ai-tasks",
+                    "tasks": [
+                        {
+                            "instruction": "What types of clothing items are visible in this image?",
+                            "type": "select_tags",
+                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
+                            "max_selections": 1,
+                            "min_selections": 0,
+                        },
+                        {
+                            "instruction": "Is this a luxury or high-end fashion item?",
+                            "type": "yes_no",
+                            "on_no": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_unknown": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_yes": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                        },
+                    ],
+                },
+                {
+                    "id": "ext_abc123",
+                    "name": "saved-extension",
+                },
             ],
             remove_ai_tags=["string"],
             tags=["tag1", "tag2"],
@@ -406,6 +459,59 @@ class TestFiles:
                     "name": "google-auto-tagging",
                 },
                 {"name": "ai-auto-description"},
+                {
+                    "name": "ai-tasks",
+                    "tasks": [
+                        {
+                            "instruction": "What types of clothing items are visible in this image?",
+                            "type": "select_tags",
+                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
+                            "max_selections": 1,
+                            "min_selections": 0,
+                        },
+                        {
+                            "instruction": "Is this a luxury or high-end fashion item?",
+                            "type": "yes_no",
+                            "on_no": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_unknown": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_yes": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                        },
+                    ],
+                },
+                {
+                    "id": "ext_abc123",
+                    "name": "saved-extension",
+                },
             ],
             folder="folder",
             is_private_file=True,
@@ -503,6 +609,59 @@ class TestAsyncFiles:
                     "name": "google-auto-tagging",
                 },
                 {"name": "ai-auto-description"},
+                {
+                    "name": "ai-tasks",
+                    "tasks": [
+                        {
+                            "instruction": "What types of clothing items are visible in this image?",
+                            "type": "select_tags",
+                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
+                            "max_selections": 1,
+                            "min_selections": 0,
+                        },
+                        {
+                            "instruction": "Is this a luxury or high-end fashion item?",
+                            "type": "yes_no",
+                            "on_no": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_unknown": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_yes": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                        },
+                    ],
+                },
+                {
+                    "id": "ext_abc123",
+                    "name": "saved-extension",
+                },
             ],
             remove_ai_tags=["string"],
             tags=["tag1", "tag2"],
@@ -853,6 +1012,59 @@ class TestAsyncFiles:
                     "name": "google-auto-tagging",
                 },
                 {"name": "ai-auto-description"},
+                {
+                    "name": "ai-tasks",
+                    "tasks": [
+                        {
+                            "instruction": "What types of clothing items are visible in this image?",
+                            "type": "select_tags",
+                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
+                            "max_selections": 1,
+                            "min_selections": 0,
+                        },
+                        {
+                            "instruction": "Is this a luxury or high-end fashion item?",
+                            "type": "yes_no",
+                            "on_no": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_unknown": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_yes": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                        },
+                    ],
+                },
+                {
+                    "id": "ext_abc123",
+                    "name": "saved-extension",
+                },
             ],
             folder="folder",
             is_private_file=True,

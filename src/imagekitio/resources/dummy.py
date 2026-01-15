@@ -26,7 +26,9 @@ from ..types.shared_params.image_overlay import ImageOverlay
 from ..types.shared_params.video_overlay import VideoOverlay
 from ..types.shared_params.overlay_timing import OverlayTiming
 from ..types.shared_params.transformation import Transformation
+from ..types.shared_params.saved_extension import SavedExtension
 from ..types.shared.transformation_position import TransformationPosition
+from ..types.shared_params.extension_config import ExtensionConfig
 from ..types.shared_params.overlay_position import OverlayPosition
 from ..types.shared_params.subtitle_overlay import SubtitleOverlay
 from ..types.shared_params.solid_color_overlay import SolidColorOverlay
@@ -63,6 +65,7 @@ class DummyResource(SyncAPIResource):
         self,
         *,
         base_overlay: BaseOverlay | Omit = omit,
+        extension_config: ExtensionConfig | Omit = omit,
         extensions: Extensions | Omit = omit,
         get_image_attributes_options: GetImageAttributesOptions | Omit = omit,
         image_overlay: ImageOverlay | Omit = omit,
@@ -70,6 +73,7 @@ class DummyResource(SyncAPIResource):
         overlay_position: OverlayPosition | Omit = omit,
         overlay_timing: OverlayTiming | Omit = omit,
         responsive_image_attributes: ResponsiveImageAttributes | Omit = omit,
+        saved_extensions: SavedExtension | Omit = omit,
         solid_color_overlay: SolidColorOverlay | Omit = omit,
         solid_color_overlay_transformation: SolidColorOverlayTransformation | Omit = omit,
         src_options: SrcOptions | Omit = omit,
@@ -95,6 +99,9 @@ class DummyResource(SyncAPIResource):
         and is not intended for public consumption.
 
         Args:
+          extension_config: Configuration object for an extension (base extensions only, not saved extension
+              references).
+
           extensions: Array of extensions to be applied to the asset. Each extension can be configured
               with specific parameters based on the extension type.
 
@@ -109,6 +116,8 @@ class DummyResource(SyncAPIResource):
 
           responsive_image_attributes: Resulting set of attributes suitable for an HTML `<img>` element. Useful for
               enabling responsive image loading with `srcSet` and `sizes`.
+
+          saved_extensions: Saved extension object containing extension configuration.
 
           src_options: Options for generating ImageKit URLs with transformations. See the
               [Transformations guide](https://imagekit.io/docs/transformations).
@@ -146,6 +155,7 @@ class DummyResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "base_overlay": base_overlay,
+                    "extension_config": extension_config,
                     "extensions": extensions,
                     "get_image_attributes_options": get_image_attributes_options,
                     "image_overlay": image_overlay,
@@ -153,6 +163,7 @@ class DummyResource(SyncAPIResource):
                     "overlay_position": overlay_position,
                     "overlay_timing": overlay_timing,
                     "responsive_image_attributes": responsive_image_attributes,
+                    "saved_extensions": saved_extensions,
                     "solid_color_overlay": solid_color_overlay,
                     "solid_color_overlay_transformation": solid_color_overlay_transformation,
                     "src_options": src_options,
@@ -198,6 +209,7 @@ class AsyncDummyResource(AsyncAPIResource):
         self,
         *,
         base_overlay: BaseOverlay | Omit = omit,
+        extension_config: ExtensionConfig | Omit = omit,
         extensions: Extensions | Omit = omit,
         get_image_attributes_options: GetImageAttributesOptions | Omit = omit,
         image_overlay: ImageOverlay | Omit = omit,
@@ -205,6 +217,7 @@ class AsyncDummyResource(AsyncAPIResource):
         overlay_position: OverlayPosition | Omit = omit,
         overlay_timing: OverlayTiming | Omit = omit,
         responsive_image_attributes: ResponsiveImageAttributes | Omit = omit,
+        saved_extensions: SavedExtension | Omit = omit,
         solid_color_overlay: SolidColorOverlay | Omit = omit,
         solid_color_overlay_transformation: SolidColorOverlayTransformation | Omit = omit,
         src_options: SrcOptions | Omit = omit,
@@ -230,6 +243,9 @@ class AsyncDummyResource(AsyncAPIResource):
         and is not intended for public consumption.
 
         Args:
+          extension_config: Configuration object for an extension (base extensions only, not saved extension
+              references).
+
           extensions: Array of extensions to be applied to the asset. Each extension can be configured
               with specific parameters based on the extension type.
 
@@ -244,6 +260,8 @@ class AsyncDummyResource(AsyncAPIResource):
 
           responsive_image_attributes: Resulting set of attributes suitable for an HTML `<img>` element. Useful for
               enabling responsive image loading with `srcSet` and `sizes`.
+
+          saved_extensions: Saved extension object containing extension configuration.
 
           src_options: Options for generating ImageKit URLs with transformations. See the
               [Transformations guide](https://imagekit.io/docs/transformations).
@@ -281,6 +299,7 @@ class AsyncDummyResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "base_overlay": base_overlay,
+                    "extension_config": extension_config,
                     "extensions": extensions,
                     "get_image_attributes_options": get_image_attributes_options,
                     "image_overlay": image_overlay,
@@ -288,6 +307,7 @@ class AsyncDummyResource(AsyncAPIResource):
                     "overlay_position": overlay_position,
                     "overlay_timing": overlay_timing,
                     "responsive_image_attributes": responsive_image_attributes,
+                    "saved_extensions": saved_extensions,
                     "solid_color_overlay": solid_color_overlay,
                     "solid_color_overlay_transformation": solid_color_overlay_transformation,
                     "src_options": src_options,

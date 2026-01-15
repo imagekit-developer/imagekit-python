@@ -15,7 +15,9 @@ from .shared import (
     ImageOverlay as ImageOverlay,
     VideoOverlay as VideoOverlay,
     OverlayTiming as OverlayTiming,
+    SavedExtension as SavedExtension,
     Transformation as Transformation,
+    ExtensionConfig as ExtensionConfig,
     OverlayPosition as OverlayPosition,
     SubtitleOverlay as SubtitleOverlay,
     SolidColorOverlay as SolidColorOverlay,
@@ -56,6 +58,9 @@ from .folder_delete_response import FolderDeleteResponse as FolderDeleteResponse
 from .folder_rename_response import FolderRenameResponse as FolderRenameResponse
 from .update_file_request_param import UpdateFileRequestParam as UpdateFileRequestParam
 from .unsafe_unwrap_webhook_event import UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent
+from .saved_extension_create_params import SavedExtensionCreateParams as SavedExtensionCreateParams
+from .saved_extension_list_response import SavedExtensionListResponse as SavedExtensionListResponse
+from .saved_extension_update_params import SavedExtensionUpdateParams as SavedExtensionUpdateParams
 from .upload_pre_transform_error_event import UploadPreTransformErrorEvent as UploadPreTransformErrorEvent
 from .video_transformation_error_event import VideoTransformationErrorEvent as VideoTransformationErrorEvent
 from .video_transformation_ready_event import VideoTransformationReadyEvent as VideoTransformationReadyEvent

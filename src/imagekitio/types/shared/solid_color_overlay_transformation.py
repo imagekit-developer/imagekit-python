@@ -10,9 +10,9 @@ __all__ = ["SolidColorOverlayTransformation"]
 
 class SolidColorOverlayTransformation(BaseModel):
     alpha: Optional[float] = None
-    """Specifies the transparency level of the solid color overlay.
+    """Specifies the transparency level of the overlaid solid color layer.
 
-    Accepts integers from `1` to `9`.
+    Supports integers from `1` to `9`.
     """
 
     background: Optional[str] = None
@@ -37,11 +37,15 @@ class SolidColorOverlayTransformation(BaseModel):
     [arithmetic expressions](https://imagekit.io/docs/arithmetic-expressions-in-transformations).
     """
 
-    radius: Union[float, Literal["max"], None] = None
+    radius: Union[float, Literal["max"], str, None] = None
     """Specifies the corner radius of the solid color overlay.
 
-    Set to `max` for circular or oval shape. See
-    [radius](https://imagekit.io/docs/effects-and-enhancements#radius---r).
+    - Single value (positive integer): Applied to all corners (e.g., `20`).
+    - `max`: Creates a circular or oval shape.
+    - Per-corner array: Provide four underscore-separated values representing
+      top-left, top-right, bottom-right, and bottom-left corners respectively (e.g.,
+      `10_20_30_40`). See
+      [Radius](https://imagekit.io/docs/effects-and-enhancements#radius---r).
     """
 
     width: Union[float, str, None] = None

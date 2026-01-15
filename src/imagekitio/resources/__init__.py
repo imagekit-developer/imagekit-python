@@ -61,6 +61,14 @@ from ..lib.helper import (
     HelperResource,
     AsyncHelperResource,
 )
+from .saved_extensions import (
+    SavedExtensionsResource,
+    AsyncSavedExtensionsResource,
+    SavedExtensionsResourceWithRawResponse,
+    AsyncSavedExtensionsResourceWithRawResponse,
+    SavedExtensionsResourceWithStreamingResponse,
+    AsyncSavedExtensionsResourceWithStreamingResponse,
+)
 from .custom_metadata_fields import (
     CustomMetadataFieldsResource,
     AsyncCustomMetadataFieldsResource,
@@ -89,6 +97,12 @@ __all__ = [
     "AsyncFilesResourceWithRawResponse",
     "FilesResourceWithStreamingResponse",
     "AsyncFilesResourceWithStreamingResponse",
+    "SavedExtensionsResource",
+    "AsyncSavedExtensionsResource",
+    "SavedExtensionsResourceWithRawResponse",
+    "AsyncSavedExtensionsResourceWithRawResponse",
+    "SavedExtensionsResourceWithStreamingResponse",
+    "AsyncSavedExtensionsResourceWithStreamingResponse",
     "AssetsResource",
     "AsyncAssetsResource",
     "AssetsResourceWithRawResponse",

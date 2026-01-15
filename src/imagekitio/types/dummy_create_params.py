@@ -10,7 +10,9 @@ from .shared_params.base_overlay import BaseOverlay
 from .shared_params.text_overlay import TextOverlay
 from .shared.streaming_resolution import StreamingResolution
 from .shared_params.overlay_timing import OverlayTiming
+from .shared_params.saved_extension import SavedExtension
 from .shared.transformation_position import TransformationPosition
+from .shared_params.extension_config import ExtensionConfig
 from .shared_params.overlay_position import OverlayPosition
 from .shared_params.subtitle_overlay import SubtitleOverlay
 from .shared_params.solid_color_overlay import SolidColorOverlay
@@ -24,6 +26,12 @@ __all__ = ["DummyCreateParams"]
 
 class DummyCreateParams(TypedDict, total=False):
     base_overlay: Annotated[BaseOverlay, PropertyInfo(alias="baseOverlay")]
+
+    extension_config: Annotated[ExtensionConfig, PropertyInfo(alias="extensionConfig")]
+    """
+    Configuration object for an extension (base extensions only, not saved extension
+    references).
+    """
 
     extensions: Extensions
     """Array of extensions to be applied to the asset.
@@ -60,6 +68,9 @@ class DummyCreateParams(TypedDict, total=False):
     Resulting set of attributes suitable for an HTML `<img>` element. Useful for
     enabling responsive image loading with `srcSet` and `sizes`.
     """
+
+    saved_extensions: Annotated[SavedExtension, PropertyInfo(alias="savedExtensions")]
+    """Saved extension object containing extension configuration."""
 
     solid_color_overlay: Annotated[SolidColorOverlay, PropertyInfo(alias="solidColorOverlay")]
 
