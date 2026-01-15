@@ -41,6 +41,8 @@ class ExtensionStatus(BaseModel):
         alias="ai-auto-description", default=None
     )
 
+    ai_tasks: Optional[Literal["success", "pending", "failed"]] = FieldInfo(alias="ai-tasks", default=None)
+
     aws_auto_tagging: Optional[Literal["success", "pending", "failed"]] = FieldInfo(
         alias="aws-auto-tagging", default=None
     )
