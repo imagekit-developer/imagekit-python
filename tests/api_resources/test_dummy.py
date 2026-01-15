@@ -8,6 +8,7 @@ from typing import Any, cast
 import pytest
 
 from imagekitio import ImageKit, AsyncImageKit
+from imagekitio._utils import parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -26,6 +27,7 @@ class TestDummy:
     def test_method_create_with_all_params(self, client: ImageKit) -> None:
         dummy = client.dummy.create(
             base_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -35,6 +37,15 @@ class TestDummy:
                     "duration": 0,
                     "end": 0,
                     "start": 0,
+                },
+            },
+            extension_config={
+                "name": "remove-bg",
+                "options": {
+                    "add_shadow": True,
+                    "bg_color": "bg_color",
+                    "bg_image_url": "bg_image_url",
+                    "semitransparency": True,
                 },
             },
             extensions=[
@@ -53,6 +64,59 @@ class TestDummy:
                     "name": "google-auto-tagging",
                 },
                 {"name": "ai-auto-description"},
+                {
+                    "name": "ai-tasks",
+                    "tasks": [
+                        {
+                            "instruction": "What types of clothing items are visible in this image?",
+                            "type": "select_tags",
+                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
+                            "max_selections": 1,
+                            "min_selections": 0,
+                        },
+                        {
+                            "instruction": "Is this a luxury or high-end fashion item?",
+                            "type": "yes_no",
+                            "on_no": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_unknown": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_yes": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                        },
+                    ],
+                },
+                {
+                    "id": "ext_abc123",
+                    "name": "saved-extension",
+                },
             ],
             get_image_attributes_options={
                 "src": "/my-image.jpg",
@@ -76,10 +140,12 @@ class TestDummy:
                         "blur": 10,
                         "border": "5_FF0000",
                         "color_profile": True,
+                        "color_replace": "colorReplace",
                         "contrast_stretch": True,
                         "crop": "force",
                         "crop_mode": "pad_resize",
                         "default_image": "defaultImage",
+                        "distort": "distort",
                         "dpr": 2,
                         "duration": 0,
                         "end_offset": 0,
@@ -95,6 +161,7 @@ class TestDummy:
                         "opacity": 0,
                         "original": True,
                         "overlay": {
+                            "layer_mode": "multiply",
                             "position": {
                                 "focus": "center",
                                 "x": 0,
@@ -154,6 +221,7 @@ class TestDummy:
                 "width": 400,
             },
             image_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -183,10 +251,12 @@ class TestDummy:
                         "blur": 10,
                         "border": "5_FF0000",
                         "color_profile": True,
+                        "color_replace": "colorReplace",
                         "contrast_stretch": True,
                         "crop": "force",
                         "crop_mode": "pad_resize",
                         "default_image": "defaultImage",
+                        "distort": "distort",
                         "dpr": 2,
                         "duration": 0,
                         "end_offset": 0,
@@ -202,6 +272,7 @@ class TestDummy:
                         "opacity": 0,
                         "original": True,
                         "overlay": {
+                            "layer_mode": "multiply",
                             "position": {
                                 "focus": "center",
                                 "x": 0,
@@ -256,6 +327,7 @@ class TestDummy:
                 ],
             },
             overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -303,7 +375,24 @@ class TestDummy:
                 "src_set": "https://ik.imagekit.io/demo/image.jpg?tr=w-640 640w, https://ik.imagekit.io/demo/image.jpg?tr=w-1080 1080w, https://ik.imagekit.io/demo/image.jpg?tr=w-1920 1920w",
                 "width": 400,
             },
+            saved_extensions={
+                "id": "ext_abc123",
+                "config": {
+                    "name": "remove-bg",
+                    "options": {
+                        "add_shadow": True,
+                        "bg_color": "bg_color",
+                        "bg_image_url": "bg_image_url",
+                        "semitransparency": True,
+                    },
+                },
+                "created_at": parse_datetime("2019-12-27T18:11:19.117Z"),
+                "description": "Analyzes vehicle images for type, condition, and quality assessment",
+                "name": "Car Quality Analysis",
+                "updated_at": parse_datetime("2019-12-27T18:11:19.117Z"),
+            },
             solid_color_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -357,10 +446,12 @@ class TestDummy:
                         "blur": 10,
                         "border": "5_FF0000",
                         "color_profile": True,
+                        "color_replace": "colorReplace",
                         "contrast_stretch": True,
                         "crop": "force",
                         "crop_mode": "pad_resize",
                         "default_image": "defaultImage",
+                        "distort": "distort",
                         "dpr": 2,
                         "duration": 0,
                         "end_offset": 0,
@@ -376,6 +467,7 @@ class TestDummy:
                         "opacity": 0,
                         "original": True,
                         "overlay": {
+                            "layer_mode": "multiply",
                             "position": {
                                 "focus": "center",
                                 "x": 0,
@@ -432,6 +524,7 @@ class TestDummy:
             },
             streaming_resolution="240",
             subtitle_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -467,6 +560,7 @@ class TestDummy:
                 "typography": "b",
             },
             text_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -528,10 +622,12 @@ class TestDummy:
                 "blur": 10,
                 "border": "5_FF0000",
                 "color_profile": True,
+                "color_replace": "colorReplace",
                 "contrast_stretch": True,
                 "crop": "force",
                 "crop_mode": "pad_resize",
                 "default_image": "defaultImage",
+                "distort": "distort",
                 "dpr": 2,
                 "duration": 0,
                 "end_offset": 0,
@@ -547,6 +643,7 @@ class TestDummy:
                 "opacity": 0,
                 "original": True,
                 "overlay": {
+                    "layer_mode": "multiply",
                     "position": {
                         "focus": "center",
                         "x": 0,
@@ -600,6 +697,7 @@ class TestDummy:
             },
             transformation_position="path",
             video_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -629,10 +727,12 @@ class TestDummy:
                         "blur": 10,
                         "border": "5_FF0000",
                         "color_profile": True,
+                        "color_replace": "colorReplace",
                         "contrast_stretch": True,
                         "crop": "force",
                         "crop_mode": "pad_resize",
                         "default_image": "defaultImage",
+                        "distort": "distort",
                         "dpr": 2,
                         "duration": 0,
                         "end_offset": 0,
@@ -648,6 +748,7 @@ class TestDummy:
                         "opacity": 0,
                         "original": True,
                         "overlay": {
+                            "layer_mode": "multiply",
                             "position": {
                                 "focus": "center",
                                 "x": 0,
@@ -743,6 +844,7 @@ class TestAsyncDummy:
     async def test_method_create_with_all_params(self, async_client: AsyncImageKit) -> None:
         dummy = await async_client.dummy.create(
             base_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -752,6 +854,15 @@ class TestAsyncDummy:
                     "duration": 0,
                     "end": 0,
                     "start": 0,
+                },
+            },
+            extension_config={
+                "name": "remove-bg",
+                "options": {
+                    "add_shadow": True,
+                    "bg_color": "bg_color",
+                    "bg_image_url": "bg_image_url",
+                    "semitransparency": True,
                 },
             },
             extensions=[
@@ -770,6 +881,59 @@ class TestAsyncDummy:
                     "name": "google-auto-tagging",
                 },
                 {"name": "ai-auto-description"},
+                {
+                    "name": "ai-tasks",
+                    "tasks": [
+                        {
+                            "instruction": "What types of clothing items are visible in this image?",
+                            "type": "select_tags",
+                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
+                            "max_selections": 1,
+                            "min_selections": 0,
+                        },
+                        {
+                            "instruction": "Is this a luxury or high-end fashion item?",
+                            "type": "yes_no",
+                            "on_no": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_unknown": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                            "on_yes": {
+                                "add_tags": ["luxury", "premium"],
+                                "remove_tags": ["budget", "affordable"],
+                                "set_metadata": [
+                                    {
+                                        "field": "price_range",
+                                        "value": "premium",
+                                    }
+                                ],
+                                "unset_metadata": [{"field": "price_range"}],
+                            },
+                        },
+                    ],
+                },
+                {
+                    "id": "ext_abc123",
+                    "name": "saved-extension",
+                },
             ],
             get_image_attributes_options={
                 "src": "/my-image.jpg",
@@ -793,10 +957,12 @@ class TestAsyncDummy:
                         "blur": 10,
                         "border": "5_FF0000",
                         "color_profile": True,
+                        "color_replace": "colorReplace",
                         "contrast_stretch": True,
                         "crop": "force",
                         "crop_mode": "pad_resize",
                         "default_image": "defaultImage",
+                        "distort": "distort",
                         "dpr": 2,
                         "duration": 0,
                         "end_offset": 0,
@@ -812,6 +978,7 @@ class TestAsyncDummy:
                         "opacity": 0,
                         "original": True,
                         "overlay": {
+                            "layer_mode": "multiply",
                             "position": {
                                 "focus": "center",
                                 "x": 0,
@@ -871,6 +1038,7 @@ class TestAsyncDummy:
                 "width": 400,
             },
             image_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -900,10 +1068,12 @@ class TestAsyncDummy:
                         "blur": 10,
                         "border": "5_FF0000",
                         "color_profile": True,
+                        "color_replace": "colorReplace",
                         "contrast_stretch": True,
                         "crop": "force",
                         "crop_mode": "pad_resize",
                         "default_image": "defaultImage",
+                        "distort": "distort",
                         "dpr": 2,
                         "duration": 0,
                         "end_offset": 0,
@@ -919,6 +1089,7 @@ class TestAsyncDummy:
                         "opacity": 0,
                         "original": True,
                         "overlay": {
+                            "layer_mode": "multiply",
                             "position": {
                                 "focus": "center",
                                 "x": 0,
@@ -973,6 +1144,7 @@ class TestAsyncDummy:
                 ],
             },
             overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -1020,7 +1192,24 @@ class TestAsyncDummy:
                 "src_set": "https://ik.imagekit.io/demo/image.jpg?tr=w-640 640w, https://ik.imagekit.io/demo/image.jpg?tr=w-1080 1080w, https://ik.imagekit.io/demo/image.jpg?tr=w-1920 1920w",
                 "width": 400,
             },
+            saved_extensions={
+                "id": "ext_abc123",
+                "config": {
+                    "name": "remove-bg",
+                    "options": {
+                        "add_shadow": True,
+                        "bg_color": "bg_color",
+                        "bg_image_url": "bg_image_url",
+                        "semitransparency": True,
+                    },
+                },
+                "created_at": parse_datetime("2019-12-27T18:11:19.117Z"),
+                "description": "Analyzes vehicle images for type, condition, and quality assessment",
+                "name": "Car Quality Analysis",
+                "updated_at": parse_datetime("2019-12-27T18:11:19.117Z"),
+            },
             solid_color_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -1074,10 +1263,12 @@ class TestAsyncDummy:
                         "blur": 10,
                         "border": "5_FF0000",
                         "color_profile": True,
+                        "color_replace": "colorReplace",
                         "contrast_stretch": True,
                         "crop": "force",
                         "crop_mode": "pad_resize",
                         "default_image": "defaultImage",
+                        "distort": "distort",
                         "dpr": 2,
                         "duration": 0,
                         "end_offset": 0,
@@ -1093,6 +1284,7 @@ class TestAsyncDummy:
                         "opacity": 0,
                         "original": True,
                         "overlay": {
+                            "layer_mode": "multiply",
                             "position": {
                                 "focus": "center",
                                 "x": 0,
@@ -1149,6 +1341,7 @@ class TestAsyncDummy:
             },
             streaming_resolution="240",
             subtitle_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -1184,6 +1377,7 @@ class TestAsyncDummy:
                 "typography": "b",
             },
             text_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -1245,10 +1439,12 @@ class TestAsyncDummy:
                 "blur": 10,
                 "border": "5_FF0000",
                 "color_profile": True,
+                "color_replace": "colorReplace",
                 "contrast_stretch": True,
                 "crop": "force",
                 "crop_mode": "pad_resize",
                 "default_image": "defaultImage",
+                "distort": "distort",
                 "dpr": 2,
                 "duration": 0,
                 "end_offset": 0,
@@ -1264,6 +1460,7 @@ class TestAsyncDummy:
                 "opacity": 0,
                 "original": True,
                 "overlay": {
+                    "layer_mode": "multiply",
                     "position": {
                         "focus": "center",
                         "x": 0,
@@ -1317,6 +1514,7 @@ class TestAsyncDummy:
             },
             transformation_position="path",
             video_overlay={
+                "layer_mode": "multiply",
                 "position": {
                     "focus": "center",
                     "x": 0,
@@ -1346,10 +1544,12 @@ class TestAsyncDummy:
                         "blur": 10,
                         "border": "5_FF0000",
                         "color_profile": True,
+                        "color_replace": "colorReplace",
                         "contrast_stretch": True,
                         "crop": "force",
                         "crop_mode": "pad_resize",
                         "default_image": "defaultImage",
+                        "distort": "distort",
                         "dpr": 2,
                         "duration": 0,
                         "end_offset": 0,
@@ -1365,6 +1565,7 @@ class TestAsyncDummy:
                         "opacity": 0,
                         "original": True,
                         "overlay": {
+                            "layer_mode": "multiply",
                             "position": {
                                 "focus": "center",
                                 "x": 0,

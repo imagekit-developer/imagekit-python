@@ -3,6 +3,7 @@
 ```python
 from imagekitio.types import (
     BaseOverlay,
+    ExtensionConfig,
     Extensions,
     GetImageAttributesOptions,
     ImageOverlay,
@@ -10,6 +11,7 @@ from imagekitio.types import (
     OverlayPosition,
     OverlayTiming,
     ResponsiveImageAttributes,
+    SavedExtension,
     SolidColorOverlay,
     SolidColorOverlayTransformation,
     SrcOptions,
@@ -117,7 +119,23 @@ Methods:
 Methods:
 
 - <code title="get /v1/files/{fileId}/metadata">client.files.metadata.<a href="./src/imagekitio/resources/files/metadata.py">get</a>(file_id) -> <a href="./src/imagekitio/types/metadata.py">Metadata</a></code>
-- <code title="get /v1/files/metadata">client.files.metadata.<a href="./src/imagekitio/resources/files/metadata.py">get_from_url</a>(\*\*<a href="src/imagekitio/types/files/metadata_get_from_url_params.py">params</a>) -> <a href="./src/imagekitio/types/metadata.py">Metadata</a></code>
+- <code title="get /v1/metadata">client.files.metadata.<a href="./src/imagekitio/resources/files/metadata.py">get_from_url</a>(\*\*<a href="src/imagekitio/types/files/metadata_get_from_url_params.py">params</a>) -> <a href="./src/imagekitio/types/metadata.py">Metadata</a></code>
+
+# SavedExtensions
+
+Types:
+
+```python
+from imagekitio.types import SavedExtensionListResponse
+```
+
+Methods:
+
+- <code title="post /v1/saved-extensions">client.saved_extensions.<a href="./src/imagekitio/resources/saved_extensions.py">create</a>(\*\*<a href="src/imagekitio/types/saved_extension_create_params.py">params</a>) -> <a href="./src/imagekitio/types/shared/saved_extension.py">SavedExtension</a></code>
+- <code title="patch /v1/saved-extensions/{id}">client.saved_extensions.<a href="./src/imagekitio/resources/saved_extensions.py">update</a>(id, \*\*<a href="src/imagekitio/types/saved_extension_update_params.py">params</a>) -> <a href="./src/imagekitio/types/shared/saved_extension.py">SavedExtension</a></code>
+- <code title="get /v1/saved-extensions">client.saved_extensions.<a href="./src/imagekitio/resources/saved_extensions.py">list</a>() -> <a href="./src/imagekitio/types/saved_extension_list_response.py">SavedExtensionListResponse</a></code>
+- <code title="delete /v1/saved-extensions/{id}">client.saved_extensions.<a href="./src/imagekitio/resources/saved_extensions.py">delete</a>(id) -> None</code>
+- <code title="get /v1/saved-extensions/{id}">client.saved_extensions.<a href="./src/imagekitio/resources/saved_extensions.py">get</a>(id) -> <a href="./src/imagekitio/types/shared/saved_extension.py">SavedExtension</a></code>
 
 # Assets
 

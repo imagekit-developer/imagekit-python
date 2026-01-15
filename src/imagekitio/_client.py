@@ -33,7 +33,17 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import beta, cache, dummy, files, assets, folders, accounts, custom_metadata_fields
+    from .resources import (
+        beta,
+        cache,
+        dummy,
+        files,
+        assets,
+        folders,
+        accounts,
+        saved_extensions,
+        custom_metadata_fields,
+    )
     from .resources.dummy import DummyResource, AsyncDummyResource
     from .resources.assets import AssetsResource, AsyncAssetsResource
     from .resources.webhooks import WebhooksResource, AsyncWebhooksResource
@@ -41,6 +51,7 @@ if TYPE_CHECKING:
     from .resources.cache.cache import CacheResource, AsyncCacheResource
     from .resources.files.files import FilesResource, AsyncFilesResource
     from .resources.folders.folders import FoldersResource, AsyncFoldersResource
+    from .resources.saved_extensions import SavedExtensionsResource, AsyncSavedExtensionsResource
     from .resources.accounts.accounts import AccountsResource, AsyncAccountsResource
     from .resources.custom_metadata_fields import CustomMetadataFieldsResource, AsyncCustomMetadataFieldsResource
 
@@ -144,6 +155,12 @@ class ImageKit(SyncAPIClient):
         from .resources.files import FilesResource
 
         return FilesResource(self)
+
+    @cached_property
+    def saved_extensions(self) -> SavedExtensionsResource:
+        from .resources.saved_extensions import SavedExtensionsResource
+
+        return SavedExtensionsResource(self)
 
     @cached_property
     def assets(self) -> AssetsResource:
@@ -402,6 +419,12 @@ class AsyncImageKit(AsyncAPIClient):
         return AsyncFilesResource(self)
 
     @cached_property
+    def saved_extensions(self) -> AsyncSavedExtensionsResource:
+        from .resources.saved_extensions import AsyncSavedExtensionsResource
+
+        return AsyncSavedExtensionsResource(self)
+
+    @cached_property
     def assets(self) -> AsyncAssetsResource:
         from .resources.assets import AsyncAssetsResource
 
@@ -593,6 +616,12 @@ class ImageKitWithRawResponse:
         return FilesResourceWithRawResponse(self._client.files)
 
     @cached_property
+    def saved_extensions(self) -> saved_extensions.SavedExtensionsResourceWithRawResponse:
+        from .resources.saved_extensions import SavedExtensionsResourceWithRawResponse
+
+        return SavedExtensionsResourceWithRawResponse(self._client.saved_extensions)
+
+    @cached_property
     def assets(self) -> assets.AssetsResourceWithRawResponse:
         from .resources.assets import AssetsResourceWithRawResponse
 
@@ -646,6 +675,12 @@ class AsyncImageKitWithRawResponse:
         from .resources.files import AsyncFilesResourceWithRawResponse
 
         return AsyncFilesResourceWithRawResponse(self._client.files)
+
+    @cached_property
+    def saved_extensions(self) -> saved_extensions.AsyncSavedExtensionsResourceWithRawResponse:
+        from .resources.saved_extensions import AsyncSavedExtensionsResourceWithRawResponse
+
+        return AsyncSavedExtensionsResourceWithRawResponse(self._client.saved_extensions)
 
     @cached_property
     def assets(self) -> assets.AsyncAssetsResourceWithRawResponse:
@@ -703,6 +738,12 @@ class ImageKitWithStreamedResponse:
         return FilesResourceWithStreamingResponse(self._client.files)
 
     @cached_property
+    def saved_extensions(self) -> saved_extensions.SavedExtensionsResourceWithStreamingResponse:
+        from .resources.saved_extensions import SavedExtensionsResourceWithStreamingResponse
+
+        return SavedExtensionsResourceWithStreamingResponse(self._client.saved_extensions)
+
+    @cached_property
     def assets(self) -> assets.AssetsResourceWithStreamingResponse:
         from .resources.assets import AssetsResourceWithStreamingResponse
 
@@ -756,6 +797,12 @@ class AsyncImageKitWithStreamedResponse:
         from .resources.files import AsyncFilesResourceWithStreamingResponse
 
         return AsyncFilesResourceWithStreamingResponse(self._client.files)
+
+    @cached_property
+    def saved_extensions(self) -> saved_extensions.AsyncSavedExtensionsResourceWithStreamingResponse:
+        from .resources.saved_extensions import AsyncSavedExtensionsResourceWithStreamingResponse
+
+        return AsyncSavedExtensionsResourceWithStreamingResponse(self._client.saved_extensions)
 
     @cached_property
     def assets(self) -> assets.AsyncAssetsResourceWithStreamingResponse:

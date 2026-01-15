@@ -9,31 +9,29 @@ from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
 __all__ = [
-    "Extensions",
-    "ExtensionItem",
-    "ExtensionItemRemoveBg",
-    "ExtensionItemRemoveBgOptions",
-    "ExtensionItemAutoTaggingExtension",
-    "ExtensionItemAIAutoDescription",
-    "ExtensionItemAITasks",
-    "ExtensionItemAITasksTask",
-    "ExtensionItemAITasksTaskSelectTags",
-    "ExtensionItemAITasksTaskSelectMetadata",
-    "ExtensionItemAITasksTaskYesNo",
-    "ExtensionItemAITasksTaskYesNoOnNo",
-    "ExtensionItemAITasksTaskYesNoOnNoSetMetadata",
-    "ExtensionItemAITasksTaskYesNoOnNoUnsetMetadata",
-    "ExtensionItemAITasksTaskYesNoOnUnknown",
-    "ExtensionItemAITasksTaskYesNoOnUnknownSetMetadata",
-    "ExtensionItemAITasksTaskYesNoOnUnknownUnsetMetadata",
-    "ExtensionItemAITasksTaskYesNoOnYes",
-    "ExtensionItemAITasksTaskYesNoOnYesSetMetadata",
-    "ExtensionItemAITasksTaskYesNoOnYesUnsetMetadata",
-    "ExtensionItemSavedExtension",
+    "ExtensionConfig",
+    "RemoveBg",
+    "RemoveBgOptions",
+    "AutoTaggingExtension",
+    "AIAutoDescription",
+    "AITasks",
+    "AITasksTask",
+    "AITasksTaskSelectTags",
+    "AITasksTaskSelectMetadata",
+    "AITasksTaskYesNo",
+    "AITasksTaskYesNoOnNo",
+    "AITasksTaskYesNoOnNoSetMetadata",
+    "AITasksTaskYesNoOnNoUnsetMetadata",
+    "AITasksTaskYesNoOnUnknown",
+    "AITasksTaskYesNoOnUnknownSetMetadata",
+    "AITasksTaskYesNoOnUnknownUnsetMetadata",
+    "AITasksTaskYesNoOnYes",
+    "AITasksTaskYesNoOnYesSetMetadata",
+    "AITasksTaskYesNoOnYesUnsetMetadata",
 ]
 
 
-class ExtensionItemRemoveBgOptions(BaseModel):
+class RemoveBgOptions(BaseModel):
     add_shadow: Optional[bool] = None
     """Whether to add an artificial shadow to the result.
 
@@ -62,14 +60,14 @@ class ExtensionItemRemoveBgOptions(BaseModel):
     """
 
 
-class ExtensionItemRemoveBg(BaseModel):
+class RemoveBg(BaseModel):
     name: Literal["remove-bg"]
     """Specifies the background removal extension."""
 
-    options: Optional[ExtensionItemRemoveBgOptions] = None
+    options: Optional[RemoveBgOptions] = None
 
 
-class ExtensionItemAutoTaggingExtension(BaseModel):
+class AutoTaggingExtension(BaseModel):
     max_tags: int = FieldInfo(alias="maxTags")
     """Maximum number of tags to attach to the asset."""
 
@@ -80,12 +78,12 @@ class ExtensionItemAutoTaggingExtension(BaseModel):
     """Specifies the auto-tagging extension used."""
 
 
-class ExtensionItemAIAutoDescription(BaseModel):
+class AIAutoDescription(BaseModel):
     name: Literal["ai-auto-description"]
     """Specifies the auto description extension."""
 
 
-class ExtensionItemAITasksTaskSelectTags(BaseModel):
+class AITasksTaskSelectTags(BaseModel):
     instruction: str
     """The question or instruction for the AI to analyze the image."""
 
@@ -106,7 +104,7 @@ class ExtensionItemAITasksTaskSelectTags(BaseModel):
     """Minimum number of tags to select from the vocabulary."""
 
 
-class ExtensionItemAITasksTaskSelectMetadata(BaseModel):
+class AITasksTaskSelectMetadata(BaseModel):
     field: str
     """Name of the custom metadata field to set. The field must exist in your account."""
 
@@ -129,7 +127,7 @@ class ExtensionItemAITasksTaskSelectMetadata(BaseModel):
     """Array of possible values matching the custom metadata field type."""
 
 
-class ExtensionItemAITasksTaskYesNoOnNoSetMetadata(BaseModel):
+class AITasksTaskYesNoOnNoSetMetadata(BaseModel):
     field: str
     """Name of the custom metadata field to set."""
 
@@ -140,12 +138,12 @@ class ExtensionItemAITasksTaskYesNoOnNoSetMetadata(BaseModel):
     """
 
 
-class ExtensionItemAITasksTaskYesNoOnNoUnsetMetadata(BaseModel):
+class AITasksTaskYesNoOnNoUnsetMetadata(BaseModel):
     field: str
     """Name of the custom metadata field to remove."""
 
 
-class ExtensionItemAITasksTaskYesNoOnNo(BaseModel):
+class AITasksTaskYesNoOnNo(BaseModel):
     """Actions to execute if the AI answers no."""
 
     add_tags: Optional[List[str]] = None
@@ -154,14 +152,14 @@ class ExtensionItemAITasksTaskYesNoOnNo(BaseModel):
     remove_tags: Optional[List[str]] = None
     """Array of tag strings to remove from the asset."""
 
-    set_metadata: Optional[List[ExtensionItemAITasksTaskYesNoOnNoSetMetadata]] = None
+    set_metadata: Optional[List[AITasksTaskYesNoOnNoSetMetadata]] = None
     """Array of custom metadata field updates."""
 
-    unset_metadata: Optional[List[ExtensionItemAITasksTaskYesNoOnNoUnsetMetadata]] = None
+    unset_metadata: Optional[List[AITasksTaskYesNoOnNoUnsetMetadata]] = None
     """Array of custom metadata fields to remove."""
 
 
-class ExtensionItemAITasksTaskYesNoOnUnknownSetMetadata(BaseModel):
+class AITasksTaskYesNoOnUnknownSetMetadata(BaseModel):
     field: str
     """Name of the custom metadata field to set."""
 
@@ -172,12 +170,12 @@ class ExtensionItemAITasksTaskYesNoOnUnknownSetMetadata(BaseModel):
     """
 
 
-class ExtensionItemAITasksTaskYesNoOnUnknownUnsetMetadata(BaseModel):
+class AITasksTaskYesNoOnUnknownUnsetMetadata(BaseModel):
     field: str
     """Name of the custom metadata field to remove."""
 
 
-class ExtensionItemAITasksTaskYesNoOnUnknown(BaseModel):
+class AITasksTaskYesNoOnUnknown(BaseModel):
     """Actions to execute if the AI cannot determine the answer."""
 
     add_tags: Optional[List[str]] = None
@@ -186,14 +184,14 @@ class ExtensionItemAITasksTaskYesNoOnUnknown(BaseModel):
     remove_tags: Optional[List[str]] = None
     """Array of tag strings to remove from the asset."""
 
-    set_metadata: Optional[List[ExtensionItemAITasksTaskYesNoOnUnknownSetMetadata]] = None
+    set_metadata: Optional[List[AITasksTaskYesNoOnUnknownSetMetadata]] = None
     """Array of custom metadata field updates."""
 
-    unset_metadata: Optional[List[ExtensionItemAITasksTaskYesNoOnUnknownUnsetMetadata]] = None
+    unset_metadata: Optional[List[AITasksTaskYesNoOnUnknownUnsetMetadata]] = None
     """Array of custom metadata fields to remove."""
 
 
-class ExtensionItemAITasksTaskYesNoOnYesSetMetadata(BaseModel):
+class AITasksTaskYesNoOnYesSetMetadata(BaseModel):
     field: str
     """Name of the custom metadata field to set."""
 
@@ -204,12 +202,12 @@ class ExtensionItemAITasksTaskYesNoOnYesSetMetadata(BaseModel):
     """
 
 
-class ExtensionItemAITasksTaskYesNoOnYesUnsetMetadata(BaseModel):
+class AITasksTaskYesNoOnYesUnsetMetadata(BaseModel):
     field: str
     """Name of the custom metadata field to remove."""
 
 
-class ExtensionItemAITasksTaskYesNoOnYes(BaseModel):
+class AITasksTaskYesNoOnYes(BaseModel):
     """Actions to execute if the AI answers yes."""
 
     add_tags: Optional[List[str]] = None
@@ -218,61 +216,43 @@ class ExtensionItemAITasksTaskYesNoOnYes(BaseModel):
     remove_tags: Optional[List[str]] = None
     """Array of tag strings to remove from the asset."""
 
-    set_metadata: Optional[List[ExtensionItemAITasksTaskYesNoOnYesSetMetadata]] = None
+    set_metadata: Optional[List[AITasksTaskYesNoOnYesSetMetadata]] = None
     """Array of custom metadata field updates."""
 
-    unset_metadata: Optional[List[ExtensionItemAITasksTaskYesNoOnYesUnsetMetadata]] = None
+    unset_metadata: Optional[List[AITasksTaskYesNoOnYesUnsetMetadata]] = None
     """Array of custom metadata fields to remove."""
 
 
-class ExtensionItemAITasksTaskYesNo(BaseModel):
+class AITasksTaskYesNo(BaseModel):
     instruction: str
     """The yes/no question for the AI to answer about the image."""
 
     type: Literal["yes_no"]
     """Task type that asks a yes/no question and executes actions based on the answer."""
 
-    on_no: Optional[ExtensionItemAITasksTaskYesNoOnNo] = None
+    on_no: Optional[AITasksTaskYesNoOnNo] = None
     """Actions to execute if the AI answers no."""
 
-    on_unknown: Optional[ExtensionItemAITasksTaskYesNoOnUnknown] = None
+    on_unknown: Optional[AITasksTaskYesNoOnUnknown] = None
     """Actions to execute if the AI cannot determine the answer."""
 
-    on_yes: Optional[ExtensionItemAITasksTaskYesNoOnYes] = None
+    on_yes: Optional[AITasksTaskYesNoOnYes] = None
     """Actions to execute if the AI answers yes."""
 
 
-ExtensionItemAITasksTask: TypeAlias = Annotated[
-    Union[ExtensionItemAITasksTaskSelectTags, ExtensionItemAITasksTaskSelectMetadata, ExtensionItemAITasksTaskYesNo],
-    PropertyInfo(discriminator="type"),
+AITasksTask: TypeAlias = Annotated[
+    Union[AITasksTaskSelectTags, AITasksTaskSelectMetadata, AITasksTaskYesNo], PropertyInfo(discriminator="type")
 ]
 
 
-class ExtensionItemAITasks(BaseModel):
+class AITasks(BaseModel):
     name: Literal["ai-tasks"]
     """Specifies the AI tasks extension for automated image analysis using AI models."""
 
-    tasks: List[ExtensionItemAITasksTask]
+    tasks: List[AITasksTask]
     """Array of task objects defining AI operations to perform on the asset."""
 
 
-class ExtensionItemSavedExtension(BaseModel):
-    id: str
-    """The unique ID of the saved extension to apply."""
-
-    name: Literal["saved-extension"]
-    """Indicates this is a reference to a saved extension."""
-
-
-ExtensionItem: TypeAlias = Annotated[
-    Union[
-        ExtensionItemRemoveBg,
-        ExtensionItemAutoTaggingExtension,
-        ExtensionItemAIAutoDescription,
-        ExtensionItemAITasks,
-        ExtensionItemSavedExtension,
-    ],
-    PropertyInfo(discriminator="name"),
+ExtensionConfig: TypeAlias = Annotated[
+    Union[RemoveBg, AutoTaggingExtension, AIAutoDescription, AITasks], PropertyInfo(discriminator="name")
 ]
-
-Extensions: TypeAlias = List[ExtensionItem]

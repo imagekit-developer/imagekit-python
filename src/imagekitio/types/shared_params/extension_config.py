@@ -2,38 +2,36 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Iterable
+from typing import Union, Iterable
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
 __all__ = [
-    "Extensions",
-    "ExtensionItem",
-    "ExtensionItemRemoveBg",
-    "ExtensionItemRemoveBgOptions",
-    "ExtensionItemAutoTaggingExtension",
-    "ExtensionItemAIAutoDescription",
-    "ExtensionItemAITasks",
-    "ExtensionItemAITasksTask",
-    "ExtensionItemAITasksTaskSelectTags",
-    "ExtensionItemAITasksTaskSelectMetadata",
-    "ExtensionItemAITasksTaskYesNo",
-    "ExtensionItemAITasksTaskYesNoOnNo",
-    "ExtensionItemAITasksTaskYesNoOnNoSetMetadata",
-    "ExtensionItemAITasksTaskYesNoOnNoUnsetMetadata",
-    "ExtensionItemAITasksTaskYesNoOnUnknown",
-    "ExtensionItemAITasksTaskYesNoOnUnknownSetMetadata",
-    "ExtensionItemAITasksTaskYesNoOnUnknownUnsetMetadata",
-    "ExtensionItemAITasksTaskYesNoOnYes",
-    "ExtensionItemAITasksTaskYesNoOnYesSetMetadata",
-    "ExtensionItemAITasksTaskYesNoOnYesUnsetMetadata",
-    "ExtensionItemSavedExtension",
+    "ExtensionConfig",
+    "RemoveBg",
+    "RemoveBgOptions",
+    "AutoTaggingExtension",
+    "AIAutoDescription",
+    "AITasks",
+    "AITasksTask",
+    "AITasksTaskSelectTags",
+    "AITasksTaskSelectMetadata",
+    "AITasksTaskYesNo",
+    "AITasksTaskYesNoOnNo",
+    "AITasksTaskYesNoOnNoSetMetadata",
+    "AITasksTaskYesNoOnNoUnsetMetadata",
+    "AITasksTaskYesNoOnUnknown",
+    "AITasksTaskYesNoOnUnknownSetMetadata",
+    "AITasksTaskYesNoOnUnknownUnsetMetadata",
+    "AITasksTaskYesNoOnYes",
+    "AITasksTaskYesNoOnYesSetMetadata",
+    "AITasksTaskYesNoOnYesUnsetMetadata",
 ]
 
 
-class ExtensionItemRemoveBgOptions(TypedDict, total=False):
+class RemoveBgOptions(TypedDict, total=False):
     add_shadow: bool
     """Whether to add an artificial shadow to the result.
 
@@ -62,14 +60,14 @@ class ExtensionItemRemoveBgOptions(TypedDict, total=False):
     """
 
 
-class ExtensionItemRemoveBg(TypedDict, total=False):
+class RemoveBg(TypedDict, total=False):
     name: Required[Literal["remove-bg"]]
     """Specifies the background removal extension."""
 
-    options: ExtensionItemRemoveBgOptions
+    options: RemoveBgOptions
 
 
-class ExtensionItemAutoTaggingExtension(TypedDict, total=False):
+class AutoTaggingExtension(TypedDict, total=False):
     max_tags: Required[Annotated[int, PropertyInfo(alias="maxTags")]]
     """Maximum number of tags to attach to the asset."""
 
@@ -80,12 +78,12 @@ class ExtensionItemAutoTaggingExtension(TypedDict, total=False):
     """Specifies the auto-tagging extension used."""
 
 
-class ExtensionItemAIAutoDescription(TypedDict, total=False):
+class AIAutoDescription(TypedDict, total=False):
     name: Required[Literal["ai-auto-description"]]
     """Specifies the auto description extension."""
 
 
-class ExtensionItemAITasksTaskSelectTags(TypedDict, total=False):
+class AITasksTaskSelectTags(TypedDict, total=False):
     instruction: Required[str]
     """The question or instruction for the AI to analyze the image."""
 
@@ -106,7 +104,7 @@ class ExtensionItemAITasksTaskSelectTags(TypedDict, total=False):
     """Minimum number of tags to select from the vocabulary."""
 
 
-class ExtensionItemAITasksTaskSelectMetadata(TypedDict, total=False):
+class AITasksTaskSelectMetadata(TypedDict, total=False):
     field: Required[str]
     """Name of the custom metadata field to set. The field must exist in your account."""
 
@@ -129,7 +127,7 @@ class ExtensionItemAITasksTaskSelectMetadata(TypedDict, total=False):
     """Array of possible values matching the custom metadata field type."""
 
 
-class ExtensionItemAITasksTaskYesNoOnNoSetMetadata(TypedDict, total=False):
+class AITasksTaskYesNoOnNoSetMetadata(TypedDict, total=False):
     field: Required[str]
     """Name of the custom metadata field to set."""
 
@@ -140,12 +138,12 @@ class ExtensionItemAITasksTaskYesNoOnNoSetMetadata(TypedDict, total=False):
     """
 
 
-class ExtensionItemAITasksTaskYesNoOnNoUnsetMetadata(TypedDict, total=False):
+class AITasksTaskYesNoOnNoUnsetMetadata(TypedDict, total=False):
     field: Required[str]
     """Name of the custom metadata field to remove."""
 
 
-class ExtensionItemAITasksTaskYesNoOnNo(TypedDict, total=False):
+class AITasksTaskYesNoOnNo(TypedDict, total=False):
     """Actions to execute if the AI answers no."""
 
     add_tags: SequenceNotStr[str]
@@ -154,14 +152,14 @@ class ExtensionItemAITasksTaskYesNoOnNo(TypedDict, total=False):
     remove_tags: SequenceNotStr[str]
     """Array of tag strings to remove from the asset."""
 
-    set_metadata: Iterable[ExtensionItemAITasksTaskYesNoOnNoSetMetadata]
+    set_metadata: Iterable[AITasksTaskYesNoOnNoSetMetadata]
     """Array of custom metadata field updates."""
 
-    unset_metadata: Iterable[ExtensionItemAITasksTaskYesNoOnNoUnsetMetadata]
+    unset_metadata: Iterable[AITasksTaskYesNoOnNoUnsetMetadata]
     """Array of custom metadata fields to remove."""
 
 
-class ExtensionItemAITasksTaskYesNoOnUnknownSetMetadata(TypedDict, total=False):
+class AITasksTaskYesNoOnUnknownSetMetadata(TypedDict, total=False):
     field: Required[str]
     """Name of the custom metadata field to set."""
 
@@ -172,12 +170,12 @@ class ExtensionItemAITasksTaskYesNoOnUnknownSetMetadata(TypedDict, total=False):
     """
 
 
-class ExtensionItemAITasksTaskYesNoOnUnknownUnsetMetadata(TypedDict, total=False):
+class AITasksTaskYesNoOnUnknownUnsetMetadata(TypedDict, total=False):
     field: Required[str]
     """Name of the custom metadata field to remove."""
 
 
-class ExtensionItemAITasksTaskYesNoOnUnknown(TypedDict, total=False):
+class AITasksTaskYesNoOnUnknown(TypedDict, total=False):
     """Actions to execute if the AI cannot determine the answer."""
 
     add_tags: SequenceNotStr[str]
@@ -186,14 +184,14 @@ class ExtensionItemAITasksTaskYesNoOnUnknown(TypedDict, total=False):
     remove_tags: SequenceNotStr[str]
     """Array of tag strings to remove from the asset."""
 
-    set_metadata: Iterable[ExtensionItemAITasksTaskYesNoOnUnknownSetMetadata]
+    set_metadata: Iterable[AITasksTaskYesNoOnUnknownSetMetadata]
     """Array of custom metadata field updates."""
 
-    unset_metadata: Iterable[ExtensionItemAITasksTaskYesNoOnUnknownUnsetMetadata]
+    unset_metadata: Iterable[AITasksTaskYesNoOnUnknownUnsetMetadata]
     """Array of custom metadata fields to remove."""
 
 
-class ExtensionItemAITasksTaskYesNoOnYesSetMetadata(TypedDict, total=False):
+class AITasksTaskYesNoOnYesSetMetadata(TypedDict, total=False):
     field: Required[str]
     """Name of the custom metadata field to set."""
 
@@ -204,12 +202,12 @@ class ExtensionItemAITasksTaskYesNoOnYesSetMetadata(TypedDict, total=False):
     """
 
 
-class ExtensionItemAITasksTaskYesNoOnYesUnsetMetadata(TypedDict, total=False):
+class AITasksTaskYesNoOnYesUnsetMetadata(TypedDict, total=False):
     field: Required[str]
     """Name of the custom metadata field to remove."""
 
 
-class ExtensionItemAITasksTaskYesNoOnYes(TypedDict, total=False):
+class AITasksTaskYesNoOnYes(TypedDict, total=False):
     """Actions to execute if the AI answers yes."""
 
     add_tags: SequenceNotStr[str]
@@ -218,57 +216,39 @@ class ExtensionItemAITasksTaskYesNoOnYes(TypedDict, total=False):
     remove_tags: SequenceNotStr[str]
     """Array of tag strings to remove from the asset."""
 
-    set_metadata: Iterable[ExtensionItemAITasksTaskYesNoOnYesSetMetadata]
+    set_metadata: Iterable[AITasksTaskYesNoOnYesSetMetadata]
     """Array of custom metadata field updates."""
 
-    unset_metadata: Iterable[ExtensionItemAITasksTaskYesNoOnYesUnsetMetadata]
+    unset_metadata: Iterable[AITasksTaskYesNoOnYesUnsetMetadata]
     """Array of custom metadata fields to remove."""
 
 
-class ExtensionItemAITasksTaskYesNo(TypedDict, total=False):
+class AITasksTaskYesNo(TypedDict, total=False):
     instruction: Required[str]
     """The yes/no question for the AI to answer about the image."""
 
     type: Required[Literal["yes_no"]]
     """Task type that asks a yes/no question and executes actions based on the answer."""
 
-    on_no: ExtensionItemAITasksTaskYesNoOnNo
+    on_no: AITasksTaskYesNoOnNo
     """Actions to execute if the AI answers no."""
 
-    on_unknown: ExtensionItemAITasksTaskYesNoOnUnknown
+    on_unknown: AITasksTaskYesNoOnUnknown
     """Actions to execute if the AI cannot determine the answer."""
 
-    on_yes: ExtensionItemAITasksTaskYesNoOnYes
+    on_yes: AITasksTaskYesNoOnYes
     """Actions to execute if the AI answers yes."""
 
 
-ExtensionItemAITasksTask: TypeAlias = Union[
-    ExtensionItemAITasksTaskSelectTags, ExtensionItemAITasksTaskSelectMetadata, ExtensionItemAITasksTaskYesNo
-]
+AITasksTask: TypeAlias = Union[AITasksTaskSelectTags, AITasksTaskSelectMetadata, AITasksTaskYesNo]
 
 
-class ExtensionItemAITasks(TypedDict, total=False):
+class AITasks(TypedDict, total=False):
     name: Required[Literal["ai-tasks"]]
     """Specifies the AI tasks extension for automated image analysis using AI models."""
 
-    tasks: Required[Iterable[ExtensionItemAITasksTask]]
+    tasks: Required[Iterable[AITasksTask]]
     """Array of task objects defining AI operations to perform on the asset."""
 
 
-class ExtensionItemSavedExtension(TypedDict, total=False):
-    id: Required[str]
-    """The unique ID of the saved extension to apply."""
-
-    name: Required[Literal["saved-extension"]]
-    """Indicates this is a reference to a saved extension."""
-
-
-ExtensionItem: TypeAlias = Union[
-    ExtensionItemRemoveBg,
-    ExtensionItemAutoTaggingExtension,
-    ExtensionItemAIAutoDescription,
-    ExtensionItemAITasks,
-    ExtensionItemSavedExtension,
-]
-
-Extensions: TypeAlias = List[ExtensionItem]
+ExtensionConfig: TypeAlias = Union[RemoveBg, AutoTaggingExtension, AIAutoDescription, AITasks]
