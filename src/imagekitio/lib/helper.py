@@ -81,6 +81,8 @@ SUPPORTED_TRANSFORMS = {
     "sharpen": "e-sharpen",
     "unsharp_mask": "e-usm",
     "gradient": "e-gradient",
+    "color_replace": "cr",
+    "distort": "e-distort",
     # Other flags & finishing
     "progressive": "pr",
     "lossless": "lo",
@@ -314,6 +316,11 @@ def _process_overlay(overlay: Overlay) -> str:
             return ""
 
         parsed_overlay.append(f"bg-{color}")
+
+    # Handle layer_mode property
+    layer_mode = overlay.get("layer_mode")
+    if layer_mode:
+        parsed_overlay.append(f"lm-{layer_mode}")
 
     # Handle position properties (x, y, focus)
     # Node.js uses if (x) which skips falsy values like 0, '', false, null, undefined
