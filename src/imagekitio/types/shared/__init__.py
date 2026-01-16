@@ -9,6 +9,8 @@ from .image_overlay import ImageOverlay as ImageOverlay
 from .video_overlay import VideoOverlay as VideoOverlay
 from .overlay_timing import OverlayTiming as OverlayTiming
 from .transformation import Transformation as Transformation
+from .saved_extension import SavedExtension as SavedExtension
+from .extension_config import ExtensionConfig as ExtensionConfig
 from .overlay_position import OverlayPosition as OverlayPosition
 from .subtitle_overlay import SubtitleOverlay as SubtitleOverlay
 from .solid_color_overlay import SolidColorOverlay as SolidColorOverlay

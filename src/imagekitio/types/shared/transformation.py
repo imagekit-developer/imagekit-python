@@ -107,6 +107,12 @@ class Transformation(BaseModel):
 
     - A solid color: e.g., `red`, `F3F3F3`, `AAFF0010`. See
       [Solid color background](https://imagekit.io/docs/effects-and-enhancements#solid-color-background).
+    - Dominant color: `dominant` extracts the dominant color from the image. See
+      [Dominant color background](https://imagekit.io/docs/effects-and-enhancements#dominant-color-background).
+    - Gradient: `gradient_dominant` or `gradient_dominant_2` creates a gradient
+      using the dominant colors. Optionally specify palette size (2 or 4), e.g.,
+      `gradient_dominant_4`. See
+      [Gradient background](https://imagekit.io/docs/effects-and-enhancements#gradient-background).
     - A blurred background: e.g., `blurred`, `blurred_25_N15`, etc. See
       [Blurred background](https://imagekit.io/docs/effects-and-enhancements#blurred-background).
     - Expand the image boundaries using generative fill: `genfill`. Not supported
@@ -137,6 +143,17 @@ class Transformation(BaseModel):
     [Color profile](https://imagekit.io/docs/image-optimization#color-profile---cp).
     """
 
+    color_replace: Optional[str] = FieldInfo(alias="colorReplace", default=None)
+    """Replaces colors in the image. Supports three formats:
+
+    - `toColor` - Replace dominant color with the specified color.
+    - `toColor_tolerance` - Replace dominant color with specified tolerance (0-100).
+    - `toColor_tolerance_fromColor` - Replace a specific color with another within
+      tolerance range. Colors can be hex codes (e.g., `FF0022`) or names (e.g.,
+      `red`, `blue`). See
+      [Color replacement](https://imagekit.io/docs/effects-and-enhancements#color-replace---cr).
+    """
+
     contrast_stretch: Optional[Literal[True]] = FieldInfo(alias="contrastStretch", default=None)
     """
     Automatically enhances the contrast of an image (contrast stretch). See
@@ -164,11 +181,24 @@ class Transformation(BaseModel):
     [Default image](https://imagekit.io/docs/image-transformation#default-image---di).
     """
 
+    distort: Optional[str] = None
+    """Distorts the shape of an image. Supports two modes:
+
+    - Perspective distortion: `p-x1_y1_x2_y2_x3_y3_x4_y4` changes the position of
+      the four corners starting clockwise from top-left.
+    - Arc distortion: `a-degrees` curves the image upwards (positive values) or
+      downwards (negative values). See
+      [Distort effect](https://imagekit.io/docs/effects-and-enhancements#distort---e-distort).
+    """
+
     dpr: Optional[float] = None
     """
     Accepts values between 0.1 and 5, or `auto` for automatic device pixel ratio
-    (DPR) calculation. See
-    [DPR](https://imagekit.io/docs/image-resize-and-crop#dpr---dpr).
+    (DPR) calculation. Also accepts arithmetic expressions.
+
+    - Learn about
+      [Arithmetic expressions](https://imagekit.io/docs/arithmetic-expressions-in-transformations).
+    - See [DPR](https://imagekit.io/docs/image-resize-and-crop#dpr---dpr).
     """
 
     duration: Union[float, str, None] = None
@@ -309,11 +339,15 @@ class Transformation(BaseModel):
     See [Quality](https://imagekit.io/docs/image-optimization#quality---q).
     """
 
-    radius: Union[float, Literal["max"], None] = None
-    """
-    Specifies the corner radius for rounded corners (e.g., 20) or `max` for circular
-    or oval shape. See
-    [Radius](https://imagekit.io/docs/effects-and-enhancements#radius---r).
+    radius: Union[float, Literal["max"], str, None] = None
+    """Specifies the corner radius for rounded corners.
+
+    - Single value (positive integer): Applied to all corners (e.g., `20`).
+    - `max`: Creates a circular or oval shape.
+    - Per-corner array: Provide four underscore-separated values representing
+      top-left, top-right, bottom-right, and bottom-left corners respectively (e.g.,
+      `10_20_30_40`). See
+      [Radius](https://imagekit.io/docs/effects-and-enhancements#radius---r).
     """
 
     raw: Optional[str] = None

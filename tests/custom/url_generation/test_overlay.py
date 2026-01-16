@@ -403,3 +403,81 @@ class TestOverlay:
         )
         expected = "https://ik.imagekit.io/demo/sample.jpg?tr=l-text,i-Minimal%20Text,l-end"
         assert url == expected
+
+    # Layer mode tests
+    def test_should_handle_layer_mode_multiply_in_overlay(self):
+        """Test layer mode multiply in image overlay."""
+        url = self.client.helper.build_url(
+            src="/base-image.jpg",
+            url_endpoint="https://ik.imagekit.io/test_url_endpoint",
+            transformation_position="path",
+            transformation=[
+                {
+                    "overlay": {
+                        "type": "image",
+                        "input": "overlay.png",
+                        "layer_mode": "multiply",
+                    }
+                }
+            ],
+        )
+        expected = "https://ik.imagekit.io/test_url_endpoint/tr:l-image,i-overlay.png,lm-multiply,l-end/base-image.jpg"
+        assert url == expected
+
+    def test_should_handle_layer_mode_cutter_in_overlay(self):
+        """Test layer mode cutter in image overlay."""
+        url = self.client.helper.build_url(
+            src="/base-image.jpg",
+            url_endpoint="https://ik.imagekit.io/test_url_endpoint",
+            transformation_position="path",
+            transformation=[
+                {
+                    "overlay": {
+                        "type": "image",
+                        "input": "overlay.png",
+                        "layer_mode": "cutter",
+                    }
+                }
+            ],
+        )
+        expected = "https://ik.imagekit.io/test_url_endpoint/tr:l-image,i-overlay.png,lm-cutter,l-end/base-image.jpg"
+        assert url == expected
+
+    def test_should_handle_layer_mode_cutout_in_overlay(self):
+        """Test layer mode cutout in image overlay."""
+        url = self.client.helper.build_url(
+            src="/base-image.jpg",
+            url_endpoint="https://ik.imagekit.io/test_url_endpoint",
+            transformation_position="path",
+            transformation=[
+                {
+                    "overlay": {
+                        "type": "image",
+                        "input": "overlay.png",
+                        "layer_mode": "cutout",
+                    }
+                }
+            ],
+        )
+        expected = "https://ik.imagekit.io/test_url_endpoint/tr:l-image,i-overlay.png,lm-cutout,l-end/base-image.jpg"
+        assert url == expected
+
+    def test_should_handle_layer_mode_displace_in_overlay(self):
+        """Test layer mode displace in image overlay."""
+        url = self.client.helper.build_url(
+            src="/base-image.jpg",
+            url_endpoint="https://ik.imagekit.io/test_url_endpoint",
+            transformation_position="path",
+            transformation=[
+                {
+                    "overlay": {
+                        "type": "image",
+                        "input": "overlay.png",
+                        "layer_mode": "displace",
+                    }
+                }
+            ],
+        )
+        expected = "https://ik.imagekit.io/test_url_endpoint/tr:l-image,i-overlay.png,lm-displace,l-end/base-image.jpg"
+        assert url == expected
+

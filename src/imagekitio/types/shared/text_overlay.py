@@ -25,6 +25,9 @@ class TextOverlay(BaseOverlay):
     appropriate format based on the input text. To always use base64
     (`ie-{base64}`), set this parameter to `base64`. To always use plain text
     (`i-{input}`), set it to `plain`.
+
+    Regardless of the encoding method, the input text is always percent-encoded to
+    ensure it is URL-safe.
     """
 
     transformation: Optional[List[TextOverlayTransformation]] = None

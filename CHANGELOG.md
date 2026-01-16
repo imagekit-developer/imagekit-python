@@ -1,5 +1,35 @@
 # Changelog
 
+## 5.1.0 (2026-01-16)
+
+Full Changelog: [v5.0.0...v5.1.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.0.0...v5.1.0)
+
+### Features
+
+* add support for new transformations and layer modes in URL generation ([5fd87b1](https://github.com/imagekit-developer/imagekit-python/commit/5fd87b198090318eb19eb68c1d06ebc3636d735c))
+* **api:** Add saved extensions API and enhance transformation options ([a0781ed](https://github.com/imagekit-developer/imagekit-python/commit/a0781edc19f2cbd78a87e973e0cc2277079fb02a))
+* **client:** add support for binary request streaming ([f8580d6](https://github.com/imagekit-developer/imagekit-python/commit/f8580d644e31312e439a54704ca2e3858407ea0b))
+
+
+### Bug Fixes
+
+* add ai-tasks property to response schemas with enum values ([06de9eb](https://github.com/imagekit-developer/imagekit-python/commit/06de9ebc34e6fbf21f3863cd86d75556c429ff8f))
+* **client:** loosen auth header validation ([40ef10e](https://github.com/imagekit-developer/imagekit-python/commit/40ef10e6e81ff3727a095aead127d296486a3c09))
+* use async_to_httpx_files in patch method ([0014808](https://github.com/imagekit-developer/imagekit-python/commit/0014808307e55091a943d2f6b087fefbaee8ed0a))
+
+
+### Chores
+
+* **internal:** add `--fix` argument to lint script ([e6bf019](https://github.com/imagekit-developer/imagekit-python/commit/e6bf0196fe985302e11fb440cd3d215114a8e4c3))
+* **internal:** add missing files argument to base client ([aec7892](https://github.com/imagekit-developer/imagekit-python/commit/aec7892b063c00b730afcdc440c0fa3ebe1cdae8))
+* **internal:** codegen related update ([49635b4](https://github.com/imagekit-developer/imagekit-python/commit/49635b4dc6bd4268fc6a62f9df2a2e15c56afcee))
+* speedup initial import ([ad1da84](https://github.com/imagekit-developer/imagekit-python/commit/ad1da84adad57d0a64a8f06a04c6ddb6b8f0e96b))
+
+
+### Documentation
+
+* prominently feature MCP server setup in root SDK readmes ([51c1a9a](https://github.com/imagekit-developer/imagekit-python/commit/51c1a9ae1545a25b574195ec73b83dab64d9becb))
+
 ## 5.0.0 (2025-12-13)
 
 Full Changelog: [v0.0.1...v5.0.0](https://github.com/imagekit-developer/imagekit-python/compare/v0.0.1...v5.0.0)
