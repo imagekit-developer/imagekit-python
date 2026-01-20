@@ -90,18 +90,18 @@ class AITasksTaskSelectTags(TypedDict, total=False):
     type: Required[Literal["select_tags"]]
     """Task type that analyzes the image and adds matching tags from a vocabulary."""
 
-    vocabulary: Required[SequenceNotStr[str]]
-    """Array of possible tag values.
-
-    Combined length of all strings must not exceed 500 characters. Cannot contain
-    the `%` character.
-    """
-
     max_selections: int
     """Maximum number of tags to select from the vocabulary."""
 
     min_selections: int
     """Minimum number of tags to select from the vocabulary."""
+
+    vocabulary: SequenceNotStr[str]
+    """Array of possible tag values.
+
+    Combined length of all strings must not exceed 500 characters. Cannot contain
+    the `%` character.
+    """
 
 
 class AITasksTaskSelectMetadata(TypedDict, total=False):

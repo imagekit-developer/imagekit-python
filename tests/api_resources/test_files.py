@@ -62,9 +62,9 @@ class TestFiles:
                         {
                             "instruction": "What types of clothing items are visible in this image?",
                             "type": "select_tags",
-                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
                             "max_selections": 1,
                             "min_selections": 0,
+                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
                         },
                         {
                             "instruction": "Is this a luxury or high-end fashion item?",
@@ -465,9 +465,9 @@ class TestFiles:
                         {
                             "instruction": "What types of clothing items are visible in this image?",
                             "type": "select_tags",
-                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
                             "max_selections": 1,
                             "min_selections": 0,
+                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
                         },
                         {
                             "instruction": "Is this a luxury or high-end fashion item?",
@@ -615,9 +615,9 @@ class TestAsyncFiles:
                         {
                             "instruction": "What types of clothing items are visible in this image?",
                             "type": "select_tags",
-                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
                             "max_selections": 1,
                             "min_selections": 0,
+                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
                         },
                         {
                             "instruction": "Is this a luxury or high-end fashion item?",
@@ -1018,9 +1018,9 @@ class TestAsyncFiles:
                         {
                             "instruction": "What types of clothing items are visible in this image?",
                             "type": "select_tags",
-                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
                             "max_selections": 1,
                             "min_selections": 0,
+                            "vocabulary": ["shirt", "tshirt", "dress", "trousers", "jacket"],
                         },
                         {
                             "instruction": "Is this a luxury or high-end fashion item?",

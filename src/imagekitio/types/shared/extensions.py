@@ -92,18 +92,18 @@ class ExtensionItemAITasksTaskSelectTags(BaseModel):
     type: Literal["select_tags"]
     """Task type that analyzes the image and adds matching tags from a vocabulary."""
 
-    vocabulary: List[str]
-    """Array of possible tag values.
-
-    Combined length of all strings must not exceed 500 characters. Cannot contain
-    the `%` character.
-    """
-
     max_selections: Optional[int] = None
     """Maximum number of tags to select from the vocabulary."""
 
     min_selections: Optional[int] = None
     """Minimum number of tags to select from the vocabulary."""
+
+    vocabulary: Optional[List[str]] = None
+    """Array of possible tag values.
+
+    Combined length of all strings must not exceed 500 characters. Cannot contain
+    the `%` character.
+    """
 
 
 class ExtensionItemAITasksTaskSelectMetadata(BaseModel):
