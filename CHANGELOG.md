@@ -1,5 +1,18 @@
 # Changelog
 
+## 5.1.1 (2026-01-20)
+
+Full Changelog: [v5.1.0...v5.1.1](https://github.com/imagekit-developer/imagekit-python/compare/v5.1.0...v5.1.1)
+
+### Bug Fixes
+
+* vocab field is required ([4ab29b2](https://github.com/imagekit-developer/imagekit-python/commit/4ab29b248b89398b4334d6e1946a35a561997b2a))
+
+
+### Chores
+
+* **internal:** update `actions/checkout` version ([7826590](https://github.com/imagekit-developer/imagekit-python/commit/782659076636d78290d488da3f834343550627c8))
+
 ## 5.1.0 (2026-01-16)
 
 Full Changelog: [v5.0.0...v5.1.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.0.0...v5.1.0)
