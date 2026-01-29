@@ -296,7 +296,7 @@ def _process_overlay(overlay: Overlay) -> str:
         parsed_overlay.append(_process_input_path(video_input, video_encoding))
 
     elif overlay_type == "subtitle":
-        parsed_overlay.append("l-subtitle")
+        parsed_overlay.append("l-subtitles")
 
         subtitle_input = cast(str, overlay.get("input", ""))
         if not subtitle_input:
