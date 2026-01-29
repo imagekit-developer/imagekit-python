@@ -1,5 +1,19 @@
 # Changelog
 
+## 5.1.2 (2026-01-29)
+
+Full Changelog: [v5.1.1...v5.1.2](https://github.com/imagekit-developer/imagekit-python/compare/v5.1.1...v5.1.2)
+
+### Bug Fixes
+
+* **docs:** fix mcp installation instructions for remote servers ([df26dbd](https://github.com/imagekit-developer/imagekit-python/commit/df26dbdccce2814bbf30ee94853883a266211586))
+* **tests:** update subtitle overlay references from "l-subtitle" to "l-subtitles" ([11fb58a](https://github.com/imagekit-developer/imagekit-python/commit/11fb58a82c0ff8eb5bdf4bf779b15ea85046604a))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([a75c01b](https://github.com/imagekit-developer/imagekit-python/commit/a75c01be5c51bdee1531f89b45519af872bb8c59))
+
 ## 5.1.1 (2026-01-20)
 
 Full Changelog: [v5.1.0...v5.1.1](https://github.com/imagekit-developer/imagekit-python/compare/v5.1.0...v5.1.1)
