@@ -1,5 +1,19 @@
 # Changelog
 
+## 5.2.0 (2026-02-02)
+
+Full Changelog: [v5.1.2...v5.2.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.1.2...v5.2.0)
+
+### Features
+
+* **api:** add customMetadata property to folder schema ([9b8597b](https://github.com/imagekit-developer/imagekit-python/commit/9b8597b8d8b4f11eb4c9e93ddbd924169fe9b0ea))
+* **client:** add custom JSON encoder for extended type support ([2d7dd40](https://github.com/imagekit-developer/imagekit-python/commit/2d7dd4063992e7c49518ea8bca1bbf9dfec7aa9c))
+
+
+### Bug Fixes
+
+* **api:** add missing embeddedMetadata and video properties to FileDetails ([b1ffb23](https://github.com/imagekit-developer/imagekit-python/commit/b1ffb235b3f6dae292af80bd99d965db44db47f9))
+
 ## 5.1.2 (2026-01-29)
 
 Full Changelog: [v5.1.1...v5.1.2](https://github.com/imagekit-developer/imagekit-python/compare/v5.1.1...v5.1.2)

@@ -95,6 +95,12 @@ class File(BaseModel):
     ai_tags: Optional[List[AITag]] = FieldInfo(alias="AITags", default=None)
     """An array of tags assigned to the file by auto tagging."""
 
+    audio_codec: Optional[str] = FieldInfo(alias="audioCodec", default=None)
+    """The audio codec used in the video (only for video/audio)."""
+
+    bit_rate: Optional[int] = FieldInfo(alias="bitRate", default=None)
+    """The bit rate of the video in kbps (only for video)."""
+
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
     """Date and time when the file was uploaded.
 
@@ -111,6 +117,15 @@ class File(BaseModel):
     """Optional text to describe the contents of the file.
 
     Can be set by the user or the ai-auto-description extension.
+    """
+
+    duration: Optional[int] = None
+    """The duration of the video in seconds (only for video)."""
+
+    embedded_metadata: Optional[Dict[str, object]] = FieldInfo(alias="embeddedMetadata", default=None)
+    """Consolidated embedded metadata associated with the file.
+
+    It includes exif, iptc, and xmp data.
     """
 
     file_id: Optional[str] = FieldInfo(alias="fileId", default=None)
@@ -187,6 +202,9 @@ class File(BaseModel):
 
     version_info: Optional[VersionInfo] = FieldInfo(alias="versionInfo", default=None)
     """An object with details of the file version."""
+
+    video_codec: Optional[str] = FieldInfo(alias="videoCodec", default=None)
+    """The video codec used in the video (only for video)."""
 
     width: Optional[float] = None
     """Width of the file."""

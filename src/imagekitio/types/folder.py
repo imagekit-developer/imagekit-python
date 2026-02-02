@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import Dict, Optional
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -16,6 +16,12 @@ class Folder(BaseModel):
     """Date and time when the folder was created.
 
     The date and time is in ISO8601 format.
+    """
+
+    custom_metadata: Optional[Dict[str, object]] = FieldInfo(alias="customMetadata", default=None)
+    """An object with custom metadata for the folder.
+
+    Returns empty object if no custom metadata is set.
     """
 
     folder_id: Optional[str] = FieldInfo(alias="folderId", default=None)
