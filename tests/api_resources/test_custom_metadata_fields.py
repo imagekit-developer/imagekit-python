@@ -21,7 +21,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestCustomMetadataFields:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: ImageKit) -> None:
         custom_metadata_field = client.custom_metadata_fields.create(
@@ -31,7 +31,7 @@ class TestCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: ImageKit) -> None:
         custom_metadata_field = client.custom_metadata_fields.create(
@@ -50,7 +50,7 @@ class TestCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: ImageKit) -> None:
         response = client.custom_metadata_fields.with_raw_response.create(
@@ -64,7 +64,7 @@ class TestCustomMetadataFields:
         custom_metadata_field = response.parse()
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: ImageKit) -> None:
         with client.custom_metadata_fields.with_streaming_response.create(
@@ -80,7 +80,7 @@ class TestCustomMetadataFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: ImageKit) -> None:
         custom_metadata_field = client.custom_metadata_fields.update(
@@ -88,7 +88,7 @@ class TestCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: ImageKit) -> None:
         custom_metadata_field = client.custom_metadata_fields.update(
@@ -106,7 +106,7 @@ class TestCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: ImageKit) -> None:
         response = client.custom_metadata_fields.with_raw_response.update(
@@ -118,7 +118,7 @@ class TestCustomMetadataFields:
         custom_metadata_field = response.parse()
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: ImageKit) -> None:
         with client.custom_metadata_fields.with_streaming_response.update(
@@ -132,7 +132,7 @@ class TestCustomMetadataFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -140,13 +140,13 @@ class TestCustomMetadataFields:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: ImageKit) -> None:
         custom_metadata_field = client.custom_metadata_fields.list()
         assert_matches_type(CustomMetadataFieldListResponse, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: ImageKit) -> None:
         custom_metadata_field = client.custom_metadata_fields.list(
@@ -155,7 +155,7 @@ class TestCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataFieldListResponse, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: ImageKit) -> None:
         response = client.custom_metadata_fields.with_raw_response.list()
@@ -165,7 +165,7 @@ class TestCustomMetadataFields:
         custom_metadata_field = response.parse()
         assert_matches_type(CustomMetadataFieldListResponse, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: ImageKit) -> None:
         with client.custom_metadata_fields.with_streaming_response.list() as response:
@@ -177,7 +177,7 @@ class TestCustomMetadataFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: ImageKit) -> None:
         custom_metadata_field = client.custom_metadata_fields.delete(
@@ -185,7 +185,7 @@ class TestCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataFieldDeleteResponse, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: ImageKit) -> None:
         response = client.custom_metadata_fields.with_raw_response.delete(
@@ -197,7 +197,7 @@ class TestCustomMetadataFields:
         custom_metadata_field = response.parse()
         assert_matches_type(CustomMetadataFieldDeleteResponse, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: ImageKit) -> None:
         with client.custom_metadata_fields.with_streaming_response.delete(
@@ -211,7 +211,7 @@ class TestCustomMetadataFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -225,7 +225,7 @@ class TestAsyncCustomMetadataFields:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncImageKit) -> None:
         custom_metadata_field = await async_client.custom_metadata_fields.create(
@@ -235,7 +235,7 @@ class TestAsyncCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncImageKit) -> None:
         custom_metadata_field = await async_client.custom_metadata_fields.create(
@@ -254,7 +254,7 @@ class TestAsyncCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncImageKit) -> None:
         response = await async_client.custom_metadata_fields.with_raw_response.create(
@@ -268,7 +268,7 @@ class TestAsyncCustomMetadataFields:
         custom_metadata_field = await response.parse()
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncImageKit) -> None:
         async with async_client.custom_metadata_fields.with_streaming_response.create(
@@ -284,7 +284,7 @@ class TestAsyncCustomMetadataFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncImageKit) -> None:
         custom_metadata_field = await async_client.custom_metadata_fields.update(
@@ -292,7 +292,7 @@ class TestAsyncCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncImageKit) -> None:
         custom_metadata_field = await async_client.custom_metadata_fields.update(
@@ -310,7 +310,7 @@ class TestAsyncCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncImageKit) -> None:
         response = await async_client.custom_metadata_fields.with_raw_response.update(
@@ -322,7 +322,7 @@ class TestAsyncCustomMetadataFields:
         custom_metadata_field = await response.parse()
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncImageKit) -> None:
         async with async_client.custom_metadata_fields.with_streaming_response.update(
@@ -336,7 +336,7 @@ class TestAsyncCustomMetadataFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -344,13 +344,13 @@ class TestAsyncCustomMetadataFields:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncImageKit) -> None:
         custom_metadata_field = await async_client.custom_metadata_fields.list()
         assert_matches_type(CustomMetadataFieldListResponse, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncImageKit) -> None:
         custom_metadata_field = await async_client.custom_metadata_fields.list(
@@ -359,7 +359,7 @@ class TestAsyncCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataFieldListResponse, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncImageKit) -> None:
         response = await async_client.custom_metadata_fields.with_raw_response.list()
@@ -369,7 +369,7 @@ class TestAsyncCustomMetadataFields:
         custom_metadata_field = await response.parse()
         assert_matches_type(CustomMetadataFieldListResponse, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncImageKit) -> None:
         async with async_client.custom_metadata_fields.with_streaming_response.list() as response:
@@ -381,7 +381,7 @@ class TestAsyncCustomMetadataFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncImageKit) -> None:
         custom_metadata_field = await async_client.custom_metadata_fields.delete(
@@ -389,7 +389,7 @@ class TestAsyncCustomMetadataFields:
         )
         assert_matches_type(CustomMetadataFieldDeleteResponse, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncImageKit) -> None:
         response = await async_client.custom_metadata_fields.with_raw_response.delete(
@@ -401,7 +401,7 @@ class TestAsyncCustomMetadataFields:
         custom_metadata_field = await response.parse()
         assert_matches_type(CustomMetadataFieldDeleteResponse, custom_metadata_field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncImageKit) -> None:
         async with async_client.custom_metadata_fields.with_streaming_response.delete(
@@ -415,7 +415,7 @@ class TestAsyncCustomMetadataFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
