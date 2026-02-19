@@ -17,7 +17,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestOrigins:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_overload_1(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -29,7 +29,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_1(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -44,7 +44,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_overload_1(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.create(
@@ -60,7 +60,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_1(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.create(
@@ -78,7 +78,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_overload_2(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -91,7 +91,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_2(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -108,7 +108,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_overload_2(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.create(
@@ -125,7 +125,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_2(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.create(
@@ -144,7 +144,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_overload_3(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -156,7 +156,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_3(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -171,7 +171,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_overload_3(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.create(
@@ -187,7 +187,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_3(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.create(
@@ -205,7 +205,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_overload_4(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -215,7 +215,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_4(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -228,7 +228,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_overload_4(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.create(
@@ -242,7 +242,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_4(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.create(
@@ -258,7 +258,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_overload_5(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -267,7 +267,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_5(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -278,7 +278,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_overload_5(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.create(
@@ -291,7 +291,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_5(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.create(
@@ -306,7 +306,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_overload_6(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -318,7 +318,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_6(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -333,7 +333,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_overload_6(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.create(
@@ -349,7 +349,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_6(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.create(
@@ -367,7 +367,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_overload_7(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -379,7 +379,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_7(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -394,7 +394,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_overload_7(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.create(
@@ -410,7 +410,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_7(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.create(
@@ -428,7 +428,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_overload_8(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -442,7 +442,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_8(self, client: ImageKit) -> None:
         origin = client.accounts.origins.create(
@@ -458,7 +458,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_overload_8(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.create(
@@ -476,7 +476,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_8(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.create(
@@ -496,7 +496,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_overload_1(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -509,7 +509,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params_overload_1(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -525,7 +525,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update_overload_1(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.update(
@@ -542,7 +542,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update_overload_1(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.update(
@@ -561,7 +561,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update_overload_1(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -574,7 +574,7 @@ class TestOrigins:
                 type="S3",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_overload_2(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -588,7 +588,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params_overload_2(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -606,7 +606,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update_overload_2(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.update(
@@ -624,7 +624,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update_overload_2(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.update(
@@ -644,7 +644,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update_overload_2(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -658,7 +658,7 @@ class TestOrigins:
                 type="S3_COMPATIBLE",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_overload_3(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -671,7 +671,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params_overload_3(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -687,7 +687,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update_overload_3(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.update(
@@ -704,7 +704,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update_overload_3(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.update(
@@ -723,7 +723,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update_overload_3(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -736,7 +736,7 @@ class TestOrigins:
                 type="CLOUDINARY_BACKUP",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_overload_4(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -747,7 +747,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params_overload_4(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -761,7 +761,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update_overload_4(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.update(
@@ -776,7 +776,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update_overload_4(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.update(
@@ -793,7 +793,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update_overload_4(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -804,7 +804,7 @@ class TestOrigins:
                 type="WEB_FOLDER",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_overload_5(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -814,7 +814,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params_overload_5(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -826,7 +826,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update_overload_5(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.update(
@@ -840,7 +840,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update_overload_5(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.update(
@@ -856,7 +856,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update_overload_5(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -866,7 +866,7 @@ class TestOrigins:
                 type="WEB_PROXY",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_overload_6(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -879,7 +879,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params_overload_6(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -895,7 +895,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update_overload_6(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.update(
@@ -912,7 +912,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update_overload_6(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.update(
@@ -931,7 +931,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update_overload_6(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -944,7 +944,7 @@ class TestOrigins:
                 type="GCS",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_overload_7(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -957,7 +957,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params_overload_7(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -973,7 +973,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update_overload_7(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.update(
@@ -990,7 +990,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update_overload_7(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.update(
@@ -1009,7 +1009,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update_overload_7(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1022,7 +1022,7 @@ class TestOrigins:
                 type="AZURE_BLOB",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_overload_8(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -1037,7 +1037,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params_overload_8(self, client: ImageKit) -> None:
         origin = client.accounts.origins.update(
@@ -1054,7 +1054,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update_overload_8(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.update(
@@ -1073,7 +1073,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update_overload_8(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.update(
@@ -1094,7 +1094,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update_overload_8(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1109,13 +1109,13 @@ class TestOrigins:
                 username="integration-user",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: ImageKit) -> None:
         origin = client.accounts.origins.list()
         assert_matches_type(OriginListResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.list()
@@ -1125,7 +1125,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginListResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.list() as response:
@@ -1137,7 +1137,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: ImageKit) -> None:
         origin = client.accounts.origins.delete(
@@ -1145,7 +1145,7 @@ class TestOrigins:
         )
         assert origin is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.delete(
@@ -1157,7 +1157,7 @@ class TestOrigins:
         origin = response.parse()
         assert origin is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.delete(
@@ -1171,7 +1171,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1179,7 +1179,7 @@ class TestOrigins:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get(self, client: ImageKit) -> None:
         origin = client.accounts.origins.get(
@@ -1187,7 +1187,7 @@ class TestOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get(self, client: ImageKit) -> None:
         response = client.accounts.origins.with_raw_response.get(
@@ -1199,7 +1199,7 @@ class TestOrigins:
         origin = response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get(self, client: ImageKit) -> None:
         with client.accounts.origins.with_streaming_response.get(
@@ -1213,7 +1213,7 @@ class TestOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_get(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1227,7 +1227,7 @@ class TestAsyncOrigins:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_overload_1(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1239,7 +1239,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_1(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1254,7 +1254,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_1(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.create(
@@ -1270,7 +1270,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_1(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.create(
@@ -1288,7 +1288,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_overload_2(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1301,7 +1301,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_2(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1318,7 +1318,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_2(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.create(
@@ -1335,7 +1335,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_2(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.create(
@@ -1354,7 +1354,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_overload_3(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1366,7 +1366,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_3(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1381,7 +1381,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_3(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.create(
@@ -1397,7 +1397,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_3(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.create(
@@ -1415,7 +1415,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_overload_4(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1425,7 +1425,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_4(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1438,7 +1438,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_4(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.create(
@@ -1452,7 +1452,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_4(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.create(
@@ -1468,7 +1468,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_overload_5(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1477,7 +1477,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_5(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1488,7 +1488,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_5(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.create(
@@ -1501,7 +1501,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_5(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.create(
@@ -1516,7 +1516,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_overload_6(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1528,7 +1528,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_6(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1543,7 +1543,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_6(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.create(
@@ -1559,7 +1559,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_6(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.create(
@@ -1577,7 +1577,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_overload_7(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1589,7 +1589,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_7(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1604,7 +1604,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_7(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.create(
@@ -1620,7 +1620,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_7(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.create(
@@ -1638,7 +1638,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_overload_8(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1652,7 +1652,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_8(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.create(
@@ -1668,7 +1668,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_8(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.create(
@@ -1686,7 +1686,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_8(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.create(
@@ -1706,7 +1706,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_overload_1(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -1719,7 +1719,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params_overload_1(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -1735,7 +1735,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update_overload_1(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.update(
@@ -1752,7 +1752,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update_overload_1(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.update(
@@ -1771,7 +1771,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update_overload_1(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1784,7 +1784,7 @@ class TestAsyncOrigins:
                 type="S3",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_overload_2(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -1798,7 +1798,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params_overload_2(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -1816,7 +1816,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.update(
@@ -1834,7 +1834,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.update(
@@ -1854,7 +1854,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update_overload_2(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1868,7 +1868,7 @@ class TestAsyncOrigins:
                 type="S3_COMPATIBLE",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_overload_3(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -1881,7 +1881,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params_overload_3(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -1897,7 +1897,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update_overload_3(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.update(
@@ -1914,7 +1914,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update_overload_3(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.update(
@@ -1933,7 +1933,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update_overload_3(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1946,7 +1946,7 @@ class TestAsyncOrigins:
                 type="CLOUDINARY_BACKUP",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_overload_4(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -1957,7 +1957,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params_overload_4(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -1971,7 +1971,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update_overload_4(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.update(
@@ -1986,7 +1986,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update_overload_4(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.update(
@@ -2003,7 +2003,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update_overload_4(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -2014,7 +2014,7 @@ class TestAsyncOrigins:
                 type="WEB_FOLDER",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_overload_5(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -2024,7 +2024,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params_overload_5(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -2036,7 +2036,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update_overload_5(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.update(
@@ -2050,7 +2050,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update_overload_5(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.update(
@@ -2066,7 +2066,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update_overload_5(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -2076,7 +2076,7 @@ class TestAsyncOrigins:
                 type="WEB_PROXY",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_overload_6(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -2089,7 +2089,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params_overload_6(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -2105,7 +2105,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update_overload_6(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.update(
@@ -2122,7 +2122,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update_overload_6(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.update(
@@ -2141,7 +2141,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update_overload_6(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -2154,7 +2154,7 @@ class TestAsyncOrigins:
                 type="GCS",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_overload_7(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -2167,7 +2167,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params_overload_7(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -2183,7 +2183,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update_overload_7(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.update(
@@ -2200,7 +2200,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update_overload_7(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.update(
@@ -2219,7 +2219,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update_overload_7(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -2232,7 +2232,7 @@ class TestAsyncOrigins:
                 type="AZURE_BLOB",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_overload_8(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -2247,7 +2247,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params_overload_8(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.update(
@@ -2264,7 +2264,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update_overload_8(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.update(
@@ -2283,7 +2283,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update_overload_8(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.update(
@@ -2304,7 +2304,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update_overload_8(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -2319,13 +2319,13 @@ class TestAsyncOrigins:
                 username="integration-user",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.list()
         assert_matches_type(OriginListResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.list()
@@ -2335,7 +2335,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginListResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.list() as response:
@@ -2347,7 +2347,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.delete(
@@ -2355,7 +2355,7 @@ class TestAsyncOrigins:
         )
         assert origin is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.delete(
@@ -2367,7 +2367,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert origin is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.delete(
@@ -2381,7 +2381,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -2389,7 +2389,7 @@ class TestAsyncOrigins:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get(self, async_client: AsyncImageKit) -> None:
         origin = await async_client.accounts.origins.get(
@@ -2397,7 +2397,7 @@ class TestAsyncOrigins:
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.origins.with_raw_response.get(
@@ -2409,7 +2409,7 @@ class TestAsyncOrigins:
         origin = await response.parse()
         assert_matches_type(OriginResponse, origin, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.origins.with_streaming_response.get(
@@ -2423,7 +2423,7 @@ class TestAsyncOrigins:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_get(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):

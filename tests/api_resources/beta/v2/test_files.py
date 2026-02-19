@@ -17,7 +17,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestFiles:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_upload(self, client: ImageKit) -> None:
         file = client.beta.v2.files.upload(
@@ -26,7 +26,7 @@ class TestFiles:
         )
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_upload_with_all_params(self, client: ImageKit) -> None:
         file = client.beta.v2.files.upload(
@@ -138,7 +138,7 @@ class TestFiles:
         )
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_upload(self, client: ImageKit) -> None:
         response = client.beta.v2.files.with_raw_response.upload(
@@ -151,7 +151,7 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_upload(self, client: ImageKit) -> None:
         with client.beta.v2.files.with_streaming_response.upload(
@@ -172,7 +172,7 @@ class TestAsyncFiles:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_upload(self, async_client: AsyncImageKit) -> None:
         file = await async_client.beta.v2.files.upload(
@@ -181,7 +181,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_upload_with_all_params(self, async_client: AsyncImageKit) -> None:
         file = await async_client.beta.v2.files.upload(
@@ -293,7 +293,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_upload(self, async_client: AsyncImageKit) -> None:
         response = await async_client.beta.v2.files.with_raw_response.upload(
@@ -306,7 +306,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_upload(self, async_client: AsyncImageKit) -> None:
         async with async_client.beta.v2.files.with_streaming_response.upload(

@@ -20,7 +20,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestSavedExtensions:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: ImageKit) -> None:
         saved_extension = client.saved_extensions.create(
@@ -30,7 +30,7 @@ class TestSavedExtensions:
         )
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: ImageKit) -> None:
         saved_extension = client.saved_extensions.create(
@@ -48,7 +48,7 @@ class TestSavedExtensions:
         )
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: ImageKit) -> None:
         response = client.saved_extensions.with_raw_response.create(
@@ -62,7 +62,7 @@ class TestSavedExtensions:
         saved_extension = response.parse()
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: ImageKit) -> None:
         with client.saved_extensions.with_streaming_response.create(
@@ -78,7 +78,7 @@ class TestSavedExtensions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: ImageKit) -> None:
         saved_extension = client.saved_extensions.update(
@@ -86,7 +86,7 @@ class TestSavedExtensions:
         )
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: ImageKit) -> None:
         saved_extension = client.saved_extensions.update(
@@ -105,7 +105,7 @@ class TestSavedExtensions:
         )
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: ImageKit) -> None:
         response = client.saved_extensions.with_raw_response.update(
@@ -117,7 +117,7 @@ class TestSavedExtensions:
         saved_extension = response.parse()
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: ImageKit) -> None:
         with client.saved_extensions.with_streaming_response.update(
@@ -131,7 +131,7 @@ class TestSavedExtensions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -139,13 +139,13 @@ class TestSavedExtensions:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: ImageKit) -> None:
         saved_extension = client.saved_extensions.list()
         assert_matches_type(SavedExtensionListResponse, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: ImageKit) -> None:
         response = client.saved_extensions.with_raw_response.list()
@@ -155,7 +155,7 @@ class TestSavedExtensions:
         saved_extension = response.parse()
         assert_matches_type(SavedExtensionListResponse, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: ImageKit) -> None:
         with client.saved_extensions.with_streaming_response.list() as response:
@@ -167,7 +167,7 @@ class TestSavedExtensions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: ImageKit) -> None:
         saved_extension = client.saved_extensions.delete(
@@ -175,7 +175,7 @@ class TestSavedExtensions:
         )
         assert saved_extension is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: ImageKit) -> None:
         response = client.saved_extensions.with_raw_response.delete(
@@ -187,7 +187,7 @@ class TestSavedExtensions:
         saved_extension = response.parse()
         assert saved_extension is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: ImageKit) -> None:
         with client.saved_extensions.with_streaming_response.delete(
@@ -201,7 +201,7 @@ class TestSavedExtensions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -209,7 +209,7 @@ class TestSavedExtensions:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get(self, client: ImageKit) -> None:
         saved_extension = client.saved_extensions.get(
@@ -217,7 +217,7 @@ class TestSavedExtensions:
         )
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get(self, client: ImageKit) -> None:
         response = client.saved_extensions.with_raw_response.get(
@@ -229,7 +229,7 @@ class TestSavedExtensions:
         saved_extension = response.parse()
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get(self, client: ImageKit) -> None:
         with client.saved_extensions.with_streaming_response.get(
@@ -243,7 +243,7 @@ class TestSavedExtensions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_get(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -257,7 +257,7 @@ class TestAsyncSavedExtensions:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncImageKit) -> None:
         saved_extension = await async_client.saved_extensions.create(
@@ -267,7 +267,7 @@ class TestAsyncSavedExtensions:
         )
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncImageKit) -> None:
         saved_extension = await async_client.saved_extensions.create(
@@ -285,7 +285,7 @@ class TestAsyncSavedExtensions:
         )
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncImageKit) -> None:
         response = await async_client.saved_extensions.with_raw_response.create(
@@ -299,7 +299,7 @@ class TestAsyncSavedExtensions:
         saved_extension = await response.parse()
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncImageKit) -> None:
         async with async_client.saved_extensions.with_streaming_response.create(
@@ -315,7 +315,7 @@ class TestAsyncSavedExtensions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncImageKit) -> None:
         saved_extension = await async_client.saved_extensions.update(
@@ -323,7 +323,7 @@ class TestAsyncSavedExtensions:
         )
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncImageKit) -> None:
         saved_extension = await async_client.saved_extensions.update(
@@ -342,7 +342,7 @@ class TestAsyncSavedExtensions:
         )
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncImageKit) -> None:
         response = await async_client.saved_extensions.with_raw_response.update(
@@ -354,7 +354,7 @@ class TestAsyncSavedExtensions:
         saved_extension = await response.parse()
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncImageKit) -> None:
         async with async_client.saved_extensions.with_streaming_response.update(
@@ -368,7 +368,7 @@ class TestAsyncSavedExtensions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -376,13 +376,13 @@ class TestAsyncSavedExtensions:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncImageKit) -> None:
         saved_extension = await async_client.saved_extensions.list()
         assert_matches_type(SavedExtensionListResponse, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncImageKit) -> None:
         response = await async_client.saved_extensions.with_raw_response.list()
@@ -392,7 +392,7 @@ class TestAsyncSavedExtensions:
         saved_extension = await response.parse()
         assert_matches_type(SavedExtensionListResponse, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncImageKit) -> None:
         async with async_client.saved_extensions.with_streaming_response.list() as response:
@@ -404,7 +404,7 @@ class TestAsyncSavedExtensions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncImageKit) -> None:
         saved_extension = await async_client.saved_extensions.delete(
@@ -412,7 +412,7 @@ class TestAsyncSavedExtensions:
         )
         assert saved_extension is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncImageKit) -> None:
         response = await async_client.saved_extensions.with_raw_response.delete(
@@ -424,7 +424,7 @@ class TestAsyncSavedExtensions:
         saved_extension = await response.parse()
         assert saved_extension is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncImageKit) -> None:
         async with async_client.saved_extensions.with_streaming_response.delete(
@@ -438,7 +438,7 @@ class TestAsyncSavedExtensions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -446,7 +446,7 @@ class TestAsyncSavedExtensions:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get(self, async_client: AsyncImageKit) -> None:
         saved_extension = await async_client.saved_extensions.get(
@@ -454,7 +454,7 @@ class TestAsyncSavedExtensions:
         )
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get(self, async_client: AsyncImageKit) -> None:
         response = await async_client.saved_extensions.with_raw_response.get(
@@ -466,7 +466,7 @@ class TestAsyncSavedExtensions:
         saved_extension = await response.parse()
         assert_matches_type(SavedExtension, saved_extension, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get(self, async_client: AsyncImageKit) -> None:
         async with async_client.saved_extensions.with_streaming_response.get(
@@ -480,7 +480,7 @@ class TestAsyncSavedExtensions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_get(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
