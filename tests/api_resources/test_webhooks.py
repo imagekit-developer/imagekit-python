@@ -16,9 +16,20 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestWebhooks:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    def test_method_unwrap(self, client: ImageKit) -> None:
-        key = b"secret"
-        hook = standardwebhooks.Webhook(key)
+    @pytest.mark.parametrize(
+        "client_opt,method_opt",
+        [
+            ("whsec_c2VjcmV0Cg==", None),
+            ("wrong", b"secret\n"),
+            ("wrong", "whsec_c2VjcmV0Cg=="),
+            (None, b"secret\n"),
+            (None, "whsec_c2VjcmV0Cg=="),
+        ],
+    )
+    def test_method_unwrap(self, client: ImageKit, client_opt: str | None, method_opt: str | bytes | None) -> None:
+        hook = standardwebhooks.Webhook(b"secret\n")
+
+        client = client.with_options(webhook_secret=client_opt)
 
         data = """{"id":"id","type":"video.transformation.accepted","created_at":"2019-12-27T18:11:19.117Z","data":{"asset":{"url":"https://example.com"},"transformation":{"type":"video-transformation","options":{"audio_codec":"aac","auto_rotate":true,"format":"mp4","quality":0,"stream_protocol":"HLS","variants":["string"],"video_codec":"h264"}}},"request":{"url":"https://example.com","x_request_id":"x_request_id","user_agent":"user_agent"}}"""
         msg_id = "1"
@@ -31,7 +42,7 @@ class TestWebhooks:
         }
 
         try:
-            _ = client.webhooks.unwrap(data, headers=headers, key=key)
+            _ = client.webhooks.unwrap(data, headers=headers, key=method_opt)
         except standardwebhooks.WebhookVerificationError as e:
             raise AssertionError("Failed to unwrap valid webhook") from e
 
@@ -42,7 +53,7 @@ class TestWebhooks:
         ]
         for bad_header in bad_headers:
             with pytest.raises(standardwebhooks.WebhookVerificationError):
-                _ = client.webhooks.unwrap(data, headers=bad_header, key=key)
+                _ = client.webhooks.unwrap(data, headers=bad_header, key=method_opt)
 
 
 class TestAsyncWebhooks:
@@ -50,9 +61,22 @@ class TestAsyncWebhooks:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    def test_method_unwrap(self, client: ImageKit) -> None:
-        key = b"secret"
-        hook = standardwebhooks.Webhook(key)
+    @pytest.mark.parametrize(
+        "client_opt,method_opt",
+        [
+            ("whsec_c2VjcmV0Cg==", None),
+            ("wrong", b"secret\n"),
+            ("wrong", "whsec_c2VjcmV0Cg=="),
+            (None, b"secret\n"),
+            (None, "whsec_c2VjcmV0Cg=="),
+        ],
+    )
+    def test_method_unwrap(
+        self, async_client: ImageKit, client_opt: str | None, method_opt: str | bytes | None
+    ) -> None:
+        hook = standardwebhooks.Webhook(b"secret\n")
+
+        async_client = async_client.with_options(webhook_secret=client_opt)
 
         data = """{"id":"id","type":"video.transformation.accepted","created_at":"2019-12-27T18:11:19.117Z","data":{"asset":{"url":"https://example.com"},"transformation":{"type":"video-transformation","options":{"audio_codec":"aac","auto_rotate":true,"format":"mp4","quality":0,"stream_protocol":"HLS","variants":["string"],"video_codec":"h264"}}},"request":{"url":"https://example.com","x_request_id":"x_request_id","user_agent":"user_agent"}}"""
         msg_id = "1"
@@ -65,7 +89,7 @@ class TestAsyncWebhooks:
         }
 
         try:
-            _ = client.webhooks.unwrap(data, headers=headers, key=key)
+            _ = async_client.webhooks.unwrap(data, headers=headers, key=method_opt)
         except standardwebhooks.WebhookVerificationError as e:
             raise AssertionError("Failed to unwrap valid webhook") from e
 
@@ -76,4 +100,4 @@ class TestAsyncWebhooks:
         ]
         for bad_header in bad_headers:
             with pytest.raises(standardwebhooks.WebhookVerificationError):
-                _ = client.webhooks.unwrap(data, headers=bad_header, key=key)
+                _ = async_client.webhooks.unwrap(data, headers=bad_header, key=method_opt)
