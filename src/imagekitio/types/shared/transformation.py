@@ -191,7 +191,7 @@ class Transformation(BaseModel):
       [Distort effect](https://imagekit.io/docs/effects-and-enhancements#distort---e-distort).
     """
 
-    dpr: Union[float, str, None] = None
+    dpr: Optional[float] = None
     """
     Accepts values between 0.1 and 5, or `auto` for automatic device pixel ratio
     (DPR) calculation. Also accepts arithmetic expressions.
