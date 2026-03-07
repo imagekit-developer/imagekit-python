@@ -143,7 +143,7 @@ from imagekitio import ImageKit
 client = ImageKit()
 
 response = client.files.upload(
-    file=b"raw file contents",
+    file=b"Example data",
     file_name="fileName",
     transformation={
         "post": [
