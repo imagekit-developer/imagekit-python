@@ -8,7 +8,7 @@ from typing_extensions import Literal, overload
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ..._utils import required_args, maybe_transform, async_maybe_transform
+from ..._utils import path_template, required_args, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -948,7 +948,7 @@ class OriginsResource(SyncAPIResource):
         return cast(
             OriginResponse,
             self._put(
-                f"/v1/accounts/origins/{id}",
+                path_template("/v1/accounts/origins/{id}", id=id),
                 body=maybe_transform(
                     {
                         "access_key": access_key,
@@ -1038,7 +1038,7 @@ class OriginsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/v1/accounts/origins/{id}",
+            path_template("/v1/accounts/origins/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -1078,7 +1078,7 @@ class OriginsResource(SyncAPIResource):
         return cast(
             OriginResponse,
             self._get(
-                f"/v1/accounts/origins/{id}",
+                path_template("/v1/accounts/origins/{id}", id=id),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
@@ -2010,7 +2010,7 @@ class AsyncOriginsResource(AsyncAPIResource):
         return cast(
             OriginResponse,
             await self._put(
-                f"/v1/accounts/origins/{id}",
+                path_template("/v1/accounts/origins/{id}", id=id),
                 body=await async_maybe_transform(
                     {
                         "access_key": access_key,
@@ -2100,7 +2100,7 @@ class AsyncOriginsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/v1/accounts/origins/{id}",
+            path_template("/v1/accounts/origins/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -2140,7 +2140,7 @@ class AsyncOriginsResource(AsyncAPIResource):
         return cast(
             OriginResponse,
             await self._get(
-                f"/v1/accounts/origins/{id}",
+                path_template("/v1/accounts/origins/{id}", id=id),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),

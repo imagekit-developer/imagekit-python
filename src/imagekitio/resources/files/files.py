@@ -34,7 +34,7 @@ from ..._types import (
     omit,
     not_given,
 )
-from ..._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from ..._utils import extract_files, path_template, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .metadata import (
     MetadataResource,
     AsyncMetadataResource,
@@ -220,7 +220,7 @@ class FilesResource(SyncAPIResource):
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return self._patch(
-            f"/v1/files/{file_id}/details",
+            path_template("/v1/files/{file_id}/details", file_id=file_id),
             body=maybe_transform(
                 {
                     "custom_coordinates": custom_coordinates,
@@ -271,7 +271,7 @@ class FilesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/v1/files/{file_id}",
+            path_template("/v1/files/{file_id}", file_id=file_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -358,7 +358,7 @@ class FilesResource(SyncAPIResource):
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return self._get(
-            f"/v1/files/{file_id}/details",
+            path_template("/v1/files/{file_id}/details", file_id=file_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -893,7 +893,7 @@ class AsyncFilesResource(AsyncAPIResource):
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return await self._patch(
-            f"/v1/files/{file_id}/details",
+            path_template("/v1/files/{file_id}/details", file_id=file_id),
             body=await async_maybe_transform(
                 {
                     "custom_coordinates": custom_coordinates,
@@ -944,7 +944,7 @@ class AsyncFilesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/v1/files/{file_id}",
+            path_template("/v1/files/{file_id}", file_id=file_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -1031,7 +1031,7 @@ class AsyncFilesResource(AsyncAPIResource):
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return await self._get(
-            f"/v1/files/{file_id}/details",
+            path_template("/v1/files/{file_id}/details", file_id=file_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
