@@ -21,7 +21,7 @@ class TestFiles:
     @parametrize
     def test_method_upload(self, client: ImageKit) -> None:
         file = client.beta.v2.files.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         )
         assert_matches_type(FileUploadResponse, file, path=["response"])
@@ -30,7 +30,7 @@ class TestFiles:
     @parametrize
     def test_method_upload_with_all_params(self, client: ImageKit) -> None:
         file = client.beta.v2.files.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
             token="token",
             checks='"request.folder" : "marketing/"\n',
@@ -142,7 +142,7 @@ class TestFiles:
     @parametrize
     def test_raw_response_upload(self, client: ImageKit) -> None:
         response = client.beta.v2.files.with_raw_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         )
 
@@ -155,7 +155,7 @@ class TestFiles:
     @parametrize
     def test_streaming_response_upload(self, client: ImageKit) -> None:
         with client.beta.v2.files.with_streaming_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         ) as response:
             assert not response.is_closed
@@ -176,7 +176,7 @@ class TestAsyncFiles:
     @parametrize
     async def test_method_upload(self, async_client: AsyncImageKit) -> None:
         file = await async_client.beta.v2.files.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         )
         assert_matches_type(FileUploadResponse, file, path=["response"])
@@ -185,7 +185,7 @@ class TestAsyncFiles:
     @parametrize
     async def test_method_upload_with_all_params(self, async_client: AsyncImageKit) -> None:
         file = await async_client.beta.v2.files.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
             token="token",
             checks='"request.folder" : "marketing/"\n',
@@ -297,7 +297,7 @@ class TestAsyncFiles:
     @parametrize
     async def test_raw_response_upload(self, async_client: AsyncImageKit) -> None:
         response = await async_client.beta.v2.files.with_raw_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         )
 
@@ -310,7 +310,7 @@ class TestAsyncFiles:
     @parametrize
     async def test_streaming_response_upload(self, async_client: AsyncImageKit) -> None:
         async with async_client.beta.v2.files.with_streaming_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         ) as response:
             assert not response.is_closed
