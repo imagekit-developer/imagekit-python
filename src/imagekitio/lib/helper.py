@@ -317,12 +317,12 @@ def _process_overlay(overlay: Overlay) -> str:
 
         parsed_overlay.append(f"bg-{color}")
 
-    # Handle layer_mode property
-    layer_mode = overlay.get("layer_mode")
+    # Handle layerMode and layer_mode (both camelCase and snake_case)
+    layer_mode = overlay.get("layerMode") or overlay.get("layer_mode")
     if layer_mode:
         parsed_overlay.append(f"lm-{layer_mode}")
 
-    # Handle position properties (x, y, focus)
+    # Handle position properties (x, y, focus, x_center, y_center, anchor_point)
     # Node.js uses if (x) which skips falsy values like 0, '', false, null, undefined
     x = position.get("x")
     if x:
@@ -331,6 +331,21 @@ def _process_overlay(overlay: Overlay) -> str:
     y = position.get("y")
     if y:
         parsed_overlay.append(f"ly-{y}")
+
+    # Handle xCenter and x_center (both snake_case and camelCase)
+    x_center = position.get("xCenter") or position.get("x_center")
+    if x_center:
+        parsed_overlay.append(f"lxc-{x_center}")
+
+    # Handle yCenter and y_center (both snake_case and camelCase)
+    y_center = position.get("yCenter") or position.get("y_center")
+    if y_center:
+        parsed_overlay.append(f"lyc-{y_center}")
+
+    # Handle anchorPoint and anchor_point (both snake_case and camelCase)
+    anchor_point = position.get("anchorPoint") or position.get("anchor_point")
+    if anchor_point:
+        parsed_overlay.append(f"lap-{anchor_point}")
 
     focus = position.get("focus")
     if focus:
