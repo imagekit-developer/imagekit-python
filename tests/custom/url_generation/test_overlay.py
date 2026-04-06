@@ -481,3 +481,25 @@ class TestOverlay:
         expected = "https://ik.imagekit.io/test_url_endpoint/tr:l-image,i-overlay.png,lm-displace,l-end/base-image.jpg"
         assert url == expected
 
+    def test_should_handle_x_center_y_center_and_anchor_point_in_overlay_position(self):
+        """Test xCenter, yCenter and anchorPoint in overlay position."""
+        url = self.client.helper.build_url(
+            src="/base-image.jpg",
+            url_endpoint="https://ik.imagekit.io/test_url_endpoint",
+            transformation_position="path",
+            transformation=[
+                {
+                    "overlay": {
+                        "type": "text",
+                        "text": "Centered Text",
+                        "position": {
+                            "x_center": "bw_mul_0.5",
+                            "y_center": "bh_mul_0.5",
+                            "anchor_point": "top_left",
+                        },
+                    }
+                }
+            ],
+        )
+        expected = "https://ik.imagekit.io/test_url_endpoint/tr:l-text,i-Centered%20Text,lxc-bw_mul_0.5,lyc-bh_mul_0.5,lap-top_left,l-end/base-image.jpg"
+        assert url == expected

@@ -24,7 +24,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestFiles:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_overload_1(self, client: ImageKit) -> None:
         file = client.files.update(
@@ -32,7 +32,7 @@ class TestFiles:
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params_overload_1(self, client: ImageKit) -> None:
         file = client.files.update(
@@ -116,7 +116,7 @@ class TestFiles:
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update_overload_1(self, client: ImageKit) -> None:
         response = client.files.with_raw_response.update(
@@ -128,7 +128,7 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update_overload_1(self, client: ImageKit) -> None:
         with client.files.with_streaming_response.update(
@@ -142,7 +142,7 @@ class TestFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update_overload_1(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
@@ -150,7 +150,7 @@ class TestFiles:
                 file_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_overload_2(self, client: ImageKit) -> None:
         file = client.files.update(
@@ -158,7 +158,7 @@ class TestFiles:
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params_overload_2(self, client: ImageKit) -> None:
         file = client.files.update(
@@ -170,7 +170,7 @@ class TestFiles:
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update_overload_2(self, client: ImageKit) -> None:
         response = client.files.with_raw_response.update(
@@ -182,7 +182,7 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update_overload_2(self, client: ImageKit) -> None:
         with client.files.with_streaming_response.update(
@@ -196,7 +196,7 @@ class TestFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update_overload_2(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
@@ -204,7 +204,7 @@ class TestFiles:
                 file_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: ImageKit) -> None:
         file = client.files.delete(
@@ -212,7 +212,7 @@ class TestFiles:
         )
         assert file is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: ImageKit) -> None:
         response = client.files.with_raw_response.delete(
@@ -224,7 +224,7 @@ class TestFiles:
         file = response.parse()
         assert file is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: ImageKit) -> None:
         with client.files.with_streaming_response.delete(
@@ -238,7 +238,7 @@ class TestFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
@@ -246,7 +246,7 @@ class TestFiles:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_copy(self, client: ImageKit) -> None:
         file = client.files.copy(
@@ -255,7 +255,7 @@ class TestFiles:
         )
         assert_matches_type(FileCopyResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_copy_with_all_params(self, client: ImageKit) -> None:
         file = client.files.copy(
@@ -265,7 +265,7 @@ class TestFiles:
         )
         assert_matches_type(FileCopyResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_copy(self, client: ImageKit) -> None:
         response = client.files.with_raw_response.copy(
@@ -278,7 +278,7 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(FileCopyResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_copy(self, client: ImageKit) -> None:
         with client.files.with_streaming_response.copy(
@@ -293,7 +293,7 @@ class TestFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get(self, client: ImageKit) -> None:
         file = client.files.get(
@@ -301,7 +301,7 @@ class TestFiles:
         )
         assert_matches_type(File, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get(self, client: ImageKit) -> None:
         response = client.files.with_raw_response.get(
@@ -313,7 +313,7 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(File, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get(self, client: ImageKit) -> None:
         with client.files.with_streaming_response.get(
@@ -327,7 +327,7 @@ class TestFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_get(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
@@ -335,7 +335,7 @@ class TestFiles:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_move(self, client: ImageKit) -> None:
         file = client.files.move(
@@ -344,7 +344,7 @@ class TestFiles:
         )
         assert_matches_type(FileMoveResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_move(self, client: ImageKit) -> None:
         response = client.files.with_raw_response.move(
@@ -357,7 +357,7 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(FileMoveResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_move(self, client: ImageKit) -> None:
         with client.files.with_streaming_response.move(
@@ -372,7 +372,7 @@ class TestFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_rename(self, client: ImageKit) -> None:
         file = client.files.rename(
@@ -381,7 +381,7 @@ class TestFiles:
         )
         assert_matches_type(FileRenameResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_rename_with_all_params(self, client: ImageKit) -> None:
         file = client.files.rename(
@@ -391,7 +391,7 @@ class TestFiles:
         )
         assert_matches_type(FileRenameResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_rename(self, client: ImageKit) -> None:
         response = client.files.with_raw_response.rename(
@@ -404,7 +404,7 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(FileRenameResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_rename(self, client: ImageKit) -> None:
         with client.files.with_streaming_response.rename(
@@ -419,20 +419,20 @@ class TestFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_upload(self, client: ImageKit) -> None:
         file = client.files.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         )
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_upload_with_all_params(self, client: ImageKit) -> None:
         file = client.files.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
             token="token",
             checks='"request.folder" : "marketing/"\n',
@@ -543,11 +543,11 @@ class TestFiles:
         )
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_upload(self, client: ImageKit) -> None:
         response = client.files.with_raw_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         )
 
@@ -556,11 +556,11 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_upload(self, client: ImageKit) -> None:
         with client.files.with_streaming_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         ) as response:
             assert not response.is_closed
@@ -577,7 +577,7 @@ class TestAsyncFiles:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_overload_1(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.update(
@@ -585,7 +585,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params_overload_1(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.update(
@@ -669,7 +669,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update_overload_1(self, async_client: AsyncImageKit) -> None:
         response = await async_client.files.with_raw_response.update(
@@ -681,7 +681,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update_overload_1(self, async_client: AsyncImageKit) -> None:
         async with async_client.files.with_streaming_response.update(
@@ -695,7 +695,7 @@ class TestAsyncFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update_overload_1(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
@@ -703,7 +703,7 @@ class TestAsyncFiles:
                 file_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_overload_2(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.update(
@@ -711,7 +711,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params_overload_2(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.update(
@@ -723,7 +723,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
         response = await async_client.files.with_raw_response.update(
@@ -735,7 +735,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(FileUpdateResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update_overload_2(self, async_client: AsyncImageKit) -> None:
         async with async_client.files.with_streaming_response.update(
@@ -749,7 +749,7 @@ class TestAsyncFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update_overload_2(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
@@ -757,7 +757,7 @@ class TestAsyncFiles:
                 file_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.delete(
@@ -765,7 +765,7 @@ class TestAsyncFiles:
         )
         assert file is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncImageKit) -> None:
         response = await async_client.files.with_raw_response.delete(
@@ -777,7 +777,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert file is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncImageKit) -> None:
         async with async_client.files.with_streaming_response.delete(
@@ -791,7 +791,7 @@ class TestAsyncFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
@@ -799,7 +799,7 @@ class TestAsyncFiles:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_copy(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.copy(
@@ -808,7 +808,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileCopyResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_copy_with_all_params(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.copy(
@@ -818,7 +818,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileCopyResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_copy(self, async_client: AsyncImageKit) -> None:
         response = await async_client.files.with_raw_response.copy(
@@ -831,7 +831,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(FileCopyResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_copy(self, async_client: AsyncImageKit) -> None:
         async with async_client.files.with_streaming_response.copy(
@@ -846,7 +846,7 @@ class TestAsyncFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.get(
@@ -854,7 +854,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(File, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get(self, async_client: AsyncImageKit) -> None:
         response = await async_client.files.with_raw_response.get(
@@ -866,7 +866,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(File, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get(self, async_client: AsyncImageKit) -> None:
         async with async_client.files.with_streaming_response.get(
@@ -880,7 +880,7 @@ class TestAsyncFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_get(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
@@ -888,7 +888,7 @@ class TestAsyncFiles:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_move(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.move(
@@ -897,7 +897,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileMoveResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_move(self, async_client: AsyncImageKit) -> None:
         response = await async_client.files.with_raw_response.move(
@@ -910,7 +910,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(FileMoveResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_move(self, async_client: AsyncImageKit) -> None:
         async with async_client.files.with_streaming_response.move(
@@ -925,7 +925,7 @@ class TestAsyncFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_rename(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.rename(
@@ -934,7 +934,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileRenameResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_rename_with_all_params(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.rename(
@@ -944,7 +944,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileRenameResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_rename(self, async_client: AsyncImageKit) -> None:
         response = await async_client.files.with_raw_response.rename(
@@ -957,7 +957,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(FileRenameResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_rename(self, async_client: AsyncImageKit) -> None:
         async with async_client.files.with_streaming_response.rename(
@@ -972,20 +972,20 @@ class TestAsyncFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_upload(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         )
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_upload_with_all_params(self, async_client: AsyncImageKit) -> None:
         file = await async_client.files.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
             token="token",
             checks='"request.folder" : "marketing/"\n',
@@ -1096,11 +1096,11 @@ class TestAsyncFiles:
         )
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_upload(self, async_client: AsyncImageKit) -> None:
         response = await async_client.files.with_raw_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         )
 
@@ -1109,11 +1109,11 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(FileUploadResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_upload(self, async_client: AsyncImageKit) -> None:
         async with async_client.files.with_streaming_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
             file_name="fileName",
         ) as response:
             assert not response.is_closed

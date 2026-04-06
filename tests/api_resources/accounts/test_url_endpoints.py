@@ -20,7 +20,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestURLEndpoints:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: ImageKit) -> None:
         url_endpoint = client.accounts.url_endpoints.create(
@@ -28,7 +28,7 @@ class TestURLEndpoints:
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: ImageKit) -> None:
         url_endpoint = client.accounts.url_endpoints.create(
@@ -42,7 +42,7 @@ class TestURLEndpoints:
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: ImageKit) -> None:
         response = client.accounts.url_endpoints.with_raw_response.create(
@@ -54,7 +54,7 @@ class TestURLEndpoints:
         url_endpoint = response.parse()
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: ImageKit) -> None:
         with client.accounts.url_endpoints.with_streaming_response.create(
@@ -68,7 +68,7 @@ class TestURLEndpoints:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: ImageKit) -> None:
         url_endpoint = client.accounts.url_endpoints.update(
@@ -77,7 +77,7 @@ class TestURLEndpoints:
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: ImageKit) -> None:
         url_endpoint = client.accounts.url_endpoints.update(
@@ -92,7 +92,7 @@ class TestURLEndpoints:
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: ImageKit) -> None:
         response = client.accounts.url_endpoints.with_raw_response.update(
@@ -105,7 +105,7 @@ class TestURLEndpoints:
         url_endpoint = response.parse()
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: ImageKit) -> None:
         with client.accounts.url_endpoints.with_streaming_response.update(
@@ -120,7 +120,7 @@ class TestURLEndpoints:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -129,13 +129,13 @@ class TestURLEndpoints:
                 description="My custom URL endpoint",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: ImageKit) -> None:
         url_endpoint = client.accounts.url_endpoints.list()
         assert_matches_type(URLEndpointListResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: ImageKit) -> None:
         response = client.accounts.url_endpoints.with_raw_response.list()
@@ -145,7 +145,7 @@ class TestURLEndpoints:
         url_endpoint = response.parse()
         assert_matches_type(URLEndpointListResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: ImageKit) -> None:
         with client.accounts.url_endpoints.with_streaming_response.list() as response:
@@ -157,7 +157,7 @@ class TestURLEndpoints:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: ImageKit) -> None:
         url_endpoint = client.accounts.url_endpoints.delete(
@@ -165,7 +165,7 @@ class TestURLEndpoints:
         )
         assert url_endpoint is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: ImageKit) -> None:
         response = client.accounts.url_endpoints.with_raw_response.delete(
@@ -177,7 +177,7 @@ class TestURLEndpoints:
         url_endpoint = response.parse()
         assert url_endpoint is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: ImageKit) -> None:
         with client.accounts.url_endpoints.with_streaming_response.delete(
@@ -191,7 +191,7 @@ class TestURLEndpoints:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -199,7 +199,7 @@ class TestURLEndpoints:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get(self, client: ImageKit) -> None:
         url_endpoint = client.accounts.url_endpoints.get(
@@ -207,7 +207,7 @@ class TestURLEndpoints:
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get(self, client: ImageKit) -> None:
         response = client.accounts.url_endpoints.with_raw_response.get(
@@ -219,7 +219,7 @@ class TestURLEndpoints:
         url_endpoint = response.parse()
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get(self, client: ImageKit) -> None:
         with client.accounts.url_endpoints.with_streaming_response.get(
@@ -233,7 +233,7 @@ class TestURLEndpoints:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_get(self, client: ImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -247,7 +247,7 @@ class TestAsyncURLEndpoints:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncImageKit) -> None:
         url_endpoint = await async_client.accounts.url_endpoints.create(
@@ -255,7 +255,7 @@ class TestAsyncURLEndpoints:
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncImageKit) -> None:
         url_endpoint = await async_client.accounts.url_endpoints.create(
@@ -269,7 +269,7 @@ class TestAsyncURLEndpoints:
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.url_endpoints.with_raw_response.create(
@@ -281,7 +281,7 @@ class TestAsyncURLEndpoints:
         url_endpoint = await response.parse()
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.url_endpoints.with_streaming_response.create(
@@ -295,7 +295,7 @@ class TestAsyncURLEndpoints:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncImageKit) -> None:
         url_endpoint = await async_client.accounts.url_endpoints.update(
@@ -304,7 +304,7 @@ class TestAsyncURLEndpoints:
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncImageKit) -> None:
         url_endpoint = await async_client.accounts.url_endpoints.update(
@@ -319,7 +319,7 @@ class TestAsyncURLEndpoints:
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.url_endpoints.with_raw_response.update(
@@ -332,7 +332,7 @@ class TestAsyncURLEndpoints:
         url_endpoint = await response.parse()
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.url_endpoints.with_streaming_response.update(
@@ -347,7 +347,7 @@ class TestAsyncURLEndpoints:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -356,13 +356,13 @@ class TestAsyncURLEndpoints:
                 description="My custom URL endpoint",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncImageKit) -> None:
         url_endpoint = await async_client.accounts.url_endpoints.list()
         assert_matches_type(URLEndpointListResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.url_endpoints.with_raw_response.list()
@@ -372,7 +372,7 @@ class TestAsyncURLEndpoints:
         url_endpoint = await response.parse()
         assert_matches_type(URLEndpointListResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.url_endpoints.with_streaming_response.list() as response:
@@ -384,7 +384,7 @@ class TestAsyncURLEndpoints:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncImageKit) -> None:
         url_endpoint = await async_client.accounts.url_endpoints.delete(
@@ -392,7 +392,7 @@ class TestAsyncURLEndpoints:
         )
         assert url_endpoint is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.url_endpoints.with_raw_response.delete(
@@ -404,7 +404,7 @@ class TestAsyncURLEndpoints:
         url_endpoint = await response.parse()
         assert url_endpoint is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.url_endpoints.with_streaming_response.delete(
@@ -418,7 +418,7 @@ class TestAsyncURLEndpoints:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -426,7 +426,7 @@ class TestAsyncURLEndpoints:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get(self, async_client: AsyncImageKit) -> None:
         url_endpoint = await async_client.accounts.url_endpoints.get(
@@ -434,7 +434,7 @@ class TestAsyncURLEndpoints:
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get(self, async_client: AsyncImageKit) -> None:
         response = await async_client.accounts.url_endpoints.with_raw_response.get(
@@ -446,7 +446,7 @@ class TestAsyncURLEndpoints:
         url_endpoint = await response.parse()
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get(self, async_client: AsyncImageKit) -> None:
         async with async_client.accounts.url_endpoints.with_streaming_response.get(
@@ -460,7 +460,7 @@ class TestAsyncURLEndpoints:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_get(self, async_client: AsyncImageKit) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):

@@ -16,22 +16,25 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestDummy:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: ImageKit) -> None:
         dummy = client.dummy.create()
         assert dummy is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: ImageKit) -> None:
         dummy = client.dummy.create(
             base_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -163,9 +166,12 @@ class TestDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -223,9 +229,12 @@ class TestDummy:
             image_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -274,9 +283,12 @@ class TestDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -329,9 +341,12 @@ class TestDummy:
             overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -360,9 +375,12 @@ class TestDummy:
                 ],
             },
             overlay_position={
+                "anchor_point": "top",
                 "focus": "center",
                 "x": 0,
+                "x_center": 0,
                 "y": 0,
+                "y_center": 0,
             },
             overlay_timing={
                 "duration": 0,
@@ -394,9 +412,12 @@ class TestDummy:
             solid_color_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -469,9 +490,12 @@ class TestDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -526,9 +550,12 @@ class TestDummy:
             subtitle_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -562,9 +589,12 @@ class TestDummy:
             text_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -645,9 +675,12 @@ class TestDummy:
                 "overlay": {
                     "layer_mode": "multiply",
                     "position": {
+                        "anchor_point": "top",
                         "focus": "center",
                         "x": 0,
+                        "x_center": 0,
                         "y": 0,
+                        "y_center": 0,
                     },
                     "timing": {
                         "duration": 0,
@@ -699,9 +732,12 @@ class TestDummy:
             video_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -750,9 +786,12 @@ class TestDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -805,7 +844,7 @@ class TestDummy:
         )
         assert dummy is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: ImageKit) -> None:
         response = client.dummy.with_raw_response.create()
@@ -815,7 +854,7 @@ class TestDummy:
         dummy = response.parse()
         assert dummy is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: ImageKit) -> None:
         with client.dummy.with_streaming_response.create() as response:
@@ -833,22 +872,25 @@ class TestAsyncDummy:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncImageKit) -> None:
         dummy = await async_client.dummy.create()
         assert dummy is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncImageKit) -> None:
         dummy = await async_client.dummy.create(
             base_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -980,9 +1022,12 @@ class TestAsyncDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -1040,9 +1085,12 @@ class TestAsyncDummy:
             image_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1091,9 +1139,12 @@ class TestAsyncDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -1146,9 +1197,12 @@ class TestAsyncDummy:
             overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1177,9 +1231,12 @@ class TestAsyncDummy:
                 ],
             },
             overlay_position={
+                "anchor_point": "top",
                 "focus": "center",
                 "x": 0,
+                "x_center": 0,
                 "y": 0,
+                "y_center": 0,
             },
             overlay_timing={
                 "duration": 0,
@@ -1211,9 +1268,12 @@ class TestAsyncDummy:
             solid_color_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1286,9 +1346,12 @@ class TestAsyncDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -1343,9 +1406,12 @@ class TestAsyncDummy:
             subtitle_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1379,9 +1445,12 @@ class TestAsyncDummy:
             text_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1462,9 +1531,12 @@ class TestAsyncDummy:
                 "overlay": {
                     "layer_mode": "multiply",
                     "position": {
+                        "anchor_point": "top",
                         "focus": "center",
                         "x": 0,
+                        "x_center": 0,
                         "y": 0,
+                        "y_center": 0,
                     },
                     "timing": {
                         "duration": 0,
@@ -1516,9 +1588,12 @@ class TestAsyncDummy:
             video_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1567,9 +1642,12 @@ class TestAsyncDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -1622,7 +1700,7 @@ class TestAsyncDummy:
         )
         assert dummy is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncImageKit) -> None:
         response = await async_client.dummy.with_raw_response.create()
@@ -1632,7 +1710,7 @@ class TestAsyncDummy:
         dummy = await response.parse()
         assert dummy is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncImageKit) -> None:
         async with async_client.dummy.with_streaming_response.create() as response:

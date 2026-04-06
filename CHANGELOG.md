@@ -1,5 +1,44 @@
 # Changelog
 
+## 5.3.0 (2026-04-06)
+
+Full Changelog: [v5.2.0...v5.3.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.2.0...v5.3.0)
+
+### Features
+
+* **api:** dpr type update ([39d38db](https://github.com/imagekit-developer/imagekit-python/commit/39d38dbd0ca1e81dc84771e6a98a629f90e8dba9))
+* **api:** Introduce lxc, lyc, lap parameters in overlays. ([5c9a08b](https://github.com/imagekit-developer/imagekit-python/commit/5c9a08b40db8734d022ff4670b8cf9204b2841fd))
+* **api:** revert dpr breaking change ([7301276](https://github.com/imagekit-developer/imagekit-python/commit/73012764930ba8b461f98bbfd0349b395e46a7a4))
+* **client:** import HelperResource and AsyncHelperResource in TYPE_CHECKING block ([22fc9cb](https://github.com/imagekit-developer/imagekit-python/commit/22fc9cb33d8c5724b0a042cc014ed6bdd54f7113))
+* **internal:** implement indices array format for query and form serialization ([4533c28](https://github.com/imagekit-developer/imagekit-python/commit/4533c2831ad26cf5ef53da37c8d4fe095bb67bd8))
+* **overlay:** support camelCase and snake_case for position properties in overlays ([5dd43b9](https://github.com/imagekit-developer/imagekit-python/commit/5dd43b9d84722fa62ffff4b8985282489003aa13))
+
+
+### Bug Fixes
+
+* **deps:** bump minimum typing-extensions version ([393174d](https://github.com/imagekit-developer/imagekit-python/commit/393174d253a106393b888aed50f9ca7623c9c06e))
+* **pydantic:** do not pass `by_alias` unless set ([fda01e4](https://github.com/imagekit-developer/imagekit-python/commit/fda01e45e315c192d24a6183cd24fd43cbcb0722))
+* sanitize endpoint path params ([fa1972c](https://github.com/imagekit-developer/imagekit-python/commit/fa1972cd605c2a7a81ad069161cc687d0ec4193d))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([5e9e6f3](https://github.com/imagekit-developer/imagekit-python/commit/5e9e6f35ba227e2fda57cb343f26f0ad0bcbb584))
+* **ci:** skip uploading artifacts on stainless-internal branches ([15805f5](https://github.com/imagekit-developer/imagekit-python/commit/15805f5e6b642f0cebfbc8131f99f886e8e72e99))
+* **dependencies:** require standardwebhooks 1.0.1 ([f7c4465](https://github.com/imagekit-developer/imagekit-python/commit/f7c44652ef95cfa1aefef380d280036158519007))
+* format all `api.md` files ([09cbb17](https://github.com/imagekit-developer/imagekit-python/commit/09cbb17e722d374477b13fd4045201ab75ddcc7e))
+* **internal:** add request options to SSE classes ([c0dee43](https://github.com/imagekit-developer/imagekit-python/commit/c0dee43afe3bc1f6ea35649532594e59fb4b8953))
+* **internal:** bump dependencies ([6702b4b](https://github.com/imagekit-developer/imagekit-python/commit/6702b4bcd12af1d670a4b73a7d9bedd68ccc5560))
+* **internal:** fix lint error on Python 3.14 ([89d503b](https://github.com/imagekit-developer/imagekit-python/commit/89d503b2a885f57edbbd6ffded3d1cddac61a53e))
+* **internal:** make `test_proxy_environment_variables` more resilient ([821dd3f](https://github.com/imagekit-developer/imagekit-python/commit/821dd3f61db9b2be3297dc1b8a9e63d257df9ed1))
+* **internal:** make `test_proxy_environment_variables` more resilient to env ([487887e](https://github.com/imagekit-developer/imagekit-python/commit/487887eb0e4c405c0f8294e6a82ef6c7a2187c5c))
+* **internal:** remove mock server code ([978ed61](https://github.com/imagekit-developer/imagekit-python/commit/978ed611a909e2d616b322e23bfe3d14e8f256f4))
+* **internal:** tweak CI branches ([369ff73](https://github.com/imagekit-developer/imagekit-python/commit/369ff736880f83ac7196411241801fe9b04a7dfb))
+* **internal:** update gitignore ([ab04623](https://github.com/imagekit-developer/imagekit-python/commit/ab04623fdceb9337d9519b119ead7949f1d4ed2f))
+* **tests:** update webhook tests ([d94ada8](https://github.com/imagekit-developer/imagekit-python/commit/d94ada85d3c70d8f896fe276d73afd6c3fb17326))
+* update mock server docs ([54f47c6](https://github.com/imagekit-developer/imagekit-python/commit/54f47c663b48f2b6a88bf05ba26a0f2a139ee752))
+* update placeholder string ([d06cdca](https://github.com/imagekit-developer/imagekit-python/commit/d06cdca52df17c23df1d9cd8a468b8184bde219a))
+
 ## 5.2.0 (2026-02-02)
 
 Full Changelog: [v5.1.2...v5.2.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.1.2...v5.2.0)
