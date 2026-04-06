@@ -29,9 +29,12 @@ class TestDummy:
             base_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -163,9 +166,12 @@ class TestDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -223,9 +229,12 @@ class TestDummy:
             image_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -274,9 +283,12 @@ class TestDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -329,9 +341,12 @@ class TestDummy:
             overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -360,9 +375,12 @@ class TestDummy:
                 ],
             },
             overlay_position={
+                "anchor_point": "top",
                 "focus": "center",
                 "x": 0,
+                "x_center": 0,
                 "y": 0,
+                "y_center": 0,
             },
             overlay_timing={
                 "duration": 0,
@@ -394,9 +412,12 @@ class TestDummy:
             solid_color_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -469,9 +490,12 @@ class TestDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -526,9 +550,12 @@ class TestDummy:
             subtitle_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -562,9 +589,12 @@ class TestDummy:
             text_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -645,9 +675,12 @@ class TestDummy:
                 "overlay": {
                     "layer_mode": "multiply",
                     "position": {
+                        "anchor_point": "top",
                         "focus": "center",
                         "x": 0,
+                        "x_center": 0,
                         "y": 0,
+                        "y_center": 0,
                     },
                     "timing": {
                         "duration": 0,
@@ -699,9 +732,12 @@ class TestDummy:
             video_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -750,9 +786,12 @@ class TestDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -846,9 +885,12 @@ class TestAsyncDummy:
             base_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -980,9 +1022,12 @@ class TestAsyncDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -1040,9 +1085,12 @@ class TestAsyncDummy:
             image_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1091,9 +1139,12 @@ class TestAsyncDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -1146,9 +1197,12 @@ class TestAsyncDummy:
             overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1177,9 +1231,12 @@ class TestAsyncDummy:
                 ],
             },
             overlay_position={
+                "anchor_point": "top",
                 "focus": "center",
                 "x": 0,
+                "x_center": 0,
                 "y": 0,
+                "y_center": 0,
             },
             overlay_timing={
                 "duration": 0,
@@ -1211,9 +1268,12 @@ class TestAsyncDummy:
             solid_color_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1286,9 +1346,12 @@ class TestAsyncDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
@@ -1343,9 +1406,12 @@ class TestAsyncDummy:
             subtitle_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1379,9 +1445,12 @@ class TestAsyncDummy:
             text_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1462,9 +1531,12 @@ class TestAsyncDummy:
                 "overlay": {
                     "layer_mode": "multiply",
                     "position": {
+                        "anchor_point": "top",
                         "focus": "center",
                         "x": 0,
+                        "x_center": 0,
                         "y": 0,
+                        "y_center": 0,
                     },
                     "timing": {
                         "duration": 0,
@@ -1516,9 +1588,12 @@ class TestAsyncDummy:
             video_overlay={
                 "layer_mode": "multiply",
                 "position": {
+                    "anchor_point": "top",
                     "focus": "center",
                     "x": 0,
+                    "x_center": 0,
                     "y": 0,
+                    "y_center": 0,
                 },
                 "timing": {
                     "duration": 0,
@@ -1567,9 +1642,12 @@ class TestAsyncDummy:
                         "overlay": {
                             "layer_mode": "multiply",
                             "position": {
+                                "anchor_point": "top",
                                 "focus": "center",
                                 "x": 0,
+                                "x_center": 0,
                                 "y": 0,
+                                "y_center": 0,
                             },
                             "timing": {
                                 "duration": 0,
