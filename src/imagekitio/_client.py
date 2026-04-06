@@ -44,6 +44,7 @@ if TYPE_CHECKING:
         saved_extensions,
         custom_metadata_fields,
     )
+    from .lib.helper import HelperResource, AsyncHelperResource
     from .resources.dummy import DummyResource, AsyncDummyResource
     from .resources.assets import AssetsResource, AsyncAssetsResource
     from .resources.webhooks import WebhooksResource, AsyncWebhooksResource
@@ -54,7 +55,6 @@ if TYPE_CHECKING:
     from .resources.saved_extensions import SavedExtensionsResource, AsyncSavedExtensionsResource
     from .resources.accounts.accounts import AccountsResource, AsyncAccountsResource
     from .resources.custom_metadata_fields import CustomMetadataFieldsResource, AsyncCustomMetadataFieldsResource
-    from .lib.helper import HelperResource, AsyncHelperResource
 
 __all__ = [
     "Timeout",

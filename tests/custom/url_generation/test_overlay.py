@@ -503,4 +503,3 @@ class TestOverlay:
         )
         expected = "https://ik.imagekit.io/test_url_endpoint/tr:l-text,i-Centered%20Text,lxc-bw_mul_0.5,lyc-bh_mul_0.5,lap-top_left,l-end/base-image.jpg"
         assert url == expected
-
