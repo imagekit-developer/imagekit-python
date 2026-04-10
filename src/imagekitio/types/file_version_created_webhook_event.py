@@ -6,10 +6,10 @@ from typing_extensions import Literal
 from .file import File
 from .base_webhook_event import BaseWebhookEvent
 
-__all__ = ["DamFileVersionCreateEvent"]
+__all__ = ["FileVersionCreatedWebhookEvent"]
 
 
-class DamFileVersionCreateEvent(BaseWebhookEvent):
+class FileVersionCreatedWebhookEvent(BaseWebhookEvent):
     """Triggered when a file version is created."""
 
     created_at: datetime
