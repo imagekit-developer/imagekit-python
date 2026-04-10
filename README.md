@@ -50,6 +50,7 @@ pip install imagekitio
 The full API of this library can be found in [api.md](api.md).
 
 ```python
+import os
 from imagekitio import ImageKit
 
 client = ImageKit(
@@ -121,6 +122,7 @@ print(response.file_id)
 Simply import `AsyncImageKit` instead of `ImageKit` and use `await` with each API call:
 
 ```python
+import os
 import asyncio
 from imagekitio import AsyncImageKit
 
@@ -161,6 +163,7 @@ pip install imagekitio[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from imagekitio import DefaultAioHttpClient
 from imagekitio import AsyncImageKit
@@ -503,9 +506,7 @@ from pathlib import Path
 from imagekitio import ImageKit
 import io
 
-client = ImageKit(
-    private_key="My Private Key",
-)
+client = ImageKit()
 
 # Method 1: Upload from bytes
 # Read file into memory first, then upload
@@ -579,9 +580,7 @@ All errors inherit from `imagekitio.APIError`.
 import imagekitio
 from imagekitio import ImageKit
 
-client = ImageKit(
-    private_key="My Private Key",
-)
+client = ImageKit()
 
 try:
     # Read file into memory and upload
@@ -629,7 +628,6 @@ from imagekitio import ImageKit
 
 # Configure the default for all requests:
 client = ImageKit(
-    private_key="My Private Key",
     # default is 2
     max_retries=0,
 )
@@ -654,14 +652,12 @@ from imagekitio import ImageKit
 
 # Configure the default for all requests:
 client = ImageKit(
-    private_key="My Private Key",
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
 client = ImageKit(
-    private_key="My Private Key",
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -800,7 +796,6 @@ import httpx
 from imagekitio import ImageKit, DefaultHttpxClient
 
 client = ImageKit(
-    private_key="My Private Key",
     # Or use the `IMAGE_KIT_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
@@ -823,9 +818,7 @@ By default the library closes underlying HTTP connections whenever the client is
 ```py
 from imagekitio import ImageKit
 
-with ImageKit(
-    private_key="My Private Key",
-) as client:
+with ImageKit() as client:
   # make requests here
   ...
 
