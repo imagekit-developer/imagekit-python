@@ -101,8 +101,9 @@ class ExtensionItemAITasksTaskSelectTags(BaseModel):
     vocabulary: Optional[List[str]] = None
     """Array of possible tag values.
 
-    Combined length of all strings must not exceed 500 characters. Cannot contain
-    the `%` character.
+    The combined length of all strings must not exceed 500 characters, and values
+    cannot include the `%` character. When providing large vocabularies (more than
+    30 items), the AI may not follow the list strictly.
     """
 
 
@@ -126,7 +127,12 @@ class ExtensionItemAITasksTaskSelectMetadata(BaseModel):
     """Minimum number of values to select from the vocabulary."""
 
     vocabulary: Optional[List[Union[str, float, bool]]] = None
-    """Array of possible values matching the custom metadata field type."""
+    """An array of possible values matching the custom metadata field type.
+
+    If not provided for SingleSelect or MultiSelect field types, all values from the
+    custom metadata field definition will be used. When providing large vocabularies
+    (above 30 items), the AI may not strictly adhere to the list.
+    """
 
 
 class ExtensionItemAITasksTaskYesNoOnNoSetMetadata(BaseModel):
