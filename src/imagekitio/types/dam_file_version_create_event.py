@@ -3,6 +3,7 @@
 from datetime import datetime
 from typing_extensions import Literal
 
+from .file import File
 from .base_webhook_event import BaseWebhookEvent
 
 __all__ = ["DamFileVersionCreateEvent"]
@@ -14,7 +15,8 @@ class DamFileVersionCreateEvent(BaseWebhookEvent):
     created_at: datetime
     """Timestamp of when the event occurred in ISO8601 format."""
 
-    data: object
+    data: File
+    """Object containing details of a file or file version."""
 
     type: Literal["file-version.created"]  # type: ignore
     """Type of the webhook event."""
