@@ -265,6 +265,11 @@ Types:
 ```python
 from imagekitio.types import (
     BaseWebhookEvent,
+    DamFileCreateEvent,
+    DamFileDeleteEvent,
+    DamFileUpdateEvent,
+    DamFileVersionCreateEvent,
+    DamFileVersionDeleteEvent,
     UploadPostTransformErrorEvent,
     UploadPostTransformSuccessEvent,
     UploadPreTransformErrorEvent,
