@@ -6,10 +6,10 @@ from typing_extensions import Literal
 from .file import File
 from .base_webhook_event import BaseWebhookEvent
 
-__all__ = ["DamFileCreateEvent"]
+__all__ = ["FileCreatedWebhookEvent"]
 
 
-class DamFileCreateEvent(BaseWebhookEvent):
+class FileCreatedWebhookEvent(BaseWebhookEvent):
     """Triggered when a file is created."""
 
     created_at: datetime

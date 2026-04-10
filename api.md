@@ -271,11 +271,6 @@ Types:
 ```python
 from imagekitio.types import (
     BaseWebhookEvent,
-    DamFileCreateEvent,
-    DamFileDeleteEvent,
-    DamFileUpdateEvent,
-    DamFileVersionCreateEvent,
-    DamFileVersionDeleteEvent,
     UploadPostTransformErrorEvent,
     UploadPostTransformSuccessEvent,
     UploadPreTransformErrorEvent,
@@ -283,6 +278,16 @@ from imagekitio.types import (
     VideoTransformationAcceptedEvent,
     VideoTransformationErrorEvent,
     VideoTransformationReadyEvent,
+    FileCreatedWebhookEvent,
+    FileUpdatedWebhookEvent,
+    FileDeletedWebhookEvent,
+    FileVersionCreatedWebhookEvent,
+    FileVersionDeletedWebhookEvent,
+    FileCreatedWebhookEvent,
+    FileUpdatedWebhookEvent,
+    FileDeletedWebhookEvent,
+    FileVersionCreatedWebhookEvent,
+    FileVersionDeletedWebhookEvent,
     UnsafeUnwrapWebhookEvent,
     UnwrapWebhookEvent,
 )
