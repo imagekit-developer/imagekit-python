@@ -110,7 +110,7 @@ class TestFiles:
                     "name": "saved-extension",
                 },
             ],
-            remove_ai_tags=["string"],
+            remove_ai_tags="all",
             tags=["tag1", "tag2"],
             webhook_url="https://example.com",
         )
@@ -663,7 +663,7 @@ class TestAsyncFiles:
                     "name": "saved-extension",
                 },
             ],
-            remove_ai_tags=["string"],
+            remove_ai_tags="all",
             tags=["tag1", "tag2"],
             webhook_url="https://example.com",
         )
