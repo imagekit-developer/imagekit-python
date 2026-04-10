@@ -101,9 +101,8 @@ class ExtensionItemAITasksTaskSelectTags(TypedDict, total=False):
     vocabulary: SequenceNotStr[str]
     """Array of possible tag values.
 
-    The combined length of all strings must not exceed 500 characters, and values
-    cannot include the `%` character. When providing large vocabularies (more than
-    30 items), the AI may not follow the list strictly.
+    Combined length of all strings must not exceed 500 characters. Cannot contain
+    the `%` character.
     """
 
 
@@ -127,12 +126,7 @@ class ExtensionItemAITasksTaskSelectMetadata(TypedDict, total=False):
     """Minimum number of values to select from the vocabulary."""
 
     vocabulary: SequenceNotStr[Union[str, float, bool]]
-    """An array of possible values matching the custom metadata field type.
-
-    If not provided for SingleSelect or MultiSelect field types, all values from the
-    custom metadata field definition will be used. When providing large vocabularies
-    (above 30 items), the AI may not strictly adhere to the list.
-    """
+    """Array of possible values matching the custom metadata field type."""
 
 
 class ExtensionItemAITasksTaskYesNoOnNoSetMetadata(TypedDict, total=False):

@@ -32,14 +32,10 @@ pip install imagekitio
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-import os
 from imagekitio import ImageKit
 
 client = ImageKit(
-    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),  # This is the default and can be omitted
-    password=os.environ.get(
-        "OPTIONAL_IMAGEKIT_IGNORES_THIS"
-    ),  # This is the default and can be omitted
+    private_key="My Private Key",
 )
 
 response = client.files.upload(
@@ -49,25 +45,16 @@ response = client.files.upload(
 print(response.video_codec)
 ```
 
-While you can provide a `private_key` keyword argument,
-we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `IMAGEKIT_PRIVATE_KEY="My Private Key"` to your `.env` file
-so that your Private Key is not stored in source control.
-
 ## Async usage
 
 Simply import `AsyncImageKit` instead of `ImageKit` and use `await` with each API call:
 
 ```python
-import os
 import asyncio
 from imagekitio import AsyncImageKit
 
 client = AsyncImageKit(
-    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),  # This is the default and can be omitted
-    password=os.environ.get(
-        "OPTIONAL_IMAGEKIT_IGNORES_THIS"
-    ),  # This is the default and can be omitted
+    private_key="My Private Key",
 )
 
 
@@ -98,7 +85,6 @@ pip install imagekitio[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
-import os
 import asyncio
 from imagekitio import DefaultAioHttpClient
 from imagekitio import AsyncImageKit
@@ -106,12 +92,7 @@ from imagekitio import AsyncImageKit
 
 async def main() -> None:
     async with AsyncImageKit(
-        private_key=os.environ.get(
-            "IMAGEKIT_PRIVATE_KEY"
-        ),  # This is the default and can be omitted
-        password=os.environ.get(
-            "OPTIONAL_IMAGEKIT_IGNORES_THIS"
-        ),  # This is the default and can be omitted
+        private_key="My Private Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.files.upload(
@@ -140,7 +121,9 @@ Nested parameters are dictionaries, typed using `TypedDict`, for example:
 ```python
 from imagekitio import ImageKit
 
-client = ImageKit()
+client = ImageKit(
+    private_key="My Private Key",
+)
 
 response = client.files.upload(
     file=b"Example data",
@@ -170,7 +153,9 @@ Request parameters that correspond to file uploads can be passed as `bytes`, or 
 from pathlib import Path
 from imagekitio import ImageKit
 
-client = ImageKit()
+client = ImageKit(
+    private_key="My Private Key",
+)
 
 client.files.upload(
     file=Path("/path/to/file"),
@@ -193,7 +178,9 @@ All errors inherit from `imagekitio.APIError`.
 import imagekitio
 from imagekitio import ImageKit
 
-client = ImageKit()
+client = ImageKit(
+    private_key="My Private Key",
+)
 
 try:
     client.files.upload(
@@ -237,6 +224,7 @@ from imagekitio import ImageKit
 
 # Configure the default for all requests:
 client = ImageKit(
+    private_key="My Private Key",
     # default is 2
     max_retries=0,
 )
@@ -258,12 +246,14 @@ from imagekitio import ImageKit
 
 # Configure the default for all requests:
 client = ImageKit(
+    private_key="My Private Key",
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
 client = ImageKit(
+    private_key="My Private Key",
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -311,7 +301,9 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 ```py
 from imagekitio import ImageKit
 
-client = ImageKit()
+client = ImageKit(
+    private_key="My Private Key",
+)
 response = client.files.with_raw_response.upload(
     file=b"https://www.example.com/public-url.jpg",
     file_name="file-name.jpg",
@@ -392,6 +384,7 @@ import httpx
 from imagekitio import ImageKit, DefaultHttpxClient
 
 client = ImageKit(
+    private_key="My Private Key",
     # Or use the `IMAGE_KIT_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
@@ -414,7 +407,9 @@ By default the library closes underlying HTTP connections whenever the client is
 ```py
 from imagekitio import ImageKit
 
-with ImageKit() as client:
+with ImageKit(
+    private_key="My Private Key",
+) as client:
   # make requests here
   ...
 
