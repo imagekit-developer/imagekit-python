@@ -33,6 +33,9 @@ from .metadata import Metadata as Metadata
 from .file_copy_params import FileCopyParams as FileCopyParams
 from .file_move_params import FileMoveParams as FileMoveParams
 from .asset_list_params import AssetListParams as AssetListParams
+from .file_create_event import FileCreateEvent as FileCreateEvent
+from .file_delete_event import FileDeleteEvent as FileDeleteEvent
+from .file_update_event import FileUpdateEvent as FileUpdateEvent
 from .base_webhook_event import BaseWebhookEvent as BaseWebhookEvent
 from .file_copy_response import FileCopyResponse as FileCopyResponse
 from .file_move_response import FileMoveResponse as FileMoveResponse
@@ -56,10 +59,9 @@ from .custom_metadata_field import CustomMetadataField as CustomMetadataField
 from .folder_create_response import FolderCreateResponse as FolderCreateResponse
 from .folder_delete_response import FolderDeleteResponse as FolderDeleteResponse
 from .folder_rename_response import FolderRenameResponse as FolderRenameResponse
+from .file_version_create_event import FileVersionCreateEvent as FileVersionCreateEvent
+from .file_version_delete_event import FileVersionDeleteEvent as FileVersionDeleteEvent
 from .update_file_request_param import UpdateFileRequestParam as UpdateFileRequestParam
-from .file_created_webhook_event import FileCreatedWebhookEvent as FileCreatedWebhookEvent
-from .file_deleted_webhook_event import FileDeletedWebhookEvent as FileDeletedWebhookEvent
-from .file_updated_webhook_event import FileUpdatedWebhookEvent as FileUpdatedWebhookEvent
 from .unsafe_unwrap_webhook_event import UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent
 from .saved_extension_create_params import SavedExtensionCreateParams as SavedExtensionCreateParams
 from .saved_extension_list_response import SavedExtensionListResponse as SavedExtensionListResponse
@@ -69,8 +71,6 @@ from .video_transformation_error_event import VideoTransformationErrorEvent as V
 from .video_transformation_ready_event import VideoTransformationReadyEvent as VideoTransformationReadyEvent
 from .custom_metadata_field_list_params import CustomMetadataFieldListParams as CustomMetadataFieldListParams
 from .upload_post_transform_error_event import UploadPostTransformErrorEvent as UploadPostTransformErrorEvent
-from .file_version_created_webhook_event import FileVersionCreatedWebhookEvent as FileVersionCreatedWebhookEvent
-from .file_version_deleted_webhook_event import FileVersionDeletedWebhookEvent as FileVersionDeletedWebhookEvent
 from .upload_pre_transform_success_event import UploadPreTransformSuccessEvent as UploadPreTransformSuccessEvent
 from .custom_metadata_field_create_params import CustomMetadataFieldCreateParams as CustomMetadataFieldCreateParams
 from .custom_metadata_field_list_response import CustomMetadataFieldListResponse as CustomMetadataFieldListResponse

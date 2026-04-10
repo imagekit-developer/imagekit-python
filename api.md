@@ -271,6 +271,11 @@ Types:
 ```python
 from imagekitio.types import (
     BaseWebhookEvent,
+    FileCreateEvent,
+    FileDeleteEvent,
+    FileUpdateEvent,
+    FileVersionCreateEvent,
+    FileVersionDeleteEvent,
     UploadPostTransformErrorEvent,
     UploadPostTransformSuccessEvent,
     UploadPreTransformErrorEvent,
@@ -278,16 +283,6 @@ from imagekitio.types import (
     VideoTransformationAcceptedEvent,
     VideoTransformationErrorEvent,
     VideoTransformationReadyEvent,
-    FileCreatedWebhookEvent,
-    FileUpdatedWebhookEvent,
-    FileDeletedWebhookEvent,
-    FileVersionCreatedWebhookEvent,
-    FileVersionDeletedWebhookEvent,
-    FileCreatedWebhookEvent,
-    FileUpdatedWebhookEvent,
-    FileDeletedWebhookEvent,
-    FileVersionCreatedWebhookEvent,
-    FileVersionDeletedWebhookEvent,
     UnsafeUnwrapWebhookEvent,
     UnwrapWebhookEvent,
 )
