@@ -22,6 +22,11 @@ __all__ = [
 
 
 class UploadPreTransformSuccessEventDataAITag(BaseModel):
+    """AI-generated tag associated with an image.
+
+    These tags can be added using the `google-auto-tagging` or `aws-auto-tagging` extensions.
+    """
+
     confidence: Optional[float] = None
     """Confidence score of the tag."""
 
@@ -131,11 +136,7 @@ class UploadPreTransformSuccessEventData(BaseModel):
     """Object containing details of a successful upload."""
 
     ai_tags: Optional[List[UploadPreTransformSuccessEventDataAITag]] = FieldInfo(alias="AITags", default=None)
-    """Array of `AITags` associated with the image.
-
-    If no `AITags` are set, it will be null. These tags can be added using the
-    `google-auto-tagging` or `aws-auto-tagging` extensions.
-    """
+    """An array of tags assigned to the uploaded file by auto tagging."""
 
     audio_codec: Optional[str] = FieldInfo(alias="audioCodec", default=None)
     """The audio codec used in the video (only for video)."""
