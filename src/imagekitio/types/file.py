@@ -12,6 +12,11 @@ __all__ = ["File", "AITag", "SelectedFieldsSchema", "VersionInfo"]
 
 
 class AITag(BaseModel):
+    """AI-generated tag associated with an image.
+
+    These tags can be added using the `google-auto-tagging` or `aws-auto-tagging` extensions.
+    """
+
     confidence: Optional[float] = None
     """Confidence score of the tag."""
 
@@ -80,7 +85,7 @@ class SelectedFieldsSchema(BaseModel):
 
 
 class VersionInfo(BaseModel):
-    """An object with details of the file version."""
+    """An object containing the file or file version's `id` (versionId) and `name`."""
 
     id: Optional[str] = None
     """Unique identifier of the file version."""
@@ -93,7 +98,10 @@ class File(BaseModel):
     """Object containing details of a file or file version."""
 
     ai_tags: Optional[List[AITag]] = FieldInfo(alias="AITags", default=None)
-    """An array of tags assigned to the file by auto tagging."""
+    """Array of AI-generated tags associated with the image.
+
+    If no AITags are set, it will be null.
+    """
 
     audio_codec: Optional[str] = FieldInfo(alias="audioCodec", default=None)
     """The audio codec used in the video (only for video/audio)."""

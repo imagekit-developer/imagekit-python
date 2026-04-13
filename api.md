@@ -265,6 +265,11 @@ Types:
 ```python
 from imagekitio.types import (
     BaseWebhookEvent,
+    FileCreateEvent,
+    FileDeleteEvent,
+    FileUpdateEvent,
+    FileVersionCreateEvent,
+    FileVersionDeleteEvent,
     UploadPostTransformErrorEvent,
     UploadPostTransformSuccessEvent,
     UploadPreTransformErrorEvent,

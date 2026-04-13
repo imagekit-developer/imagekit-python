@@ -22,6 +22,11 @@ __all__ = [
 
 
 class UploadPreTransformSuccessEventDataAITag(BaseModel):
+    """AI-generated tag associated with an image.
+
+    These tags can be added using the `google-auto-tagging` or `aws-auto-tagging` extensions.
+    """
+
     confidence: Optional[float] = None
     """Confidence score of the tag."""
 
@@ -29,10 +34,9 @@ class UploadPreTransformSuccessEventDataAITag(BaseModel):
     """Name of the tag."""
 
     source: Optional[str] = None
-    """Array of `AITags` associated with the image.
+    """Source of the tag.
 
-    If no `AITags` are set, it will be null. These tags can be added using the
-    `google-auto-tagging` or `aws-auto-tagging` extensions.
+    Possible values are `google-auto-tagging` and `aws-auto-tagging`.
     """
 
 

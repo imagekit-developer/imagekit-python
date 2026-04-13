@@ -33,6 +33,9 @@ from .metadata import Metadata as Metadata
 from .file_copy_params import FileCopyParams as FileCopyParams
 from .file_move_params import FileMoveParams as FileMoveParams
 from .asset_list_params import AssetListParams as AssetListParams
+from .file_create_event import FileCreateEvent as FileCreateEvent
+from .file_delete_event import FileDeleteEvent as FileDeleteEvent
+from .file_update_event import FileUpdateEvent as FileUpdateEvent
 from .base_webhook_event import BaseWebhookEvent as BaseWebhookEvent
 from .file_copy_response import FileCopyResponse as FileCopyResponse
 from .file_move_response import FileMoveResponse as FileMoveResponse
@@ -56,6 +59,8 @@ from .custom_metadata_field import CustomMetadataField as CustomMetadataField
 from .folder_create_response import FolderCreateResponse as FolderCreateResponse
 from .folder_delete_response import FolderDeleteResponse as FolderDeleteResponse
 from .folder_rename_response import FolderRenameResponse as FolderRenameResponse
+from .file_version_create_event import FileVersionCreateEvent as FileVersionCreateEvent
+from .file_version_delete_event import FileVersionDeleteEvent as FileVersionDeleteEvent
 from .update_file_request_param import UpdateFileRequestParam as UpdateFileRequestParam
 from .unsafe_unwrap_webhook_event import UnsafeUnwrapWebhookEvent as UnsafeUnwrapWebhookEvent
 from .saved_extension_create_params import SavedExtensionCreateParams as SavedExtensionCreateParams
