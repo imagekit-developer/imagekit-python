@@ -80,7 +80,7 @@ class SelectedFieldsSchema(BaseModel):
 
 
 class VersionInfo(BaseModel):
-    """An object with details of the file version."""
+    """An object containing the file or file version's `id` (versionId) and `name`."""
 
     id: Optional[str] = None
     """Unique identifier of the file version."""
@@ -93,7 +93,11 @@ class File(BaseModel):
     """Object containing details of a file or file version."""
 
     ai_tags: Optional[List[AITag]] = FieldInfo(alias="AITags", default=None)
-    """An array of tags assigned to the file by auto tagging."""
+    """Array of `AITags` associated with the image.
+
+    If no `AITags` are set, it will be null. These tags can be added using the
+    `google-auto-tagging` or `aws-auto-tagging` extensions.
+    """
 
     audio_codec: Optional[str] = FieldInfo(alias="audioCodec", default=None)
     """The audio codec used in the video (only for video/audio)."""
@@ -111,7 +115,13 @@ class File(BaseModel):
     """An string with custom coordinates of the file."""
 
     custom_metadata: Optional[Dict[str, object]] = FieldInfo(alias="customMetadata", default=None)
-    """An object with custom metadata for the file."""
+    """A key-value data associated with the asset.
+
+    Use `responseField` in API request to get `customMetadata` in the upload API
+    response. Before setting any custom metadata on an asset, you have to create the
+    field using custom metadata fields API. Send `customMetadata` in
+    `responseFields` in API request to get the value of this field.
+    """
 
     description: Optional[str] = None
     """Optional text to describe the contents of the file.
@@ -125,7 +135,9 @@ class File(BaseModel):
     embedded_metadata: Optional[Dict[str, object]] = FieldInfo(alias="embeddedMetadata", default=None)
     """Consolidated embedded metadata associated with the file.
 
-    It includes exif, iptc, and xmp data.
+    It includes exif, iptc, and xmp data. Send `embeddedMetadata` in
+    `responseFields` in API request to get embeddedMetadata in the upload API
+    response.
     """
 
     file_id: Optional[str] = FieldInfo(alias="fileId", default=None)
@@ -201,7 +213,7 @@ class File(BaseModel):
     """URL of the file."""
 
     version_info: Optional[VersionInfo] = FieldInfo(alias="versionInfo", default=None)
-    """An object with details of the file version."""
+    """An object containing the file or file version's `id` (versionId) and `name`."""
 
     video_codec: Optional[str] = FieldInfo(alias="videoCodec", default=None)
     """The video codec used in the video (only for video)."""

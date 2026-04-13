@@ -19,10 +19,9 @@ class AITag(BaseModel):
     """Name of the tag."""
 
     source: Optional[str] = None
-    """Array of `AITags` associated with the image.
+    """Source of the tag.
 
-    If no `AITags` are set, it will be null. These tags can be added using the
-    `google-auto-tagging` or `aws-auto-tagging` extensions.
+    Possible values are `google-auto-tagging` and `aws-auto-tagging`.
     """
 
 
@@ -122,7 +121,11 @@ class FileUploadResponse(BaseModel):
     """Object containing details of a successful upload."""
 
     ai_tags: Optional[List[AITag]] = FieldInfo(alias="AITags", default=None)
-    """An array of tags assigned to the uploaded file by auto tagging."""
+    """Array of `AITags` associated with the image.
+
+    If no `AITags` are set, it will be null. These tags can be added using the
+    `google-auto-tagging` or `aws-auto-tagging` extensions.
+    """
 
     audio_codec: Optional[str] = FieldInfo(alias="audioCodec", default=None)
     """The audio codec used in the video (only for video)."""
