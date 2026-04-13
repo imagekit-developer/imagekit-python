@@ -1,5 +1,35 @@
 # Changelog
 
+## 5.4.0 (2026-04-13)
+
+Full Changelog: [v5.3.0...v5.4.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.3.0...v5.4.0)
+
+### Features
+
+* **api:** dam related webhook events ([8803680](https://github.com/imagekit-developer/imagekit-python/commit/8803680ae4bb3ea801d71520cc1354b7a1558bc6))
+* **api:** fix spec indentation ([1a2417d](https://github.com/imagekit-developer/imagekit-python/commit/1a2417d4336d1b9403eb1bc2b65187209fe833c7))
+* **api:** indentation fix ([6ad7341](https://github.com/imagekit-developer/imagekit-python/commit/6ad7341af30e43252519a3c44826be408323cbbe))
+* **api:** merge with main to bring back missing parameters ([a07e952](https://github.com/imagekit-developer/imagekit-python/commit/a07e95275e50dcd975f3ec816420eee7645ce223))
+* **api:** update webhook event names and remove DAM prefix ([bf9e082](https://github.com/imagekit-developer/imagekit-python/commit/bf9e082da50cea2f983b5bd88caca825e5039ec5))
+
+
+### Bug Fixes
+
+* **api:** extract shared schemas to prevent Go webhook union breaking changes ([9dcc234](https://github.com/imagekit-developer/imagekit-python/commit/9dcc234c1a5cd387a0989806819ced1b823277c0))
+* **api:** rename DamFile events to File for consistency ([16b113f](https://github.com/imagekit-developer/imagekit-python/commit/16b113f1e6f42b4ac1af43c4cf0567cae55f6ecf))
+* **client:** preserve hardcoded query params when merging with user params ([cbdc71f](https://github.com/imagekit-developer/imagekit-python/commit/cbdc71fee37ce26c0a05cabc55cb03b46c29b216))
+* ensure file data are only sent as 1 parameter ([aa0272a](https://github.com/imagekit-developer/imagekit-python/commit/aa0272a8fe212b1a841031d25fddaa49359ec9d9))
+
+
+### Documentation
+
+* improve examples ([bc9d18e](https://github.com/imagekit-developer/imagekit-python/commit/bc9d18e102e37ad28dfe7181cbc3b8323ed79cb2))
+
+
+### Refactors
+
+* AITags to singular AITag schema with array items pattern ([96ad1bb](https://github.com/imagekit-developer/imagekit-python/commit/96ad1bb10dbfdad7112d82f5b6cc7199429e0fe3))
+
 ## 5.3.0 (2026-04-06)
 
 Full Changelog: [v5.2.0...v5.3.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.2.0...v5.3.0)
