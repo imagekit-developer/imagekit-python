@@ -1,5 +1,36 @@
 # Changelog
 
+## 5.5.0 (2026-05-13)
+
+Full Changelog: [v5.4.0...v5.5.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.4.0...v5.5.0)
+
+### Features
+
+* **api:** add no-enlarge crop modes and colorize transformation ([c4ddf30](https://github.com/imagekit-developer/imagekit-python/commit/c4ddf30c84d5d10a483ab5b2563510f049e414b2))
+* **api:** manual updates ([965e263](https://github.com/imagekit-developer/imagekit-python/commit/965e26380c05a76c356fc994e0a92dc8efe3ac4e))
+* **helper:** add colorize transformation to supported transforms ([8a96c55](https://github.com/imagekit-developer/imagekit-python/commit/8a96c55d03a9f1448954dd56510781b10b858436))
+* **internal/types:** support eagerly validating pydantic iterators ([35bcec1](https://github.com/imagekit-developer/imagekit-python/commit/35bcec134edcbbf356f5f93d5a1e719f69b458a3))
+* support setting headers via env ([39cbf90](https://github.com/imagekit-developer/imagekit-python/commit/39cbf90f16813f2ee8f477554ece14f804cc765d))
+* **tests:** add colorize transformation to advanced URL generation test ([efa4d19](https://github.com/imagekit-developer/imagekit-python/commit/efa4d197ca7d8a3cba88243d8c187400f17b2dea))
+
+
+### Bug Fixes
+
+* **client:** add missing f-string prefix in file type error message ([b3926a7](https://github.com/imagekit-developer/imagekit-python/commit/b3926a7b73d379cf56ce3985bc602254fda83f40))
+* use correct field name format for multipart file arrays ([c89d2b3](https://github.com/imagekit-developer/imagekit-python/commit/c89d2b36f2049df445ac5f365ed8dac2544d116b))
+
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([b22ab86](https://github.com/imagekit-developer/imagekit-python/commit/b22ab86e45de2bbc479942eaa27dd0c9b89cbc91))
+
+
+### Chores
+
+* configure new SDK language ([2b40f08](https://github.com/imagekit-developer/imagekit-python/commit/2b40f08e2757811dd14e29aed78f4f928fd97111))
+* **internal:** more robust bootstrap script ([e5703df](https://github.com/imagekit-developer/imagekit-python/commit/e5703dfdb61f9842a508947555544ad9910a225d))
+* **internal:** reformat pyproject.toml ([15a2ce1](https://github.com/imagekit-developer/imagekit-python/commit/15a2ce1f0293a0ab4d96792379e127f68f5cc64d))
+
 ## 5.4.0 (2026-04-13)
 
 Full Changelog: [v5.3.0...v5.4.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.3.0...v5.4.0)
