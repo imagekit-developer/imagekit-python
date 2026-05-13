@@ -1,6 +1,6 @@
 [project]
 name = "imagekitio"
-version = "5.4.0"
+version = "5.5.0"
 description = "The official Python library for the ImageKit API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -169,7 +169,7 @@ show_error_codes = true
 #
 # We also exclude our `tests` as mypy doesn't always infer
 # types correctly and Pyright will still catch any type errors.
-exclude = ['src/imagekitio/_files.py', '_dev/.*.py', 'tests/.*']
+exclude = ["src/imagekitio/_files.py", "_dev/.*.py", "tests/.*"]
 
 strict_equality = true
 implicit_reexport = true

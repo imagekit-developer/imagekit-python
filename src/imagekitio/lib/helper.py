@@ -82,6 +82,7 @@ SUPPORTED_TRANSFORMS = {
     "unsharp_mask": "e-usm",
     "gradient": "e-gradient",
     "color_replace": "cr",
+    "colorize": "e-colorize",
     "distort": "e-distort",
     # Other flags & finishing
     "progressive": "pr",

@@ -137,6 +137,17 @@ class Transformation(BaseModel):
     [Border](https://imagekit.io/docs/effects-and-enhancements#border---b).
     """
 
+    colorize: Optional[str] = None
+    """Applies a color tint to the image.
+
+    Accepts color and intensity as optional parameters.
+
+    - `co-color` - Color to apply (e.g., `red`, `blue`, `FF0022`). Default is gray
+      color.
+    - `in-intensity` - Intensity of the color (0-100). Default is 35. See
+      [Colorize](https://imagekit.io/docs/effects-and-enhancements#colorize---e-colorize).
+    """
+
     color_profile: Optional[bool] = FieldInfo(alias="colorProfile", default=None)
     """
     Indicates whether the output image should retain the original color profile. See
@@ -160,14 +171,18 @@ class Transformation(BaseModel):
     [Contrast Stretch](https://imagekit.io/docs/effects-and-enhancements#contrast-stretch---e-contrast).
     """
 
-    crop: Optional[Literal["force", "at_max", "at_max_enlarge", "at_least", "maintain_ratio"]] = None
+    crop: Optional[
+        Literal["force", "at_max", "at_max_enlarge", "at_least", "maintain_ratio", "maintain_ratio_no_enlarge"]
+    ] = None
     """Crop modes for image resizing.
 
     See
     [Crop modes & focus](https://imagekit.io/docs/image-resize-and-crop#crop-crop-modes--focus).
     """
 
-    crop_mode: Optional[Literal["pad_resize", "extract", "pad_extract"]] = FieldInfo(alias="cropMode", default=None)
+    crop_mode: Optional[
+        Literal["pad_resize", "extract", "pad_extract", "pad_resize_no_enlarge", "pad_extract_no_shrink"]
+    ] = FieldInfo(alias="cropMode", default=None)
     """Additional crop modes for image resizing.
 
     See
