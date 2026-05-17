@@ -439,14 +439,6 @@ class TestDummy:
                     }
                 ],
             },
-            solid_color_overlay_transformation={
-                "alpha": 1,
-                "background": "background",
-                "gradient": True,
-                "height": 0,
-                "radius": "max",
-                "width": 0,
-            },
             src_options={
                 "src": "/my-image.jpg",
                 "url_endpoint": "https://ik.imagekit.io/demo",
@@ -1299,14 +1291,6 @@ class TestAsyncDummy:
                         "width": 0,
                     }
                 ],
-            },
-            solid_color_overlay_transformation={
-                "alpha": 1,
-                "background": "background",
-                "gradient": True,
-                "height": 0,
-                "radius": "max",
-                "width": 0,
             },
             src_options={
                 "src": "/my-image.jpg",
