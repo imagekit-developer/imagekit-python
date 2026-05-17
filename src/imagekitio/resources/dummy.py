@@ -36,6 +36,7 @@ from ..types.shared_params.responsive_image_attributes import ResponsiveImageAtt
 from ..types.shared_params.text_overlay_transformation import TextOverlayTransformation
 from ..types.shared_params.get_image_attributes_options import GetImageAttributesOptions
 from ..types.shared_params.subtitle_overlay_transformation import SubtitleOverlayTransformation
+from ..types.shared_params.solid_color_overlay_transformation import SolidColorOverlayTransformation
 
 __all__ = ["DummyResource", "AsyncDummyResource"]
 
@@ -74,6 +75,7 @@ class DummyResource(SyncAPIResource):
         responsive_image_attributes: ResponsiveImageAttributes | Omit = omit,
         saved_extensions: SavedExtension | Omit = omit,
         solid_color_overlay: SolidColorOverlay | Omit = omit,
+        solid_color_overlay_transformation: SolidColorOverlayTransformation | Omit = omit,
         src_options: SrcOptions | Omit = omit,
         streaming_resolution: StreamingResolution | Omit = omit,
         subtitle_overlay: SubtitleOverlay | Omit = omit,
@@ -163,6 +165,7 @@ class DummyResource(SyncAPIResource):
                     "responsive_image_attributes": responsive_image_attributes,
                     "saved_extensions": saved_extensions,
                     "solid_color_overlay": solid_color_overlay,
+                    "solid_color_overlay_transformation": solid_color_overlay_transformation,
                     "src_options": src_options,
                     "streaming_resolution": streaming_resolution,
                     "subtitle_overlay": subtitle_overlay,
@@ -216,6 +219,7 @@ class AsyncDummyResource(AsyncAPIResource):
         responsive_image_attributes: ResponsiveImageAttributes | Omit = omit,
         saved_extensions: SavedExtension | Omit = omit,
         solid_color_overlay: SolidColorOverlay | Omit = omit,
+        solid_color_overlay_transformation: SolidColorOverlayTransformation | Omit = omit,
         src_options: SrcOptions | Omit = omit,
         streaming_resolution: StreamingResolution | Omit = omit,
         subtitle_overlay: SubtitleOverlay | Omit = omit,
@@ -305,6 +309,7 @@ class AsyncDummyResource(AsyncAPIResource):
                     "responsive_image_attributes": responsive_image_attributes,
                     "saved_extensions": saved_extensions,
                     "solid_color_overlay": solid_color_overlay,
+                    "solid_color_overlay_transformation": solid_color_overlay_transformation,
                     "src_options": src_options,
                     "streaming_resolution": streaming_resolution,
                     "subtitle_overlay": subtitle_overlay,

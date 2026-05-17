@@ -19,6 +19,7 @@ from .shared_params.solid_color_overlay import SolidColorOverlay
 from .shared_params.responsive_image_attributes import ResponsiveImageAttributes
 from .shared_params.text_overlay_transformation import TextOverlayTransformation
 from .shared_params.subtitle_overlay_transformation import SubtitleOverlayTransformation
+from .shared_params.solid_color_overlay_transformation import SolidColorOverlayTransformation
 
 __all__ = ["DummyCreateParams"]
 
@@ -72,6 +73,10 @@ class DummyCreateParams(TypedDict, total=False):
     """Saved extension object containing extension configuration."""
 
     solid_color_overlay: Annotated[SolidColorOverlay, PropertyInfo(alias="solidColorOverlay")]
+
+    solid_color_overlay_transformation: Annotated[
+        SolidColorOverlayTransformation, PropertyInfo(alias="solidColorOverlayTransformation")
+    ]
 
     src_options: Annotated["SrcOptions", PropertyInfo(alias="srcOptions")]
     """Options for generating ImageKit URLs with transformations.
