@@ -1,5 +1,14 @@
 # Changelog
 
+## 5.5.1 (2026-05-17)
+
+Full Changelog: [v5.5.0...v5.5.1](https://github.com/imagekit-developer/imagekit-python/compare/v5.5.0...v5.5.1)
+
+### Chores
+
+* trigger build ([ae54bfc](https://github.com/imagekit-developer/imagekit-python/commit/ae54bfcda1d717f8e23b90ba4f9f3407739458e3))
+* trigger build for test ([ac69401](https://github.com/imagekit-developer/imagekit-python/commit/ac6940190c1896d465eb5c6b88e71ffdd0ec02d6))
+
 ## 5.5.0 (2026-05-13)
 
 Full Changelog: [v5.4.0...v5.5.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.4.0...v5.5.0)
