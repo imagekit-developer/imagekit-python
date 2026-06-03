@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.6.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.5.2...v5.6.0) (2026-06-03)
+
+
+### Bug Fixes
+
+* metadata response shape ([8a8a923](https://github.com/imagekit-developer/imagekit-python/commit/8a8a9231073d8701dd6bed22a1694f13632e66f4))
+
+
+### Chores
+
+* pin next release ([c964964](https://github.com/imagekit-developer/imagekit-python/commit/c964964d9dfb86835bebbbccf1177ef24d6cfe6e))
+
 ## [5.5.2](https://github.com/imagekit-developer/imagekit-python/compare/v5.5.1...v5.5.2) (2026-05-25)
 
 
