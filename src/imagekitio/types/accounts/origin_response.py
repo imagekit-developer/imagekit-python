@@ -45,6 +45,12 @@ class S3(BaseModel):
     base_url_for_canonical_header: Optional[str] = FieldInfo(alias="baseUrlForCanonicalHeader", default=None)
     """URL used in the Canonical header (if enabled)."""
 
+    use_iam_role: Optional[bool] = FieldInfo(alias="useIAMRole", default=None)
+    """
+    Whether the origin authenticates using an IAM role instead of access/secret
+    keys.
+    """
+
 
 class S3Compatible(BaseModel):
     id: str
@@ -100,6 +106,12 @@ class CloudinaryBackup(BaseModel):
 
     base_url_for_canonical_header: Optional[str] = FieldInfo(alias="baseUrlForCanonicalHeader", default=None)
     """URL used in the Canonical header (if enabled)."""
+
+    use_iam_role: Optional[bool] = FieldInfo(alias="useIAMRole", default=None)
+    """
+    Whether the origin authenticates using an IAM role instead of access/secret
+    keys.
+    """
 
 
 class WebFolder(BaseModel):
