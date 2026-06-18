@@ -22,7 +22,7 @@ __all__ = [
 
 class S3(TypedDict, total=False):
     access_key: Required[Annotated[str, PropertyInfo(alias="accessKey")]]
-    """Access key for the bucket."""
+    """Access key for the bucket. When `useIAMRole` is `true`, send an empty string."""
 
     bucket: Required[str]
     """S3 bucket name."""
@@ -31,7 +31,7 @@ class S3(TypedDict, total=False):
     """Display name of the origin."""
 
     secret_key: Required[Annotated[str, PropertyInfo(alias="secretKey")]]
-    """Secret key for the bucket."""
+    """Secret key for the bucket. When `useIAMRole` is `true`, send an empty string."""
 
     type: Required[Literal["S3"]]
 
@@ -43,6 +43,12 @@ class S3(TypedDict, total=False):
 
     prefix: str
     """Path prefix inside the bucket."""
+
+    use_iam_role: Annotated[bool, PropertyInfo(alias="useIAMRole")]
+    """Use IAM role for authentication instead of access/secret keys.
+
+    When set to `true`, send an empty string for both `accessKey` and `secretKey`.
+    """
 
 
 class S3Compatible(TypedDict, total=False):
@@ -78,7 +84,7 @@ class S3Compatible(TypedDict, total=False):
 
 class CloudinaryBackup(TypedDict, total=False):
     access_key: Required[Annotated[str, PropertyInfo(alias="accessKey")]]
-    """Access key for the bucket."""
+    """Access key for the bucket. When `useIAMRole` is `true`, send an empty string."""
 
     bucket: Required[str]
     """S3 bucket name."""
@@ -87,7 +93,7 @@ class CloudinaryBackup(TypedDict, total=False):
     """Display name of the origin."""
 
     secret_key: Required[Annotated[str, PropertyInfo(alias="secretKey")]]
-    """Secret key for the bucket."""
+    """Secret key for the bucket. When `useIAMRole` is `true`, send an empty string."""
 
     type: Required[Literal["CLOUDINARY_BACKUP"]]
 
@@ -99,6 +105,12 @@ class CloudinaryBackup(TypedDict, total=False):
 
     prefix: str
     """Path prefix inside the bucket."""
+
+    use_iam_role: Annotated[bool, PropertyInfo(alias="useIAMRole")]
+    """Use IAM role for authentication instead of access/secret keys.
+
+    When set to `true`, send an empty string for both `accessKey` and `secretKey`.
+    """
 
 
 class WebFolder(TypedDict, total=False):

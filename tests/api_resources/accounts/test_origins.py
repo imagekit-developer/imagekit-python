@@ -41,6 +41,7 @@ class TestOrigins:
             base_url_for_canonical_header="https://cdn.example.com",
             include_canonical_header=False,
             prefix="raw-assets",
+            use_iam_role=True,
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
@@ -168,6 +169,7 @@ class TestOrigins:
             base_url_for_canonical_header="https://cdn.example.com",
             include_canonical_header=False,
             prefix="raw-assets",
+            use_iam_role=True,
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
@@ -522,6 +524,7 @@ class TestOrigins:
             base_url_for_canonical_header="https://cdn.example.com",
             include_canonical_header=False,
             prefix="raw-assets",
+            use_iam_role=True,
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
@@ -684,6 +687,7 @@ class TestOrigins:
             base_url_for_canonical_header="https://cdn.example.com",
             include_canonical_header=False,
             prefix="raw-assets",
+            use_iam_role=True,
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
@@ -1251,6 +1255,7 @@ class TestAsyncOrigins:
             base_url_for_canonical_header="https://cdn.example.com",
             include_canonical_header=False,
             prefix="raw-assets",
+            use_iam_role=True,
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
@@ -1378,6 +1383,7 @@ class TestAsyncOrigins:
             base_url_for_canonical_header="https://cdn.example.com",
             include_canonical_header=False,
             prefix="raw-assets",
+            use_iam_role=True,
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
@@ -1732,6 +1738,7 @@ class TestAsyncOrigins:
             base_url_for_canonical_header="https://cdn.example.com",
             include_canonical_header=False,
             prefix="raw-assets",
+            use_iam_role=True,
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
@@ -1894,6 +1901,7 @@ class TestAsyncOrigins:
             base_url_for_canonical_header="https://cdn.example.com",
             include_canonical_header=False,
             prefix="raw-assets",
+            use_iam_role=True,
         )
         assert_matches_type(OriginResponse, origin, path=["response"])
 
