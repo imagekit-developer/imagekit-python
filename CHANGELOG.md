@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.7.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.6.0...v5.7.0) (2026-06-18)
+
+
+### Features
+
+* **origins:** add useIAMRole for IAM role authentication ([ec709a5](https://github.com/imagekit-developer/imagekit-python/commit/ec709a515b07f3d7fba758357b5dd8d6e3432bf1))
+
+
+### Documentation
+
+* update default value in description for intensity in colorize transformation ([a67b14e](https://github.com/imagekit-developer/imagekit-python/commit/a67b14ebe09b7a8f3679a7b7793321d607a25563))
+
 ## [5.6.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.5.2...v5.6.0) (2026-06-03)
 
 
