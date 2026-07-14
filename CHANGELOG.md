@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.8.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.7.0...v5.8.0) (2026-07-14)
+
+
+### Features
+
+* **api:** add usage analytics breakdown endpoint ([d072e97](https://github.com/imagekit-developer/imagekit-python/commit/d072e970b046f3792a760a413f84599c8f3d68fa))
+
 ## [5.7.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.6.0...v5.7.0) (2026-06-18)
 
 
