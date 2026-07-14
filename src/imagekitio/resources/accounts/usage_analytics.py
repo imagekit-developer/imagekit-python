@@ -18,31 +18,31 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.accounts import usage_get_params
-from ...types.accounts.usage_get_response import UsageGetResponse
+from ...types.accounts import usage_analytics_get_params
+from ...types.accounts.usage_analytics_response import UsageAnalyticsResponse
 
-__all__ = ["UsageResource", "AsyncUsageResource"]
+__all__ = ["UsageAnalyticsResource", "AsyncUsageAnalyticsResource"]
 
 
-class UsageResource(SyncAPIResource):
+class UsageAnalyticsResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> UsageResourceWithRawResponse:
+    def with_raw_response(self) -> UsageAnalyticsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/imagekit-developer/imagekit-python#accessing-raw-response-data-eg-headers
         """
-        return UsageResourceWithRawResponse(self)
+        return UsageAnalyticsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> UsageResourceWithStreamingResponse:
+    def with_streaming_response(self) -> UsageAnalyticsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/imagekit-developer/imagekit-python#with_streaming_response
         """
-        return UsageResourceWithStreamingResponse(self)
+        return UsageAnalyticsResourceWithStreamingResponse(self)
 
     def get(
         self,
@@ -55,26 +55,29 @@ class UsageResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> UsageGetResponse:
-        """Get the account usage information between two dates.
+    ) -> UsageAnalyticsResponse:
+        """
+        **Note:** This API is currently in beta.
 
-        Note that the API response
-        includes data from the start date while excluding data from the end date. In
-        other words, the data covers the period starting from the specified start date
-        up to, but not including, the end date.
+        Get the account analytics data between two dates. The response covers the period
+        from the start date to the end date, both dates inclusive. Both dates are
+        interpreted as UTC calendar days.
 
-        For an agency account, the returned usage is aggregated across the agency and
-        all of its child accounts that are billed to it.
+        The returned data is scoped to the requesting account only. Unlike
+        `/v1/accounts/usage`, an agency account's analytics are not aggregated across
+        its child accounts.
 
-        The response is cached for 6 hours per account, date range and requested
-        metrics.
+        The response is cached for 5 minutes per account and date range. Use
+        `generatedAt` to check how fresh the returned data is.
 
         Args:
-          end_date: Specify a `endDate` in `YYYY-MM-DD` format. It should be after the `startDate`.
-              The difference between `startDate` and `endDate` should be less than 90 days.
+          end_date: Specify an `endDate` in `YYYY-MM-DD` format, interpreted as a UTC calendar day.
+              It should be after the `startDate`. The difference between `startDate` and
+              `endDate` should be less than 90 days.
 
-          start_date: Specify a `startDate` in `YYYY-MM-DD` format. It should be before the `endDate`.
-              The difference between `startDate` and `endDate` should be less than 90 days.
+          start_date: Specify a `startDate` in `YYYY-MM-DD` format, interpreted as a UTC calendar day.
+              It should be before the `endDate`. The difference between `startDate` and
+              `endDate` should be less than 90 days.
 
           extra_headers: Send extra headers
 
@@ -85,7 +88,7 @@ class UsageResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._get(
-            "/v1/accounts/usage",
+            "/v1/accounts/usage-analytics",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -96,32 +99,32 @@ class UsageResource(SyncAPIResource):
                         "end_date": end_date,
                         "start_date": start_date,
                     },
-                    usage_get_params.UsageGetParams,
+                    usage_analytics_get_params.UsageAnalyticsGetParams,
                 ),
             ),
-            cast_to=UsageGetResponse,
+            cast_to=UsageAnalyticsResponse,
         )
 
 
-class AsyncUsageResource(AsyncAPIResource):
+class AsyncUsageAnalyticsResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncUsageResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncUsageAnalyticsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/imagekit-developer/imagekit-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncUsageResourceWithRawResponse(self)
+        return AsyncUsageAnalyticsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncUsageResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncUsageAnalyticsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/imagekit-developer/imagekit-python#with_streaming_response
         """
-        return AsyncUsageResourceWithStreamingResponse(self)
+        return AsyncUsageAnalyticsResourceWithStreamingResponse(self)
 
     async def get(
         self,
@@ -134,26 +137,29 @@ class AsyncUsageResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> UsageGetResponse:
-        """Get the account usage information between two dates.
+    ) -> UsageAnalyticsResponse:
+        """
+        **Note:** This API is currently in beta.
 
-        Note that the API response
-        includes data from the start date while excluding data from the end date. In
-        other words, the data covers the period starting from the specified start date
-        up to, but not including, the end date.
+        Get the account analytics data between two dates. The response covers the period
+        from the start date to the end date, both dates inclusive. Both dates are
+        interpreted as UTC calendar days.
 
-        For an agency account, the returned usage is aggregated across the agency and
-        all of its child accounts that are billed to it.
+        The returned data is scoped to the requesting account only. Unlike
+        `/v1/accounts/usage`, an agency account's analytics are not aggregated across
+        its child accounts.
 
-        The response is cached for 6 hours per account, date range and requested
-        metrics.
+        The response is cached for 5 minutes per account and date range. Use
+        `generatedAt` to check how fresh the returned data is.
 
         Args:
-          end_date: Specify a `endDate` in `YYYY-MM-DD` format. It should be after the `startDate`.
-              The difference between `startDate` and `endDate` should be less than 90 days.
+          end_date: Specify an `endDate` in `YYYY-MM-DD` format, interpreted as a UTC calendar day.
+              It should be after the `startDate`. The difference between `startDate` and
+              `endDate` should be less than 90 days.
 
-          start_date: Specify a `startDate` in `YYYY-MM-DD` format. It should be before the `endDate`.
-              The difference between `startDate` and `endDate` should be less than 90 days.
+          start_date: Specify a `startDate` in `YYYY-MM-DD` format, interpreted as a UTC calendar day.
+              It should be before the `endDate`. The difference between `startDate` and
+              `endDate` should be less than 90 days.
 
           extra_headers: Send extra headers
 
@@ -164,7 +170,7 @@ class AsyncUsageResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._get(
-            "/v1/accounts/usage",
+            "/v1/accounts/usage-analytics",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -175,44 +181,44 @@ class AsyncUsageResource(AsyncAPIResource):
                         "end_date": end_date,
                         "start_date": start_date,
                     },
-                    usage_get_params.UsageGetParams,
+                    usage_analytics_get_params.UsageAnalyticsGetParams,
                 ),
             ),
-            cast_to=UsageGetResponse,
+            cast_to=UsageAnalyticsResponse,
         )
 
 
-class UsageResourceWithRawResponse:
-    def __init__(self, usage: UsageResource) -> None:
-        self._usage = usage
+class UsageAnalyticsResourceWithRawResponse:
+    def __init__(self, usage_analytics: UsageAnalyticsResource) -> None:
+        self._usage_analytics = usage_analytics
 
         self.get = to_raw_response_wrapper(
-            usage.get,
+            usage_analytics.get,
         )
 
 
-class AsyncUsageResourceWithRawResponse:
-    def __init__(self, usage: AsyncUsageResource) -> None:
-        self._usage = usage
+class AsyncUsageAnalyticsResourceWithRawResponse:
+    def __init__(self, usage_analytics: AsyncUsageAnalyticsResource) -> None:
+        self._usage_analytics = usage_analytics
 
         self.get = async_to_raw_response_wrapper(
-            usage.get,
+            usage_analytics.get,
         )
 
 
-class UsageResourceWithStreamingResponse:
-    def __init__(self, usage: UsageResource) -> None:
-        self._usage = usage
+class UsageAnalyticsResourceWithStreamingResponse:
+    def __init__(self, usage_analytics: UsageAnalyticsResource) -> None:
+        self._usage_analytics = usage_analytics
 
         self.get = to_streamed_response_wrapper(
-            usage.get,
+            usage_analytics.get,
         )
 
 
-class AsyncUsageResourceWithStreamingResponse:
-    def __init__(self, usage: AsyncUsageResource) -> None:
-        self._usage = usage
+class AsyncUsageAnalyticsResourceWithStreamingResponse:
+    def __init__(self, usage_analytics: AsyncUsageAnalyticsResource) -> None:
+        self._usage_analytics = usage_analytics
 
         self.get = async_to_streamed_response_wrapper(
-            usage.get,
+            usage_analytics.get,
         )

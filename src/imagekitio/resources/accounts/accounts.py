@@ -28,6 +28,14 @@ from .url_endpoints import (
     URLEndpointsResourceWithStreamingResponse,
     AsyncURLEndpointsResourceWithStreamingResponse,
 )
+from .usage_analytics import (
+    UsageAnalyticsResource,
+    AsyncUsageAnalyticsResource,
+    UsageAnalyticsResourceWithRawResponse,
+    AsyncUsageAnalyticsResourceWithRawResponse,
+    UsageAnalyticsResourceWithStreamingResponse,
+    AsyncUsageAnalyticsResourceWithStreamingResponse,
+)
 
 __all__ = ["AccountsResource", "AsyncAccountsResource"]
 
@@ -36,6 +44,10 @@ class AccountsResource(SyncAPIResource):
     @cached_property
     def usage(self) -> UsageResource:
         return UsageResource(self._client)
+
+    @cached_property
+    def usage_analytics(self) -> UsageAnalyticsResource:
+        return UsageAnalyticsResource(self._client)
 
     @cached_property
     def origins(self) -> OriginsResource:
@@ -69,6 +81,10 @@ class AsyncAccountsResource(AsyncAPIResource):
     @cached_property
     def usage(self) -> AsyncUsageResource:
         return AsyncUsageResource(self._client)
+
+    @cached_property
+    def usage_analytics(self) -> AsyncUsageAnalyticsResource:
+        return AsyncUsageAnalyticsResource(self._client)
 
     @cached_property
     def origins(self) -> AsyncOriginsResource:
@@ -107,6 +123,10 @@ class AccountsResourceWithRawResponse:
         return UsageResourceWithRawResponse(self._accounts.usage)
 
     @cached_property
+    def usage_analytics(self) -> UsageAnalyticsResourceWithRawResponse:
+        return UsageAnalyticsResourceWithRawResponse(self._accounts.usage_analytics)
+
+    @cached_property
     def origins(self) -> OriginsResourceWithRawResponse:
         return OriginsResourceWithRawResponse(self._accounts.origins)
 
@@ -122,6 +142,10 @@ class AsyncAccountsResourceWithRawResponse:
     @cached_property
     def usage(self) -> AsyncUsageResourceWithRawResponse:
         return AsyncUsageResourceWithRawResponse(self._accounts.usage)
+
+    @cached_property
+    def usage_analytics(self) -> AsyncUsageAnalyticsResourceWithRawResponse:
+        return AsyncUsageAnalyticsResourceWithRawResponse(self._accounts.usage_analytics)
 
     @cached_property
     def origins(self) -> AsyncOriginsResourceWithRawResponse:
@@ -141,6 +165,10 @@ class AccountsResourceWithStreamingResponse:
         return UsageResourceWithStreamingResponse(self._accounts.usage)
 
     @cached_property
+    def usage_analytics(self) -> UsageAnalyticsResourceWithStreamingResponse:
+        return UsageAnalyticsResourceWithStreamingResponse(self._accounts.usage_analytics)
+
+    @cached_property
     def origins(self) -> OriginsResourceWithStreamingResponse:
         return OriginsResourceWithStreamingResponse(self._accounts.origins)
 
@@ -156,6 +184,10 @@ class AsyncAccountsResourceWithStreamingResponse:
     @cached_property
     def usage(self) -> AsyncUsageResourceWithStreamingResponse:
         return AsyncUsageResourceWithStreamingResponse(self._accounts.usage)
+
+    @cached_property
+    def usage_analytics(self) -> AsyncUsageAnalyticsResourceWithStreamingResponse:
+        return AsyncUsageAnalyticsResourceWithStreamingResponse(self._accounts.usage_analytics)
 
     @cached_property
     def origins(self) -> AsyncOriginsResourceWithStreamingResponse:
