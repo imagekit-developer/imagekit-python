@@ -32,6 +32,14 @@ from .url_endpoints import (
     URLEndpointsResourceWithStreamingResponse,
     AsyncURLEndpointsResourceWithStreamingResponse,
 )
+from .usage_analytics import (
+    UsageAnalyticsResource,
+    AsyncUsageAnalyticsResource,
+    UsageAnalyticsResourceWithRawResponse,
+    AsyncUsageAnalyticsResourceWithRawResponse,
+    UsageAnalyticsResourceWithStreamingResponse,
+    AsyncUsageAnalyticsResourceWithStreamingResponse,
+)
 
 __all__ = [
     "UsageResource",
@@ -40,6 +48,12 @@ __all__ = [
     "AsyncUsageResourceWithRawResponse",
     "UsageResourceWithStreamingResponse",
     "AsyncUsageResourceWithStreamingResponse",
+    "UsageAnalyticsResource",
+    "AsyncUsageAnalyticsResource",
+    "UsageAnalyticsResourceWithRawResponse",
+    "AsyncUsageAnalyticsResourceWithRawResponse",
+    "UsageAnalyticsResourceWithStreamingResponse",
+    "AsyncUsageAnalyticsResourceWithStreamingResponse",
     "OriginsResource",
     "AsyncOriginsResource",
     "OriginsResourceWithRawResponse",

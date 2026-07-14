@@ -212,6 +212,18 @@ Methods:
 
 - <code title="get /v1/accounts/usage">client.accounts.usage.<a href="./src/imagekitio/resources/accounts/usage.py">get</a>(\*\*<a href="src/imagekitio/types/accounts/usage_get_params.py">params</a>) -> <a href="./src/imagekitio/types/accounts/usage_get_response.py">UsageGetResponse</a></code>
 
+## UsageAnalytics
+
+Types:
+
+```python
+from imagekitio.types.accounts import RequestBandwidthEntry, UsageAnalyticsResponse
+```
+
+Methods:
+
+- <code title="get /v1/accounts/usage-analytics">client.accounts.usage_analytics.<a href="./src/imagekitio/resources/accounts/usage_analytics.py">get</a>(\*\*<a href="src/imagekitio/types/accounts/usage_analytics_get_params.py">params</a>) -> <a href="./src/imagekitio/types/accounts/usage_analytics_response.py">UsageAnalyticsResponse</a></code>
+
 ## Origins
 
 Types:
