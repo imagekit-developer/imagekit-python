@@ -247,9 +247,6 @@ def _process_text(s: str, encoding: str) -> str:
 
 def _process_overlay(overlay: Overlay) -> str:
     """Process overlay transformations."""
-    if not overlay:
-        return ""
-
     # Extract type, position, timing, and transformation from overlay
     overlay_type: str = cast(str, overlay.get("type", ""))
     position: Dict[str, Any] = cast(Dict[str, Any], overlay.get("position", {}))
