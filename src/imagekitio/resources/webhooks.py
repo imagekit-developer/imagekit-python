@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import base64
 from typing import Mapping, cast
 
 from .._models import construct_type
@@ -41,13 +40,7 @@ class WebhooksResource(SyncAPIResource):
         if not isinstance(headers, dict):
             headers = dict(headers)
 
-        if isinstance(key, str):
-            key_bytes = key.encode("utf-8")
-        else:
-            key_bytes = key
-        encoded_key = base64.b64encode(key_bytes).decode("ascii")
-
-        Webhook(encoded_key).verify(payload, headers)
+        Webhook(key).verify(payload, headers)
 
         return cast(
             UnwrapWebhookEvent,
@@ -84,13 +77,7 @@ class AsyncWebhooksResource(AsyncAPIResource):
         if not isinstance(headers, dict):
             headers = dict(headers)
 
-        if isinstance(key, str):
-            key_bytes = key.encode("utf-8")
-        else:
-            key_bytes = key
-        encoded_key = base64.b64encode(key_bytes).decode("ascii")
-
-        Webhook(encoded_key).verify(payload, headers)
+        Webhook(key).verify(payload, headers)
 
         return cast(
             UnwrapWebhookEvent,

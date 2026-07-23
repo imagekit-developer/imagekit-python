@@ -30,7 +30,6 @@ from ...._response import (
 )
 from ...._base_client import make_request_options
 from ....types.beta.v2 import file_upload_params
-from ....lib.serialization_utils import serialize_upload_options
 from ....types.shared_params.extensions import Extensions
 from ....types.beta.v2.file_upload_response import FileUploadResponse
 
@@ -274,7 +273,6 @@ class FilesResource(SyncAPIResource):
             },
             [["file"]],
         )
-        body = serialize_upload_options(body)
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
@@ -530,7 +528,6 @@ class AsyncFilesResource(AsyncAPIResource):
             },
             [["file"]],
         )
-        body = serialize_upload_options(body)
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.

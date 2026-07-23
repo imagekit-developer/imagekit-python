@@ -1,42 +1,24 @@
-# ImageKit.io Python SDK
+# Image Kit Python API library
 
 <!-- prettier-ignore -->
 [![PyPI version](https://img.shields.io/pypi/v/imagekitio.svg?label=pypi%20(stable))](https://pypi.org/project/imagekitio/)
 
-The ImageKit Python SDK provides convenient access to the ImageKit REST API from any Python 3.9+ application. It offers powerful tools for URL generation and transformation, signed URLs for secure content delivery, webhook verification, file uploads, and more. The library includes type definitions for all request params and response fields, and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
+The Image Kit Python library provides convenient access to the Image Kit REST API from any Python 3.9+
+application. The library includes type definitions for all request params and response fields,
+and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
+
+## MCP Server
+
+Use the Image Kit MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.
+
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=%40imagekit%2Fapi-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBpbWFnZWtpdC9hcGktbWNwIl0sImVudiI6eyJJTUFHRUtJVF9QUklWQVRFX0tFWSI6Ik15IFByaXZhdGUgS2V5IiwiT1BUSU9OQUxfSU1BR0VLSVRfSUdOT1JFU19USElTIjoiTXkgUGFzc3dvcmQiLCJJTUFHRUtJVF9XRUJIT09LX1NFQ1JFVCI6Ik15IFdlYmhvb2sgU2VjcmV0In19)
+[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22%40imagekit%2Fapi-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40imagekit%2Fapi-mcp%22%5D%2C%22env%22%3A%7B%22IMAGEKIT_PRIVATE_KEY%22%3A%22My%20Private%20Key%22%2C%22OPTIONAL_IMAGEKIT_IGNORES_THIS%22%3A%22My%20Password%22%2C%22IMAGEKIT_WEBHOOK_SECRET%22%3A%22My%20Webhook%20Secret%22%7D%7D)
+
+> Note: You may need to set environment variables in your MCP client.
+
+## Documentation
 
 The REST API documentation can be found on [imagekit.io](https://imagekit.io/docs/api-reference). The full API of this library can be found in [api.md](api.md).
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Requirements](#requirements)
-- [Usage](#usage)
-  - [Using types](#using-types)
-  - [Nested params](#nested-params)
-  - [Async usage](#async-usage)
-- [URL generation](#url-generation)
-  - [Basic URL generation](#basic-url-generation)
-  - [URL generation with transformations](#url-generation-with-transformations)
-  - [URL generation with image overlay](#url-generation-with-image-overlay)
-  - [URL generation with text overlay](#url-generation-with-text-overlay)
-  - [URL generation with multiple overlays](#url-generation-with-multiple-overlays)
-  - [Signed URLs for secure delivery](#signed-urls-for-secure-delivery)
-  - [Using Raw transformations for undocumented features](#using-raw-transformations-for-undocumented-features)
-- [Authentication parameters for client-side uploads](#authentication-parameters-for-client-side-uploads)
-- [Webhook verification](#webhook-verification)
-- [Advanced Usage](#advanced-usage)
-  - [File uploads](#file-uploads)
-  - [Handling errors](#handling-errors)
-  - [Retries](#retries)
-  - [Timeouts](#timeouts)
-  - [Logging](#logging)
-  - [Accessing raw response data](#accessing-raw-response-data-eg-headers)
-  - [Making custom/undocumented requests](#making-customundocumented-requests)
-  - [Configuring the HTTP client](#configuring-the-http-client)
-  - [Managing HTTP resources](#managing-http-resources)
-- [Versioning](#versioning)
-- [Contributing](#contributing)
 
 ## Installation
 
@@ -55,18 +37,16 @@ from imagekitio import ImageKit
 
 client = ImageKit(
     private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),  # This is the default and can be omitted
+    password=os.environ.get(
+        "OPTIONAL_IMAGEKIT_IGNORES_THIS"
+    ),  # This is the default and can be omitted
 )
-
-# Upload a file
-with open("/path/to/your/image.jpg", "rb") as f:
-    file_data = f.read()
 
 response = client.files.upload(
-    file=file_data,
-    file_name="uploaded-image.jpg",
+    file=b"https://www.example.com/public-url.jpg",
+    file_name="file-name.jpg",
 )
-print(response.file_id)
-print(response.url)
+print(response.video_codec)
 ```
 
 While you can provide a `private_key` keyword argument,
@@ -74,50 +54,7 @@ we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
 to add `IMAGEKIT_PRIVATE_KEY="My Private Key"` to your `.env` file
 so that your Private Key is not stored in source control.
 
-
-### Using types
-
-Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:
-
-- Serializing back into JSON, `model.to_json()`
-- Converting to a dictionary, `model.to_dict()`
-
-Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
-
-### Nested params
-
-Nested parameters are dictionaries, typed using `TypedDict`, for example:
-
-```python
-from imagekitio import ImageKit
-
-client = ImageKit()
-
-# Read file into memory and upload
-with open("/path/to/file.jpg", "rb") as f:
-    file_data = f.read()
-
-response = client.files.upload(
-    file=file_data,
-    file_name="fileName",
-    transformation={
-        "post": [
-            {
-                "type": "thumbnail",
-                "value": "w-150,h-150",
-            },
-            {
-                "protocol": "dash",
-                "type": "abs",
-                "value": "sr-240_360_480_720_1080",
-            },
-        ]
-    },
-)
-print(response.file_id)
-```
-
-### Async usage
+## Async usage
 
 Simply import `AsyncImageKit` instead of `ImageKit` and use `await` with each API call:
 
@@ -128,20 +65,18 @@ from imagekitio import AsyncImageKit
 
 client = AsyncImageKit(
     private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),  # This is the default and can be omitted
+    password=os.environ.get(
+        "OPTIONAL_IMAGEKIT_IGNORES_THIS"
+    ),  # This is the default and can be omitted
 )
 
 
 async def main() -> None:
-    # Read file into memory and upload
-    with open("/path/to/your/image.jpg", "rb") as f:
-        file_data = f.read()
-    
     response = await client.files.upload(
-        file=file_data,
+        file=b"https://www.example.com/public-url.jpg",
         file_name="file-name.jpg",
     )
-    print(response.file_id)
-    print(response.url)
+    print(response.video_codec)
 
 
 asyncio.run(main())
@@ -149,7 +84,7 @@ asyncio.run(main())
 
 Functionality between the synchronous and asynchronous clients is otherwise identical.
 
-#### With aiohttp
+### With aiohttp
 
 By default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.
 
@@ -174,400 +109,78 @@ async def main() -> None:
         private_key=os.environ.get(
             "IMAGEKIT_PRIVATE_KEY"
         ),  # This is the default and can be omitted
+        password=os.environ.get(
+            "OPTIONAL_IMAGEKIT_IGNORES_THIS"
+        ),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
-        # Read file into memory and upload
-        with open("/path/to/your/image.jpg", "rb") as f:
-            file_data = f.read()
-        
         response = await client.files.upload(
-            file=file_data,
+            file=b"https://www.example.com/public-url.jpg",
             file_name="file-name.jpg",
         )
-        print(response.file_id)
-        print(response.url)
+        print(response.video_codec)
 
 
 asyncio.run(main())
 ```
 
-## URL generation
+## Using types
 
-The ImageKit SDK provides a powerful `helper.build_url()` method for generating optimized image and video URLs with transformations. Here are examples ranging from simple URLs to complex transformations with overlays and signed URLs.
+Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:
 
-### Basic URL generation
+- Serializing back into JSON, `model.to_json()`
+- Converting to a dictionary, `model.to_dict()`
 
-Generate a simple URL without any transformations:
+Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
-```python
-import os
-from imagekitio import ImageKit
+## Nested params
 
-client = ImageKit(
-    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),
-)
-
-# Basic URL without transformations
-url = client.helper.build_url(
-    url_endpoint="https://ik.imagekit.io/your_imagekit_id",
-    src="/path/to/image.jpg",
-)
-print(url)
-# Result: https://ik.imagekit.io/your_imagekit_id/path/to/image.jpg
-```
-
-### URL generation with transformations
-
-Apply common transformations like resizing, cropping, and format conversion:
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
 ```python
-import os
 from imagekitio import ImageKit
 
-client = ImageKit(
-    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),
-)
+client = ImageKit()
 
-# URL with basic transformations
-url = client.helper.build_url(
-    url_endpoint="https://ik.imagekit.io/your_imagekit_id",
-    src="/path/to/image.jpg",
-    transformation=[
-        {
-            "width": 400,
-            "height": 300,
-            "crop": "maintain_ratio",
-            "quality": 80,
-            "format": "webp",
-        }
-    ],
-)
-print(url)
-# Result: https://ik.imagekit.io/your_imagekit_id/path/to/image.jpg?tr=w-400,h-300,c-maintain_ratio,q-80,f-webp
-```
-
-### URL generation with image overlay
-
-Add image overlays to your base image:
-
-```python
-import os
-from imagekitio import ImageKit
-
-client = ImageKit(
-    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),
-)
-
-# URL with image overlay
-url = client.helper.build_url(
-    url_endpoint="https://ik.imagekit.io/your_imagekit_id",
-    src="/path/to/base-image.jpg",
-    transformation=[
-        {
-            "width": 500,
-            "height": 400,
-            "overlay": {
-                "type": "image",
-                "input": "/path/to/overlay-logo.png",
-                "position": {
-                    "x": 10,
-                    "y": 10,
-                },
-                "transformation": [
-                    {
-                        "width": 100,
-                        "height": 50,
-                    }
-                ],
+response = client.files.upload(
+    file=b"Example data",
+    file_name="fileName",
+    transformation={
+        "post": [
+            {
+                "type": "thumbnail",
+                "value": "w-150,h-150",
             },
-        }
-    ],
-)
-print(url)
-# Result: URL with image overlay positioned at x:10, y:10
-```
-
-### URL generation with text overlay
-
-Add customized text overlays:
-
-```python
-import os
-from imagekitio import ImageKit
-
-client = ImageKit(
-    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),
-)
-
-# URL with text overlay
-url = client.helper.build_url(
-    url_endpoint="https://ik.imagekit.io/your_imagekit_id",
-    src="/path/to/base-image.jpg",
-    transformation=[
-        {
-            "width": 600,
-            "height": 400,
-            "overlay": {
-                "type": "text",
-                "text": "Sample Text Overlay",
-                "position": {
-                    "x": 50,
-                    "y": 50,
-                    "focus": "center",
-                },
-                "transformation": [
-                    {
-                        "font_size": 40,
-                        "font_family": "Arial",
-                        "font_color": "FFFFFF",
-                        "typography": "b",  # bold
-                    }
-                ],
+            {
+                "protocol": "dash",
+                "type": "abs",
+                "value": "sr-240_360_480_720_1080",
             },
-        }
-    ],
+        ]
+    },
 )
-print(url)
-# Result: URL with bold white Arial text overlay at center position
+print(response.transformation)
 ```
 
-### URL generation with multiple overlays
+## File uploads
 
-Combine multiple overlays for complex compositions:
-
-```python
-import os
-from imagekitio import ImageKit
-
-client = ImageKit(
-    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),
-)
-
-# URL with multiple overlays (text + image)
-url = client.helper.build_url(
-    url_endpoint="https://ik.imagekit.io/your_imagekit_id",
-    src="/path/to/base-image.jpg",
-    transformation=[
-        {
-            "width": 800,
-            "height": 600,
-            "overlay": {
-                "type": "text",
-                "text": "Header Text",
-                "position": {
-                    "x": 20,
-                    "y": 20,
-                },
-                "transformation": [
-                    {
-                        "font_size": 30,
-                        "font_color": "000000",
-                    }
-                ],
-            },
-        },
-        {
-            "overlay": {
-                "type": "image",
-                "input": "/watermark.png",
-                "position": {
-                    "focus": "bottom_right",
-                },
-                "transformation": [
-                    {
-                        "width": 100,
-                        "opacity": 70,
-                    }
-                ],
-            },
-        },
-    ],
-)
-print(url)
-# Result: URL with text overlay at top-left and semi-transparent watermark at bottom-right
-```
-
-### Signed URLs for secure delivery
-
-Generate signed URLs that expire after a specified time for secure content delivery:
-
-```python
-import os
-from imagekitio import ImageKit
-
-client = ImageKit(
-    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),
-)
-
-# Generate a signed URL that expires in 1 hour (3600 seconds)
-url = client.helper.build_url(
-    url_endpoint="https://ik.imagekit.io/your_imagekit_id",
-    src="/private/secure-image.jpg",
-    transformation=[
-        {
-            "width": 400,
-            "height": 300,
-            "quality": 90,
-        }
-    ],
-    signed=True,
-    expires_in=3600,  # URL expires in 1 hour
-)
-print(url)
-# Result: URL with signature parameters (?ik-t=timestamp&ik-s=signature)
-
-# Generate a signed URL that doesn't expire
-permanent_signed_url = client.helper.build_url(
-    url_endpoint="https://ik.imagekit.io/your_imagekit_id",
-    src="/private/secure-image.jpg",
-    signed=True,
-    # No expires_in means the URL won't expire
-)
-print(permanent_signed_url)
-# Result: URL with signature parameter (?ik-s=signature)
-```
-
-### Using Raw transformations for undocumented features
-
-ImageKit frequently adds new transformation parameters that might not yet be documented in the SDK. You can use the `raw` parameter to access these features or create custom transformation strings:
-
-```python
-import os
-from imagekitio import ImageKit
-
-client = ImageKit(
-    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),
-)
-
-# Using Raw transformation for undocumented or new parameters
-url = client.helper.build_url(
-    url_endpoint="https://ik.imagekit.io/your_imagekit_id",
-    src="/path/to/image.jpg",
-    transformation=[
-        {
-            # Combine documented transformations with raw parameters
-            "width": 400,
-            "height": 300,
-        },
-        {
-            # Use raw for undocumented transformations or complex parameters
-            "raw": "something-new",
-        },
-    ],
-)
-print(url)
-# Result: https://ik.imagekit.io/your_imagekit_id/path/to/image.jpg?tr=w-400,h-300:something-new
-```
-
-## Authentication parameters for client-side uploads
-
-Generate authentication parameters for secure client-side file uploads:
-
-```python
-import os
-from imagekitio import ImageKit
-
-client = ImageKit(
-    private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),
-)
-
-# Generate authentication parameters for client-side uploads
-auth_params = client.helper.get_authentication_parameters()
-print(auth_params)
-# Result: {'expire': <timestamp>, 'signature': '<hmac-signature>', 'token': '<uuid-token>'}
-
-# Generate with custom token and expiry
-custom_auth_params = client.helper.get_authentication_parameters(
-    token="my-custom-token",
-    expire=1800
-)
-print(custom_auth_params)
-# Result: {'expire': 1800, 'signature': '<hmac-signature>', 'token': 'my-custom-token'}
-```
-
-These authentication parameters can be used in client-side upload forms to securely upload files without exposing your private API key.
-
-## Webhook verification
-
-The ImageKit SDK provides utilities to verify webhook signatures for secure event handling. This ensures that webhook requests are actually coming from ImageKit and haven't been tampered with.
-
-For detailed information about webhook setup, signature verification, and handling different webhook events, refer to the [ImageKit webhook documentation](https://imagekit.io/docs/webhooks#verify-webhook-signature).
-
-## Advanced Usage
-
-### File uploads
-
-Request parameters that correspond to file uploads can be passed as `bytes`, a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, an `IO[bytes]` file object, or a tuple of `(filename, contents, media type)`.
-
-Here are common file upload patterns:
+Request parameters that correspond to file uploads can be passed as `bytes`, or a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
 
 ```python
 from pathlib import Path
 from imagekitio import ImageKit
-import io
 
 client = ImageKit()
 
-# Method 1: Upload from bytes
-# Read file into memory first, then upload
-with open("/path/to/your/image.jpg", "rb") as f:
-    file_data = f.read()
-
-response = client.files.upload(
-    file=file_data,
-    file_name="uploaded-image.jpg",
-)
-
-# Method 2: Upload from file stream (for large files)
-# Pass file object directly - SDK reads it
-with open("/path/to/your/image.jpg", "rb") as file_stream:
-    response = client.files.upload(
-        file=file_stream,
-        file_name="uploaded-image.jpg",
-    )
-
-# Method 3: Upload using Path object (SDK reads automatically)
-response = client.files.upload(
-    file=Path("/path/to/file.jpg"),
-    file_name="fileName.jpg",
-)
-
-# Method 4: Upload from BytesIO (for programmatically generated content)
-content = b"your binary data"
-bytes_io = io.BytesIO(content)
-response = client.files.upload(
-    file=bytes_io,
-    file_name="binary-upload.jpg",
-)
-
-# Method 5: Upload with custom content type using tuple format
-image_data = b"your binary data"
-response = client.files.upload(
-    file=("custom.jpg", image_data, "image/jpeg"),
-    file_name="custom-upload.jpg",
+client.files.upload(
+    file=Path("/path/to/file"),
+    file_name="fileName",
 )
 ```
 
 The async client uses the exact same interface. If you pass a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, the file contents will be read asynchronously automatically.
 
-**Note:** URL strings (e.g., `"https://example.com/image.jpg"`) are not supported by the Python SDK. To upload from a URL, download the content first:
-
-```python
-import urllib.request
-
-# Download from URL and upload to ImageKit
-url = "https://example.com/image.jpg"
-with urllib.request.urlopen(url) as response:
-    url_content = response.read()
-
-# Upload the downloaded content
-upload_response = client.files.upload(
-    file=url_content,
-    file_name="downloaded-image.jpg",
-)
-```
-
-### Handling errors
+## Handling errors
 
 When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `imagekitio.APIConnectionError` is raised.
 
@@ -583,12 +196,8 @@ from imagekitio import ImageKit
 client = ImageKit()
 
 try:
-    # Read file into memory and upload
-    with open("/path/to/your/image.jpg", "rb") as f:
-        file_data = f.read()
-    
-    response = client.files.upload(
-        file=file_data,
+    client.files.upload(
+        file=b"https://www.example.com/public-url.jpg",
         file_name="file-name.jpg",
     )
 except imagekitio.APIConnectionError as e:
@@ -633,11 +242,8 @@ client = ImageKit(
 )
 
 # Or, configure per-request:
-with open("/path/to/your/image.jpg", "rb") as f:
-    file_data = f.read()
-
 client.with_options(max_retries=5).files.upload(
-    file=file_data,
+    file=b"https://www.example.com/public-url.jpg",
     file_name="file-name.jpg",
 )
 ```
@@ -662,11 +268,8 @@ client = ImageKit(
 )
 
 # Override per-request:
-with open("/path/to/your/image.jpg", "rb") as f:
-    file_data = f.read()
-
 client.with_options(timeout=5.0).files.upload(
-    file=file_data,
+    file=b"https://www.example.com/public-url.jpg",
     file_name="file-name.jpg",
 )
 ```
@@ -674,6 +277,8 @@ client.with_options(timeout=5.0).files.upload(
 On timeout, an `APITimeoutError` is thrown.
 
 Note that requests that time out are [retried twice by default](#retries).
+
+## Advanced
 
 ### Logging
 
@@ -707,19 +312,14 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from imagekitio import ImageKit
 
 client = ImageKit()
-
-# Read file into memory and upload
-with open("/path/to/your/image.jpg", "rb") as f:
-    file_data = f.read()
-
 response = client.files.with_raw_response.upload(
-    file=file_data,
+    file=b"https://www.example.com/public-url.jpg",
     file_name="file-name.jpg",
 )
 print(response.headers.get('X-My-Header'))
 
 file = response.parse()  # get the object that `files.upload()` would have returned
-print(file.file_id)
+print(file.video_codec)
 ```
 
 These methods return an [`APIResponse`](https://github.com/imagekit-developer/imagekit-python/tree/master/src/imagekitio/_response.py) object.
@@ -733,12 +333,8 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-# Read file into memory and upload
-with open("/path/to/your/image.jpg", "rb") as f:
-    file_data = f.read()
-
 with client.files.with_streaming_response.upload(
-    file=file_data,
+    file=b"https://www.example.com/public-url.jpg",
     file_name="file-name.jpg",
 ) as response:
     print(response.headers.get("X-My-Header"))

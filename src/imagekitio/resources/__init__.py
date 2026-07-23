@@ -57,10 +57,6 @@ from .accounts import (
     AsyncAccountsResourceWithStreamingResponse,
 )
 from .webhooks import WebhooksResource, AsyncWebhooksResource
-from ..lib.helper import (
-    HelperResource,
-    AsyncHelperResource,
-)
 from .saved_extensions import (
     SavedExtensionsResource,
     AsyncSavedExtensionsResource,
@@ -135,6 +131,4 @@ __all__ = [
     "AsyncBetaResourceWithStreamingResponse",
     "WebhooksResource",
     "AsyncWebhooksResource",
-    "HelperResource",
-    "AsyncHelperResource",
 ]

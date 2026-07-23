@@ -48,7 +48,6 @@ if TYPE_CHECKING:
         saved_extensions,
         custom_metadata_fields,
     )
-    from .lib.helper import HelperResource, AsyncHelperResource
     from .resources.dummy import DummyResource, AsyncDummyResource
     from .resources.assets import AssetsResource, AsyncAssetsResource
     from .resources.webhooks import WebhooksResource, AsyncWebhooksResource
@@ -211,12 +210,6 @@ class ImageKit(SyncAPIClient):
         from .resources.webhooks import WebhooksResource
 
         return WebhooksResource(self)
-
-    @cached_property
-    def helper(self) -> HelperResource:
-        from .lib.helper import HelperResource
-
-        return HelperResource(self)
 
     @cached_property
     def with_raw_response(self) -> ImageKitWithRawResponse:
@@ -488,12 +481,6 @@ class AsyncImageKit(AsyncAPIClient):
         from .resources.webhooks import AsyncWebhooksResource
 
         return AsyncWebhooksResource(self)
-
-    @cached_property
-    def helper(self) -> AsyncHelperResource:
-        from .lib.helper import AsyncHelperResource
-
-        return AsyncHelperResource(self)
 
     @cached_property
     def with_raw_response(self) -> AsyncImageKitWithRawResponse:

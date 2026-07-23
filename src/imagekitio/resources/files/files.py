@@ -62,7 +62,6 @@ from ..._response import (
 )
 from ...types.file import File
 from ..._base_client import make_request_options
-from ...lib.serialization_utils import serialize_upload_options
 from ...types.file_copy_response import FileCopyResponse
 from ...types.file_move_response import FileMoveResponse
 from ...types.file_rename_response import FileRenameResponse
@@ -729,7 +728,6 @@ class FilesResource(SyncAPIResource):
             },
             [["file"]],
         )
-        body = serialize_upload_options(body)
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
@@ -1404,7 +1402,6 @@ class AsyncFilesResource(AsyncAPIResource):
             },
             [["file"]],
         )
-        body = serialize_upload_options(body)
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
