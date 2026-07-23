@@ -27,7 +27,7 @@ class TestCustomMetadataFields:
         custom_metadata_field = client.custom_metadata_fields.create(
             label="price",
             name="price",
-            schema={"type": "Number"},
+            schema={},
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
@@ -38,7 +38,6 @@ class TestCustomMetadataFields:
             label="price",
             name="price",
             schema={
-                "type": "Number",
                 "default_value": [True, 10, "Hello"],
                 "is_value_required": True,
                 "max_length": 0,
@@ -46,6 +45,7 @@ class TestCustomMetadataFields:
                 "min_length": 0,
                 "min_value": 1000,
                 "select_options": ["small", "medium", "large", 30, 40, True],
+                "type": "Number",
             },
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
@@ -56,7 +56,7 @@ class TestCustomMetadataFields:
         response = client.custom_metadata_fields.with_raw_response.create(
             label="price",
             name="price",
-            schema={"type": "Number"},
+            schema={},
         )
 
         assert response.is_closed is True
@@ -70,7 +70,7 @@ class TestCustomMetadataFields:
         with client.custom_metadata_fields.with_streaming_response.create(
             label="price",
             name="price",
-            schema={"type": "Number"},
+            schema={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -231,7 +231,7 @@ class TestAsyncCustomMetadataFields:
         custom_metadata_field = await async_client.custom_metadata_fields.create(
             label="price",
             name="price",
-            schema={"type": "Number"},
+            schema={},
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
@@ -242,7 +242,6 @@ class TestAsyncCustomMetadataFields:
             label="price",
             name="price",
             schema={
-                "type": "Number",
                 "default_value": [True, 10, "Hello"],
                 "is_value_required": True,
                 "max_length": 0,
@@ -250,6 +249,7 @@ class TestAsyncCustomMetadataFields:
                 "min_length": 0,
                 "min_value": 1000,
                 "select_options": ["small", "medium", "large", 30, 40, True],
+                "type": "Number",
             },
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
@@ -260,7 +260,7 @@ class TestAsyncCustomMetadataFields:
         response = await async_client.custom_metadata_fields.with_raw_response.create(
             label="price",
             name="price",
-            schema={"type": "Number"},
+            schema={},
         )
 
         assert response.is_closed is True
@@ -274,7 +274,7 @@ class TestAsyncCustomMetadataFields:
         async with async_client.custom_metadata_fields.with_streaming_response.create(
             label="price",
             name="price",
-            schema={"type": "Number"},
+            schema={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
