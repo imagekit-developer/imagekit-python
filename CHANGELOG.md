@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.8.1](https://github.com/imagekit-developer/imagekit-python/compare/v5.8.0...v5.8.1) (2026-07-23)
+
+
+### Chores
+
+* update branch names in workflow and delete promote workflow ([1753b17](https://github.com/imagekit-developer/imagekit-python/commit/1753b17e626783768c8fd05dd3e4bae58c7eb3a1))
+
 ## [5.8.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.7.0...v5.8.0) (2026-07-14)
 
 
