@@ -169,7 +169,16 @@ show_error_codes = true
 #
 # We also exclude our `tests` as mypy doesn't always infer
 # types correctly and Pyright will still catch any type errors.
-exclude = ["src/imagekitio/_files.py", "_dev/.*.py", "tests/.*"]
+#
+# Dummy resource exists only to force shared models into the SDK; its
+# TypedDict aggregates mutually recursive overlay types and crashes mypy.
+exclude = [
+  "src/imagekitio/_files.py",
+  "_dev/.*.py",
+  "tests/.*",
+  "src/imagekitio/types/dummy_create_params.py",
+  "src/imagekitio/resources/dummy.py",
+]
 
 strict_equality = true
 implicit_reexport = true
@@ -209,6 +218,16 @@ disable_error_code = "func-returns-value,overload-cannot-match"
 module = "black.files.*"
 ignore_errors = true
 ignore_missing_imports = true
+
+# Client imports dummy (for shared-model codegen). exclude alone is not enough —
+# mypy still follows that import and crashes on the cyclic TypedDict.
+[[tool.mypy.overrides]]
+module = [
+  "imagekitio.types.dummy_create_params",
+  "imagekitio.resources.dummy",
+]
+ignore_errors = true
+follow_imports = "skip"
 
 
 [tool.ruff]
