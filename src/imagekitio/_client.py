@@ -46,6 +46,7 @@ if TYPE_CHECKING:
         folders,
         accounts,
         saved_extensions,
+        named_transformations,
         custom_metadata_fields,
     )
     from .lib.helper import HelperResource, AsyncHelperResource
@@ -58,6 +59,7 @@ if TYPE_CHECKING:
     from .resources.folders.folders import FoldersResource, AsyncFoldersResource
     from .resources.saved_extensions import SavedExtensionsResource, AsyncSavedExtensionsResource
     from .resources.accounts.accounts import AccountsResource, AsyncAccountsResource
+    from .resources.named_transformations import NamedTransformationsResource, AsyncNamedTransformationsResource
     from .resources.custom_metadata_fields import CustomMetadataFieldsResource, AsyncCustomMetadataFieldsResource
 
 __all__ = [
@@ -175,6 +177,12 @@ class ImageKit(SyncAPIClient):
         from .resources.saved_extensions import SavedExtensionsResource
 
         return SavedExtensionsResource(self)
+
+    @cached_property
+    def named_transformations(self) -> NamedTransformationsResource:
+        from .resources.named_transformations import NamedTransformationsResource
+
+        return NamedTransformationsResource(self)
 
     @cached_property
     def assets(self) -> AssetsResource:
@@ -454,6 +462,12 @@ class AsyncImageKit(AsyncAPIClient):
         return AsyncSavedExtensionsResource(self)
 
     @cached_property
+    def named_transformations(self) -> AsyncNamedTransformationsResource:
+        from .resources.named_transformations import AsyncNamedTransformationsResource
+
+        return AsyncNamedTransformationsResource(self)
+
+    @cached_property
     def assets(self) -> AsyncAssetsResource:
         from .resources.assets import AsyncAssetsResource
 
@@ -657,6 +671,12 @@ class ImageKitWithRawResponse:
         return SavedExtensionsResourceWithRawResponse(self._client.saved_extensions)
 
     @cached_property
+    def named_transformations(self) -> named_transformations.NamedTransformationsResourceWithRawResponse:
+        from .resources.named_transformations import NamedTransformationsResourceWithRawResponse
+
+        return NamedTransformationsResourceWithRawResponse(self._client.named_transformations)
+
+    @cached_property
     def assets(self) -> assets.AssetsResourceWithRawResponse:
         from .resources.assets import AssetsResourceWithRawResponse
 
@@ -716,6 +736,12 @@ class AsyncImageKitWithRawResponse:
         from .resources.saved_extensions import AsyncSavedExtensionsResourceWithRawResponse
 
         return AsyncSavedExtensionsResourceWithRawResponse(self._client.saved_extensions)
+
+    @cached_property
+    def named_transformations(self) -> named_transformations.AsyncNamedTransformationsResourceWithRawResponse:
+        from .resources.named_transformations import AsyncNamedTransformationsResourceWithRawResponse
+
+        return AsyncNamedTransformationsResourceWithRawResponse(self._client.named_transformations)
 
     @cached_property
     def assets(self) -> assets.AsyncAssetsResourceWithRawResponse:
@@ -779,6 +805,12 @@ class ImageKitWithStreamedResponse:
         return SavedExtensionsResourceWithStreamingResponse(self._client.saved_extensions)
 
     @cached_property
+    def named_transformations(self) -> named_transformations.NamedTransformationsResourceWithStreamingResponse:
+        from .resources.named_transformations import NamedTransformationsResourceWithStreamingResponse
+
+        return NamedTransformationsResourceWithStreamingResponse(self._client.named_transformations)
+
+    @cached_property
     def assets(self) -> assets.AssetsResourceWithStreamingResponse:
         from .resources.assets import AssetsResourceWithStreamingResponse
 
@@ -838,6 +870,12 @@ class AsyncImageKitWithStreamedResponse:
         from .resources.saved_extensions import AsyncSavedExtensionsResourceWithStreamingResponse
 
         return AsyncSavedExtensionsResourceWithStreamingResponse(self._client.saved_extensions)
+
+    @cached_property
+    def named_transformations(self) -> named_transformations.AsyncNamedTransformationsResourceWithStreamingResponse:
+        from .resources.named_transformations import AsyncNamedTransformationsResourceWithStreamingResponse
+
+        return AsyncNamedTransformationsResourceWithStreamingResponse(self._client.named_transformations)
 
     @cached_property
     def assets(self) -> assets.AsyncAssetsResourceWithStreamingResponse:
