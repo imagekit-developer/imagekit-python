@@ -197,10 +197,10 @@ class NamedTransformationsResource(SyncAPIResource):
         - If another named transformation, or your account's upload
           pre-transformation/post-transformation settings, reference this named
           transformation (via the `n-<name>` token), the request fails with a `409`
-          error and the response body includes a `references` array describing where it
-          is used. Remove those references first, then retry the deletion. This is a
-          best-effort check and cannot detect references baked into your own application
-          code or previously generated URLs.
+          error whose `message` describes what it is referenced by. Remove those
+          references first, then retry the deletion. This is a best-effort check and
+          cannot detect references baked into your own application code or previously
+          generated URLs.
 
         Args:
           extra_headers: Send extra headers
@@ -430,10 +430,10 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         - If another named transformation, or your account's upload
           pre-transformation/post-transformation settings, reference this named
           transformation (via the `n-<name>` token), the request fails with a `409`
-          error and the response body includes a `references` array describing where it
-          is used. Remove those references first, then retry the deletion. This is a
-          best-effort check and cannot detect references baked into your own application
-          code or previously generated URLs.
+          error whose `message` describes what it is referenced by. Remove those
+          references first, then retry the deletion. This is a best-effort check and
+          cannot detect references baked into your own application code or previously
+          generated URLs.
 
         Args:
           extra_headers: Send extra headers
