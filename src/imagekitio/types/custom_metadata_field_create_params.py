@@ -28,6 +28,13 @@ class CustomMetadataFieldCreateParams(TypedDict, total=False):
 
     schema: Required[Schema]
 
+    description: str
+    """Optional description for the custom metadata field.
+
+    Can be up to 500 characters. This is shown as a hint to the users while setting
+    the field's value on an asset in the media library UI.
+    """
+
 
 class Schema(TypedDict, total=False):
     type: Required[Literal["Text", "Textarea", "Number", "Date", "Boolean", "SingleSelect", "MultiSelect"]]
