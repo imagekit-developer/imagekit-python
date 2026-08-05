@@ -53,6 +53,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
         label: str,
         name: str,
         schema: custom_metadata_field_create_params.Schema,
+        description: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -76,6 +77,10 @@ class CustomMetadataFieldsResource(SyncAPIResource):
           name: API name of the custom metadata field. This should be unique across all
               (including deleted) custom metadata fields.
 
+          description: Optional description for the custom metadata field. Can be up to 500 characters.
+              This is shown as a hint to the users while setting the field's value on an asset
+              in the media library UI.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -91,6 +96,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
                     "label": label,
                     "name": name,
                     "schema": schema,
+                    "description": description,
                 },
                 custom_metadata_field_create_params.CustomMetadataFieldCreateParams,
             ),
@@ -104,6 +110,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        description: str | Omit = omit,
         label: str | Omit = omit,
         schema: custom_metadata_field_update_params.Schema | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -114,9 +121,15 @@ class CustomMetadataFieldsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomMetadataField:
         """
-        This API updates the label or schema of an existing custom metadata field.
+        This API updates the label, description, or schema of an existing custom
+        metadata field.
 
         Args:
+          description: Optional description for the custom metadata field. Can be up to 500 characters.
+              Send an empty string to clear an existing description. This is shown as a hint
+              to the users while setting the field's value on an asset in the media library
+              UI.
+
           label: Human readable name of the custom metadata field. This should be unique across
               all non deleted custom metadata fields. This name is displayed as form field
               label to the users while setting field value on an asset in the media library
@@ -141,6 +154,7 @@ class CustomMetadataFieldsResource(SyncAPIResource):
             path_template("/v1/customMetadataFields/{id}", id=id),
             body=maybe_transform(
                 {
+                    "description": description,
                     "label": label,
                     "schema": schema,
                 },
@@ -271,6 +285,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
         label: str,
         name: str,
         schema: custom_metadata_field_create_params.Schema,
+        description: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -294,6 +309,10 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
           name: API name of the custom metadata field. This should be unique across all
               (including deleted) custom metadata fields.
 
+          description: Optional description for the custom metadata field. Can be up to 500 characters.
+              This is shown as a hint to the users while setting the field's value on an asset
+              in the media library UI.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -309,6 +328,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
                     "label": label,
                     "name": name,
                     "schema": schema,
+                    "description": description,
                 },
                 custom_metadata_field_create_params.CustomMetadataFieldCreateParams,
             ),
@@ -322,6 +342,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        description: str | Omit = omit,
         label: str | Omit = omit,
         schema: custom_metadata_field_update_params.Schema | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -332,9 +353,15 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomMetadataField:
         """
-        This API updates the label or schema of an existing custom metadata field.
+        This API updates the label, description, or schema of an existing custom
+        metadata field.
 
         Args:
+          description: Optional description for the custom metadata field. Can be up to 500 characters.
+              Send an empty string to clear an existing description. This is shown as a hint
+              to the users while setting the field's value on an asset in the media library
+              UI.
+
           label: Human readable name of the custom metadata field. This should be unique across
               all non deleted custom metadata fields. This name is displayed as form field
               label to the users while setting field value on an asset in the media library
@@ -359,6 +386,7 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
             path_template("/v1/customMetadataFields/{id}", id=id),
             body=await async_maybe_transform(
                 {
+                    "description": description,
                     "label": label,
                     "schema": schema,
                 },
