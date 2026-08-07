@@ -47,7 +47,7 @@ class NamedTransformationsResource(SyncAPIResource):
         *,
         name: str,
         transformation: str,
-        disabled: bool | Omit = omit,
+        enabled: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -65,18 +65,24 @@ class NamedTransformationsResource(SyncAPIResource):
         Learn more about
         [named transformations](https://imagekit.io/docs/transformations#named-transformations).
 
+        **Note:** You can create up to 250 named transformations per account. Once this
+        limit is reached, the request fails with a `400` error.
+
         Args:
           name: Name of the named transformation. This is the alias used to refer to the
               transformation string in image and video URLs, for example `tr:n-<name>`. Can
-              only contain alphanumeric characters, `_` and `-`, and must be unique for your
-              account (case-insensitive).
+              only contain alphanumeric characters or `_` (hyphens are not allowed), and must
+              be unique for your account. Name matching is case-sensitive, so
+              `Small_Thumbnail` and `small_thumbnail` are treated as different names.
 
-          transformation: The transformation string this name refers to. It must start with `tr:` followed
-              by one or more transformation parameters, for example
-              `tr:w-150,h-150,fo-center,cm-resize`. Learn more about the
+          transformation: The transformation this name refers to, expressed as one or more comma-separated
+              transformation parameters, for example `w-150,h-150,fo-center,cm-resize`. You do
+              not need to prefix this with `tr:` — it is added automatically. If you do
+              include it, it must appear in lowercase at the start of the string, or the
+              request is rejected. Learn more about the
               [transformation syntax](https://imagekit.io/docs/transformations).
 
-          disabled: Whether this named transformation is disabled. Set to `true` to temporarily
+          enabled: Whether this named transformation is enabled. Set to `false` to temporarily
               disable it without deleting it — requests using a disabled named transformation
               fail at delivery time.
 
@@ -94,7 +100,7 @@ class NamedTransformationsResource(SyncAPIResource):
                 {
                     "name": name,
                     "transformation": transformation,
-                    "disabled": disabled,
+                    "enabled": enabled,
                 },
                 named_transformation_create_params.NamedTransformationCreateParams,
             ),
@@ -108,7 +114,7 @@ class NamedTransformationsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        disabled: bool | Omit = omit,
+        enabled: bool | Omit = omit,
         name: str | Omit = omit,
         transformation: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -123,14 +129,30 @@ class NamedTransformationsResource(SyncAPIResource):
         object. Only the fields present in the request body are updated; omitted fields
         are left unchanged.
 
+        **Note:**
+
+        - If you rename this named transformation, or set `enabled` to `false`, and
+          another _enabled_ named transformation, or your account's upload
+          pre-transformation/post-transformation settings, reference it (via the
+          `n-<name>` token), the request fails with a `409` error whose `message`
+          describes what it is referenced by. A reference from a named transformation
+          that is itself disabled does not block this request. Remove or disable those
+          references first, then retry. This is a best-effort check and cannot detect
+          references baked into your own application code or previously generated URLs.
+
         Args:
-          disabled: Whether this named transformation is disabled.
+          enabled: Whether this named transformation is enabled. If omitted, the existing value is
+              left unchanged.
 
           name: Updated name of the named transformation. Can only contain alphanumeric
-              characters, `_` and `-`, and must be unique for your account (case-insensitive).
+              characters and `_`, and must be unique for your account. Name matching is
+              case-sensitive, so `Small_Thumbnail` and `small_thumbnail` are treated as
+              different names.
 
-          transformation: Updated transformation string. It must start with `tr:` followed by one or more
-              transformation parameters.
+          transformation: Updated transformation, expressed as one or more comma-separated transformation
+              parameters. You do not need to prefix this with `tr:` — it is added
+              automatically. If you do include it, it must appear in lowercase at the start of
+              the string, or the request is rejected.
 
           extra_headers: Send extra headers
 
@@ -146,7 +168,7 @@ class NamedTransformationsResource(SyncAPIResource):
             path_template("/v1/named-transformations/{id}", id=id),
             body=maybe_transform(
                 {
-                    "disabled": disabled,
+                    "enabled": enabled,
                     "name": name,
                     "transformation": transformation,
                 },
@@ -194,13 +216,14 @@ class NamedTransformationsResource(SyncAPIResource):
 
         **Note:**
 
-        - If another named transformation, or your account's upload
+        - If another _enabled_ named transformation, or your account's upload
           pre-transformation/post-transformation settings, reference this named
           transformation (via the `n-<name>` token), the request fails with a `409`
-          error whose `message` describes what it is referenced by. Remove those
-          references first, then retry the deletion. This is a best-effort check and
-          cannot detect references baked into your own application code or previously
-          generated URLs.
+          error whose `message` describes what it is referenced by. A reference from a
+          named transformation that is itself disabled does not block this request.
+          Remove or disable those references first, then retry the deletion. This is a
+          best-effort check and cannot detect references baked into your own application
+          code or previously generated URLs.
 
         Args:
           extra_headers: Send extra headers
@@ -280,7 +303,7 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         *,
         name: str,
         transformation: str,
-        disabled: bool | Omit = omit,
+        enabled: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -298,18 +321,24 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         Learn more about
         [named transformations](https://imagekit.io/docs/transformations#named-transformations).
 
+        **Note:** You can create up to 250 named transformations per account. Once this
+        limit is reached, the request fails with a `400` error.
+
         Args:
           name: Name of the named transformation. This is the alias used to refer to the
               transformation string in image and video URLs, for example `tr:n-<name>`. Can
-              only contain alphanumeric characters, `_` and `-`, and must be unique for your
-              account (case-insensitive).
+              only contain alphanumeric characters or `_` (hyphens are not allowed), and must
+              be unique for your account. Name matching is case-sensitive, so
+              `Small_Thumbnail` and `small_thumbnail` are treated as different names.
 
-          transformation: The transformation string this name refers to. It must start with `tr:` followed
-              by one or more transformation parameters, for example
-              `tr:w-150,h-150,fo-center,cm-resize`. Learn more about the
+          transformation: The transformation this name refers to, expressed as one or more comma-separated
+              transformation parameters, for example `w-150,h-150,fo-center,cm-resize`. You do
+              not need to prefix this with `tr:` — it is added automatically. If you do
+              include it, it must appear in lowercase at the start of the string, or the
+              request is rejected. Learn more about the
               [transformation syntax](https://imagekit.io/docs/transformations).
 
-          disabled: Whether this named transformation is disabled. Set to `true` to temporarily
+          enabled: Whether this named transformation is enabled. Set to `false` to temporarily
               disable it without deleting it — requests using a disabled named transformation
               fail at delivery time.
 
@@ -327,7 +356,7 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
                 {
                     "name": name,
                     "transformation": transformation,
-                    "disabled": disabled,
+                    "enabled": enabled,
                 },
                 named_transformation_create_params.NamedTransformationCreateParams,
             ),
@@ -341,7 +370,7 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        disabled: bool | Omit = omit,
+        enabled: bool | Omit = omit,
         name: str | Omit = omit,
         transformation: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -356,14 +385,30 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         object. Only the fields present in the request body are updated; omitted fields
         are left unchanged.
 
+        **Note:**
+
+        - If you rename this named transformation, or set `enabled` to `false`, and
+          another _enabled_ named transformation, or your account's upload
+          pre-transformation/post-transformation settings, reference it (via the
+          `n-<name>` token), the request fails with a `409` error whose `message`
+          describes what it is referenced by. A reference from a named transformation
+          that is itself disabled does not block this request. Remove or disable those
+          references first, then retry. This is a best-effort check and cannot detect
+          references baked into your own application code or previously generated URLs.
+
         Args:
-          disabled: Whether this named transformation is disabled.
+          enabled: Whether this named transformation is enabled. If omitted, the existing value is
+              left unchanged.
 
           name: Updated name of the named transformation. Can only contain alphanumeric
-              characters, `_` and `-`, and must be unique for your account (case-insensitive).
+              characters and `_`, and must be unique for your account. Name matching is
+              case-sensitive, so `Small_Thumbnail` and `small_thumbnail` are treated as
+              different names.
 
-          transformation: Updated transformation string. It must start with `tr:` followed by one or more
-              transformation parameters.
+          transformation: Updated transformation, expressed as one or more comma-separated transformation
+              parameters. You do not need to prefix this with `tr:` — it is added
+              automatically. If you do include it, it must appear in lowercase at the start of
+              the string, or the request is rejected.
 
           extra_headers: Send extra headers
 
@@ -379,7 +424,7 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
             path_template("/v1/named-transformations/{id}", id=id),
             body=await async_maybe_transform(
                 {
-                    "disabled": disabled,
+                    "enabled": enabled,
                     "name": name,
                     "transformation": transformation,
                 },
@@ -427,13 +472,14 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
 
         **Note:**
 
-        - If another named transformation, or your account's upload
+        - If another _enabled_ named transformation, or your account's upload
           pre-transformation/post-transformation settings, reference this named
           transformation (via the `n-<name>` token), the request fails with a `409`
-          error whose `message` describes what it is referenced by. Remove those
-          references first, then retry the deletion. This is a best-effort check and
-          cannot detect references baked into your own application code or previously
-          generated URLs.
+          error whose `message` describes what it is referenced by. A reference from a
+          named transformation that is itself disabled does not block this request.
+          Remove or disable those references first, then retry the deletion. This is a
+          best-effort check and cannot detect references baked into your own application
+          code or previously generated URLs.
 
         Args:
           extra_headers: Send extra headers

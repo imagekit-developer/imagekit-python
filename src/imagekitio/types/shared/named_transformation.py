@@ -22,10 +22,10 @@ class NamedTransformation(BaseModel):
     """
 
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
-    """Timestamp when the named transformation was created."""
+    """Timestamp (ISO string) when the named transformation was created."""
 
-    disabled: Optional[bool] = None
-    """Whether this named transformation is currently disabled."""
+    enabled: Optional[bool] = None
+    """Whether this named transformation is currently enabled."""
 
     name: Optional[str] = None
     """
@@ -33,4 +33,8 @@ class NamedTransformation(BaseModel):
     """
 
     transformation: Optional[str] = None
-    """The transformation string this name refers to."""
+    """The transformation this name refers to.
+
+    Always returned with the `tr:` prefix included, regardless of whether you
+    supplied it when creating or updating the named transformation.
+    """

@@ -25,7 +25,7 @@ class TestNamedTransformations:
     def test_method_create(self, client: ImageKit) -> None:
         named_transformation = client.named_transformations.create(
             name="small_thumbnail",
-            transformation="tr:w-150,h-150,fo-center,cm-resize",
+            transformation="w-150,h-150,fo-center,cm-resize",
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
 
@@ -34,8 +34,8 @@ class TestNamedTransformations:
     def test_method_create_with_all_params(self, client: ImageKit) -> None:
         named_transformation = client.named_transformations.create(
             name="small_thumbnail",
-            transformation="tr:w-150,h-150,fo-center,cm-resize",
-            disabled=False,
+            transformation="w-150,h-150,fo-center,cm-resize",
+            enabled=True,
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
 
@@ -44,7 +44,7 @@ class TestNamedTransformations:
     def test_raw_response_create(self, client: ImageKit) -> None:
         response = client.named_transformations.with_raw_response.create(
             name="small_thumbnail",
-            transformation="tr:w-150,h-150,fo-center,cm-resize",
+            transformation="w-150,h-150,fo-center,cm-resize",
         )
 
         assert response.is_closed is True
@@ -57,7 +57,7 @@ class TestNamedTransformations:
     def test_streaming_response_create(self, client: ImageKit) -> None:
         with client.named_transformations.with_streaming_response.create(
             name="small_thumbnail",
-            transformation="tr:w-150,h-150,fo-center,cm-resize",
+            transformation="w-150,h-150,fo-center,cm-resize",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -80,9 +80,9 @@ class TestNamedTransformations:
     def test_method_update_with_all_params(self, client: ImageKit) -> None:
         named_transformation = client.named_transformations.update(
             id="id",
-            disabled=True,
+            enabled=True,
             name="small_thumbnail_v2",
-            transformation="tr:w-200,h-200,fo-center,cm-resize",
+            transformation="w-200,h-200,fo-center,cm-resize",
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
 
@@ -243,7 +243,7 @@ class TestAsyncNamedTransformations:
     async def test_method_create(self, async_client: AsyncImageKit) -> None:
         named_transformation = await async_client.named_transformations.create(
             name="small_thumbnail",
-            transformation="tr:w-150,h-150,fo-center,cm-resize",
+            transformation="w-150,h-150,fo-center,cm-resize",
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
 
@@ -252,8 +252,8 @@ class TestAsyncNamedTransformations:
     async def test_method_create_with_all_params(self, async_client: AsyncImageKit) -> None:
         named_transformation = await async_client.named_transformations.create(
             name="small_thumbnail",
-            transformation="tr:w-150,h-150,fo-center,cm-resize",
-            disabled=False,
+            transformation="w-150,h-150,fo-center,cm-resize",
+            enabled=True,
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
 
@@ -262,7 +262,7 @@ class TestAsyncNamedTransformations:
     async def test_raw_response_create(self, async_client: AsyncImageKit) -> None:
         response = await async_client.named_transformations.with_raw_response.create(
             name="small_thumbnail",
-            transformation="tr:w-150,h-150,fo-center,cm-resize",
+            transformation="w-150,h-150,fo-center,cm-resize",
         )
 
         assert response.is_closed is True
@@ -275,7 +275,7 @@ class TestAsyncNamedTransformations:
     async def test_streaming_response_create(self, async_client: AsyncImageKit) -> None:
         async with async_client.named_transformations.with_streaming_response.create(
             name="small_thumbnail",
-            transformation="tr:w-150,h-150,fo-center,cm-resize",
+            transformation="w-150,h-150,fo-center,cm-resize",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -298,9 +298,9 @@ class TestAsyncNamedTransformations:
     async def test_method_update_with_all_params(self, async_client: AsyncImageKit) -> None:
         named_transformation = await async_client.named_transformations.update(
             id="id",
-            disabled=True,
+            enabled=True,
             name="small_thumbnail_v2",
-            transformation="tr:w-200,h-200,fo-center,cm-resize",
+            transformation="w-200,h-200,fo-center,cm-resize",
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
 
