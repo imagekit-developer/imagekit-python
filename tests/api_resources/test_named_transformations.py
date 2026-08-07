@@ -81,7 +81,7 @@ class TestNamedTransformations:
         named_transformation = client.named_transformations.update(
             id="id",
             enabled=True,
-            name="small_thumbnail_v2",
+            name="small_thumbnail",
             transformation="w-200,h-200,fo-center,cm-resize",
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
@@ -299,7 +299,7 @@ class TestAsyncNamedTransformations:
         named_transformation = await async_client.named_transformations.update(
             id="id",
             enabled=True,
-            name="small_thumbnail_v2",
+            name="small_thumbnail",
             transformation="w-200,h-200,fo-center,cm-resize",
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
