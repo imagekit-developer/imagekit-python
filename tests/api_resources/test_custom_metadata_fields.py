@@ -47,6 +47,7 @@ class TestCustomMetadataFields:
                 "min_value": 1000,
                 "select_options": ["small", "medium", "large", 30, 40, True],
             },
+            description="description",
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
@@ -93,6 +94,7 @@ class TestCustomMetadataFields:
     def test_method_update_with_all_params(self, client: ImageKit) -> None:
         custom_metadata_field = client.custom_metadata_fields.update(
             id="id",
+            description="description",
             label="price",
             schema={
                 "default_value": [True, 10, "Hello"],
@@ -251,6 +253,7 @@ class TestAsyncCustomMetadataFields:
                 "min_value": 1000,
                 "select_options": ["small", "medium", "large", 30, 40, True],
             },
+            description="description",
         )
         assert_matches_type(CustomMetadataField, custom_metadata_field, path=["response"])
 
@@ -297,6 +300,7 @@ class TestAsyncCustomMetadataFields:
     async def test_method_update_with_all_params(self, async_client: AsyncImageKit) -> None:
         custom_metadata_field = await async_client.custom_metadata_fields.update(
             id="id",
+            description="description",
             label="price",
             schema={
                 "default_value": [True, 10, "Hello"],
