@@ -75,3 +75,10 @@ class CustomMetadataField(BaseModel):
 
     schema_: Schema = FieldInfo(alias="schema")
     """An object that describes the rules for the custom metadata field value."""
+
+    description: Optional[str] = None
+    """Optional description of the custom metadata field.
+
+    Only present when a description has been set. Shown as a hint to the users while
+    setting the field's value on an asset in the media library UI.
+    """

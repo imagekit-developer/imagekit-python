@@ -69,14 +69,6 @@ from .saved_extensions import (
     SavedExtensionsResourceWithStreamingResponse,
     AsyncSavedExtensionsResourceWithStreamingResponse,
 )
-from .named_transformations import (
-    NamedTransformationsResource,
-    AsyncNamedTransformationsResource,
-    NamedTransformationsResourceWithRawResponse,
-    AsyncNamedTransformationsResourceWithRawResponse,
-    NamedTransformationsResourceWithStreamingResponse,
-    AsyncNamedTransformationsResourceWithStreamingResponse,
-)
 from .custom_metadata_fields import (
     CustomMetadataFieldsResource,
     AsyncCustomMetadataFieldsResource,
@@ -111,12 +103,6 @@ __all__ = [
     "AsyncSavedExtensionsResourceWithRawResponse",
     "SavedExtensionsResourceWithStreamingResponse",
     "AsyncSavedExtensionsResourceWithStreamingResponse",
-    "NamedTransformationsResource",
-    "AsyncNamedTransformationsResource",
-    "NamedTransformationsResourceWithRawResponse",
-    "AsyncNamedTransformationsResourceWithRawResponse",
-    "NamedTransformationsResourceWithStreamingResponse",
-    "AsyncNamedTransformationsResourceWithStreamingResponse",
     "AssetsResource",
     "AsyncAssetsResource",
     "AssetsResourceWithRawResponse",
