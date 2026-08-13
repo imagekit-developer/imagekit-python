@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 
 from ..types import named_transformation_create_params, named_transformation_update_params
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -18,7 +18,6 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.shared.named_transformation import NamedTransformation
 from ..types.named_transformation_list_response import NamedTransformationListResponse
-from ..types.named_transformation_delete_response import NamedTransformationDeleteResponse
 
 __all__ = ["NamedTransformationsResource", "AsyncNamedTransformationsResource"]
 
@@ -193,7 +192,7 @@ class NamedTransformationsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> NamedTransformationDeleteResponse:
+    ) -> None:
         """
         Permanently deletes the named transformation identified by `id`.
 
@@ -215,12 +214,13 @@ class NamedTransformationsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             path_template("/v1/named-transformations/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NamedTransformationDeleteResponse,
+            cast_to=NoneType,
         )
 
     def get(
@@ -429,7 +429,7 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> NamedTransformationDeleteResponse:
+    ) -> None:
         """
         Permanently deletes the named transformation identified by `id`.
 
@@ -451,12 +451,13 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             path_template("/v1/named-transformations/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NamedTransformationDeleteResponse,
+            cast_to=NoneType,
         )
 
     async def get(

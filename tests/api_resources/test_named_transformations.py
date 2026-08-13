@@ -11,7 +11,6 @@ from imagekitio import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
 from imagekitio.types import (
     NamedTransformationListResponse,
-    NamedTransformationDeleteResponse,
 )
 from imagekitio.types.shared import NamedTransformation
 
@@ -155,7 +154,7 @@ class TestNamedTransformations:
         named_transformation = client.named_transformations.delete(
             "6bZ9x2ZUx",
         )
-        assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
+        assert named_transformation is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -167,7 +166,7 @@ class TestNamedTransformations:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         named_transformation = response.parse()
-        assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
+        assert named_transformation is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -179,7 +178,7 @@ class TestNamedTransformations:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             named_transformation = response.parse()
-            assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
+            assert named_transformation is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -373,7 +372,7 @@ class TestAsyncNamedTransformations:
         named_transformation = await async_client.named_transformations.delete(
             "6bZ9x2ZUx",
         )
-        assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
+        assert named_transformation is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -385,7 +384,7 @@ class TestAsyncNamedTransformations:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         named_transformation = await response.parse()
-        assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
+        assert named_transformation is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -397,7 +396,7 @@ class TestAsyncNamedTransformations:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             named_transformation = await response.parse()
-            assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
+            assert named_transformation is None
 
         assert cast(Any, response.is_closed) is True
 
