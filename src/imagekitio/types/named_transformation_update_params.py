@@ -17,15 +17,13 @@ class NamedTransformationUpdateParams(TypedDict, total=False):
     name: str
     """Alias for the transformation string, used in URLs as `tr:n-<name>`.
 
-    Must contain only alphanumeric characters or `_` (no hyphens), and be unique for
-    your account. Name matching is case-sensitive.
+    This is case-sensitive, contains only alphanumeric characters or `_`
+    (underscore), and is unique across all named transformations for your account.
     """
 
     transformation: str
-    """
-    The transformation string this name refers to, for example
-    `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional; if present, it
-    is validated. The string must be a valid ImageKit transformation and cannot
-    itself reference another named transformation (no nesting). Learn more about the
-    [transformation syntax](https://imagekit.io/docs/transformations).
+    """The transformation string this named transformation refers to.
+
+    Learn more about the
+    [transformation string syntax](https://imagekit.io/docs/transformations).
     """

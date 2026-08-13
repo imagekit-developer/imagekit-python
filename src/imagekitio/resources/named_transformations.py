@@ -67,19 +67,15 @@ class NamedTransformationsResource(SyncAPIResource):
         You can create up to 250 named transformations per account.
 
         Args:
-          name: Alias for the transformation string, used in URLs as `tr:n-<name>`. Must contain
-              only alphanumeric characters or `_` (no hyphens), and be unique for your
-              account. Name matching is case-sensitive.
+          name: Alias for the transformation string, used in URLs as `tr:n-<name>`. This is
+              case-sensitive, contains only alphanumeric characters or `_` (underscore), and
+              is unique across all named transformations for your account.
 
-          transformation: The transformation string this name refers to, for example
-              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional; if present, it
-              is validated. The string must be a valid ImageKit transformation and cannot
-              itself reference another named transformation (no nesting). Learn more about the
-              [transformation syntax](https://imagekit.io/docs/transformations).
+          transformation: The transformation string this named transformation refers to. Learn more about
+              the [transformation string syntax](https://imagekit.io/docs/transformations).
 
-          enabled: Whether the named transformation is currently enabled. When this is set to
-              `false`, requests using such disabled named transformations fail at delivery
-              time.
+          enabled: Whether the named transformation is currently enabled. When set to `false`,
+              requests using this named transformation fail at delivery time.
 
           extra_headers: Send extra headers
 
@@ -135,15 +131,12 @@ class NamedTransformationsResource(SyncAPIResource):
           enabled: Whether the named transformation is enabled. Omit to leave the current value
               unchanged.
 
-          name: Alias for the transformation string, used in URLs as `tr:n-<name>`. Must contain
-              only alphanumeric characters or `_` (no hyphens), and be unique for your
-              account. Name matching is case-sensitive.
+          name: Alias for the transformation string, used in URLs as `tr:n-<name>`. This is
+              case-sensitive, contains only alphanumeric characters or `_` (underscore), and
+              is unique across all named transformations for your account.
 
-          transformation: The transformation string this name refers to, for example
-              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional; if present, it
-              is validated. The string must be a valid ImageKit transformation and cannot
-              itself reference another named transformation (no nesting). Learn more about the
-              [transformation syntax](https://imagekit.io/docs/transformations).
+          transformation: The transformation string this named transformation refers to. Learn more about
+              the [transformation string syntax](https://imagekit.io/docs/transformations).
 
           extra_headers: Send extra headers
 
@@ -310,19 +303,15 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         You can create up to 250 named transformations per account.
 
         Args:
-          name: Alias for the transformation string, used in URLs as `tr:n-<name>`. Must contain
-              only alphanumeric characters or `_` (no hyphens), and be unique for your
-              account. Name matching is case-sensitive.
+          name: Alias for the transformation string, used in URLs as `tr:n-<name>`. This is
+              case-sensitive, contains only alphanumeric characters or `_` (underscore), and
+              is unique across all named transformations for your account.
 
-          transformation: The transformation string this name refers to, for example
-              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional; if present, it
-              is validated. The string must be a valid ImageKit transformation and cannot
-              itself reference another named transformation (no nesting). Learn more about the
-              [transformation syntax](https://imagekit.io/docs/transformations).
+          transformation: The transformation string this named transformation refers to. Learn more about
+              the [transformation string syntax](https://imagekit.io/docs/transformations).
 
-          enabled: Whether the named transformation is currently enabled. When this is set to
-              `false`, requests using such disabled named transformations fail at delivery
-              time.
+          enabled: Whether the named transformation is currently enabled. When set to `false`,
+              requests using this named transformation fail at delivery time.
 
           extra_headers: Send extra headers
 
@@ -378,15 +367,12 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
           enabled: Whether the named transformation is enabled. Omit to leave the current value
               unchanged.
 
-          name: Alias for the transformation string, used in URLs as `tr:n-<name>`. Must contain
-              only alphanumeric characters or `_` (no hyphens), and be unique for your
-              account. Name matching is case-sensitive.
+          name: Alias for the transformation string, used in URLs as `tr:n-<name>`. This is
+              case-sensitive, contains only alphanumeric characters or `_` (underscore), and
+              is unique across all named transformations for your account.
 
-          transformation: The transformation string this name refers to, for example
-              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional; if present, it
-              is validated. The string must be a valid ImageKit transformation and cannot
-              itself reference another named transformation (no nesting). Learn more about the
-              [transformation syntax](https://imagekit.io/docs/transformations).
+          transformation: The transformation string this named transformation refers to. Learn more about
+              the [transformation string syntax](https://imagekit.io/docs/transformations).
 
           extra_headers: Send extra headers
 
