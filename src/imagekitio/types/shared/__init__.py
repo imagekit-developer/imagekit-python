@@ -14,6 +14,7 @@ from .extension_config import ExtensionConfig as ExtensionConfig
 from .overlay_position import OverlayPosition as OverlayPosition
 from .subtitle_overlay import SubtitleOverlay as SubtitleOverlay
 from .solid_color_overlay import SolidColorOverlay as SolidColorOverlay
+from .named_transformation import NamedTransformation as NamedTransformation
 from .streaming_resolution import StreamingResolution as StreamingResolution
 from .transformation_position import TransformationPosition as TransformationPosition
 from .responsive_image_attributes import ResponsiveImageAttributes as ResponsiveImageAttributes
