@@ -18,6 +18,7 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.shared.named_transformation import NamedTransformation
 from ..types.named_transformation_list_response import NamedTransformationListResponse
+from ..types.named_transformation_delete_response import NamedTransformationDeleteResponse
 
 __all__ = ["NamedTransformationsResource", "AsyncNamedTransformationsResource"]
 
@@ -71,15 +72,14 @@ class NamedTransformationsResource(SyncAPIResource):
               account. Name matching is case-sensitive.
 
           transformation: The transformation string this name refers to, for example
-              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional — it's added
-              automatically if missing, and validated if present. The string must be a valid
-              ImageKit transformation and cannot itself reference another named transformation
-              (no nesting). Learn more about the
+              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional; if present, it
+              is validated. The string must be a valid ImageKit transformation and cannot
+              itself reference another named transformation (no nesting). Learn more about the
               [transformation syntax](https://imagekit.io/docs/transformations).
 
-          enabled: Whether the named transformation is enabled. Set to `false` to disable it
-              without deleting it; requests using a disabled named transformation fail at
-              delivery time.
+          enabled: Whether the named transformation is currently enabled. When this is set to
+              `false`, requests using such disabled named transformations fail at delivery
+              time.
 
           extra_headers: Send extra headers
 
@@ -130,6 +130,8 @@ class NamedTransformationsResource(SyncAPIResource):
         references in your own application code or in previously generated URLs.
 
         Args:
+          id: Unique identifier for a named transformation.
+
           enabled: Whether the named transformation is enabled. Omit to leave the current value
               unchanged.
 
@@ -138,10 +140,9 @@ class NamedTransformationsResource(SyncAPIResource):
               account. Name matching is case-sensitive.
 
           transformation: The transformation string this name refers to, for example
-              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional — it's added
-              automatically if missing, and validated if present. The string must be a valid
-              ImageKit transformation and cannot itself reference another named transformation
-              (no nesting). Learn more about the
+              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional; if present, it
+              is validated. The string must be a valid ImageKit transformation and cannot
+              itself reference another named transformation (no nesting). Learn more about the
               [transformation syntax](https://imagekit.io/docs/transformations).
 
           extra_headers: Send extra headers
@@ -199,10 +200,9 @@ class NamedTransformationsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> NamedTransformation:
+    ) -> NamedTransformationDeleteResponse:
         """
-        Permanently deletes the named transformation identified by `id` and returns the
-        deleted object.
+        Permanently deletes the named transformation identified by `id`.
 
         Deletion fails with a `409` error if the named transformation is still
         referenced (via the `n-<name>` token) by an upload pre-transformation or
@@ -210,6 +210,8 @@ class NamedTransformationsResource(SyncAPIResource):
         references in your own application code or in previously generated URLs.
 
         Args:
+          id: Unique identifier for a named transformation.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -225,7 +227,7 @@ class NamedTransformationsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NamedTransformation,
+            cast_to=NamedTransformationDeleteResponse,
         )
 
     def get(
@@ -243,6 +245,8 @@ class NamedTransformationsResource(SyncAPIResource):
         Retrieves the named transformation identified by `id`.
 
         Args:
+          id: Unique identifier for a named transformation.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -311,15 +315,14 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
               account. Name matching is case-sensitive.
 
           transformation: The transformation string this name refers to, for example
-              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional — it's added
-              automatically if missing, and validated if present. The string must be a valid
-              ImageKit transformation and cannot itself reference another named transformation
-              (no nesting). Learn more about the
+              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional; if present, it
+              is validated. The string must be a valid ImageKit transformation and cannot
+              itself reference another named transformation (no nesting). Learn more about the
               [transformation syntax](https://imagekit.io/docs/transformations).
 
-          enabled: Whether the named transformation is enabled. Set to `false` to disable it
-              without deleting it; requests using a disabled named transformation fail at
-              delivery time.
+          enabled: Whether the named transformation is currently enabled. When this is set to
+              `false`, requests using such disabled named transformations fail at delivery
+              time.
 
           extra_headers: Send extra headers
 
@@ -370,6 +373,8 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         references in your own application code or in previously generated URLs.
 
         Args:
+          id: Unique identifier for a named transformation.
+
           enabled: Whether the named transformation is enabled. Omit to leave the current value
               unchanged.
 
@@ -378,10 +383,9 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
               account. Name matching is case-sensitive.
 
           transformation: The transformation string this name refers to, for example
-              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional — it's added
-              automatically if missing, and validated if present. The string must be a valid
-              ImageKit transformation and cannot itself reference another named transformation
-              (no nesting). Learn more about the
+              `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional; if present, it
+              is validated. The string must be a valid ImageKit transformation and cannot
+              itself reference another named transformation (no nesting). Learn more about the
               [transformation syntax](https://imagekit.io/docs/transformations).
 
           extra_headers: Send extra headers
@@ -439,10 +443,9 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> NamedTransformation:
+    ) -> NamedTransformationDeleteResponse:
         """
-        Permanently deletes the named transformation identified by `id` and returns the
-        deleted object.
+        Permanently deletes the named transformation identified by `id`.
 
         Deletion fails with a `409` error if the named transformation is still
         referenced (via the `n-<name>` token) by an upload pre-transformation or
@@ -450,6 +453,8 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         references in your own application code or in previously generated URLs.
 
         Args:
+          id: Unique identifier for a named transformation.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -465,7 +470,7 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NamedTransformation,
+            cast_to=NamedTransformationDeleteResponse,
         )
 
     async def get(
@@ -483,6 +488,8 @@ class AsyncNamedTransformationsResource(AsyncAPIResource):
         Retrieves the named transformation identified by `id`.
 
         Args:
+          id: Unique identifier for a named transformation.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

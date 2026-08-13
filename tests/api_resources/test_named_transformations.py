@@ -11,6 +11,7 @@ from imagekitio import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
 from imagekitio.types import (
     NamedTransformationListResponse,
+    NamedTransformationDeleteResponse,
 )
 from imagekitio.types.shared import NamedTransformation
 
@@ -71,7 +72,7 @@ class TestNamedTransformations:
     @parametrize
     def test_method_update(self, client: ImageKit) -> None:
         named_transformation = client.named_transformations.update(
-            id="id",
+            id="6bZ9x2ZUx",
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
 
@@ -79,8 +80,8 @@ class TestNamedTransformations:
     @parametrize
     def test_method_update_with_all_params(self, client: ImageKit) -> None:
         named_transformation = client.named_transformations.update(
-            id="id",
-            enabled=True,
+            id="6bZ9x2ZUx",
+            enabled=False,
             name="small_thumbnail",
             transformation="w-200,h-200,fo-center,cm-resize",
         )
@@ -90,7 +91,7 @@ class TestNamedTransformations:
     @parametrize
     def test_raw_response_update(self, client: ImageKit) -> None:
         response = client.named_transformations.with_raw_response.update(
-            id="id",
+            id="6bZ9x2ZUx",
         )
 
         assert response.is_closed is True
@@ -102,7 +103,7 @@ class TestNamedTransformations:
     @parametrize
     def test_streaming_response_update(self, client: ImageKit) -> None:
         with client.named_transformations.with_streaming_response.update(
-            id="id",
+            id="6bZ9x2ZUx",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -152,33 +153,33 @@ class TestNamedTransformations:
     @parametrize
     def test_method_delete(self, client: ImageKit) -> None:
         named_transformation = client.named_transformations.delete(
-            "id",
+            "6bZ9x2ZUx",
         )
-        assert_matches_type(NamedTransformation, named_transformation, path=["response"])
+        assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: ImageKit) -> None:
         response = client.named_transformations.with_raw_response.delete(
-            "id",
+            "6bZ9x2ZUx",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         named_transformation = response.parse()
-        assert_matches_type(NamedTransformation, named_transformation, path=["response"])
+        assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: ImageKit) -> None:
         with client.named_transformations.with_streaming_response.delete(
-            "id",
+            "6bZ9x2ZUx",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             named_transformation = response.parse()
-            assert_matches_type(NamedTransformation, named_transformation, path=["response"])
+            assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -194,7 +195,7 @@ class TestNamedTransformations:
     @parametrize
     def test_method_get(self, client: ImageKit) -> None:
         named_transformation = client.named_transformations.get(
-            "id",
+            "6bZ9x2ZUx",
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
 
@@ -202,7 +203,7 @@ class TestNamedTransformations:
     @parametrize
     def test_raw_response_get(self, client: ImageKit) -> None:
         response = client.named_transformations.with_raw_response.get(
-            "id",
+            "6bZ9x2ZUx",
         )
 
         assert response.is_closed is True
@@ -214,7 +215,7 @@ class TestNamedTransformations:
     @parametrize
     def test_streaming_response_get(self, client: ImageKit) -> None:
         with client.named_transformations.with_streaming_response.get(
-            "id",
+            "6bZ9x2ZUx",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -289,7 +290,7 @@ class TestAsyncNamedTransformations:
     @parametrize
     async def test_method_update(self, async_client: AsyncImageKit) -> None:
         named_transformation = await async_client.named_transformations.update(
-            id="id",
+            id="6bZ9x2ZUx",
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
 
@@ -297,8 +298,8 @@ class TestAsyncNamedTransformations:
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncImageKit) -> None:
         named_transformation = await async_client.named_transformations.update(
-            id="id",
-            enabled=True,
+            id="6bZ9x2ZUx",
+            enabled=False,
             name="small_thumbnail",
             transformation="w-200,h-200,fo-center,cm-resize",
         )
@@ -308,7 +309,7 @@ class TestAsyncNamedTransformations:
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncImageKit) -> None:
         response = await async_client.named_transformations.with_raw_response.update(
-            id="id",
+            id="6bZ9x2ZUx",
         )
 
         assert response.is_closed is True
@@ -320,7 +321,7 @@ class TestAsyncNamedTransformations:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncImageKit) -> None:
         async with async_client.named_transformations.with_streaming_response.update(
-            id="id",
+            id="6bZ9x2ZUx",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -370,33 +371,33 @@ class TestAsyncNamedTransformations:
     @parametrize
     async def test_method_delete(self, async_client: AsyncImageKit) -> None:
         named_transformation = await async_client.named_transformations.delete(
-            "id",
+            "6bZ9x2ZUx",
         )
-        assert_matches_type(NamedTransformation, named_transformation, path=["response"])
+        assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncImageKit) -> None:
         response = await async_client.named_transformations.with_raw_response.delete(
-            "id",
+            "6bZ9x2ZUx",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         named_transformation = await response.parse()
-        assert_matches_type(NamedTransformation, named_transformation, path=["response"])
+        assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncImageKit) -> None:
         async with async_client.named_transformations.with_streaming_response.delete(
-            "id",
+            "6bZ9x2ZUx",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             named_transformation = await response.parse()
-            assert_matches_type(NamedTransformation, named_transformation, path=["response"])
+            assert_matches_type(NamedTransformationDeleteResponse, named_transformation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -412,7 +413,7 @@ class TestAsyncNamedTransformations:
     @parametrize
     async def test_method_get(self, async_client: AsyncImageKit) -> None:
         named_transformation = await async_client.named_transformations.get(
-            "id",
+            "6bZ9x2ZUx",
         )
         assert_matches_type(NamedTransformation, named_transformation, path=["response"])
 
@@ -420,7 +421,7 @@ class TestAsyncNamedTransformations:
     @parametrize
     async def test_raw_response_get(self, async_client: AsyncImageKit) -> None:
         response = await async_client.named_transformations.with_raw_response.get(
-            "id",
+            "6bZ9x2ZUx",
         )
 
         assert response.is_closed is True
@@ -432,7 +433,7 @@ class TestAsyncNamedTransformations:
     @parametrize
     async def test_streaming_response_get(self, async_client: AsyncImageKit) -> None:
         async with async_client.named_transformations.with_streaming_response.get(
-            "id",
+            "6bZ9x2ZUx",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

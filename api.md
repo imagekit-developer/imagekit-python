@@ -137,7 +137,7 @@ Methods:
 Types:
 
 ```python
-from imagekitio.types import NamedTransformationListResponse
+from imagekitio.types import NamedTransformationListResponse, NamedTransformationDeleteResponse
 ```
 
 Methods:
@@ -145,7 +145,7 @@ Methods:
 - <code title="post /v1/named-transformations">client.named_transformations.<a href="./src/imagekitio/resources/named_transformations.py">create</a>(\*\*<a href="src/imagekitio/types/named_transformation_create_params.py">params</a>) -> <a href="./src/imagekitio/types/shared/named_transformation.py">NamedTransformation</a></code>
 - <code title="patch /v1/named-transformations/{id}">client.named_transformations.<a href="./src/imagekitio/resources/named_transformations.py">update</a>(id, \*\*<a href="src/imagekitio/types/named_transformation_update_params.py">params</a>) -> <a href="./src/imagekitio/types/shared/named_transformation.py">NamedTransformation</a></code>
 - <code title="get /v1/named-transformations">client.named_transformations.<a href="./src/imagekitio/resources/named_transformations.py">list</a>() -> <a href="./src/imagekitio/types/named_transformation_list_response.py">NamedTransformationListResponse</a></code>
-- <code title="delete /v1/named-transformations/{id}">client.named_transformations.<a href="./src/imagekitio/resources/named_transformations.py">delete</a>(id) -> <a href="./src/imagekitio/types/shared/named_transformation.py">NamedTransformation</a></code>
+- <code title="delete /v1/named-transformations/{id}">client.named_transformations.<a href="./src/imagekitio/resources/named_transformations.py">delete</a>(id) -> <a href="./src/imagekitio/types/named_transformation_delete_response.py">NamedTransformationDeleteResponse</a></code>
 - <code title="get /v1/named-transformations/{id}">client.named_transformations.<a href="./src/imagekitio/resources/named_transformations.py">get</a>(id) -> <a href="./src/imagekitio/types/shared/named_transformation.py">NamedTransformation</a></code>
 
 # Assets

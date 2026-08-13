@@ -12,6 +12,14 @@ __all__ = ["CustomMetadataFieldUpdateParams", "Schema"]
 
 
 class CustomMetadataFieldUpdateParams(TypedDict, total=False):
+    description: str
+    """Optional description for the custom metadata field.
+
+    Can be up to 500 characters. Send an empty string to clear an existing
+    description. This is shown as a hint to the users while setting the field's
+    value on an asset in the media library UI.
+    """
+
     label: str
     """Human readable name of the custom metadata field.
 

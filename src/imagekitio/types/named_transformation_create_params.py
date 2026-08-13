@@ -18,16 +18,15 @@ class NamedTransformationCreateParams(TypedDict, total=False):
     transformation: Required[str]
     """
     The transformation string this name refers to, for example
-    `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional — it's added
-    automatically if missing, and validated if present. The string must be a valid
-    ImageKit transformation and cannot itself reference another named transformation
-    (no nesting). Learn more about the
+    `w-150,h-150,fo-center,cm-resize`. The `tr:` prefix is optional; if present, it
+    is validated. The string must be a valid ImageKit transformation and cannot
+    itself reference another named transformation (no nesting). Learn more about the
     [transformation syntax](https://imagekit.io/docs/transformations).
     """
 
     enabled: bool
-    """Whether the named transformation is enabled.
+    """Whether the named transformation is currently enabled.
 
-    Set to `false` to disable it without deleting it; requests using a disabled
-    named transformation fail at delivery time.
+    When this is set to `false`, requests using such disabled named transformations
+    fail at delivery time.
     """
