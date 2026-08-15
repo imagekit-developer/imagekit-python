@@ -1,5 +1,21 @@
 # Changelog
 
+## [5.9.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.8.0...v5.9.0) (2026-08-15)
+
+
+### Features
+
+* add description field in custom metadata field api ([70bca6b](https://github.com/imagekit-developer/imagekit-python/commit/70bca6b7d48109cfa538f45db839cefc776630c7))
+* **api:** Named Transformations ([960bcdb](https://github.com/imagekit-developer/imagekit-python/commit/960bcdbdd9488aac929f519cb520897bf35bbf48))
+
+
+### Chores
+
+* pin next release ([1d08373](https://github.com/imagekit-developer/imagekit-python/commit/1d08373869924039a64c698e93082973110481e6))
+* update branch names in workflow and delete promote workflow ([1753b17](https://github.com/imagekit-developer/imagekit-python/commit/1753b17e626783768c8fd05dd3e4bae58c7eb3a1))
+* update default branch name to main ([85d2edf](https://github.com/imagekit-developer/imagekit-python/commit/85d2edfcef1e66229f509e356ee459646cab3074))
+* update mypy configuration to exclude additional files and prevent crashes from cyclic TypedDicts ([7f3623f](https://github.com/imagekit-developer/imagekit-python/commit/7f3623f39401f0fb61fd00c6cccc8fdea0840cd7))
+
 ## [5.8.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.7.0...v5.8.0) (2026-07-14)
 
 
