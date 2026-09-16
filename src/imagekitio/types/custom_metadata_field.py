@@ -82,3 +82,9 @@ class CustomMetadataField(BaseModel):
     Only present when a description has been set. Shown as a hint to the users while
     setting the field's value on an asset in the media library UI.
     """
+
+    reserved: Optional[bool] = None
+    """Present and set to `true` when the field is reserved.
+
+    Omitted for regular fields. Reserved fields cannot be deleted.
+    """

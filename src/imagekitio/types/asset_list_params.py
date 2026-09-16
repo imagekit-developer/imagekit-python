@@ -65,6 +65,10 @@ class AssetListParams(TypedDict, total=False):
         "DESC_SIZE",
         "ASC_RELEVANCE",
         "DESC_RELEVANCE",
+        "ASC_DURATION",
+        "DESC_DURATION",
+        "ASC_ORIGINAL_CREATION_DATE",
+        "DESC_ORIGINAL_CREATION_DATE",
     ]
     """
     Sort the results by one of the supported fields in ascending or descending
