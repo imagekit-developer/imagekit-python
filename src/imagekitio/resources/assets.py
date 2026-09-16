@@ -66,6 +66,10 @@ class AssetsResource(SyncAPIResource):
             "DESC_SIZE",
             "ASC_RELEVANCE",
             "DESC_RELEVANCE",
+            "ASC_DURATION",
+            "DESC_DURATION",
+            "ASC_ORIGINAL_CREATION_DATE",
+            "DESC_ORIGINAL_CREATION_DATE",
         ]
         | Omit = omit,
         type: Literal["file", "file-version", "folder", "all"] | Omit = omit,
@@ -199,6 +203,10 @@ class AsyncAssetsResource(AsyncAPIResource):
             "DESC_SIZE",
             "ASC_RELEVANCE",
             "DESC_RELEVANCE",
+            "ASC_DURATION",
+            "DESC_DURATION",
+            "ASC_ORIGINAL_CREATION_DATE",
+            "DESC_ORIGINAL_CREATION_DATE",
         ]
         | Omit = omit,
         type: Literal["file", "file-version", "folder", "all"] | Omit = omit,
