@@ -89,6 +89,7 @@ SUPPORTED_TRANSFORMS = {
     "lossless": "lo",
     "color_profile": "cp",
     "metadata": "md",
+    "density": "dn",
     "opacity": "o",
     "trim": "t",
     "zoom": "z",
