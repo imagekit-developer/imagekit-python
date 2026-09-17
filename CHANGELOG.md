@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.10.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.9.0...v5.10.0) (2026-09-16)
+
+
+### Features
+
+* serialize density as dn in SDK URL builders ([f418b1b](https://github.com/imagekit-developer/imagekit-python/commit/f418b1b989b3d3448e6f8fcbe3d59da90ba2ef96))
+
 ## [5.9.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.8.0...v5.9.0) (2026-08-15)
 
 
