@@ -136,6 +136,11 @@ class FilesResource(SyncAPIResource):
               value for that key. Before setting any custom metadata on an asset you have to
               create the field using custom metadata fields API.
 
+              To preserve the original creation date of an asset migrated from another system,
+              set the reserved `_internal_original_created_datetime` key to an ISO 8601 date
+              string. This key is available once the original creation date setting is enabled
+              in the media library settings.
+
           description: Optional text to describe the contents of the file.
 
           extensions: Array of extensions to be applied to the asset. Each extension can be configured
@@ -602,7 +607,11 @@ class FilesResource(SyncAPIResource):
                 customCoordinates will be removed.
 
           custom_metadata: JSON key-value pairs to associate with the asset. Create the custom metadata
-              fields before setting these values.
+              fields before setting these values. To preserve the original creation date of an
+              asset migrated from another system, set the reserved
+              `_internal_original_created_datetime` key to an ISO 8601 date string. This key
+              is available once the original creation date setting is enabled in the media
+              library settings.
 
           description: Optional text to describe the contents of the file.
 
@@ -809,6 +818,11 @@ class AsyncFilesResource(AsyncAPIResource):
           custom_metadata: A key-value data to be associated with the asset. To unset a key, send `null`
               value for that key. Before setting any custom metadata on an asset you have to
               create the field using custom metadata fields API.
+
+              To preserve the original creation date of an asset migrated from another system,
+              set the reserved `_internal_original_created_datetime` key to an ISO 8601 date
+              string. This key is available once the original creation date setting is enabled
+              in the media library settings.
 
           description: Optional text to describe the contents of the file.
 
@@ -1276,7 +1290,11 @@ class AsyncFilesResource(AsyncAPIResource):
                 customCoordinates will be removed.
 
           custom_metadata: JSON key-value pairs to associate with the asset. Create the custom metadata
-              fields before setting these values.
+              fields before setting these values. To preserve the original creation date of an
+              asset migrated from another system, set the reserved
+              `_internal_original_created_datetime` key to an ISO 8601 date string. This key
+              is available once the original creation date setting is enabled in the media
+              library settings.
 
           description: Optional text to describe the contents of the file.
 
