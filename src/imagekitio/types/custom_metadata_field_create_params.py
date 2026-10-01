@@ -24,6 +24,10 @@ class CustomMetadataFieldCreateParams(TypedDict, total=False):
     """API name of the custom metadata field.
 
     This should be unique across all (including deleted) custom metadata fields.
+
+    `_internal_original_created_datetime` is a reserved name and cannot be used.
+    ImageKit creates that field automatically when you enable the original creation
+    date setting in the media library settings.
     """
 
     schema: Required[Schema]

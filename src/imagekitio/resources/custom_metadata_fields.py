@@ -77,6 +77,10 @@ class CustomMetadataFieldsResource(SyncAPIResource):
           name: API name of the custom metadata field. This should be unique across all
               (including deleted) custom metadata fields.
 
+              `_internal_original_created_datetime` is a reserved name and cannot be used.
+              ImageKit creates that field automatically when you enable the original creation
+              date setting in the media library settings.
+
           description: Optional description for the custom metadata field. Can be up to 500 characters.
               This is shown as a hint to the users while setting the field's value on an asset
               in the media library UI.
@@ -308,6 +312,10 @@ class AsyncCustomMetadataFieldsResource(AsyncAPIResource):
 
           name: API name of the custom metadata field. This should be unique across all
               (including deleted) custom metadata fields.
+
+              `_internal_original_created_datetime` is a reserved name and cannot be used.
+              ImageKit creates that field automatically when you enable the original creation
+              date setting in the media library settings.
 
           description: Optional description for the custom metadata field. Can be up to 500 characters.
               This is shown as a hint to the users while setting the field's value on an asset
