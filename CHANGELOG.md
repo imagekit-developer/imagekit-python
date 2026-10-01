@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.10.1](https://github.com/imagekit-developer/imagekit-python/compare/v5.10.0...v5.10.1) (2026-10-01)
+
+
+### Documentation
+
+* describe reserved original creation date field ([9b00603](https://github.com/imagekit-developer/imagekit-python/commit/9b00603daf9026c1a8afda68f71f27042aae87ea))
+
 ## [5.10.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.9.0...v5.10.0) (2026-09-16)
 
 
