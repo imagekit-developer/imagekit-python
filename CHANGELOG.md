@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.10.1](https://github.com/imagekit-developer/imagekit-python/compare/v5.10.0...v5.10.1) (2026-10-05)
+
+
+### Bug Fixes
+
+* don't parse empty 204 responses for copy, move and delete methods ([637710b](https://github.com/imagekit-developer/imagekit-python/commit/637710b21a3acf05e62c4fb5d3e77c523ba76705))
+
+
+### Documentation
+
+* describe reserved original creation date field ([9b00603](https://github.com/imagekit-developer/imagekit-python/commit/9b00603daf9026c1a8afda68f71f27042aae87ea))
+
 ## [5.10.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.9.0...v5.10.0) (2026-09-16)
 
 
