@@ -10,7 +10,7 @@ import pytest
 from imagekitio import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
 from imagekitio.types import File
-from imagekitio.types.files import VersionListResponse, VersionDeleteResponse
+from imagekitio.types.files import VersionListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -67,7 +67,7 @@ class TestVersions:
             version_id="versionId",
             file_id="fileId",
         )
-        assert_matches_type(VersionDeleteResponse, version, path=["response"])
+        assert version is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -80,7 +80,7 @@ class TestVersions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         version = response.parse()
-        assert_matches_type(VersionDeleteResponse, version, path=["response"])
+        assert version is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -93,7 +93,7 @@ class TestVersions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             version = response.parse()
-            assert_matches_type(VersionDeleteResponse, version, path=["response"])
+            assert version is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -271,7 +271,7 @@ class TestAsyncVersions:
             version_id="versionId",
             file_id="fileId",
         )
-        assert_matches_type(VersionDeleteResponse, version, path=["response"])
+        assert version is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -284,7 +284,7 @@ class TestAsyncVersions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         version = await response.parse()
-        assert_matches_type(VersionDeleteResponse, version, path=["response"])
+        assert version is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -297,7 +297,7 @@ class TestAsyncVersions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             version = await response.parse()
-            assert_matches_type(VersionDeleteResponse, version, path=["response"])
+            assert version is None
 
         assert cast(Any, response.is_closed) is True
 

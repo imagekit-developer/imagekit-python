@@ -11,8 +11,6 @@ from imagekitio import ImageKit, AsyncImageKit
 from tests.utils import assert_matches_type
 from imagekitio.types import (
     File,
-    FileCopyResponse,
-    FileMoveResponse,
     FileRenameResponse,
     FileUpdateResponse,
     FileUploadResponse,
@@ -253,7 +251,7 @@ class TestFiles:
             destination_path="/folder/to/copy/into/",
             source_file_path="/path/to/file.jpg",
         )
-        assert_matches_type(FileCopyResponse, file, path=["response"])
+        assert file is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -263,7 +261,7 @@ class TestFiles:
             source_file_path="/path/to/file.jpg",
             include_file_versions=False,
         )
-        assert_matches_type(FileCopyResponse, file, path=["response"])
+        assert file is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -276,7 +274,7 @@ class TestFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(FileCopyResponse, file, path=["response"])
+        assert file is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -289,7 +287,7 @@ class TestFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(FileCopyResponse, file, path=["response"])
+            assert file is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -342,7 +340,7 @@ class TestFiles:
             destination_path="/folder/to/move/into/",
             source_file_path="/path/to/file.jpg",
         )
-        assert_matches_type(FileMoveResponse, file, path=["response"])
+        assert file is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -355,7 +353,7 @@ class TestFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(FileMoveResponse, file, path=["response"])
+        assert file is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -368,7 +366,7 @@ class TestFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(FileMoveResponse, file, path=["response"])
+            assert file is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -806,7 +804,7 @@ class TestAsyncFiles:
             destination_path="/folder/to/copy/into/",
             source_file_path="/path/to/file.jpg",
         )
-        assert_matches_type(FileCopyResponse, file, path=["response"])
+        assert file is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -816,7 +814,7 @@ class TestAsyncFiles:
             source_file_path="/path/to/file.jpg",
             include_file_versions=False,
         )
-        assert_matches_type(FileCopyResponse, file, path=["response"])
+        assert file is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -829,7 +827,7 @@ class TestAsyncFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(FileCopyResponse, file, path=["response"])
+        assert file is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -842,7 +840,7 @@ class TestAsyncFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(FileCopyResponse, file, path=["response"])
+            assert file is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -895,7 +893,7 @@ class TestAsyncFiles:
             destination_path="/folder/to/move/into/",
             source_file_path="/path/to/file.jpg",
         )
-        assert_matches_type(FileMoveResponse, file, path=["response"])
+        assert file is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -908,7 +906,7 @@ class TestAsyncFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(FileMoveResponse, file, path=["response"])
+        assert file is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -921,7 +919,7 @@ class TestAsyncFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(FileMoveResponse, file, path=["response"])
+            assert file is None
 
         assert cast(Any, response.is_closed) is True
 
