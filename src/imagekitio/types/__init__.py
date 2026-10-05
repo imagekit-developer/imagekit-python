@@ -38,8 +38,6 @@ from .file_create_event import FileCreateEvent as FileCreateEvent
 from .file_delete_event import FileDeleteEvent as FileDeleteEvent
 from .file_update_event import FileUpdateEvent as FileUpdateEvent
 from .base_webhook_event import BaseWebhookEvent as BaseWebhookEvent
-from .file_copy_response import FileCopyResponse as FileCopyResponse
-from .file_move_response import FileMoveResponse as FileMoveResponse
 from .file_rename_params import FileRenameParams as FileRenameParams
 from .file_update_params import FileUpdateParams as FileUpdateParams
 from .file_upload_params import FileUploadParams as FileUploadParams
@@ -58,7 +56,6 @@ from .folder_rename_params import FolderRenameParams as FolderRenameParams
 from .unwrap_webhook_event import UnwrapWebhookEvent as UnwrapWebhookEvent
 from .custom_metadata_field import CustomMetadataField as CustomMetadataField
 from .folder_create_response import FolderCreateResponse as FolderCreateResponse
-from .folder_delete_response import FolderDeleteResponse as FolderDeleteResponse
 from .folder_rename_response import FolderRenameResponse as FolderRenameResponse
 from .file_version_create_event import FileVersionCreateEvent as FileVersionCreateEvent
 from .file_version_delete_event import FileVersionDeleteEvent as FileVersionDeleteEvent
@@ -81,9 +78,6 @@ from .custom_metadata_field_list_response import CustomMetadataFieldListResponse
 from .custom_metadata_field_update_params import CustomMetadataFieldUpdateParams as CustomMetadataFieldUpdateParams
 from .upload_post_transform_success_event import UploadPostTransformSuccessEvent as UploadPostTransformSuccessEvent
 from .video_transformation_accepted_event import VideoTransformationAcceptedEvent as VideoTransformationAcceptedEvent
-from .custom_metadata_field_delete_response import (
-    CustomMetadataFieldDeleteResponse as CustomMetadataFieldDeleteResponse,
-)
 
 # Rebuild cyclical models only after all modules are imported.
 # This ensures that, when building the deferred (due to cyclical references) model schema,

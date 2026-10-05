@@ -32,11 +32,7 @@ from imagekitio.types import (
 Types:
 
 ```python
-from imagekitio.types import (
-    CustomMetadataField,
-    CustomMetadataFieldListResponse,
-    CustomMetadataFieldDeleteResponse,
-)
+from imagekitio.types import CustomMetadataField, CustomMetadataFieldListResponse
 ```
 
 Methods:
@@ -44,7 +40,7 @@ Methods:
 - <code title="post /v1/customMetadataFields">client.custom_metadata_fields.<a href="./src/imagekitio/resources/custom_metadata_fields.py">create</a>(\*\*<a href="src/imagekitio/types/custom_metadata_field_create_params.py">params</a>) -> <a href="./src/imagekitio/types/custom_metadata_field.py">CustomMetadataField</a></code>
 - <code title="patch /v1/customMetadataFields/{id}">client.custom_metadata_fields.<a href="./src/imagekitio/resources/custom_metadata_fields.py">update</a>(id, \*\*<a href="src/imagekitio/types/custom_metadata_field_update_params.py">params</a>) -> <a href="./src/imagekitio/types/custom_metadata_field.py">CustomMetadataField</a></code>
 - <code title="get /v1/customMetadataFields">client.custom_metadata_fields.<a href="./src/imagekitio/resources/custom_metadata_fields.py">list</a>(\*\*<a href="src/imagekitio/types/custom_metadata_field_list_params.py">params</a>) -> <a href="./src/imagekitio/types/custom_metadata_field_list_response.py">CustomMetadataFieldListResponse</a></code>
-- <code title="delete /v1/customMetadataFields/{id}">client.custom_metadata_fields.<a href="./src/imagekitio/resources/custom_metadata_fields.py">delete</a>(id) -> <a href="./src/imagekitio/types/custom_metadata_field_delete_response.py">CustomMetadataFieldDeleteResponse</a></code>
+- <code title="delete /v1/customMetadataFields/{id}">client.custom_metadata_fields.<a href="./src/imagekitio/resources/custom_metadata_fields.py">delete</a>(id) -> None</code>
 
 # Files
 
@@ -57,8 +53,6 @@ from imagekitio.types import (
     Metadata,
     UpdateFileRequest,
     FileUpdateResponse,
-    FileCopyResponse,
-    FileMoveResponse,
     FileRenameResponse,
     FileUploadResponse,
 )
@@ -68,9 +62,9 @@ Methods:
 
 - <code title="patch /v1/files/{fileId}/details">client.files.<a href="./src/imagekitio/resources/files/files.py">update</a>(file_id, \*\*<a href="src/imagekitio/types/file_update_params.py">params</a>) -> <a href="./src/imagekitio/types/file_update_response.py">FileUpdateResponse</a></code>
 - <code title="delete /v1/files/{fileId}">client.files.<a href="./src/imagekitio/resources/files/files.py">delete</a>(file_id) -> None</code>
-- <code title="post /v1/files/copy">client.files.<a href="./src/imagekitio/resources/files/files.py">copy</a>(\*\*<a href="src/imagekitio/types/file_copy_params.py">params</a>) -> <a href="./src/imagekitio/types/file_copy_response.py">FileCopyResponse</a></code>
+- <code title="post /v1/files/copy">client.files.<a href="./src/imagekitio/resources/files/files.py">copy</a>(\*\*<a href="src/imagekitio/types/file_copy_params.py">params</a>) -> None</code>
 - <code title="get /v1/files/{fileId}/details">client.files.<a href="./src/imagekitio/resources/files/files.py">get</a>(file_id) -> <a href="./src/imagekitio/types/file.py">File</a></code>
-- <code title="post /v1/files/move">client.files.<a href="./src/imagekitio/resources/files/files.py">move</a>(\*\*<a href="src/imagekitio/types/file_move_params.py">params</a>) -> <a href="./src/imagekitio/types/file_move_response.py">FileMoveResponse</a></code>
+- <code title="post /v1/files/move">client.files.<a href="./src/imagekitio/resources/files/files.py">move</a>(\*\*<a href="src/imagekitio/types/file_move_params.py">params</a>) -> None</code>
 - <code title="put /v1/files/rename">client.files.<a href="./src/imagekitio/resources/files/files.py">rename</a>(\*\*<a href="src/imagekitio/types/file_rename_params.py">params</a>) -> <a href="./src/imagekitio/types/file_rename_response.py">FileRenameResponse</a></code>
 - <code title="post /api/v1/files/upload">client.files.<a href="./src/imagekitio/resources/files/files.py">upload</a>(\*\*<a href="src/imagekitio/types/file_upload_params.py">params</a>) -> <a href="./src/imagekitio/types/file_upload_response.py">FileUploadResponse</a></code>
 
@@ -99,13 +93,13 @@ Methods:
 Types:
 
 ```python
-from imagekitio.types.files import VersionListResponse, VersionDeleteResponse
+from imagekitio.types.files import VersionListResponse
 ```
 
 Methods:
 
 - <code title="get /v1/files/{fileId}/versions">client.files.versions.<a href="./src/imagekitio/resources/files/versions.py">list</a>(file_id) -> <a href="./src/imagekitio/types/files/version_list_response.py">VersionListResponse</a></code>
-- <code title="delete /v1/files/{fileId}/versions/{versionId}">client.files.versions.<a href="./src/imagekitio/resources/files/versions.py">delete</a>(version_id, \*, file_id) -> <a href="./src/imagekitio/types/files/version_delete_response.py">VersionDeleteResponse</a></code>
+- <code title="delete /v1/files/{fileId}/versions/{versionId}">client.files.versions.<a href="./src/imagekitio/resources/files/versions.py">delete</a>(version_id, \*, file_id) -> None</code>
 - <code title="get /v1/files/{fileId}/versions/{versionId}">client.files.versions.<a href="./src/imagekitio/resources/files/versions.py">get</a>(version_id, \*, file_id) -> <a href="./src/imagekitio/types/file.py">File</a></code>
 - <code title="put /v1/files/{fileId}/versions/{versionId}/restore">client.files.versions.<a href="./src/imagekitio/resources/files/versions.py">restore</a>(version_id, \*, file_id) -> <a href="./src/imagekitio/types/file.py">File</a></code>
 
@@ -182,7 +176,6 @@ Types:
 ```python
 from imagekitio.types import (
     FolderCreateResponse,
-    FolderDeleteResponse,
     FolderCopyResponse,
     FolderMoveResponse,
     FolderRenameResponse,
@@ -192,7 +185,7 @@ from imagekitio.types import (
 Methods:
 
 - <code title="post /v1/folder">client.folders.<a href="./src/imagekitio/resources/folders/folders.py">create</a>(\*\*<a href="src/imagekitio/types/folder_create_params.py">params</a>) -> <a href="./src/imagekitio/types/folder_create_response.py">FolderCreateResponse</a></code>
-- <code title="delete /v1/folder">client.folders.<a href="./src/imagekitio/resources/folders/folders.py">delete</a>(\*\*<a href="src/imagekitio/types/folder_delete_params.py">params</a>) -> <a href="./src/imagekitio/types/folder_delete_response.py">FolderDeleteResponse</a></code>
+- <code title="delete /v1/folder">client.folders.<a href="./src/imagekitio/resources/folders/folders.py">delete</a>(\*\*<a href="src/imagekitio/types/folder_delete_params.py">params</a>) -> None</code>
 - <code title="post /v1/bulkJobs/copyFolder">client.folders.<a href="./src/imagekitio/resources/folders/folders.py">copy</a>(\*\*<a href="src/imagekitio/types/folder_copy_params.py">params</a>) -> <a href="./src/imagekitio/types/folder_copy_response.py">FolderCopyResponse</a></code>
 - <code title="post /v1/bulkJobs/moveFolder">client.folders.<a href="./src/imagekitio/resources/folders/folders.py">move</a>(\*\*<a href="src/imagekitio/types/folder_move_params.py">params</a>) -> <a href="./src/imagekitio/types/folder_move_response.py">FolderMoveResponse</a></code>
 - <code title="post /v1/bulkJobs/renameFolder">client.folders.<a href="./src/imagekitio/resources/folders/folders.py">rename</a>(\*\*<a href="src/imagekitio/types/folder_rename_params.py">params</a>) -> <a href="./src/imagekitio/types/folder_rename_response.py">FolderRenameResponse</a></code>

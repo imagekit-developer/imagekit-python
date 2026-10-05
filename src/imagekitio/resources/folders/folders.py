@@ -19,7 +19,7 @@ from ...types import (
     folder_delete_params,
     folder_rename_params,
 )
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -33,7 +33,6 @@ from ..._base_client import make_request_options
 from ...types.folder_copy_response import FolderCopyResponse
 from ...types.folder_move_response import FolderMoveResponse
 from ...types.folder_create_response import FolderCreateResponse
-from ...types.folder_delete_response import FolderDeleteResponse
 from ...types.folder_rename_response import FolderRenameResponse
 
 __all__ = ["FoldersResource", "AsyncFoldersResource"]
@@ -128,7 +127,7 @@ class FoldersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FolderDeleteResponse:
+    ) -> None:
         """This will delete a folder and all its contents permanently.
 
         The API returns an
@@ -145,13 +144,14 @@ class FoldersResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             "/v1/folder",
             body=maybe_transform({"folder_path": folder_path}, folder_delete_params.FolderDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FolderDeleteResponse,
+            cast_to=NoneType,
         )
 
     def copy(
@@ -415,7 +415,7 @@ class AsyncFoldersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FolderDeleteResponse:
+    ) -> None:
         """This will delete a folder and all its contents permanently.
 
         The API returns an
@@ -432,13 +432,14 @@ class AsyncFoldersResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             "/v1/folder",
             body=await async_maybe_transform({"folder_path": folder_path}, folder_delete_params.FolderDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FolderDeleteResponse,
+            cast_to=NoneType,
         )
 
     async def copy(
