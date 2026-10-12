@@ -3,6 +3,8 @@
 from datetime import datetime
 from typing_extensions import Literal
 
+from pydantic import Field as FieldInfo
+
 from .._models import BaseModel
 from .base_webhook_event import BaseWebhookEvent
 
@@ -10,8 +12,8 @@ __all__ = ["FolderDeleteEvent", "FolderDeleteEventData"]
 
 
 class FolderDeleteEventData(BaseModel):
-    id: str
-    """The unique identifier of the deleted folder."""
+    folder_id: str = FieldInfo(alias="folderId")
+    """The unique `folderId` of the deleted folder."""
 
 
 class FolderDeleteEvent(BaseWebhookEvent):
