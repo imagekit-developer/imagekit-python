@@ -24,6 +24,14 @@ from .accounts import (
     AccountsResourceWithStreamingResponse,
     AsyncAccountsResourceWithStreamingResponse,
 )
+from .webhooks import (
+    WebhooksResource,
+    AsyncWebhooksResource,
+    WebhooksResourceWithRawResponse,
+    AsyncWebhooksResourceWithRawResponse,
+    WebhooksResourceWithStreamingResponse,
+    AsyncWebhooksResourceWithStreamingResponse,
+)
 from .url_endpoints import (
     URLEndpointsResource,
     AsyncURLEndpointsResource,
@@ -66,6 +74,12 @@ __all__ = [
     "AsyncURLEndpointsResourceWithRawResponse",
     "URLEndpointsResourceWithStreamingResponse",
     "AsyncURLEndpointsResourceWithStreamingResponse",
+    "WebhooksResource",
+    "AsyncWebhooksResource",
+    "WebhooksResourceWithRawResponse",
+    "AsyncWebhooksResourceWithRawResponse",
+    "WebhooksResourceWithStreamingResponse",
+    "AsyncWebhooksResourceWithStreamingResponse",
     "AccountsResource",
     "AsyncAccountsResource",
     "AccountsResourceWithRawResponse",

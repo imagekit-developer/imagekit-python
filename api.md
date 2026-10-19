@@ -270,6 +270,22 @@ Methods:
 - <code title="delete /v1/accounts/url-endpoints/{id}">client.accounts.url_endpoints.<a href="./src/imagekitio/resources/accounts/url_endpoints.py">delete</a>(id) -> None</code>
 - <code title="get /v1/accounts/url-endpoints/{id}">client.accounts.url_endpoints.<a href="./src/imagekitio/resources/accounts/url_endpoints.py">get</a>(id) -> <a href="./src/imagekitio/types/accounts/url_endpoint_response.py">URLEndpointResponse</a></code>
 
+## Webhooks
+
+Types:
+
+```python
+from imagekitio.types.accounts import Webhook, WebhookEventType, WebhookListResponse
+```
+
+Methods:
+
+- <code title="post /v1/accounts/webhooks">client.accounts.webhooks.<a href="./src/imagekitio/resources/accounts/webhooks.py">create</a>(\*\*<a href="src/imagekitio/types/accounts/webhook_create_params.py">params</a>) -> <a href="./src/imagekitio/types/accounts/webhook.py">Webhook</a></code>
+- <code title="patch /v1/accounts/webhooks/{id}">client.accounts.webhooks.<a href="./src/imagekitio/resources/accounts/webhooks.py">update</a>(id, \*\*<a href="src/imagekitio/types/accounts/webhook_update_params.py">params</a>) -> <a href="./src/imagekitio/types/accounts/webhook.py">Webhook</a></code>
+- <code title="get /v1/accounts/webhooks">client.accounts.webhooks.<a href="./src/imagekitio/resources/accounts/webhooks.py">list</a>() -> <a href="./src/imagekitio/types/accounts/webhook_list_response.py">WebhookListResponse</a></code>
+- <code title="delete /v1/accounts/webhooks/{id}">client.accounts.webhooks.<a href="./src/imagekitio/resources/accounts/webhooks.py">delete</a>(id) -> None</code>
+- <code title="get /v1/accounts/webhooks/{id}">client.accounts.webhooks.<a href="./src/imagekitio/resources/accounts/webhooks.py">get</a>(id) -> <a href="./src/imagekitio/types/accounts/webhook.py">Webhook</a></code>
+
 # Beta
 
 ## V2
@@ -298,6 +314,9 @@ from imagekitio.types import (
     FileUpdateEvent,
     FileVersionCreateEvent,
     FileVersionDeleteEvent,
+    FolderCreateEvent,
+    FolderDeleteEvent,
+    FolderUpdateEvent,
     UploadPostTransformErrorEvent,
     UploadPostTransformSuccessEvent,
     UploadPreTransformErrorEvent,
