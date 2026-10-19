@@ -7,6 +7,9 @@ from .._utils import PropertyInfo
 from .file_create_event import FileCreateEvent
 from .file_delete_event import FileDeleteEvent
 from .file_update_event import FileUpdateEvent
+from .folder_create_event import FolderCreateEvent
+from .folder_delete_event import FolderDeleteEvent
+from .folder_update_event import FolderUpdateEvent
 from .file_version_create_event import FileVersionCreateEvent
 from .file_version_delete_event import FileVersionDeleteEvent
 from .upload_pre_transform_error_event import UploadPreTransformErrorEvent
@@ -33,6 +36,9 @@ UnsafeUnwrapWebhookEvent: TypeAlias = Annotated[
         FileDeleteEvent,
         FileVersionCreateEvent,
         FileVersionDeleteEvent,
+        FolderCreateEvent,
+        FolderUpdateEvent,
+        FolderDeleteEvent,
     ],
     PropertyInfo(discriminator="type"),
 ]

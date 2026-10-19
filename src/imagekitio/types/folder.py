@@ -8,7 +8,20 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["Folder"]
+__all__ = ["Folder", "CreatedBy"]
+
+
+class CreatedBy(BaseModel):
+    """Details of the user who created the folder.
+
+    Present only when this information is available. The `name` is the name of the user at the time of folder creation.
+    """
+
+    email: Optional[str] = None
+    """Email of the user who created the folder."""
+
+    name: Optional[str] = None
+    """Name of the user who created the folder."""
 
 
 class Folder(BaseModel):
@@ -16,6 +29,13 @@ class Folder(BaseModel):
     """Date and time when the folder was created.
 
     The date and time is in ISO8601 format.
+    """
+
+    created_by: Optional[CreatedBy] = FieldInfo(alias="createdBy", default=None)
+    """Details of the user who created the folder.
+
+    Present only when this information is available. The `name` is the name of the
+    user at the time of folder creation.
     """
 
     custom_metadata: Optional[Dict[str, object]] = FieldInfo(alias="customMetadata", default=None)
