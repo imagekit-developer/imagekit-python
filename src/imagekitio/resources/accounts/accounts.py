@@ -18,6 +18,14 @@ from .origins import (
     OriginsResourceWithStreamingResponse,
     AsyncOriginsResourceWithStreamingResponse,
 )
+from .webhooks import (
+    WebhooksResource,
+    AsyncWebhooksResource,
+    WebhooksResourceWithRawResponse,
+    AsyncWebhooksResourceWithRawResponse,
+    WebhooksResourceWithStreamingResponse,
+    AsyncWebhooksResourceWithStreamingResponse,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from .url_endpoints import (
@@ -58,6 +66,10 @@ class AccountsResource(SyncAPIResource):
         return URLEndpointsResource(self._client)
 
     @cached_property
+    def webhooks(self) -> WebhooksResource:
+        return WebhooksResource(self._client)
+
+    @cached_property
     def with_raw_response(self) -> AccountsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -93,6 +105,10 @@ class AsyncAccountsResource(AsyncAPIResource):
     @cached_property
     def url_endpoints(self) -> AsyncURLEndpointsResource:
         return AsyncURLEndpointsResource(self._client)
+
+    @cached_property
+    def webhooks(self) -> AsyncWebhooksResource:
+        return AsyncWebhooksResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncAccountsResourceWithRawResponse:
@@ -134,6 +150,10 @@ class AccountsResourceWithRawResponse:
     def url_endpoints(self) -> URLEndpointsResourceWithRawResponse:
         return URLEndpointsResourceWithRawResponse(self._accounts.url_endpoints)
 
+    @cached_property
+    def webhooks(self) -> WebhooksResourceWithRawResponse:
+        return WebhooksResourceWithRawResponse(self._accounts.webhooks)
+
 
 class AsyncAccountsResourceWithRawResponse:
     def __init__(self, accounts: AsyncAccountsResource) -> None:
@@ -154,6 +174,10 @@ class AsyncAccountsResourceWithRawResponse:
     @cached_property
     def url_endpoints(self) -> AsyncURLEndpointsResourceWithRawResponse:
         return AsyncURLEndpointsResourceWithRawResponse(self._accounts.url_endpoints)
+
+    @cached_property
+    def webhooks(self) -> AsyncWebhooksResourceWithRawResponse:
+        return AsyncWebhooksResourceWithRawResponse(self._accounts.webhooks)
 
 
 class AccountsResourceWithStreamingResponse:
@@ -176,6 +200,10 @@ class AccountsResourceWithStreamingResponse:
     def url_endpoints(self) -> URLEndpointsResourceWithStreamingResponse:
         return URLEndpointsResourceWithStreamingResponse(self._accounts.url_endpoints)
 
+    @cached_property
+    def webhooks(self) -> WebhooksResourceWithStreamingResponse:
+        return WebhooksResourceWithStreamingResponse(self._accounts.webhooks)
+
 
 class AsyncAccountsResourceWithStreamingResponse:
     def __init__(self, accounts: AsyncAccountsResource) -> None:
@@ -196,3 +224,7 @@ class AsyncAccountsResourceWithStreamingResponse:
     @cached_property
     def url_endpoints(self) -> AsyncURLEndpointsResourceWithStreamingResponse:
         return AsyncURLEndpointsResourceWithStreamingResponse(self._accounts.url_endpoints)
+
+    @cached_property
+    def webhooks(self) -> AsyncWebhooksResourceWithStreamingResponse:
+        return AsyncWebhooksResourceWithStreamingResponse(self._accounts.webhooks)
