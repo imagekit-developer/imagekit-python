@@ -45,6 +45,9 @@ from .folder_copy_params import FolderCopyParams as FolderCopyParams
 from .folder_move_params import FolderMoveParams as FolderMoveParams
 from .asset_list_response import AssetListResponse as AssetListResponse
 from .dummy_create_params import DummyCreateParams as DummyCreateParams
+from .folder_create_event import FolderCreateEvent as FolderCreateEvent
+from .folder_delete_event import FolderDeleteEvent as FolderDeleteEvent
+from .folder_update_event import FolderUpdateEvent as FolderUpdateEvent
 from .file_rename_response import FileRenameResponse as FileRenameResponse
 from .file_update_response import FileUpdateResponse as FileUpdateResponse
 from .file_upload_response import FileUploadResponse as FileUploadResponse
