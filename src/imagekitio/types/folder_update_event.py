@@ -10,7 +10,9 @@ __all__ = ["FolderUpdateEvent"]
 
 
 class FolderUpdateEvent(BaseWebhookEvent):
-    """Triggered when a folder is updated."""
+    """
+    Triggered when a folder is updated, for example when its custom metadata changes or it is renamed. Renaming a folder sends one event per folder in the tree, each with its new `folderPath`.
+    """
 
     created_at: datetime
     """Timestamp of when the event occurred in ISO8601 format."""
