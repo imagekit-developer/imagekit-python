@@ -17,4 +17,7 @@ WebhookEventType: TypeAlias = Literal[
     "file.deleted",
     "file-version.created",
     "file-version.deleted",
+    "folder.created",
+    "folder.updated",
+    "folder.deleted",
 ]
