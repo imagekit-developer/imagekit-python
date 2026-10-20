@@ -59,4 +59,4 @@ class UploadPostTransformSuccessEvent(BaseWebhookEvent):
 
     request: UploadPostTransformSuccessEventRequest
 
-    type: Literal["upload.post-transform.success"]
+    type: Literal["upload.post-transform.success"]  # type: ignore

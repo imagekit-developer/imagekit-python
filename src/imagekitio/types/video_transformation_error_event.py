@@ -113,4 +113,4 @@ class VideoTransformationErrorEvent(BaseWebhookEvent):
     request: VideoTransformationErrorEventRequest
     """Information about the original request that triggered the video transformation."""
 
-    type: Literal["video.transformation.error"]
+    type: Literal["video.transformation.error"]  # type: ignore

@@ -19,5 +19,5 @@ class FolderUpdateEvent(BaseWebhookEvent):
 
     data: Folder
 
-    type: Literal["folder.updated"]
+    type: Literal["folder.updated"]  # type: ignore
     """Type of the webhook event."""

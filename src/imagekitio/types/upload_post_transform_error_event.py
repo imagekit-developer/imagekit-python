@@ -75,4 +75,4 @@ class UploadPostTransformErrorEvent(BaseWebhookEvent):
 
     request: UploadPostTransformErrorEventRequest
 
-    type: Literal["upload.post-transform.error"]
+    type: Literal["upload.post-transform.error"]  # type: ignore

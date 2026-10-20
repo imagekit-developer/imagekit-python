@@ -55,4 +55,4 @@ class UploadPreTransformErrorEvent(BaseWebhookEvent):
 
     request: UploadPreTransformErrorEventRequest
 
-    type: Literal["upload.pre-transform.error"]
+    type: Literal["upload.pre-transform.error"]  # type: ignore

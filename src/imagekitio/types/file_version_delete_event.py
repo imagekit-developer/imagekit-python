@@ -27,5 +27,5 @@ class FileVersionDeleteEvent(BaseWebhookEvent):
 
     data: FileVersionDeleteEventData
 
-    type: Literal["file-version.deleted"]
+    type: Literal["file-version.deleted"]  # type: ignore
     """Type of the webhook event."""

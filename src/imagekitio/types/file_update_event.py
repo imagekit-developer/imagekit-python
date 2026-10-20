@@ -18,5 +18,5 @@ class FileUpdateEvent(BaseWebhookEvent):
     data: File
     """Object containing details of a file or file version."""
 
-    type: Literal["file.updated"]
+    type: Literal["file.updated"]  # type: ignore
     """Type of the webhook event."""

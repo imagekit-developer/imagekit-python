@@ -100,4 +100,4 @@ class VideoTransformationAcceptedEvent(BaseWebhookEvent):
     request: VideoTransformationAcceptedEventRequest
     """Information about the original request that triggered the video transformation."""
 
-    type: Literal["video.transformation.accepted"]
+    type: Literal["video.transformation.accepted"]  # type: ignore

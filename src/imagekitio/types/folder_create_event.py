@@ -19,5 +19,5 @@ class FolderCreateEvent(BaseWebhookEvent):
 
     data: Folder
 
-    type: Literal["folder.created"]
+    type: Literal["folder.created"]  # type: ignore
     """Type of the webhook event."""
