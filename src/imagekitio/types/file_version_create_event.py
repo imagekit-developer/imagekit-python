@@ -18,5 +18,5 @@ class FileVersionCreateEvent(BaseWebhookEvent):
     data: File
     """Object containing details of a file or file version."""
 
-    type: Literal["file-version.created"]  # type: ignore
+    type: Literal["file-version.created"]
     """Type of the webhook event."""

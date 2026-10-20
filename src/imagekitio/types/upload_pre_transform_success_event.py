@@ -297,4 +297,4 @@ class UploadPreTransformSuccessEvent(BaseWebhookEvent):
 
     request: UploadPreTransformSuccessEventRequest
 
-    type: Literal["upload.pre-transform.success"]  # type: ignore
+    type: Literal["upload.pre-transform.success"]
