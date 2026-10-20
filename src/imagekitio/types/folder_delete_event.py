@@ -27,5 +27,5 @@ class FolderDeleteEvent(BaseWebhookEvent):
 
     data: FolderDeleteEventData
 
-    type: Literal["folder.deleted"]  # type: ignore
+    type: Literal["folder.deleted"]
     """Type of the webhook event."""

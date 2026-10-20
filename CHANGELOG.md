@@ -1,5 +1,27 @@
 # Changelog
 
+## [5.11.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.10.0...v5.11.0) (2026-10-19)
+
+
+### Features
+
+* webhook crud api ([d9d0591](https://github.com/imagekit-developer/imagekit-python/commit/d9d05913cfc15092f9e081522c2ebb555be54774))
+
+
+### Bug Fixes
+
+* don't parse empty 204 responses for copy, move and delete methods ([637710b](https://github.com/imagekit-developer/imagekit-python/commit/637710b21a3acf05e62c4fb5d3e77c523ba76705))
+
+
+### Chores
+
+* pin next release ([540bbc5](https://github.com/imagekit-developer/imagekit-python/commit/540bbc52d5cfe404f423ff98424a661f0f8ab780))
+
+
+### Documentation
+
+* describe reserved original creation date field ([9b00603](https://github.com/imagekit-developer/imagekit-python/commit/9b00603daf9026c1a8afda68f71f27042aae87ea))
+
 ## [5.10.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.9.0...v5.10.0) (2026-09-16)
 
 

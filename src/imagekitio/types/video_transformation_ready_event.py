@@ -141,7 +141,7 @@ class VideoTransformationReadyEvent(BaseWebhookEvent):
     request: VideoTransformationReadyEventRequest
     """Information about the original request that triggered the video transformation."""
 
-    type: Literal["video.transformation.ready"]  # type: ignore
+    type: Literal["video.transformation.ready"]
 
     timings: Optional[VideoTransformationReadyEventTimings] = None
     """Performance metrics for the transformation process."""

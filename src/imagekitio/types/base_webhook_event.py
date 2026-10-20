@@ -8,6 +8,3 @@ __all__ = ["BaseWebhookEvent"]
 class BaseWebhookEvent(BaseModel):
     id: str
     """Unique identifier for the event."""
-
-    type: str
-    """The type of webhook event."""
