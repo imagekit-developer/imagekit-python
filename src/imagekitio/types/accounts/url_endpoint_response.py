@@ -17,6 +17,13 @@ class URLRewriterCloudinary(BaseModel):
 
     type: Literal["CLOUDINARY"]
 
+    use_improved_layer_spec: Optional[bool] = FieldInfo(alias="useImprovedLayerSpec", default=None)
+    """
+    Whether to always rewrite Cloudinary layers to the improved ImageKit layer
+    specification (`l-image`, `l-text`, ..., `l-end`). When `false` or omitted, the
+    improved specification is used only for transformations that require it.
+    """
+
 
 class URLRewriterImgix(BaseModel):
     type: Literal["IMGIX"]
