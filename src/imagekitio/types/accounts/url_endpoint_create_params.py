@@ -38,6 +38,13 @@ class URLRewriterCloudinary(TypedDict, total=False):
     preserve_asset_delivery_types: Annotated[bool, PropertyInfo(alias="preserveAssetDeliveryTypes")]
     """Whether to preserve `<asset_type>/<delivery_type>` in the rewritten URL."""
 
+    use_improved_layer_spec: Annotated[bool, PropertyInfo(alias="useImprovedLayerSpec")]
+    """
+    Whether to always rewrite Cloudinary layers to the improved ImageKit layer
+    specification (`l-image`, `l-text`, ..., `l-end`). When `false` or omitted, the
+    improved specification is used only for transformations that require it.
+    """
+
 
 class URLRewriterImgix(TypedDict, total=False):
     type: Required[Literal["IMGIX"]]
