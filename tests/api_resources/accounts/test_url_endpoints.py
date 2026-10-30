@@ -38,6 +38,7 @@ class TestURLEndpoints:
             url_rewriter={
                 "type": "CLOUDINARY",
                 "preserve_asset_delivery_types": True,
+                "use_improved_layer_spec": True,
             },
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
@@ -88,6 +89,7 @@ class TestURLEndpoints:
             url_rewriter={
                 "type": "CLOUDINARY",
                 "preserve_asset_delivery_types": True,
+                "use_improved_layer_spec": True,
             },
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
@@ -265,6 +267,7 @@ class TestAsyncURLEndpoints:
             url_rewriter={
                 "type": "CLOUDINARY",
                 "preserve_asset_delivery_types": True,
+                "use_improved_layer_spec": True,
             },
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
@@ -315,6 +318,7 @@ class TestAsyncURLEndpoints:
             url_rewriter={
                 "type": "CLOUDINARY",
                 "preserve_asset_delivery_types": True,
+                "use_improved_layer_spec": True,
             },
         )
         assert_matches_type(URLEndpointResponse, url_endpoint, path=["response"])
