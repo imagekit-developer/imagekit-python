@@ -234,6 +234,18 @@ Methods:
 
 - <code title="get /v1/accounts/usage-analytics">client.accounts.usage_analytics.<a href="./src/imagekitio/resources/accounts/usage_analytics.py">get</a>(\*\*<a href="src/imagekitio/types/accounts/usage_analytics_get_params.py">params</a>) -> <a href="./src/imagekitio/types/accounts/usage_analytics_response.py">UsageAnalyticsResponse</a></code>
 
+## Contract
+
+Types:
+
+```python
+from imagekitio.types.accounts import ContractUnits, ContractGetResponse
+```
+
+Methods:
+
+- <code title="get /v1/accounts/contract">client.accounts.contract.<a href="./src/imagekitio/resources/accounts/contract.py">get</a>() -> <a href="./src/imagekitio/types/accounts/contract_get_response.py">ContractGetResponse</a></code>
+
 ## Origins
 
 Types:
