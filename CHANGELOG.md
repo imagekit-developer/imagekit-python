@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.12.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.11.0...v5.12.0) (2026-10-30)
+
+
+### Features
+
+* **api:** add accounts.contract.get() for contract consumption ([f65b98c](https://github.com/imagekit-developer/imagekit-python/commit/f65b98caebf929a0160a37a250b244c8874c5a1c))
+* **api:** add useImprovedLayerSpec to the Cloudinary URL rewriter ([f65b98c](https://github.com/imagekit-developer/imagekit-python/commit/f65b98caebf929a0160a37a250b244c8874c5a1c))
+
 ## [5.11.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.10.0...v5.11.0) (2026-10-19)
 
 
