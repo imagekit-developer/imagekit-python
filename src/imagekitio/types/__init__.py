@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from . import shared
 from .. import _compat
+from .tag import Tag as Tag
 from .file import File as File
 from .folder import Folder as Folder
 from .shared import (
@@ -31,6 +32,7 @@ from .shared import (
     SolidColorOverlayTransformation as SolidColorOverlayTransformation,
 )
 from .metadata import Metadata as Metadata
+from .tag_list_params import TagListParams as TagListParams
 from .file_copy_params import FileCopyParams as FileCopyParams
 from .file_move_params import FileMoveParams as FileMoveParams
 from .asset_list_params import AssetListParams as AssetListParams

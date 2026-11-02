@@ -39,6 +39,7 @@ from ._base_client import (
 if TYPE_CHECKING:
     from .resources import (
         beta,
+        tags,
         cache,
         dummy,
         files,
@@ -49,6 +50,7 @@ if TYPE_CHECKING:
         named_transformations,
         custom_metadata_fields,
     )
+    from .resources.tags import TagsResource, AsyncTagsResource
     from .lib.helper import HelperResource, AsyncHelperResource
     from .resources.dummy import DummyResource, AsyncDummyResource
     from .resources.assets import AssetsResource, AsyncAssetsResource
@@ -189,6 +191,12 @@ class ImageKit(SyncAPIClient):
         from .resources.assets import AssetsResource
 
         return AssetsResource(self)
+
+    @cached_property
+    def tags(self) -> TagsResource:
+        from .resources.tags import TagsResource
+
+        return TagsResource(self)
 
     @cached_property
     def cache(self) -> CacheResource:
@@ -474,6 +482,12 @@ class AsyncImageKit(AsyncAPIClient):
         return AsyncAssetsResource(self)
 
     @cached_property
+    def tags(self) -> AsyncTagsResource:
+        from .resources.tags import AsyncTagsResource
+
+        return AsyncTagsResource(self)
+
+    @cached_property
     def cache(self) -> AsyncCacheResource:
         from .resources.cache import AsyncCacheResource
 
@@ -683,6 +697,12 @@ class ImageKitWithRawResponse:
         return AssetsResourceWithRawResponse(self._client.assets)
 
     @cached_property
+    def tags(self) -> tags.TagsResourceWithRawResponse:
+        from .resources.tags import TagsResourceWithRawResponse
+
+        return TagsResourceWithRawResponse(self._client.tags)
+
+    @cached_property
     def cache(self) -> cache.CacheResourceWithRawResponse:
         from .resources.cache import CacheResourceWithRawResponse
 
@@ -748,6 +768,12 @@ class AsyncImageKitWithRawResponse:
         from .resources.assets import AsyncAssetsResourceWithRawResponse
 
         return AsyncAssetsResourceWithRawResponse(self._client.assets)
+
+    @cached_property
+    def tags(self) -> tags.AsyncTagsResourceWithRawResponse:
+        from .resources.tags import AsyncTagsResourceWithRawResponse
+
+        return AsyncTagsResourceWithRawResponse(self._client.tags)
 
     @cached_property
     def cache(self) -> cache.AsyncCacheResourceWithRawResponse:
@@ -817,6 +843,12 @@ class ImageKitWithStreamedResponse:
         return AssetsResourceWithStreamingResponse(self._client.assets)
 
     @cached_property
+    def tags(self) -> tags.TagsResourceWithStreamingResponse:
+        from .resources.tags import TagsResourceWithStreamingResponse
+
+        return TagsResourceWithStreamingResponse(self._client.tags)
+
+    @cached_property
     def cache(self) -> cache.CacheResourceWithStreamingResponse:
         from .resources.cache import CacheResourceWithStreamingResponse
 
@@ -882,6 +914,12 @@ class AsyncImageKitWithStreamedResponse:
         from .resources.assets import AsyncAssetsResourceWithStreamingResponse
 
         return AsyncAssetsResourceWithStreamingResponse(self._client.assets)
+
+    @cached_property
+    def tags(self) -> tags.AsyncTagsResourceWithStreamingResponse:
+        from .resources.tags import AsyncTagsResourceWithStreamingResponse
+
+        return AsyncTagsResourceWithStreamingResponse(self._client.tags)
 
     @cached_property
     def cache(self) -> cache.AsyncCacheResourceWithStreamingResponse:

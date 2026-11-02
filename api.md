@@ -154,6 +154,18 @@ Methods:
 
 - <code title="get /v1/files">client.assets.<a href="./src/imagekitio/resources/assets.py">list</a>(\*\*<a href="src/imagekitio/types/asset_list_params.py">params</a>) -> <a href="./src/imagekitio/types/asset_list_response.py">AssetListResponse</a></code>
 
+# Tags
+
+Types:
+
+```python
+from imagekitio.types import Tag
+```
+
+Methods:
+
+- <code title="get /v1/tags">client.tags.<a href="./src/imagekitio/resources/tags.py">list</a>(\*\*<a href="src/imagekitio/types/tag_list_params.py">params</a>) -> <a href="./src/imagekitio/types/tag.py">SyncTagCursor[Tag]</a></code>
+
 # Cache
 
 ## Invalidation

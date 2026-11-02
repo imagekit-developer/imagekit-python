@@ -15,6 +15,7 @@ The REST API documentation can be found on [imagekit.io](https://imagekit.io/doc
   - [Using types](#using-types)
   - [Nested params](#nested-params)
   - [Async usage](#async-usage)
+  - [Pagination](#pagination)
 - [URL generation](#url-generation)
   - [Basic URL generation](#basic-url-generation)
   - [URL generation with transformations](#url-generation-with-transformations)
@@ -189,6 +190,67 @@ async def main() -> None:
 
 
 asyncio.run(main())
+```
+
+### Pagination
+
+The `tags.list()` method is paginated. This library provides auto-paginating iterators, so you do not have to request successive pages manually:
+
+```python
+from imagekitio import ImageKit
+
+client = ImageKit()
+
+all_tags = []
+# Automatically fetches more pages as needed.
+for tag in client.tags.list():
+    # Do something with tag here
+    all_tags.append(tag)
+print(all_tags)
+```
+
+Or, asynchronously:
+
+```python
+import asyncio
+from imagekitio import AsyncImageKit
+
+client = AsyncImageKit()
+
+
+async def main() -> None:
+    all_tags = []
+    # Iterate through items across all pages, issuing requests as needed.
+    async for tag in client.tags.list():
+        all_tags.append(tag)
+    print(all_tags)
+
+
+asyncio.run(main())
+```
+
+Alternatively, you can use the `.has_next_page()`, `.next_page_info()`, or `.get_next_page()` methods for more granular control working with pages:
+
+```python
+first_page = await client.tags.list()
+if first_page.has_next_page():
+    print(f"will fetch next page using these details: {first_page.next_page_info()}")
+    next_page = await first_page.get_next_page()
+    print(f"number of items we just fetched: {len(next_page.tags)}")
+
+# Remove `await` for non-async usage.
+```
+
+Or just work directly with the returned data:
+
+```python
+first_page = await client.tags.list()
+
+print(f"next page cursor: {first_page.next_cursor}")  # => "next page cursor: ..."
+for tag in first_page.tags:
+    print(tag.asset_count)
+
+# Remove `await` for non-async usage.
 ```
 
 ## URL generation
