@@ -1,5 +1,19 @@
 # Changelog
 
+## [5.12.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.11.0...v5.12.0) (2026-11-02)
+
+
+### Features
+
+* **api:** add accounts.contract.get() for contract consumption ([f65b98c](https://github.com/imagekit-developer/imagekit-python/commit/f65b98caebf929a0160a37a250b244c8874c5a1c))
+* **api:** add GET /v1/tags to list media library tags ([305f0b2](https://github.com/imagekit-developer/imagekit-python/commit/305f0b23f4922b84fad21ba4d9d389e7e463cdc7))
+* **api:** add useImprovedLayerSpec to the Cloudinary URL rewriter ([f65b98c](https://github.com/imagekit-developer/imagekit-python/commit/f65b98caebf929a0160a37a250b244c8874c5a1c))
+
+
+### Chores
+
+* lint fix ([1e66ec1](https://github.com/imagekit-developer/imagekit-python/commit/1e66ec1baded99c38d2bb01712c806a6b2acf426))
+
 ## [5.11.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.10.0...v5.11.0) (2026-10-19)
 
 
