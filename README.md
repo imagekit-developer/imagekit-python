@@ -124,6 +124,69 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
+## Pagination
+
+List methods in the Image Kit API are paginated.
+
+This library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:
+
+```python
+from imagekitio import ImageKit
+
+client = ImageKit()
+
+all_tags = []
+# Automatically fetches more pages as needed.
+for tag in client.tags.list():
+    # Do something with tag here
+    all_tags.append(tag)
+print(all_tags)
+```
+
+Or, asynchronously:
+
+```python
+import asyncio
+from imagekitio import AsyncImageKit
+
+client = AsyncImageKit()
+
+
+async def main() -> None:
+    all_tags = []
+    # Iterate through items across all pages, issuing requests as needed.
+    async for tag in client.tags.list():
+        all_tags.append(tag)
+    print(all_tags)
+
+
+asyncio.run(main())
+```
+
+Alternatively, you can use the `.has_next_page()`, `.next_page_info()`, or `.get_next_page()` methods for more granular control working with pages:
+
+```python
+first_page = await client.tags.list()
+if first_page.has_next_page():
+    print(f"will fetch next page using these details: {first_page.next_page_info()}")
+    next_page = await first_page.get_next_page()
+    print(f"number of items we just fetched: {len(next_page.tags)}")
+
+# Remove `await` for non-async usage.
+```
+
+Or just work directly with the returned data:
+
+```python
+first_page = await client.tags.list()
+
+print(f"next page cursor: {first_page.next_cursor}")  # => "next page cursor: ..."
+for tag in first_page.tags:
+    print(tag.asset_count)
+
+# Remove `await` for non-async usage.
+```
+
 ## Nested params
 
 Nested parameters are dictionaries, typed using `TypedDict`, for example:

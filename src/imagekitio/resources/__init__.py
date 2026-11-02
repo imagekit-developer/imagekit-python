@@ -8,6 +8,14 @@ from .beta import (
     BetaResourceWithStreamingResponse,
     AsyncBetaResourceWithStreamingResponse,
 )
+from .tags import (
+    TagsResource,
+    AsyncTagsResource,
+    TagsResourceWithRawResponse,
+    AsyncTagsResourceWithRawResponse,
+    TagsResourceWithStreamingResponse,
+    AsyncTagsResourceWithStreamingResponse,
+)
 from .cache import (
     CacheResource,
     AsyncCacheResource,
@@ -119,6 +127,12 @@ __all__ = [
     "AsyncAssetsResourceWithRawResponse",
     "AssetsResourceWithStreamingResponse",
     "AsyncAssetsResourceWithStreamingResponse",
+    "TagsResource",
+    "AsyncTagsResource",
+    "TagsResourceWithRawResponse",
+    "AsyncTagsResourceWithRawResponse",
+    "TagsResourceWithStreamingResponse",
+    "AsyncTagsResourceWithStreamingResponse",
     "CacheResource",
     "AsyncCacheResource",
     "CacheResourceWithRawResponse",
