@@ -50,8 +50,8 @@ if TYPE_CHECKING:
         named_transformations,
         custom_metadata_fields,
     )
-    from .resources.tags import TagsResource, AsyncTagsResource
     from .lib.helper import HelperResource, AsyncHelperResource
+    from .resources.tags import TagsResource, AsyncTagsResource
     from .resources.dummy import DummyResource, AsyncDummyResource
     from .resources.assets import AssetsResource, AsyncAssetsResource
     from .resources.webhooks import WebhooksResource, AsyncWebhooksResource
