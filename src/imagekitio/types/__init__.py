@@ -83,6 +83,15 @@ from .custom_metadata_field_list_response import CustomMetadataFieldListResponse
 from .custom_metadata_field_update_params import CustomMetadataFieldUpdateParams as CustomMetadataFieldUpdateParams
 from .upload_post_transform_success_event import UploadPostTransformSuccessEvent as UploadPostTransformSuccessEvent
 from .video_transformation_accepted_event import VideoTransformationAcceptedEvent as VideoTransformationAcceptedEvent
+from .image_async_transformation_error_event import (
+    ImageAsyncTransformationErrorEvent as ImageAsyncTransformationErrorEvent,
+)
+from .image_async_transformation_ready_event import (
+    ImageAsyncTransformationReadyEvent as ImageAsyncTransformationReadyEvent,
+)
+from .image_async_transformation_accepted_event import (
+    ImageAsyncTransformationAcceptedEvent as ImageAsyncTransformationAcceptedEvent,
+)
 
 # Rebuild cyclical models only after all modules are imported.
 # This ensures that, when building the deferred (due to cyclical references) model schema,
