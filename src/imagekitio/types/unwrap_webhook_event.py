@@ -19,6 +19,9 @@ from .upload_post_transform_error_event import UploadPostTransformErrorEvent
 from .upload_pre_transform_success_event import UploadPreTransformSuccessEvent
 from .upload_post_transform_success_event import UploadPostTransformSuccessEvent
 from .video_transformation_accepted_event import VideoTransformationAcceptedEvent
+from .image_async_transformation_error_event import ImageAsyncTransformationErrorEvent
+from .image_async_transformation_ready_event import ImageAsyncTransformationReadyEvent
+from .image_async_transformation_accepted_event import ImageAsyncTransformationAcceptedEvent
 
 __all__ = ["UnwrapWebhookEvent"]
 
@@ -27,6 +30,9 @@ UnwrapWebhookEvent: TypeAlias = Annotated[
         VideoTransformationAcceptedEvent,
         VideoTransformationReadyEvent,
         VideoTransformationErrorEvent,
+        ImageAsyncTransformationAcceptedEvent,
+        ImageAsyncTransformationReadyEvent,
+        ImageAsyncTransformationErrorEvent,
         UploadPreTransformSuccessEvent,
         UploadPreTransformErrorEvent,
         UploadPostTransformSuccessEvent,
