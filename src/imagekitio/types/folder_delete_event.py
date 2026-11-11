@@ -1,5 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing import Optional
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -14,6 +15,12 @@ __all__ = ["FolderDeleteEvent", "FolderDeleteEventData"]
 class FolderDeleteEventData(BaseModel):
     folder_id: str = FieldInfo(alias="folderId")
     """The unique `folderId` of the deleted folder."""
+
+    folder_path: Optional[str] = FieldInfo(alias="folderPath", default=None)
+    """Path of the deleted folder.
+
+    For a moved folder, this is its path before the move.
+    """
 
 
 class FolderDeleteEvent(BaseWebhookEvent):
