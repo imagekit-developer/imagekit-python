@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.13.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.12.0...v5.13.0) (2026-11-16)
+
+
+### Features
+
+* **transformation:** add saturation and encode negative numbers with the N prefix in URL generation ([8f5c892](https://github.com/imagekit-developer/imagekit-python/commit/8f5c8928eeb8c7efecf3647610843ffac0924cc7))
+* **webhooks:** add folder paths to folder.deleted and folder.updated events ([19c4939](https://github.com/imagekit-developer/imagekit-python/commit/19c4939d548373f6ea252b069c12912621870bd1))
+
 ## [5.12.0](https://github.com/imagekit-developer/imagekit-python/compare/v5.11.0...v5.12.0) (2026-11-02)
 
 
