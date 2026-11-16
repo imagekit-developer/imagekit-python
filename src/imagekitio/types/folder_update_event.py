@@ -19,7 +19,7 @@ class FolderUpdateEventPrevious(BaseModel):
     Contains the folder's path before the rename.
     """
 
-    folder_path: Optional[str] = FieldInfo(alias="folderPath", default=None)
+    folder_path: str = FieldInfo(alias="folderPath")
     """Path of the folder before it was renamed."""
 
 
