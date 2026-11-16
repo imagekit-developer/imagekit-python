@@ -83,6 +83,7 @@ SUPPORTED_TRANSFORMS = {
     "gradient": "e-gradient",
     "color_replace": "cr",
     "colorize": "e-colorize",
+    "saturation": "e-saturation",
     "distort": "e-distort",
     # Other flags & finishing
     "progressive": "pr",
@@ -167,6 +168,21 @@ def _format_number(value: Any) -> str:
             return str(int(value))
         return str(value)
     return str(value)
+
+
+def _encode_negative_number(value: Any) -> Any:
+    """
+    Encode a negative number with the N prefix, because "-" separates a key from its value in the URL.
+
+    Examples:
+        -40 -> "N40"
+        -20.5 -> "N20.5"
+        40 -> 40
+        "N40" -> "N40"
+    """
+    if isinstance(value, (int, float)) and not isinstance(value, bool) and value < 0:
+        return f"N{_format_number(abs(value))}"
+    return value
 
 
 def _path_join(parts: List[str], sep: str = "/") -> str:
@@ -325,21 +341,21 @@ def _process_overlay(overlay: Overlay) -> str:
     # Node.js uses if (x) which skips falsy values like 0, '', false, null, undefined
     x = position.get("x")
     if x:
-        parsed_overlay.append(f"lx-{x}")
+        parsed_overlay.append(f"lx-{_encode_negative_number(x)}")
 
     y = position.get("y")
     if y:
-        parsed_overlay.append(f"ly-{y}")
+        parsed_overlay.append(f"ly-{_encode_negative_number(y)}")
 
     # Handle xCenter and x_center (both snake_case and camelCase)
     x_center = position.get("xCenter") or position.get("x_center")
     if x_center:
-        parsed_overlay.append(f"lxc-{x_center}")
+        parsed_overlay.append(f"lxc-{_encode_negative_number(x_center)}")
 
     # Handle yCenter and y_center (both snake_case and camelCase)
     y_center = position.get("yCenter") or position.get("y_center")
     if y_center:
-        parsed_overlay.append(f"lyc-{y_center}")
+        parsed_overlay.append(f"lyc-{_encode_negative_number(y_center)}")
 
     # Handle anchorPoint and anchor_point (both snake_case and camelCase)
     anchor_point = position.get("anchorPoint") or position.get("anchor_point")
@@ -460,6 +476,9 @@ def _build_transformation_string(transformation: Optional[Sequence[AnyTransforma
             # Convert boolean True to lowercase "true"
             if value is True:
                 value = "true"
+
+            if transform_key in ["rt", "x", "y", "e-saturation"]:
+                value = _encode_negative_number(value)
 
             # Format numeric values to avoid unnecessary .0 for integers
             if isinstance(value, (int, float)):
