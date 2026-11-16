@@ -14,9 +14,9 @@ __all__ = ["FolderUpdateEvent", "FolderUpdateEventPrevious"]
 
 
 class FolderUpdateEventPrevious(BaseModel):
-    """Values the folder had before this update.
+    """Present only when the folder or one of its parent folders was renamed.
 
-    Present only when the folder was renamed or its parent folder was renamed.
+    Contains the folder's path before the rename.
     """
 
     folder_path: Optional[str] = FieldInfo(alias="folderPath", default=None)
@@ -25,7 +25,7 @@ class FolderUpdateEventPrevious(BaseModel):
 
 class FolderUpdateEvent(BaseWebhookEvent):
     """
-    Triggered when a folder is updated, for example when its custom metadata changes or it is renamed. Renaming a folder sends one event per folder in the tree, each with its new `folderPath` in `data` and its old `folderPath` in `previous`.
+    Triggered when a folder is updated, for example when its custom metadata changes or it is renamed. Renaming a folder sends one event per folder in the tree. In each of these events, `data.folderPath` is the folder's new path and `previous.folderPath` is its path before the rename.
     """
 
     created_at: datetime
@@ -37,7 +37,7 @@ class FolderUpdateEvent(BaseWebhookEvent):
     """Type of the webhook event."""
 
     previous: Optional[FolderUpdateEventPrevious] = None
-    """Values the folder had before this update.
+    """Present only when the folder or one of its parent folders was renamed.
 
-    Present only when the folder was renamed or its parent folder was renamed.
+    Contains the folder's path before the rename.
     """
