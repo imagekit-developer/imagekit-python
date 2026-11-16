@@ -388,6 +388,15 @@ class Transformation(TypedDict, total=False):
     [Rotate](https://imagekit.io/docs/effects-and-enhancements#rotate---rt).
     """
 
+    saturation: int
+    """Adjusts the color saturation of the image.
+
+    Accepts an integer from -100 to 100. Negative values desaturate (`-100` is fully
+    gray), positive values increase saturation, and `0` leaves the image unchanged.
+    Supported inside image overlays. Not supported for animated images. See
+    [Saturation](https://imagekit.io/docs/effects-and-enhancements#saturation---e-saturation).
+    """
+
     shadow: Union[Literal[True], str]
     """Adds a shadow beneath solid objects in an image with a transparent background.
 
